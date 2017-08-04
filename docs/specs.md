@@ -16,6 +16,7 @@ Root: [Step | Flows]
 
 Flows: Object
 + (FlowName): [Step] [0]
++ exit: Boolean
 
 Step: Object
 + flow: FlowName
@@ -29,6 +30,7 @@ Step: Object
 + delay: Number [2]
 + options: [Option]
 + validators: [Validator]
++ exit: Boolean
 
 Option: Object
 + value: (String | Number | any)!

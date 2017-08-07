@@ -1,9 +1,9 @@
-import { find, difference } from 'lodash';
+import { isEmpty, find, difference } from 'lodash';
 
 export default types => types
 
     .define('String', {
-      parser: v => String(v),
+      parser: v => !isEmpty(v) ? String(v) : '',
       validators: [
         {
           string: true,

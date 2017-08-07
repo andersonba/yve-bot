@@ -8,7 +8,13 @@ function sanitizeLength(answer) {
 export default validators => validators
 
     .define('required', {
-      validate: (expected, answer) => Boolean(answer) === expected,
+      validate: (expected, input) => {
+        let answer = input;
+        if (typeof answer === 'string') {
+          answer = answer.trim();
+        }
+        return Boolean(answer) === expected;
+      },
       warning: 'This is required',
     })
 

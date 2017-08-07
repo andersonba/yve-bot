@@ -1,4 +1,5 @@
 import promisify from 'es6-promisify';
+import nunjucks from 'nunjucks';
 import { RedefineConfigurationError } from './exceptions';
 
 class YveBot {
@@ -6,7 +7,6 @@ class YveBot {
     this.steps = steps;
     this.store = {};
     this._handlers = {};
-    this._reindexSteps();
   }
 
   on(evt, handler) {
@@ -14,9 +14,10 @@ class YveBot {
     return this;
   }
 
-  start() {
+  async start() {
     this._trigger('start');
-    this._controller.configure(this).start();
+    await this._controller.configure(this).start();
+    return this;
   }
 
   end() {
@@ -24,7 +25,9 @@ class YveBot {
   }
 
   async talk(message) {
-    return await this._trigger('talk', message);
+    // TODO: Improves it
+    const compiled = nunjucks.renderString(message, this.store);
+    return await this._trigger('talk', compiled);
   }
 
   async hear() {
@@ -34,13 +37,6 @@ class YveBot {
   _trigger(name, ...args) {
     if (!this._handlers[name]) { return Promise.resolve(); }
     return promisify(this._handlers[name])(...args);
-  }
-
- _reindexSteps() {
-    this._indexes = {};
-    this.steps.forEach((step, idx) => {
-      this._indexes[step.name] = idx;
-    });
   }
 }
 

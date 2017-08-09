@@ -108,6 +108,7 @@ export default ctrl => ctrl
     } catch(e) {
       if (e instanceof ValidatorError) {
         await ctrl.send(bot, e.message, rule.delay);
+        bot._dispatch('hear');
         return;
       }
       throw e;

@@ -25,7 +25,7 @@
     "lodash": "^4.17.4",
     "mocha": "^3.5.0",
     "nyc": "^11.1.0",
-    "promise-retry": "^1.1.1",
+    "string-template": "^1.0.0",
     "webpack": "^3.4.1"
   },
   "dependencies": {},
@@ -33,7 +33,6 @@
     "body-parser": "^1.17.2",
     "express": "^4.15.4",
     "js-yaml": "^3.9.1",
-    "nunjucks": "^3.0.1",
     "prompt": "^1.0.0",
     "socket.io": "^2.0.3",
     "watch-spawn": "^2.0.0"

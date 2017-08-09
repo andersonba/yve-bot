@@ -1,5 +1,5 @@
 import { set } from 'lodash';
-import nunjucks from 'nunjucks';
+import format from 'string-template';
 import { RedefineConfigurationError } from './exceptions';
 
 const DEFAULT_OPTS = {
@@ -71,7 +71,7 @@ class YveBot {
   }
 
   talk(message) {
-    const text = nunjucks.renderString(message, this.store().data); // TODO: Remove nunjucks dependecy
+    const text = format(message, this.store().data);
     this._dispatch('talk', text);
   }
 

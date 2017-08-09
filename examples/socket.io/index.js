@@ -23,10 +23,11 @@ io.on('connection', chat => {
   bot
   .on('typing', () => io.to(sessionId).emit('is typing'))
   .on('typed', () => io.to(sessionId).emit('is typed'))
-  .on('talk', message => {
+  .on('talk', (message, data) => {
     io.to(sessionId).emit('receive message', {
       from: 'BOT',
       message,
+      data,
     });
   })
   .on('end', () => chat.disconnect());

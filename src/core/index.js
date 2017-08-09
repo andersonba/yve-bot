@@ -3,15 +3,15 @@ import format from 'string-template';
 import { RedefineConfigurationError } from './exceptions';
 
 const DEFAULT_OPTS = {
-  step: {
+  rule: {
     delay: 1000,
   },
 };
 
 class YveBot {
-  constructor(steps = []) {
+  constructor(rules = []) {
     this.defaults = DEFAULT_OPTS;
-    this.steps = steps;
+    this.rules = rules;
     this.sessionId = null;
     this._store = { };
     this._handlers = {};

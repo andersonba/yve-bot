@@ -1,28 +1,28 @@
 import { concat, get, find } from 'lodash';
-import { ValidatorError, InvalidAttributeError, StepNotFound } from './exceptions';
+import { ValidatorError, InvalidAttributeError, RuleNotFound } from './exceptions';
 
-function validateAnswer(bot, step, answer) {
+function validateAnswer(bot, rule, answer) {
   const validators = concat([],
-    step.validators || [],
-    bot.types[step.type].validators || [],
+    rule.validators || [],
+    bot.types[rule.type].validators || [],
   );
   validators.forEach(obj => {
     Object.keys(obj).forEach(k => {
       const validator = bot.validators[k];
       if (!validator || k === 'warning') { return; }
-      if (!validator.validate(obj[k], answer, step)) {
+      if (!validator.validate(obj[k], answer, rule)) {
         const warning = obj.warning || validator.warning;
         const message = typeof warning === 'function' ? warning(obj[k]) : warning;
-        throw new ValidatorError(message, step);
+        throw new ValidatorError(message, rule);
       }
     });
   });
 }
 
-function getNextFromStep(step, answer) {
-  if (step.next) { return step.next; }
-  if (step.options) {
-    const { next } = find(step.options, { answer }) || {};
+function getNextFromRule(rule, answer) {
+  if (rule.next) { return rule.next; }
+  if (rule.options) {
+    const { next } = find(rule.options, { answer }) || {};
     if (next) { return next; }
   }
   // TODO: find in flow
@@ -34,42 +34,42 @@ export default ctrl => ctrl
   .define('configure', bot => {
     ctrl.indexes = {};
 
-    bot.steps.forEach((step, idx) => {
-      ctrl.indexes[step.name] = idx;
+    bot.rules.forEach((rule, idx) => {
+      ctrl.indexes[rule.name] = idx;
     });
 
     return ctrl;
   })
 
-  .define('step', (bot, idx) => {
-    if (!bot.steps[idx]) {
+  .define('rule', (bot, idx) => {
+    if (!bot.rules[idx]) {
       return { exit: true };
     }
-    const step = bot.steps[idx];
-    return Object.assign({}, bot.defaults.step, step);
+    const rule = bot.rules[idx];
+    return Object.assign({}, bot.defaults.rule, rule);
   })
 
   .define('run', async (bot, idx = 0) => {
     bot.setStore('currentIdx', idx);
 
-    const step = ctrl.step(bot, idx);
+    const rule = ctrl.rule(bot, idx);
 
-    if (step.message) {
-      await ctrl.send(bot, step.message, step.delay);
+    if (rule.message) {
+      await ctrl.send(bot, rule.message, rule.delay);
     }
 
-    if (step.sleep) {
-      await bot.actions.wait(step.sleep);
+    if (rule.sleep) {
+      await bot.actions.wait(rule.sleep);
     }
 
-    if (step.exit) {
+    if (rule.exit) {
       return bot.end();
     }
 
-    if (!step.type) {
+    if (!rule.type) {
       return ctrl.next(bot);
-    } else if (!bot.types[step.type]) {
-      throw new InvalidAttributeError('type', step);
+    } else if (!bot.types[rule.type]) {
+      throw new InvalidAttributeError('type', rule);
     }
 
     bot.setStore('waitingForAnswer', true);
@@ -91,22 +91,22 @@ export default ctrl => ctrl
 
   .define('receive', async (bot, message) => {
     const idx = bot.store('currentIdx');
-    const step = ctrl.step(bot, idx);
+    const rule = ctrl.rule(bot, idx);
 
     if (!bot.store('waitingForAnswer')) {
       return;
     }
 
     let answer = message;
-    if ('parser' in bot.types[step.type]) {
-      answer = bot.types[step.type].parser(answer);
+    if ('parser' in bot.types[rule.type]) {
+      answer = bot.types[rule.type].parser(answer);
     }
 
     try {
-      validateAnswer(bot, step, message);
+      validateAnswer(bot, rule, message);
     } catch(e) {
       if (e instanceof ValidatorError) {
-        await ctrl.send(bot, e.message, step.delay);
+        await ctrl.send(bot, e.message, rule.delay);
         return;
       }
       throw e;
@@ -114,31 +114,31 @@ export default ctrl => ctrl
 
     bot.setStore('waitingForAnswer', false);
 
-    const output = step.output || step.name;
+    const output = rule.output || rule.name;
     if (output) {
       bot.setStore(`data.${output}`, answer);
     }
 
-    if (step.replyMessage) {
-      await ctrl.send(bot, step.replyMessage, step.delay);
+    if (rule.replyMessage) {
+      await ctrl.send(bot, rule.replyMessage, rule.delay);
     }
 
-    const nextStep = getNextFromStep(step, answer);
-    if (nextStep) {
-      return ctrl.jump(bot, nextStep);
+    const nextRule = getNextFromRule(rule, answer);
+    if (nextRule) {
+      return ctrl.jump(bot, nextRule);
     }
 
-    if (bot.steps[idx + 1]) {
+    if (bot.rules[idx + 1]) {
       return ctrl.next(bot);
     }
 
     return bot.end();
   })
 
-  .define('jump', (bot, stepName) => {
-    const idx = ctrl.indexes[stepName];
+  .define('jump', (bot, ruleName) => {
+    const idx = ctrl.indexes[ruleName];
     if (!idx) {
-      throw new StepNotFound(stepName);
+      throw new RuleNotFound(ruleName);
     }
     return ctrl.run(bot, idx);
   })

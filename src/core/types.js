@@ -25,7 +25,7 @@ export default types => types
     .define('SingleChoice', {
       validators: [
         {
-          function: (value, step) => !!find(step.options, { value }),
+          function: (value, rule) => !!find(rule.options, { value }),
           warning: 'Unknown option',
         },
       ],
@@ -34,8 +34,8 @@ export default types => types
     .define('MultipleChoice', {
       validators: [
         {
-          function: (values, step) => {
-            const options = step.options.map(o => o.value);
+          function: (values, rule) => {
+            const options = rule.options.map(o => o.value);
             return difference(values, options).length;
           },
           warning: 'Unknown options',

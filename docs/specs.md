@@ -9,16 +9,17 @@ Yve to meet her.
 
 ```
 FlowName: String
+Next: Rule.name | NextFlow | NextFlowRule
 NextFlow: String [3]
-NextFlowStep: String [4]
+NextFlowRule: String [4]
 
-Root: [Step | Flows]
+Root: [Rule | Flows]
 
 Flows: Object
-+ (FlowName): [Step] [0]
++ (FlowName): [Rule] [0]
 + exit: Boolean
 
-Step: Object
+Rule: Object
 + flow: FlowName
 + message: String
 + name: String
@@ -47,28 +48,13 @@ Validator: Object
 + min: Number [6]
 + max: Number [6]
 + length: Number [6]
-
-Next: Step.name | NextFlow | NextFlowStep | NextRules | NextApi
-
-NextApi: Object
-+ api: URL
-
-NextRules: Object
-+ rules: RulesConfig
-
-RulesConfig: Object
-+ (Step.name): [Rule] [0]
-
-Rule: Object
-+ (Validator.keys()): String | Boolean | any [0,1]
-+ next: Next
 ```
 
   - [0] accepts multiple keys
   - [1] creates an AND condition between the keys
   - [2] in milliseconds
   - [3] format: `flow:{FlowName}`
-  - [4] format: `flow:{FlowName}.{Step.name}`
+  - [4] format: `flow:{FlowName}.{Rule.name}`
   - [5] warning key is being used as validation error
   - [6] comparation based on type. if array, with length. if string, with total of chars. if number, with difference.
   - [7] if not entered, use the same of value

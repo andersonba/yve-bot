@@ -61,6 +61,13 @@ class YveBot {
 
   end() {
     this._dispatch('end', this.store().data);
+
+    const { sessionId } = this;
+    if (sessionId) {
+      this._store[sessionId] = {};
+      return;
+    }
+    this._store = {};
   }
 
   talk(message) {

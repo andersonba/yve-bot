@@ -15,9 +15,7 @@ app.use(bodyParser.json());
 const example = yaml.safeLoad(fs.readFileSync(__dirname + '/../example.eyaml', 'utf8'));
 const bot = new YveBot(example);
 
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
-});
+app.use('/', express.static(__dirname));
 
 io.on('connection', chat => {
   const sessionId = chat.id;

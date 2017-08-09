@@ -1,5 +1,4 @@
 import { concat, get, find } from 'lodash';
-import promiseRetry from 'promise-retry';
 import { ValidatorError, InvalidAttributeError, StepNotFound } from './exceptions';
 
 function validateAnswer(bot, step, answer) {

@@ -1,5 +1,6 @@
-import { concat, get, find } from 'lodash';
+import { concat, get, pick } from 'lodash';
 import { ValidatorError, InvalidAttributeError, RuleNotFound } from './exceptions';
+import { findOptionByAnswer } from './utils';
 
 function validateAnswer(bot, rule, answer) {
   const validators = concat([],
@@ -22,7 +23,7 @@ function validateAnswer(bot, rule, answer) {
 function getNextFromRule(rule, answer) {
   if (rule.next) { return rule.next; }
   if (rule.options) {
-    const { next } = find(rule.options, { answer }) || {};
+    const { next }  = findOptionByAnswer(rule.options, answer) || {};
     if (next) { return next; }
   }
   // TODO: find in flow

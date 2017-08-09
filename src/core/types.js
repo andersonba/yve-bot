@@ -1,4 +1,5 @@
-import { isEmpty, find, difference } from 'lodash';
+import { isEmpty, difference } from 'lodash';
+import { findOptionByAnswer } from './utils';
 
 export default types => types
 
@@ -25,7 +26,7 @@ export default types => types
     .define('SingleChoice', {
       validators: [
         {
-          function: (value, rule) => !!find(rule.options, { value }),
+          function: (value, rule) => !!findOptionByAnswer(rule.options, value),
           warning: 'Unknown option',
         },
       ],
@@ -35,7 +36,7 @@ export default types => types
       validators: [
         {
           function: (values, rule) => {
-            const options = rule.options.map(o => o.value);
+            const options = rule.options.map(o => o.value || o.label);
             return difference(values, options).length;
           },
           warning: 'Unknown options',

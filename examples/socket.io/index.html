@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Yve Bot - Socket.io Example</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      .container {
+        position: absolute;
+        width: 350px;
+        bottom: 0;
+        right: calc((100% - 350px)/2);
+        background: #fff;
+      }
+      body { background: #d8d8d8; font: 13px Helvetica, Arial; }
+      form { background: #f2f2f2; padding: 3px; position: absolute; bottom: 0; width: 100%; }
+      form input { border: 0; padding: 10px; width: 84%; margin-right: .5%; }
+      form button { width: 15%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #messages { height: calc(100vh - 40px); list-style-type: none; margin: 0; padding: 8px; margin-bottom: 40px; overflow: auto; }
+      #messages li { margin: 3px; }
+      #messages li p { display: inline-block; padding: 5px 10px; border-radius: 8px; }
+      #messages li.BOT p { background-color: #eee; }
+      #messages li.USER p { background-color: #8ed3ff; }
+      #messages li.USER { text-align: right; }
+      #typing { display: none; }
+      #typing.show { display: block; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <ul id="messages">
+        <li id="typing" class="BOT"><p>...</p></li>
+      </ul>
+      <form action="javascript:sendMessage();">
+        <input autofocus id="m" autocomplete="off" /><button>Send</button>
+      </form>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io.connect('http://localhost:3000');
+      var messages = document.getElementById('messages');
+      var loading = document.getElementById('typing');
+
+      socket
+        .emit('join')
+        .on('connected', function (user) {
+          window.user = user;
+        });
+
+      socket.on('receive message', function (data) {
+        var li = document.createElement('li');
+        li.classList.add(data.from);
+        li.innerHTML = '<p>' + data.message + '</p>';
+        messages.insertBefore(li, loading);
+        messages.scrollTop = messages.scrollHeight;
+      });
+
+      socket.on('is typing', function() {
+        loading.classList.add('show');
+      });
+
+      socket.on('is typed', function() {
+        loading.classList.remove('show');
+      });
+
+      function sendMessage() {
+        var input = document.getElementById('m');
+        if (input.value) {
+          socket.emit('send message', {
+            message: input.value,
+            user: window.user,
+          });
+          input.value = '';
+        } else {
+          input.focus();
+        }
+      }
+    </script>
+  </body>
+</html>

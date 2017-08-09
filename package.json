@@ -10,7 +10,8 @@
     "test": "nyc yarn test:strict",
     "test:strict": "mocha --opts mocha.opts test/**/*.spec.js",
     "test:watch": "yarn test:strict -- -w",
-    "clean": "rm -rf lib"
+    "clean": "rm -rf lib",
+    "build-web": "babel src -d lib -s && webpack lib/core/index.js lib/index.js --output-library YveBot --output-library-target var"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",

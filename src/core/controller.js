@@ -19,6 +19,16 @@ function validateAnswer(bot, step, answer) {
   });
 }
 
+function getNextFromStep(step, answer) {
+  if (step.next) { return step.next; }
+  if (step.options) {
+    const { next } = find(step.options, { answer }) || {};
+    if (next) { return next; }
+  }
+  // TODO: find in flow
+  return null;
+}
+
 export default ctrl => ctrl
 
   .define('configure', bot => {
@@ -113,11 +123,7 @@ export default ctrl => ctrl
       await ctrl.send(bot, step.replyMessage, step.delay);
     }
 
-    // TODO:
-    // - check next in options
-    // - check next in flow
-
-    const nextStep = step.next || (find(get(step, 'options', []), { value: answer }) || {}).next;
+    const nextStep = getNextFromStep(step, answer);
     if (nextStep) {
       return ctrl.jump(bot, nextStep);
     }

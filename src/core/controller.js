@@ -64,6 +64,8 @@ export default ctrl => ctrl
     }
 
     bot.setStore('waitingForAnswer', true);
+    bot._dispatch('hear');
+
     return ctrl;
   })
 

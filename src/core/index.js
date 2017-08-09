@@ -23,7 +23,7 @@ class YveBot {
     let handler;
     switch (evt) {
       case 'hear':
-      handler = () => fn(this.hear);
+      handler = () => fn(this.hear.bind(this));
       break;
     }
     this._handlers[evt] = handler || fn;

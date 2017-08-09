@@ -1,42 +1,81 @@
-import promisify from 'es6-promisify';
+import { set } from 'lodash';
 import nunjucks from 'nunjucks';
 import { RedefineConfigurationError } from './exceptions';
 
+const DEFAULT_OPTS = {
+  step: {
+    delay: 1000,
+  },
+};
+
 class YveBot {
   constructor(steps = []) {
+    this.defaults = DEFAULT_OPTS;
     this.steps = steps;
-    this.store = {};
+    this.sessionId = null;
+    this._store = { };
     this._handlers = {};
+
+    this.controller.configure(this);
   }
 
-  on(evt, handler) {
-    this._handlers[evt] = handler;
+  on(evt, fn) {
+    let handler;
+    switch (evt) {
+      case 'hear':
+      handler = () => fn(this.hear);
+      break;
+    }
+    this._handlers[evt] = handler || fn;
+    return this;
+  }
+
+  store(key) {
+    const { sessionId, _store } = this;
+    const store = sessionId ? _store[sessionId] : _store;
+    if (key) { return store[key]; }
+    return store;
+  }
+
+  setStore(key, value) {
+    const copy = Object.assign({}, this.store());
+    const store = set(copy, key, value);
+    const { sessionId } = this;
+    if (sessionId) {
+      this._store[sessionId] = store;
+      return;
+    }
+    this._store = store;
+  }
+
+  session(id) {
+    this.sessionId = id;
+    this._store[id] = this._store[id] || {};
     return this;
   }
 
   async start() {
-    this._trigger('start');
-    await this._controller.configure(this).start();
+    await this.controller.run(this);
     return this;
   }
 
   end() {
-    this._trigger('end', this.store);
+    this._dispatch('end', this.store().data);
   }
 
-  async talk(message) {
-    // TODO: Improves it
-    const compiled = nunjucks.renderString(message, this.store);
-    return await this._trigger('talk', compiled);
+  talk(message) {
+    const text = nunjucks.renderString(message, this.store().data); // TODO: Remove nunjucks dependecy
+    this._dispatch('talk', text);
   }
 
-  async hear() {
-    return await this._trigger('hear');
+  hear(message) {
+    this.controller.receive(this, message);
   }
 
-  _trigger(name, ...args) {
-    if (!this._handlers[name]) { return Promise.resolve(); }
-    return promisify(this._handlers[name])(...args);
+  _dispatch(name, ...args) {
+    if (name in this._handlers) {
+      this._handlers[name](...args);
+    }
   }
 }
 
@@ -55,6 +94,6 @@ function register(prop, configure) {
 register('validators', require('./validators'));
 register('types', require('./types'));
 register('actions', require('./actions'));
-register('_controller', require('./controller'));
+register('controller', require('./controller'));
 
 export default YveBot;

@@ -1,4 +1,4 @@
 export default actions => actions
 
-    .define('delay', value =>
+    .define('wait', value =>
       new Promise((resolve) => setTimeout(resolve, value)));

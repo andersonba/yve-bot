@@ -2,13 +2,7 @@ import { concat, get, find } from 'lodash';
 import promiseRetry from 'promise-retry';
 import { ValidatorError, InvalidAttributeError, StepNotFound } from './exceptions';
 
-async function getUserAnswer(bot, step) {
-  let answer = await bot.hear();
-  if ('parser' in bot.types[step.type]) {
-    answer = bot.types[step.type].parser(answer);
-  }
-
-  // validation
+function validateAnswer(bot, step, answer) {
   const validators = concat([],
     step.validators || [],
     bot.types[step.type].validators || [],
@@ -24,89 +18,98 @@ async function getUserAnswer(bot, step) {
       }
     });
   });
-
-  return answer;
 }
 
 export default ctrl => ctrl
 
   .define('configure', bot => {
-    ctrl.bot = bot;
     ctrl.indexes = {};
-    ctrl.currentIdx = 0;
-    ctrl.reindexSteps();
-    return ctrl;
-  })
 
-  .define('reindexSteps', () => {
-    ctrl.bot.steps.forEach((step, idx) => {
+    bot.steps.forEach((step, idx) => {
       ctrl.indexes[step.name] = idx;
     });
-  })
 
-  .define('start', () => {
-    return ctrl.run(0);
-  })
-
-  .define('end', () => {
-    ctrl.bot.end();
     return ctrl;
   })
 
-  .define('jump', stepName => {
-    const idx = ctrl.indexes[stepName];
-    return ctrl.run(idx);
+  .define('step', (bot, idx) => {
+    if (!bot.steps[idx]) {
+      return { exit: true };
+    }
+    const step = bot.steps[idx];
+    return Object.assign({}, bot.defaults.step, step);
   })
 
-  .define('next', () => ctrl.run(ctrl.currentIdx + 1))
+  .define('run', async (bot, idx = 0) => {
+    bot.setStore('currentIdx', idx);
 
-  .define('run', async (idx) => {
-    ctrl.currentIdx = idx;
+    const step = ctrl.step(bot, idx);
 
-    const { bot } = ctrl;
-    const step = bot.steps[idx];
-
-    if (!step) {
-      throw new StepNotFound(idx, bot.steps);
+    if (step.message) {
+      await ctrl.send(bot, step.message, step.delay);
     }
 
-    if (step.delay) {
-      await bot.actions.delay(step.delay);
+    if (step.sleep) {
+      await bot.actions.wait(step.sleep);
     }
 
     if (step.exit) {
-      return ctrl.end();
-    }
-
-    if (step.message) {
-      await bot.talk(step.message);
+      return bot.end();
     }
 
     if (!step.type) {
-      return ctrl.next();
+      return ctrl.next(bot);
     } else if (!bot.types[step.type]) {
       throw new InvalidAttributeError('type', step);
     }
 
-    const answer = await promiseRetry(async retry => {
-      try {
-        return await getUserAnswer(bot, step);
-      } catch (e) {
-        if (e instanceof ValidatorError) {
-          await bot.talk(e.message);
-          return retry(e)
-        }
-        throw e;
+    bot.setStore('waitingForAnswer', true);
+    return ctrl;
+  })
+
+  .define('send', async (bot, message, delay) => {
+    bot._dispatch('typing');
+
+    if (delay) {
+      await bot.actions.wait(delay);
+    }
+
+    bot.talk(message);
+    bot._dispatch('typed');
+  })
+
+  .define('receive', async (bot, message) => {
+    const idx = bot.store('currentIdx');
+    const step = ctrl.step(bot, idx);
+
+    if (!bot.store('waitingForAnswer')) {
+      return;
+    }
+
+    let answer = message;
+    if ('parser' in bot.types[step.type]) {
+      answer = bot.types[step.type].parser(answer);
+    }
+
+    try {
+      validateAnswer(bot, step, message);
+    } catch(e) {
+      if (e instanceof ValidatorError) {
+        await ctrl.send(bot, e.message, step.delay);
+        return;
       }
-    }, { factor: 0 });
+      throw e;
+    }
+
+    bot.setStore('waitingForAnswer', false);
 
     const output = step.output || step.name;
     if (output) {
-      bot.store[output] = answer;
+      bot.setStore(`data.${output}`, answer);
     }
 
     if (step.replyMessage) {
-      await bot.talk(step.replyMessage)
+      await ctrl.send(bot, step.replyMessage, step.delay);
     }
 
     // TODO:
@@ -115,12 +118,24 @@ export default ctrl => ctrl
 
     const nextStep = step.next || (find(get(step, 'options', []), { value: answer }) || {}).next;
     if (nextStep) {
-      return await ctrl.jump(nextStep);
+      return ctrl.jump(bot, nextStep);
     }
 
-    if (ctrl.bot.steps[ctrl.currentIdx + 1]) {
-      return ctrl.next();
+    if (bot.steps[idx + 1]) {
+      return ctrl.next(bot);
     }
 
-    return ctrl.end();
-  });
+    return bot.end();
+  })
+
+  .define('jump', (bot, stepName) => {
+    const idx = ctrl.indexes[stepName];
+    if (!idx) {
+      throw new StepNotFound(stepName);
+    }
+    return ctrl.run(bot, idx);
+  })
+
+  .define('next', bot => ctrl.run(bot, bot.store('currentIdx') + 1))
+
+;

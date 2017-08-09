@@ -28,6 +28,7 @@ Step: Object
 + confirmMessage: String
 + next: Next
 + delay: Number [2]
++ sleep: Number [2]
 + options: [Option]
 + validators: [Validator]
 + exit: Boolean

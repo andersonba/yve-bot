@@ -38,16 +38,22 @@ socket.on('receive message', function (payload) {
   }
 
   messages.insertBefore(li, loading);
-  messages.scrollTop = messages.scrollHeight;
+  scrollUp();
 });
 
 socket.on('is typing', function() {
   loading.classList.add('show');
+  scrollUp();
 });
 
 socket.on('is typed', function() {
   loading.classList.remove('show');
+  scrollUp();
 });
+
+function scrollUp() {
+  messages.scrollTop = messages.scrollHeight;
+}
 
 function sendMessage(value) {
   socket.emit('send message', {

@@ -10,17 +10,24 @@ $(document).ready(function() {
     bot
       .on('talk', function(message, data) {
         receiveMessage('BOT', message, data);
+        scrollUp();
       })
       .on('typing', function() {
         loading.classList.add('show');
+        scrollUp();
       })
       .on('typed', function() {
         loading.classList.remove('show');
+        scrollUp();
       })
       .on('outputChanged', function(data) {
         output.innerText= JSON.stringify(data, null, 2);
       })
       .start();
+
+    function scrollUp() {
+      messages.scrollTop = messages.scrollHeight;
+    }
 
     function receiveMessage(from, message, data) {
       var li = document.createElement('li');
@@ -45,7 +52,6 @@ $(document).ready(function() {
       }
 
       messages.insertBefore(li, loading);
-      messages.scrollTop = messages.scrollHeight;
     }
 
     function sendMessage(value) {

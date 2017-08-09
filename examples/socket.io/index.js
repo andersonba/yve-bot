@@ -30,6 +30,7 @@ io.on('connection', chat => {
       data,
     });
   })
+  .on('outputChanged', store => io.to(sessionId).emit('store changed', store))
   .on('end', () => chat.disconnect());
 
   chat

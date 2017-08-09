@@ -3,6 +3,7 @@ $(document).ready(function() {
     var example = jsyaml.load(data);
     var input = document.getElementById('m');
     var messages = document.getElementById('messages');
+    var output = document.getElementById('output');
     var loading = document.getElementById('typing');
 
     var bot = new YveBot(example);
@@ -15,6 +16,9 @@ $(document).ready(function() {
       })
       .on('typed', function() {
         loading.classList.remove('show');
+      })
+      .on('outputChanged', function(data) {
+        output.innerText= JSON.stringify(data, null, 2);
       })
       .start();
 

@@ -43,9 +43,12 @@ class YveBot {
     const { sessionId } = this;
     if (sessionId) {
       this._store[sessionId] = store;
-      return;
+    } else {
+      this._store = store;
     }
-    this._store = store;
+    if (/data\./.test(key)) {
+      this._dispatch('outputChanged', store.data);
+    }
   }
 
   session(id) {
@@ -55,6 +58,7 @@ class YveBot {
   }
 
   async start() {
+    this._dispatch('start');
     await this.controller.run(this);
     return this;
   }

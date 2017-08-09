@@ -1,6 +1,7 @@
 var socket = io.connect('http://localhost:3000');
 var input = document.getElementById('m');
 var messages = document.getElementById('messages');
+var output = document.getElementById('output');
 var loading = document.getElementById('typing');
 
 socket
@@ -8,6 +9,10 @@ socket
   .on('connected', function (user) {
     window.user = user;
   });
+
+socket.on('store changed', function(store) {
+  output.innerText= JSON.stringify(store, null, 2);
+});
 
 socket.on('receive message', function (payload) {
   var li = document.createElement('li');

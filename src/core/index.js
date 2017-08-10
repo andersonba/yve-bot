@@ -13,7 +13,7 @@ class YveBot {
     this.defaults = DEFAULT_OPTS;
     this.rules = rules;
     this.sessionId = null;
-    this._store = { };
+    this._store = {};
     this._handlers = {};
 
     this.controller.configure(this);

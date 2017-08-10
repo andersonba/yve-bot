@@ -1,4 +1,4 @@
 export default actions => actions
 
-    .define('wait', value =>
+    .define('sleep', value =>
       new Promise((resolve) => setTimeout(resolve, value)));

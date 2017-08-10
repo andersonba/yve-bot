@@ -69,7 +69,7 @@ export default ctrl => ctrl
     }
 
     if (rule.sleep) {
-      await bot.actions.wait(rule.sleep);
+      await bot.actions.sleep(rule.sleep);
     }
 
     if (rule.exit) {
@@ -94,7 +94,7 @@ export default ctrl => ctrl
     bot._dispatch('typing');
 
     if (delay) {
-      await bot.actions.wait(delay);
+      await bot.actions.sleep(delay);
     }
 
     const data = createTalkDataFromRule(rule);

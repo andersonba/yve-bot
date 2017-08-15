@@ -34,14 +34,13 @@ class YveBot {
     return this;
   }
 
-  session(sessionId) {
+  session(id) {
     const copy = new YveBot();
+    copy.sessionId = id;
     copy.rules = this.rules;
     copy.context = this.context;
     copy._handlers = this._handlers;
-    copy._store = Object.assign({}, this._store, {
-      sessionId,
-    });
+    copy._store = Object.assign({}, this._store);
     return copy;
   }
 

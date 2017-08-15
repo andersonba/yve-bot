@@ -22,21 +22,25 @@ io.on('connection', chat => {
     .on('join', () => {
       chat.bot = bot.session(chat.id);
       chat.bot
-        .on('typing', () => io.to(chat.id).emit('is typing'))
-        .on('typed', () => io.to(chat.id).emit('is typed'))
-        .on('talk', (message, data) => {
-          io.to(chat.id).emit('receive message', {
+        .on('typing', sid => io.to(sid).emit('is typing'))
+        .on('typed', sid => io.to(sid).emit('is typed'))
+        .on('talk', (message, data, sid) => {
+          io.to(sid).emit('receive message', {
             from: 'BOT',
             message,
             data,
           });
         })
-        .on('outputChanged', store => io.to(chat.id).emit('store changed', store))
-        .on('error', err => {
-          console.error(err);
-          io.to(chat.id).emit('error', err.message);
+        .on('outputChanged', (store, sid) => io.to(sid).emit('store changed', store))
+        .on('error', (err, sid) => {
+          console.error(sid, err);
+          io.to(sid).emit('error', err.message);
         })
-        .on('end', () => chat.disconnect())
+        .on('end', (_, sid) => {
+          if (io.sockets.sockets[sid]) {
+            io.sockets.sockets[sid].disconnect();
+          }
+        })
         .start();
 
       chat.emit('connected', chat.id);

@@ -18,30 +18,29 @@ const bot = new YveBot(example);
 app.use('/', express.static(__dirname));
 
 io.on('connection', chat => {
-  const sessionId = chat.id;
-
-  bot
-  .on('typing', () => io.to(sessionId).emit('is typing'))
-  .on('typed', () => io.to(sessionId).emit('is typed'))
-  .on('talk', (message, data) => {
-    io.to(sessionId).emit('receive message', {
-      from: 'BOT',
-      message,
-      data,
-    });
-  })
-  .on('outputChanged', store => io.to(sessionId).emit('store changed', store))
-  .on('error', err => {
-    console.error(err);
-    io.to(sessionId).emit('error', err.message);
-  })
-  .on('end', () => chat.disconnect());
-
   chat
     .on('join', () => {
-      chat.emit('connected', sessionId);
-      chat.join(sessionId);
-      bot.session(sessionId).start();
+      chat.bot = bot.session(chat.id);
+      chat.bot
+        .on('typing', () => io.to(chat.id).emit('is typing'))
+        .on('typed', () => io.to(chat.id).emit('is typed'))
+        .on('talk', (message, data) => {
+          io.to(chat.id).emit('receive message', {
+            from: 'BOT',
+            message,
+            data,
+          });
+        })
+        .on('outputChanged', store => io.to(chat.id).emit('store changed', store))
+        .on('error', err => {
+          console.error(err);
+          io.to(chat.id).emit('error', err.message);
+        })
+        .on('end', () => chat.disconnect())
+        .start();
+
+      chat.emit('connected', chat.id);
+      chat.join(chat.id);
     })
     .on('send message', ({ user, message }) => {
       io.to(user).emit('receive message', {
@@ -49,7 +48,7 @@ io.on('connection', chat => {
         from: 'USER',
       });
 
-      bot.session(sessionId).hear(message);
+      chat.bot.hear(message);
     });
 });
 

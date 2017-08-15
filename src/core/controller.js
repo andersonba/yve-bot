@@ -63,10 +63,7 @@ export default ctrl => ctrl
   })
 
   .define('rule', (bot, idx) => {
-    if (!bot.rules[idx]) {
-      return { exit: true };
-    }
-    const rule = bot.rules[idx];
+    const rule = bot.rules[idx] ? bot.rules[idx] : { exit: true };
     return Object.assign({}, bot.defaults.rule, rule);
   })
 
@@ -80,7 +77,7 @@ export default ctrl => ctrl
     }
 
     // run post-actions
-    if (rule.sleep) {
+    if (rule.sleep && !rule.exit) {
       await bot.actions.timeout(rule.sleep);
     }
     await runActions(bot, rule.actions);
@@ -105,7 +102,7 @@ export default ctrl => ctrl
     bot._dispatch('typing');
 
     // run pre-actions
-    if (rule.delay) {
+    if (rule.delay && !rule.exit) {
       await bot.actions.timeout(rule.delay);
     }
     await runActions(bot, rule.preActions);

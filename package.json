@@ -2,7 +2,7 @@
   "name": "yve-bot",
   "version": "1.0.0",
   "description": "A rule based Bot, but intelligent.",
-  "main": "lib/index.js",
+  "main": "lib/yve.core.js",
   "repository": "https://github.com/andersonba/yve-bot",
   "author": "Anderson de Oliveira <andersonba@me.com>",
   "license": "MIT",
@@ -11,12 +11,15 @@
     "test:strict": "mocha --opts mocha.opts test/**/*.spec.js",
     "test:watch": "yarn test:strict -- -w",
     "clean": "rm -rf lib",
-    "build-web": "babel src -d lib -s && webpack lib/core/index.js lib/index.js --output-library YveBot --output-library-target var"
+    "build": "webpack --bail"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
+    "babel-loader": "^7.1.1",
+    "babel-minify": "^0.2.0",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-istanbul": "^4.1.4",
+    "babel-plugin-lodash": "^3.2.11",
     "babel-preset-es2015": "^6.24.1",
     "chai": "^4.1.0",
     "chai-as-promised": "^7.1.1",

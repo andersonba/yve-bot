@@ -16,11 +16,10 @@ NextFlowRule: String [4]
 Root: [Rule | Flows]
 
 Flows: Object
-+ (FlowName): [Rule] [0]
-+ exit: Boolean
++ flow: String
++ rules: [Rule]
 
 Rule: Object
-+ flow: FlowName
 + message: String
 + name: String
 + output: String [8]

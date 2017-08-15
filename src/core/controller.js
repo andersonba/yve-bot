@@ -33,12 +33,11 @@ function runActions(bot, actions) {
 }
 
 function getNextFromRule(rule, answer) {
-  if (rule.next) { return rule.next; }
   if (rule.options) {
     const { next }  = findOptionByAnswer(rule.options, answer) || {};
     if (next) { return next; }
   }
-  // TODO: find in flow
+  if (rule.next) { return rule.next; }
   return null;
 }
 

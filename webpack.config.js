@@ -9,14 +9,14 @@ module.exports = {
   context: srcPath,
 
   entry: {
-    core: './core/index.js',
+    core: './index.js',
   },
 
   output: {
     path: libPath,
     filename: 'yve.[name].js',
-    libraryTarget: 'var',
-    library: 'YveBot'
+    library: 'YveBot',
+    libraryTarget: 'umd',
   },
 
   module: {

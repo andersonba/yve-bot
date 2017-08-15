@@ -18,6 +18,9 @@ class YveBot {
     this._handlers = {};
 
     this.controller.configure(this);
+    this.on('error', err => {
+      throw err;
+    });
   }
 
   on(evt, fn) {
@@ -58,9 +61,18 @@ class YveBot {
     return this;
   }
 
-  async start() {
+  start() {
     this._dispatch('start');
-    await this.controller.run(this);
+
+    this.controller
+      .run(this)
+      .catch(e => {
+        try {
+          this._dispatch('error', e);
+        } catch(e) { console.error(e); }
+        this.end();
+      });
+
     return this;
   }
 

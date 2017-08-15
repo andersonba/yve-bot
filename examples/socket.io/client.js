@@ -14,6 +14,11 @@ socket.on('store changed', function(store) {
   output.innerText= JSON.stringify(store, null, 2);
 });
 
+socket.on('error', function(err) {
+  alert('Error! Check the console output');
+  console.error(err);
+});
+
 socket.on('receive message', function (payload) {
   var li = document.createElement('li');
   li.classList.add(payload.from);

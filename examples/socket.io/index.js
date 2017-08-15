@@ -31,6 +31,10 @@ io.on('connection', chat => {
     });
   })
   .on('outputChanged', store => io.to(sessionId).emit('store changed', store))
+  .on('error', err => {
+    console.error(err);
+    io.to(sessionId).emit('error', err.message);
+  })
   .on('end', () => chat.disconnect());
 
   chat

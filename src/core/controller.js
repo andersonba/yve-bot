@@ -31,8 +31,8 @@ function runActions(bot, actions) {
   }));
 }
 
-function getNextFromRule(rule, answer) {
-  if (rule.options) {
+function getNextFromRule(rule, answer = null) {
+  if (rule.options && answer) {
     const { next }  = findOptionByAnswer(rule.options, answer) || {};
     if (next) { return next; }
   }
@@ -86,13 +86,11 @@ export default (ctrl, bot) => ctrl
     }
     await runActions(bot, rule.actions);
 
-    if (rule.exit) {
-      return bot.end();
+    if (!rule.type) {
+      return ctrl.next(rule);
     }
 
-    if (!rule.type) {
-      return ctrl.next();
-    } else if (!bot.types[rule.type]) {
+    if (!bot.types[rule.type]) {
       throw new InvalidAttributeError('type', rule);
     }
 
@@ -155,16 +153,7 @@ export default (ctrl, bot) => ctrl
       await ctrl.send(rule.replyMessage, rule);
     }
 
-    const nextRule = getNextFromRule(rule, answer);
-    if (nextRule) {
-      return ctrl.jump(nextRule);
-    }
-
-    if (bot.rules[idx + 1]) {
-      return ctrl.next();
-    }
-
-    return bot.end();
+    return ctrl.next(rule, answer);
   })
 
   .define('jump', ruleName => {
@@ -175,6 +164,19 @@ export default (ctrl, bot) => ctrl
     return ctrl.run(idx);
   })
 
-  .define('next', () => ctrl.run(bot.store.get('currentIdx') + 1))
+  .define('next', (rule, answer = null) => {
+    if (rule.exit) {
+      return bot.end();
+    }
+    const nextRule = getNextFromRule(rule, answer);
+    if (nextRule) {
+      return ctrl.jump(nextRule);
+    }
+    const nextIdx = bot.store.get('currentIdx') + 1;
+    if (bot.rules[nextIdx]) {
+      return ctrl.run(nextIdx);
+    }
+    return bot.end();
+  })
 
 ;

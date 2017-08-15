@@ -12,14 +12,15 @@ class YveBot {
   constructor(rules = [], context = {}) {
     this.defaults = DEFAULT_OPTS;
     this.rules = rules;
+    this.context = context;
     this._handlers = {};
+    this._store = {};
 
-    this.store.configure(this, context, data =>
-      this._dispatch('outputChanged', data));
-    this.controller.configure(this);
-    this.on('error', err => {
-      throw err;
-    });
+    register(this, 'store', require('./store'));
+    register(this, 'controller', require('./controller'));
+    this.controller.configure();
+
+    this.on('error', err => { throw err; });
   }
 
   on(evt, fn) {
@@ -33,48 +34,55 @@ class YveBot {
     return this;
   }
 
-  session(id) {
-    this.store.setSession(id);
-    return this;
+  session(sessionId) {
+    const copy = new YveBot();
+    copy.rules = this.rules;
+    copy.context = this.context;
+    copy._handlers = this._handlers;
+    copy._store = Object.assign({}, this._store, {
+      sessionId,
+    });
+    return copy;
   }
 
   start() {
     this._dispatch('start');
 
-    this.controller
-      .run(this)
-      .catch(e => {
-        try {
-          this._dispatch('error', e);
-        } catch(e) { console.error(e); }
-        this.end();
-      });
+    this.controller.run()
+      .catch(this._catch.bind(this));
 
     return this;
   }
 
   end() {
     this._dispatch('end', this.store.output());
-    this.store.reset();
   }
 
   talk(message, ctx = {}) {
     const rule = Object.assign({}, this.defaults.rule, ctx);
-    this.controller.send(this, message, rule);
+    this.controller.send(message, rule);
   }
 
   hear(message) {
-    this.controller.receive(this, message);
+    this.controller.receive(message)
+      .catch(this._catch.bind(this));
   }
 
   _dispatch(name, ...args) {
     if (name in this._handlers) {
-      this._handlers[name](...args);
+      this._handlers[name](...args, this.sessionId);
     }
+  }
+
+  _catch(err) {
+    try {
+      this._dispatch('error', err);
+    } catch(e) { console.error(e); }
+    this.end();
   }
 }
 
-function register(prop, configure) {
+function register(target, prop, configure) {
   const obj = {};
   obj.define = (key, fn) => {
     if (key in obj) {
@@ -83,13 +91,11 @@ function register(prop, configure) {
     obj[key] = fn;
     return obj;
   }
-  YveBot.prototype[prop] = configure(obj);
+  target[prop] = configure(obj, target);
 }
 
-register('validators', require('./validators'));
-register('types', require('./types'));
-register('actions', require('./actions'));
-register('controller', require('./controller'));
-register('store', require('./store'));
+register(YveBot.prototype, 'validators', require('./validators'));
+register(YveBot.prototype, 'types', require('./types'));
+register(YveBot.prototype, 'actions', require('./actions'));
 
 export default YveBot;

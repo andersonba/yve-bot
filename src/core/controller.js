@@ -52,30 +52,32 @@ function getRuleContext(rule) {
   return data;
 }
 
-export default ctrl => ctrl
+export default (ctrl, bot) => ctrl
 
-  .define('configure', bot => {
-    ctrl.indexes = {};
+  .define('configure', () => {
+    bot.store.update('indexes', {});
 
     bot.rules.forEach((rule, idx) => {
-      ctrl.indexes[rule.name] = idx;
+      if (rule.name) {
+        bot.store.update(`indexes.${rule.name}`, idx);
+      }
     });
 
     return ctrl;
   })
 
-  .define('rule', (bot, idx) => {
+  .define('rule', idx => {
     const rule = bot.rules[idx] ? bot.rules[idx] : { exit: true };
     return Object.assign({}, bot.defaults.rule, rule);
   })
 
-  .define('run', async (bot, idx = 0) => {
+  .define('run', async (idx = 0) => {
     bot.store.update('currentIdx', idx);
 
-    const rule = ctrl.rule(bot, idx);
+    const rule = ctrl.rule(idx);
 
     if (rule.message) {
-      await ctrl.send(bot, rule.message, rule);
+      await ctrl.send(rule.message, rule);
     }
 
     // run post-actions
@@ -89,7 +91,7 @@ export default ctrl => ctrl
     }
 
     if (!rule.type) {
-      return ctrl.next(bot);
+      return ctrl.next();
     } else if (!bot.types[rule.type]) {
       throw new InvalidAttributeError('type', rule);
     }
@@ -100,7 +102,7 @@ export default ctrl => ctrl
     return ctrl;
   })
 
-  .define('send', async (bot, message, rule) => {
+  .define('send', async (message, rule) => {
     bot._dispatch('typing');
 
     // run pre-actions
@@ -114,11 +116,13 @@ export default ctrl => ctrl
     bot._dispatch('talk', text, ctx);
 
     bot._dispatch('typed');
+
+    return ctrl;
   })
 
-  .define('receive', async (bot, message) => {
+  .define('receive', async (message) => {
     const idx = bot.store.get('currentIdx');
-    const rule = ctrl.rule(bot, idx);
+    const rule = ctrl.rule(idx);
 
     if (!bot.store.get('waitingForAnswer')) {
       return;
@@ -133,7 +137,7 @@ export default ctrl => ctrl
       validateAnswer(bot, rule, message);
     } catch(e) {
       if (e instanceof ValidatorError) {
-        await ctrl.send(bot, e.message, rule);
+        await ctrl.send(e.message, rule);
         bot._dispatch('hear');
         return;
       }
@@ -148,29 +152,29 @@ export default ctrl => ctrl
     }
 
     if (rule.replyMessage) {
-      await ctrl.send(bot, rule.replyMessage, rule);
+      await ctrl.send(rule.replyMessage, rule);
     }
 
     const nextRule = getNextFromRule(rule, answer);
     if (nextRule) {
-      return ctrl.jump(bot, nextRule);
+      return ctrl.jump(nextRule);
     }
 
     if (bot.rules[idx + 1]) {
-      return ctrl.next(bot);
+      return ctrl.next();
     }
 
     return bot.end();
   })
 
-  .define('jump', (bot, ruleName) => {
-    if (!ruleName in ctrl.indexes) {
-      throw new RuleNotFound(ruleName);
+  .define('jump', ruleName => {
+    const idx = bot.store.get(`indexes.${ruleName}`);
+    if (typeof idx !== 'number') {
+      throw new RuleNotFound(ruleName, bot.store.get('indexes'));
     }
-    const idx = ctrl.indexes[ruleName];
-    return ctrl.run(bot, idx);
+    return ctrl.run(idx);
   })
 
-  .define('next', bot => ctrl.run(bot, bot.store.get('currentIdx') + 1))
+  .define('next', () => ctrl.run(bot.store.get('currentIdx') + 1))
 
 ;

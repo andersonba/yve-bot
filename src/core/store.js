@@ -1,49 +1,28 @@
-import { set } from 'lodash';
+import { get, set } from 'lodash';
 
-export default store => store
+export default (store, bot) => store
 
-  .define('configure', (bot, context, onChange) => {
-    store._context = context;
-    store._data = {};
-    store.onChange = onChange;
+  .define('configure', () => {
+    bot._store = {};
   })
 
   .define('output', () =>
-    Object.assign({}, store.get('output'), store._context))
+    Object.assign({}, store.get('output'), store.get('context')))
 
   .define('update', (key, value) => {
     const copy = Object.assign({}, store.get());
-    const data = set(copy, key, value);
-    const { sessionId } = store;
-    if (sessionId) {
-      store._data[sessionId] = data;
-    } else {
-      store._data = data;
-    }
+    bot._store = set(copy, key, value);
     if (/output\./.test(key)) {
-      store.onChange(store.output());
+      bot._dispatch('outputChanged', store.output());
     }
   })
 
-  .define('get', key => {
-    const { sessionId, _data } = store;
-    const data = sessionId ? _data[sessionId] : _data;
-    if (key) { return data[key]; }
-    return data;
-  })
-
-  .define('setSession', id => {
-    store.sessionId = id;
-    store._data[id] = store._data[id] || {};
+  .define('get', (key) => {
+    return key ? get(bot._store, key) : bot._store;
   })
 
   .define('reset', () => {
-    const { sessionId } = store;
-    if (sessionId) {
-      store._data[sessionId] = {};
-      return;
-    }
-    store._data = {};
+    bot._store = {};
   })
 
 ;

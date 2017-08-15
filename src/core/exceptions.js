@@ -13,10 +13,10 @@ function RedefineConfigurationError(type, name) {
   this.message = `You can't redefine the "${name}" in ${type}.`;
 }
 
-function RuleNotFound(idx, rules) {
+function RuleNotFound(name, indexes) {
   this.key = 'ruleNotFound';
-  this.message = `Rule not found at ${idx} index`;
-  this.rules = rules;
+  this.message = `Rule "${name}" not found in indexes`;
+  this.indexes = indexes;
 };
 
 export default {

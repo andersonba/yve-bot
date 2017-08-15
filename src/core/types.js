@@ -2,6 +2,8 @@ import { findOptionByAnswer } from './utils';
 
 export default types => types
 
+    .define('Any', {})
+
     .define('String', {
       parser: v => !!v ? String(v) : '',
       validators: [

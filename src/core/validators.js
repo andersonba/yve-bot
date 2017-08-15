@@ -23,6 +23,16 @@ export default validators => validators
       warning: 'Invalid answer format',
     })
 
+    .define('minWords', {
+      validate: (num, answer) => answer.split(' ').length >= Number(num),
+      warning: min => `This answer must have at least ${min} words`,
+    })
+
+    .define('maxWords', {
+      validate: (num, answer) => answer.split(' ').length <= Number(num),
+      warning: max => `This answer must have a maximum ${max} words`,
+    })
+
     .define('min', {
       validate: (num, answer) => sanitizeLength(answer) >= Number(num),
       warning: min => `This answer length must be min ${min}`,

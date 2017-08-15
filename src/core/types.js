@@ -3,7 +3,7 @@ import { findOptionByAnswer } from './utils';
 export default types => types
 
     .define('String', {
-      parser: v => !v ? String(v) : '',
+      parser: v => !!v ? String(v) : '',
       validators: [
         {
           string: true,

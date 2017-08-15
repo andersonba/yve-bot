@@ -1,10 +1,9 @@
 import format from 'string-template';
-import { concat, get, pick } from 'lodash';
 import { ValidatorError, InvalidAttributeError, RuleNotFound } from './exceptions';
 import { findOptionByAnswer } from './utils';
 
 function validateAnswer(bot, rule, answer) {
-  const validators = concat([],
+  const validators = [].concat(
     rule.validators || [],
     bot.types[rule.type].validators || [],
   );
@@ -45,7 +44,10 @@ function getRuleContext(rule) {
   const { type, options } = rule;
   const data = { type };
   if (options) {
-    data.options = options.map(o => pick(o, ['label', 'value']));
+    data.options = options.map(o => {
+      const { label, value } = o;
+      return { label, value };
+    });
   }
   return data;
 }

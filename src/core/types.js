@@ -1,10 +1,9 @@
-import { isEmpty, difference } from 'lodash';
 import { findOptionByAnswer } from './utils';
 
 export default types => types
 
     .define('String', {
-      parser: v => !isEmpty(v) ? String(v) : '',
+      parser: v => !v ? String(v) : '',
       validators: [
         {
           string: true,
@@ -37,7 +36,7 @@ export default types => types
         {
           function: (values, rule) => {
             const options = rule.options.map(o => o.value || o.label);
-            return difference(values, options).length;
+            return [...values].filter(x => !options.includes(x));
           },
           warning: 'Unknown options',
         },

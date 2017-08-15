@@ -5,7 +5,9 @@ import YveBot from '../../src/core';
 
 prompt.start();
 const example = yaml.safeLoad(fs.readFileSync(__dirname + '/../example.eyaml', 'utf8'));
-const bot = new YveBot(example);
+const bot = new YveBot(example, {
+  username: 'andersonba',
+});
 
 bot
   .on('talk', (message, data) => {
@@ -21,5 +23,8 @@ bot
       if (err) { throw err; }
       reply(res.user);
     });
+  })
+  .on('end', data => {
+    console.log('> Finished with data:', data);
   })
   .start();

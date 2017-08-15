@@ -1,4 +1,3 @@
-import { set } from 'lodash';
 import { RedefineConfigurationError } from './exceptions';
 
 const DEFAULT_OPTS = {
@@ -10,13 +9,13 @@ const DEFAULT_OPTS = {
 };
 
 class YveBot {
-  constructor(rules = []) {
+  constructor(rules = [], context = {}) {
     this.defaults = DEFAULT_OPTS;
     this.rules = rules;
-    this.sessionId = null;
-    this._store = {};
     this._handlers = {};
 
+    this.store.configure(this, context, data =>
+      this._dispatch('outputChanged', data));
     this.controller.configure(this);
     this.on('error', err => {
       throw err;
@@ -34,30 +33,8 @@ class YveBot {
     return this;
   }
 
-  store(key) {
-    const { sessionId, _store } = this;
-    const store = sessionId ? _store[sessionId] : _store;
-    if (key) { return store[key]; }
-    return store;
-  }
-
-  setStore(key, value) {
-    const copy = Object.assign({}, this.store());
-    const store = set(copy, key, value);
-    const { sessionId } = this;
-    if (sessionId) {
-      this._store[sessionId] = store;
-    } else {
-      this._store = store;
-    }
-    if (/data\./.test(key)) {
-      this._dispatch('outputChanged', store.data);
-    }
-  }
-
   session(id) {
-    this.sessionId = id;
-    this._store[id] = this._store[id] || {};
+    this.store.setSession(id);
     return this;
   }
 
@@ -77,14 +54,8 @@ class YveBot {
   }
 
   end() {
-    this._dispatch('end', this.store('data'));
-
-    const { sessionId } = this;
-    if (sessionId) {
-      this._store[sessionId] = {};
-      return;
-    }
-    this._store = {};
+    this._dispatch('end', this.store.output());
+    this.store.reset();
   }
 
   talk(message, ctx = {}) {
@@ -119,5 +90,6 @@ register('validators', require('./validators'));
 register('types', require('./types'));
 register('actions', require('./actions'));
 register('controller', require('./controller'));
+register('store', require('./store'));
 
 export default YveBot;

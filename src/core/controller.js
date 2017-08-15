@@ -70,7 +70,7 @@ export default ctrl => ctrl
   })
 
   .define('run', async (bot, idx = 0) => {
-    bot.setStore('currentIdx', idx);
+    bot.store.update('currentIdx', idx);
 
     const rule = ctrl.rule(bot, idx);
 
@@ -94,7 +94,7 @@ export default ctrl => ctrl
       throw new InvalidAttributeError('type', rule);
     }
 
-    bot.setStore('waitingForAnswer', true);
+    bot.store.update('waitingForAnswer', true);
     bot._dispatch('hear');
 
     return ctrl;
@@ -109,7 +109,7 @@ export default ctrl => ctrl
     }
     await runActions(bot, rule.preActions);
 
-    const text = format(message, bot.store('data'));
+    const text = format(message, bot.store.output());
     const ctx = getRuleContext(rule);
     bot._dispatch('talk', text, ctx);
 
@@ -117,10 +117,10 @@ export default ctrl => ctrl
   })
 
   .define('receive', async (bot, message) => {
-    const idx = bot.store('currentIdx');
+    const idx = bot.store.get('currentIdx');
     const rule = ctrl.rule(bot, idx);
 
-    if (!bot.store('waitingForAnswer')) {
+    if (!bot.store.get('waitingForAnswer')) {
       return;
     }
 
@@ -140,11 +140,11 @@ export default ctrl => ctrl
       throw e;
     }
 
-    bot.setStore('waitingForAnswer', false);
+    bot.store.update('waitingForAnswer', false);
 
     const output = rule.output || rule.name;
     if (output) {
-      bot.setStore(`data.${output}`, answer);
+      bot.store.update(`output.${output}`, answer);
     }
 
     if (rule.replyMessage) {
@@ -171,6 +171,6 @@ export default ctrl => ctrl
     return ctrl.run(bot, idx);
   })
 
-  .define('next', bot => ctrl.run(bot, bot.store('currentIdx') + 1))
+  .define('next', bot => ctrl.run(bot, bot.store.get('currentIdx') + 1))
 
 ;

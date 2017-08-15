@@ -52,4 +52,6 @@ export default validators => validators
     .define('function', {
       validate: (fn, answer, rule) => fn(answer, rule),
       warning: 'Error on execute a validator function',
-    });
+    })
+
+;

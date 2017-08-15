@@ -1,10 +1,11 @@
 import { set } from 'lodash';
-import format from 'string-template';
 import { RedefineConfigurationError } from './exceptions';
 
 const DEFAULT_OPTS = {
   rule: {
     delay: 1000,
+    actions: [],
+    preActions: [],
   },
 };
 
@@ -64,7 +65,7 @@ class YveBot {
   }
 
   end() {
-    this._dispatch('end', this.store().data);
+    this._dispatch('end', this.store('data'));
 
     const { sessionId } = this;
     if (sessionId) {
@@ -74,9 +75,9 @@ class YveBot {
     this._store = {};
   }
 
-  talk(message, ctx) {
-    const text = format(message, this.store().data);
-    this._dispatch('talk', text, ctx);
+  talk(message, ctx = {}) {
+    const rule = Object.assign({}, this.defaults.rule, ctx);
+    this.controller.send(this, message, rule);
   }
 
   hear(message) {

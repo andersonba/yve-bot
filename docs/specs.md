@@ -29,10 +29,15 @@ Rule: Object
 + confirmMessage: String
 + delay: Number [2]
 + sleep: Number [2]
++ actions: [Action]
++ preActions: [Action]
 + next: Next
 + options: [Option]
 + validators: [Validator]
 + exit: Boolean
+
+Action: Object
++ (ActionName): any
 
 Option: Object
 + value: (String | Number | any)!

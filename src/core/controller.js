@@ -1,3 +1,4 @@
+import format from 'string-template';
 import { concat, get, pick } from 'lodash';
 import { ValidatorError, InvalidAttributeError, RuleNotFound } from './exceptions';
 import { findOptionByAnswer } from './utils';
@@ -18,6 +19,17 @@ function validateAnswer(bot, rule, answer) {
       }
     });
   });
+}
+
+function runActions(bot, actions) {
+  return Promise.all(actions.map(async action => {
+    return Promise.all(Object.keys(action).map(async k => {
+      if (k in bot.actions) {
+        return await bot.actions[k](action[k], bot);
+      }
+      return null;
+    }));
+  }));
 }
 
 function getNextFromRule(rule, answer) {
@@ -65,12 +77,14 @@ export default ctrl => ctrl
     const rule = ctrl.rule(bot, idx);
 
     if (rule.message) {
-      await ctrl.sendMessage(bot, rule.message, rule);
+      await ctrl.send(bot, rule.message, rule);
     }
 
+    // run post-actions
     if (rule.sleep) {
-      await bot.actions.sleep(rule.sleep);
+      await bot.actions.timeout(rule.sleep);
     }
+    await runActions(bot, rule.actions);
 
     if (rule.exit) {
       return bot.end();
@@ -88,18 +102,19 @@ export default ctrl => ctrl
     return ctrl;
   })
 
-  .define('sendMessage', async (bot, message, rule) => {
-    const { delay, type, options } = rule;
-
+  .define('send', async (bot, message, rule) => {
     bot._dispatch('typing');
 
-    if (delay) {
-      await bot.actions.sleep(delay);
+    // run pre-actions
+    if (rule.delay) {
+      await bot.actions.timeout(rule.delay);
     }
+    await runActions(bot, rule.preActions);
 
+    const text = format(message, bot.store('data'));
     const ctx = getRuleContext(rule);
+    bot._dispatch('talk', text, ctx);
 
-    bot.talk(message, ctx);
     bot._dispatch('typed');
   })
 
@@ -120,7 +135,7 @@ export default ctrl => ctrl
       validateAnswer(bot, rule, message);
     } catch(e) {
       if (e instanceof ValidatorError) {
-        await ctrl.sendMessage(bot, e.message, rule);
+        await ctrl.send(bot, e.message, rule);
         bot._dispatch('hear');
         return;
       }
@@ -135,7 +150,7 @@ export default ctrl => ctrl
     }
 
     if (rule.replyMessage) {
-      await ctrl.sendMessage(bot, rule.replyMessage, rule);
+      await ctrl.send(bot, rule.replyMessage, rule);
     }
 
     const nextRule = getNextFromRule(rule, answer);

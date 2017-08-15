@@ -30,7 +30,7 @@ function getNextFromRule(rule, answer) {
   return null;
 }
 
-function createTalkDataFromRule(rule) {
+function getRuleContext(rule) {
   const { type, options } = rule;
   const data = { type };
   if (options) {
@@ -65,7 +65,7 @@ export default ctrl => ctrl
     const rule = ctrl.rule(bot, idx);
 
     if (rule.message) {
-      await ctrl.send(bot, rule.message, rule);
+      await ctrl.sendMessage(bot, rule.message, rule);
     }
 
     if (rule.sleep) {
@@ -88,7 +88,7 @@ export default ctrl => ctrl
     return ctrl;
   })
 
-  .define('send', async (bot, message, rule) => {
+  .define('sendMessage', async (bot, message, rule) => {
     const { delay, type, options } = rule;
 
     bot._dispatch('typing');
@@ -97,9 +97,9 @@ export default ctrl => ctrl
       await bot.actions.sleep(delay);
     }
 
-    const data = createTalkDataFromRule(rule);
+    const ctx = getRuleContext(rule);
 
-    bot.talk(message, data);
+    bot.talk(message, ctx);
     bot._dispatch('typed');
   })
 
@@ -120,7 +120,7 @@ export default ctrl => ctrl
       validateAnswer(bot, rule, message);
     } catch(e) {
       if (e instanceof ValidatorError) {
-        await ctrl.send(bot, e.message, rule);
+        await ctrl.sendMessage(bot, e.message, rule);
         bot._dispatch('hear');
         return;
       }
@@ -135,7 +135,7 @@ export default ctrl => ctrl
     }
 
     if (rule.replyMessage) {
-      await ctrl.send(bot, rule.replyMessage, rule);
+      await ctrl.sendMessage(bot, rule.replyMessage, rule);
     }
 
     const nextRule = getNextFromRule(rule, answer);

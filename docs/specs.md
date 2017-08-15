@@ -27,9 +27,9 @@ Rule: Object
 + type: Text | Number | SingleChoice | MultipleChoice
 + replyMessage: String
 + confirmMessage: String
-+ next: Next
 + delay: Number [2]
 + sleep: Number [2]
++ next: Next
 + options: [Option]
 + validators: [Validator]
 + exit: Boolean

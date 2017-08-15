@@ -74,9 +74,9 @@ class YveBot {
     this._store = {};
   }
 
-  talk(message, data) {
+  talk(message, ctx) {
     const text = format(message, this.store().data);
-    this._dispatch('talk', text, data);
+    this._dispatch('talk', text, ctx);
   }
 
   hear(message) {

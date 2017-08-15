@@ -3,11 +3,7 @@
   "plugins": [
     "add-module-exports",
     "istanbul",
+    "transform-runtime",
     "lodash"
-  ],
-  "env": {
-    "production": {
-      "presets": ["minify"]
-    }
-  }
+  ]
 }

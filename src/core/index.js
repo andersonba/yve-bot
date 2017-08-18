@@ -12,9 +12,10 @@ class YveBot {
   constructor(rules = [], context = {}) {
     this.defaults = DEFAULT_OPTS;
     this.rules = rules;
-    this.context = context;
     this._handlers = {};
-    this._store = {};
+    this._store = {
+      context,
+    };
 
     register(this, 'store', require('./store'));
     register(this, 'controller', require('./controller'));
@@ -38,7 +39,6 @@ class YveBot {
     const copy = new YveBot();
     copy.sessionId = id;
     copy.rules = this.rules;
-    copy.context = this.context;
     copy._handlers = this._handlers;
     copy._store = Object.assign({}, this._store);
     return copy;

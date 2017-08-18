@@ -123,7 +123,7 @@ export default (ctrl, bot) => ctrl
     const rule = ctrl.rule(idx);
 
     if (!bot.store.get('waitingForAnswer')) {
-      return;
+      return ctrl;
     }
 
     let answer = message;
@@ -137,7 +137,7 @@ export default (ctrl, bot) => ctrl
       if (e instanceof ValidatorError) {
         await ctrl.send(e.message, rule);
         bot._dispatch('hear');
-        return;
+        return ctrl;
       }
       throw e;
     }
@@ -165,18 +165,18 @@ export default (ctrl, bot) => ctrl
   })
 
   .define('next', (rule, answer = null) => {
-    if (rule.exit) {
-      return bot.end();
+    if (!rule.exit) {
+      const nextRule = getNextFromRule(rule, answer);
+      if (nextRule) {
+        return ctrl.jump(nextRule);
+      }
+      const nextIdx = bot.store.get('currentIdx') + 1;
+      if (bot.rules[nextIdx]) {
+        return ctrl.run(nextIdx);
+      }
     }
-    const nextRule = getNextFromRule(rule, answer);
-    if (nextRule) {
-      return ctrl.jump(nextRule);
-    }
-    const nextIdx = bot.store.get('currentIdx') + 1;
-    if (bot.rules[nextIdx]) {
-      return ctrl.run(nextIdx);
-    }
-    return bot.end();
+    bot.end();
+    return ctrl;
   })
 
 ;

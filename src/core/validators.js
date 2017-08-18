@@ -40,7 +40,7 @@ export default validators => validators
 
     .define('max', {
       validate: (num, answer) => sanitizeLength(answer) <= Number(num),
-      warning: max => `This answer length must be max ${min}`,
+      warning: max => `This answer length must be max ${max}`,
     })
 
     .define('lenght', {

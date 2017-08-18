@@ -2,10 +2,6 @@ import { get, set } from 'lodash';
 
 export default (store, bot) => store
 
-  .define('configure', () => {
-    bot._store = {};
-  })
-
   .define('output', () =>
     Object.assign({}, store.get('output'), store.get('context')))
 
@@ -19,10 +15,6 @@ export default (store, bot) => store
 
   .define('get', (key) => {
     return key ? get(bot._store, key) : bot._store;
-  })
-
-  .define('reset', () => {
-    bot._store = {};
   })
 
 ;

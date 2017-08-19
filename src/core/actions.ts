@@ -1,11 +1,11 @@
-import { YveBotModule } from './utils';
+import { DefineModule } from './utils';
 
 const actions = {
   timeout: (value: number): Promise<void> =>
     new Promise((resolve) => setTimeout(resolve, value))
 };
 
-export class Actions extends YveBotModule {
+export class Actions extends DefineModule {
   public timeout: typeof actions.timeout;
 
   constructor() {

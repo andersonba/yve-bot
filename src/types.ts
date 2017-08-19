@@ -3,34 +3,35 @@ export type Rule = {
   type?: string;
   output?: string;
   message?: string;
-  validators?: RuleValidator[];
   delay?: number;
   sleep?: number;
   actions?: RuleAction[];
   preActions?: RuleAction[];
   replyMessage?: string;
+  confirmMessage?: string;
   options?: RuleOption[];
+  validators?: RuleValidator[];
   next?: RuleNext;
   exit?: boolean;
 }
 
-export type RuleAction = {
-
-};
-
 export type RuleOption = {
   label?: string;
-  value?: string;
+  value?: string | number;
   next?: RuleNext;
 };
 
-export type RuleValidator = {
+export type RuleAction = {
+  [name: string]: any;
+};
 
+export type RuleValidator = {
+  [name: string]: any;
 };
 
 export type RuleContext = {
   type: string;
-  options?: RuleOption[]
+  options?: RuleOption[];
 };
 
 export type RuleNext = string;

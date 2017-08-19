@@ -1,16 +1,16 @@
 import { RedefineConfigurationError } from './exceptions';
-import { RuleOption } from '../types';
+import { RuleOption, Answer } from '../types';
 
 export function findOptionByAnswer(
   options: RuleOption[],
-  answer: string,
+  answer: Answer,
 ): RuleOption {
   const [option] = options
     .filter(o => o.value === answer || o.label === answer);
   return option;
 }
 
-export class YveBotModule {
+export class DefineModule {
   public define(key: string, value: any): this;
   public define(obj: Object): this;
 

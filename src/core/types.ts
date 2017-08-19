@@ -1,5 +1,5 @@
-import { YveBotModule } from './utils';
-import { Rule } from '../types';
+import { DefineModule } from './utils';
+import { Rule, Answer } from '../types';
 import { findOptionByAnswer } from './utils';
 
 const types = {
@@ -28,7 +28,7 @@ const types = {
   SingleChoice: {
     validators: [
       {
-        function: (answer: string, rule: Rule) =>
+        function: (answer: Answer, rule: Rule) =>
           !!findOptionByAnswer(rule.options, answer),
         warning: 'Unknown option',
       },
@@ -38,7 +38,7 @@ const types = {
   MultipleChoice: {
     validators: [
       {
-        function: (answers: string[], rule: Rule) => {
+        function: (answers: Answer[], rule: Rule) => {
           const options = rule.options.map(o => o.value || o.label);
           return [...answers].filter(x => options.indexOf(x) < 0);
         },
@@ -48,7 +48,7 @@ const types = {
   },
 };
 
-export class Types extends YveBotModule {
+export class Types extends DefineModule {
   public Any: typeof types.Any;
   public String: typeof types.String;
   public Number: typeof types.Number;

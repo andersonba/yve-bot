@@ -1,7 +1,7 @@
-import fs from 'fs';
-import yaml from 'js-yaml';
-import prompt from 'prompt';
-import YveBot from '../../src/core';
+const fs = require('fs');
+const yaml = require('js-yaml');
+const prompt = require('prompt');
+const YveBot = require('../../lib/yve.core');
 
 prompt.start();
 const example = yaml.safeLoad(fs.readFileSync(__dirname + '/../example.eyaml', 'utf8'));

@@ -1,0 +1,62 @@
+import { YveBotModule } from './utils';
+import { Rule } from '../types';
+import { findOptionByAnswer } from './utils';
+
+const types = {
+  Any: {},
+
+  String: {
+    parser: (value: string) => !!value ? String(value) : '',
+    validators: [
+      {
+        string: true,
+        warning: 'Invalid string',
+      },
+    ]
+  },
+
+  Number: {
+    parser: (value: string) => Number(value),
+    validators: [
+      {
+        number: true,
+        warning: 'Invalid number',
+      },
+    ],
+  },
+
+  SingleChoice: {
+    validators: [
+      {
+        function: (answer: string, rule: Rule) =>
+          !!findOptionByAnswer(rule.options, answer),
+        warning: 'Unknown option',
+      },
+    ],
+  },
+
+  MultipleChoice: {
+    validators: [
+      {
+        function: (answers: string[], rule: Rule) => {
+          const options = rule.options.map(o => o.value || o.label);
+          return [...answers].filter(x => options.indexOf(x) < 0);
+        },
+        warning: 'Unknown options',
+      },
+    ],
+  },
+};
+
+export class Types extends YveBotModule {
+  public Any: typeof types.Any;
+  public String: typeof types.String;
+  public Number: typeof types.Number;
+  public SingleChoice: typeof types.SingleChoice;
+  public MultipleChoice: typeof types.MultipleChoice;
+
+  constructor() {
+    super();
+    this.define(types);
+  }
+}

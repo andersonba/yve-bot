@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "moduleResolution": "node",
+    "lib": [
+      "es6",
+      "dom"
+    ],
+    "pretty": true
+  },
+  "exclude": [
+    "node_modules",
+    "lib"
+  ]
+}

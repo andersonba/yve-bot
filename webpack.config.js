@@ -1,15 +1,15 @@
-var webpack = require('webpack');
-var path = require('path');
-var BabiliPlugin = require('babili-webpack-plugin');
+const webpack = require('webpack');
+const path = require('path');
+const { CheckerPlugin } = require('awesome-typescript-loader')
 
-var srcPath = path.join(__dirname, '/src');
-var libPath = path.join(__dirname, '/lib');
+const srcPath = path.join(__dirname, '/src');
+const libPath = path.join(__dirname, '/lib');
 
 module.exports = {
   context: srcPath,
 
   entry: {
-    core: './index.js',
+    core: './core/index.ts',
   },
 
   output: {
@@ -17,15 +17,24 @@ module.exports = {
     filename: 'yve.[name].js',
     library: 'YveBot',
     libraryTarget: 'umd',
+    umdNamedDefine: true,
+  },
+
+  resolve: {
+    extensions: ['.ts', '.js'],
   },
 
   module: {
-    loaders: [
-      { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
+    rules: [
+      { test: /\.ts$/, loader: 'tslint-loader', enforce: 'pre' },
+      { test: /\.ts$/, loader: 'awesome-typescript-loader' },
     ],
   },
 
   plugins: [
-    new BabiliPlugin(),
+    new CheckerPlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      minimize: true,
+    }),
   ],
 };

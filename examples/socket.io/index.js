@@ -1,10 +1,10 @@
-import http from 'http';
-import express from 'express';
-import SocketIO from 'socket.io';
-import bodyParser from 'body-parser';
-import fs from 'fs';
-import yaml from 'js-yaml';
-import YveBot from '../../src/core';
+const http = require('http');
+const express = require('express');
+const SocketIO = require('socket.io');
+const bodyParser = require('body-parser');
+const fs = require('fs');
+const yaml = require('js-yaml');
+const YveBot = require('../../lib/yve.core');
 
 const app = express();
 const server = http.Server(app);
@@ -12,7 +12,7 @@ const io = SocketIO(server);
 
 app.use(bodyParser.json());
 
-const example = yaml.safeLoad(fs.readFileSync(__dirname + '/../example.eyaml', 'utf8'));
+const example = yaml.safeLoad(fs.readFileSync(__dirname + '/../deadpool.eyaml', 'utf8'));
 const bot = new YveBot(example);
 
 app.use('/', express.static(__dirname));

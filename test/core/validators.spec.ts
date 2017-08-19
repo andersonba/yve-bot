@@ -1,19 +1,19 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import YveBot from '../../src/core';
+import { YveBot } from '../../src/core/bot';
 
 function getValidate(name) {
-  return new YveBot().validators[name].validate;
+  return new YveBot([]).validators[name].validate;
 }
 
 describe('validators', () => {
   it('validators.length', () => {
-    const validators = Object.keys(new YveBot().validators);
-    validators.shift(); // define method
-
+    const validators = Object.keys(new YveBot([]).validators);
     expect(validators).to.be.deep.eq([
       'required',
       'regex',
+      'minWords',
+      'maxWords',
       'min',
       'max',
       'lenght',
@@ -36,6 +36,21 @@ describe('validators', () => {
     const validate = getValidate('regex');
     expect(validate('^1(.*)0$', '1 xsad 0')).to.be.true;
     expect(validate('^1(.*)0$', '0 - 1')).to.be.false;
+  });
+
+  it('minWords', () => {
+    const validate = getValidate('minWords');
+    expect(validate(2, 'abcd efgh')).to.be.true;
+    expect(validate(1, 'abcd')).to.be.true;
+    expect(validate(1, 'abc def ghi')).to.be.true;
+    expect(validate(3, 'abcd efgh')).to.be.false;
+  });
+
+  it('maxWords', () => {
+    const validate = getValidate('maxWords');
+    expect(validate(2, 'abcd efgh')).to.be.true;
+    expect(validate(2, 'abcd')).to.be.true;
+    expect(validate(2, 'a b c d')).to.be.false;
   });
 
   it('min', () => {

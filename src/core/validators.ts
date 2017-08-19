@@ -8,7 +8,7 @@ const sanitizeLength = v => isNumber(v) ? Number(v) : v.length;
 const validators = {
   required: {
     validate: (expected: boolean, answer: Answer) => {
-      return Boolean(answer) === expected;
+      return Boolean((answer || '').trim()) === expected;
     },
     warning: 'This is required',
   },

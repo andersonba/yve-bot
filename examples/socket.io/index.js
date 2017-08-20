@@ -12,7 +12,7 @@ const io = SocketIO(server);
 
 app.use(bodyParser.json());
 
-const example = yaml.safeLoad(fs.readFileSync(__dirname + '/../deadpool.eyaml', 'utf8'));
+const example = yaml.safeLoad(fs.readFileSync(__dirname + '/../example.eyaml', 'utf8'));
 const bot = new YveBot(example);
 
 app.use('/', express.static(__dirname));

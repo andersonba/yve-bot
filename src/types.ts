@@ -1,3 +1,5 @@
+import { YveBot } from './core/bot';
+
 export type Rule = {
   name?: string;
   type?: string;
@@ -5,6 +7,7 @@ export type Rule = {
   message?: string;
   delay?: number;
   sleep?: number;
+  transform?: (value: string, rule: Rule, bot: YveBot) => Promise<any>,
   actions?: RuleAction[];
   preActions?: RuleAction[];
   replyMessage?: string;

@@ -148,6 +148,15 @@ export class Controller {
       throw e;
     }
 
+    if ('transform' in bot.types[rule.type]) {
+      try {
+        answer = await bot.types[rule.type].transform(answer, rule, bot);
+      } catch(e) {
+        bot.dispatch('hear');
+        return this;
+      }
+    }
+
     bot.store.update('waitingForAnswer', false);
 
     const output = rule.output || rule.name;

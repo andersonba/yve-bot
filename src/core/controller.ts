@@ -1,7 +1,7 @@
 import * as format from 'string-template';
 import { Rule, RuleNext, RuleContext, Answer } from '../types';
 import { YveBot } from './bot';
-import { findOptionByAnswer } from './utils';
+import { findOptionByAnswer, calculateDelayToTypeMessage } from './utils';
 import { ValidatorError, InvalidAttributeError, RuleNotFound } from './exceptions';
 
 function validateAnswer(bot: YveBot, rule: Rule, answer: Answer) {
@@ -53,6 +53,7 @@ function getRuleContext(rule: Rule): RuleContext {
   }
   return data;
 }
+
 
 export class Controller {
   private bot: YveBot;
@@ -112,8 +113,12 @@ export class Controller {
     bot.dispatch('typing');
 
     // run pre-actions
-    if (rule.delay && !rule.exit) {
+    if ('delay' in rule) {
       await bot.actions.timeout(rule.delay);
+    } else if (!rule.exit) {
+      await bot.actions.timeout(
+        calculateDelayToTypeMessage(message) || bot.defaults.rule.delay,
+      );
     }
     await runActions(bot, rule.preActions);
 

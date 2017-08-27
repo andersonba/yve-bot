@@ -38,14 +38,8 @@ export class YveBot {
     this.on('error', err => { throw err });
   }
 
-  on(evt: string, fn: (cb: any) => any): this {
-    let handler;
-    switch (evt) {
-      case 'hear':
-        handler = () => fn(this.hear.bind(this));
-        break;
-    }
-    this.handlers[evt] = handler || fn;
+  on(evt: string, fn: (...args: any[]) => any): this {
+    this.handlers[evt] = fn;
     return this;
   }
 
@@ -59,7 +53,7 @@ export class YveBot {
 
   start(): this {
     this.dispatch('start');
-    this.controller.run().catch(this.catch.bind(this));
+    this.controller.run().catch(this.tryCatch.bind(this));
     return this;
   }
 
@@ -75,7 +69,7 @@ export class YveBot {
   }
 
   hear(message: string): this {
-    this.controller.receive(message).catch(this.catch.bind(this));
+    this.controller.receive(message).catch(this.tryCatch.bind(this));
     return this;
   }
 
@@ -85,7 +79,7 @@ export class YveBot {
     }
   }
 
-  private catch(err: Error) {
+  private tryCatch(err: Error) {
     try {
       this.dispatch('error', err);
     } catch (e) {

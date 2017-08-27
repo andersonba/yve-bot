@@ -18,10 +18,10 @@ bot
       console.log(`Escolha uma das opções: [${options.join(', ')}]`);
     }
   })
-  .on('hear', reply => {
+  .on('hear', () => {
     prompt.get('user', (err, res) => {
       if (err) { throw err; }
-      reply(res.user);
+      bot.hear(res.user);
     });
   })
   .on('end', data => {

@@ -68,9 +68,12 @@ export class Controller {
     this.bot = bot;
   }
 
-  rule(idx): Rule {
+  rule(idx: number): Rule {
     const { bot } = this;
-    const rule = bot.rules[idx] ? bot.rules[idx] : { exit: true };
+    let rule = bot.rules[idx] ? bot.rules[idx] : { exit: true };
+    if (typeof rule === 'string') {
+      rule = { message: rule };
+    }
     return Object.assign({}, bot.defaults.rule, rule);
   }
 

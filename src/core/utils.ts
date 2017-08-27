@@ -1,3 +1,4 @@
+import { merge } from 'lodash';
 import { RedefineConfigurationError } from './exceptions';
 import { RuleOption, Answer } from '../types';
 
@@ -30,5 +31,10 @@ export class DefineModule {
       this[key] = value;
     }
     return this;
+  }
+
+  extend(name: string, typeName: string, custom: Object): this {
+    const obj = this[typeName];
+    return this.define(name, merge({}, obj, custom));
   }
 }

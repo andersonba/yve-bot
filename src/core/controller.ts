@@ -1,21 +1,28 @@
 import * as format from 'string-template';
-import { Rule, RuleNext, RuleContext, Answer } from '../types';
+import { Rule, RuleNext, Answer } from '../types';
 import { YveBot } from './bot';
 import { findOptionByAnswer, calculateDelayToTypeMessage } from './utils';
-import { ValidatorError, InvalidAttributeError, RuleNotFound } from './exceptions';
+import {
+  ValidatorError,
+  InvalidAttributeError,
+  RuleNotFound,
+} from './exceptions';
 
 function validateAnswer(bot: YveBot, rule: Rule, answer: Answer) {
   const validators = [].concat(
     rule.validators || [],
-    bot.types[rule.type].validators || [],
+    bot.types[rule.type].validators || []
   );
   validators.forEach(obj => {
     Object.keys(obj).forEach(k => {
       const validator = bot.validators[k];
-      if (!validator || k === 'warning') { return; }
+      if (!validator || k === 'warning') {
+        return;
+      }
       if (!validator.validate(obj[k], answer, rule)) {
         const warning = obj.warning || validator.warning;
-        const message = typeof warning === 'function' ? warning(obj[k]) : warning;
+        const message =
+          typeof warning === 'function' ? warning(obj[k]) : warning;
         throw new ValidatorError(message, rule);
       }
     });
@@ -23,44 +30,46 @@ function validateAnswer(bot: YveBot, rule: Rule, answer: Answer) {
 }
 
 function runActions(bot, actions): Promise<any> {
-  return Promise.all(actions.map(async action => {
-    return Promise.all(Object.keys(action).map(async k => {
-      if (k in bot.actions) {
-        return await bot.actions[k](action[k], bot);
-      }
-      return null;
-    }));
-  }));
+  return Promise.all(
+    actions.map(async action => {
+      return Promise.all(
+        Object.keys(action).map(async k => {
+          if (k in bot.actions) {
+            return await bot.actions[k](action[k], bot);
+          }
+          return null;
+        })
+      );
+    })
+  );
 }
 
 function getNextFromRule(rule: Rule, answer?: Answer): RuleNext | null {
   if (rule.options && answer) {
     const option = findOptionByAnswer(rule.options, answer);
-    if (option && option.next) { return option.next; }
+    if (option && option.next) {
+      return option.next;
+    }
   }
-  if (rule.next) { return rule.next; }
+  if (rule.next) {
+    return rule.next;
+  }
   return null;
 }
 
-function getRuleContext(rule: Rule): RuleContext {
-  const { type, options } = rule;
-  const data: RuleContext = { type };
-  if (options) {
-    data.options = options.map(o => {
-      const { label, value } = o;
-      return { label, value };
-    });
+function getRuleByIndex(bot, idx: number): Rule {
+  let rule = bot.rules[idx] ? bot.rules[idx] : { exit: true };
+  if (typeof rule === 'string') {
+    rule = { message: rule };
   }
-  return data;
+  return Object.assign({}, bot.defaults.rule, rule);
 }
-
 
 export class Controller {
   private bot: YveBot;
 
   constructor(bot: YveBot) {
     bot.store.update('indexes', {});
-
     bot.rules.forEach((rule, idx) => {
       if (rule.name) {
         bot.store.update(`indexes.${rule.name}`, idx);
@@ -69,33 +78,29 @@ export class Controller {
     this.bot = bot;
   }
 
-  rule(idx: number): Rule {
+  async run(idx: number = 0): Promise<this> {
     const { bot } = this;
-    let rule = bot.rules[idx] ? bot.rules[idx] : { exit: true };
-    if (typeof rule === 'string') {
-      rule = { message: rule };
-    }
-    return Object.assign({}, bot.defaults.rule, rule);
-  }
+    const rule = getRuleByIndex(bot, idx);
 
-  async run (idx: number = 0): Promise<this> {
-    const { bot } = this;
+    if (rule.exit) {
+      bot.end();
+      return this;
+    }
+
     bot.store.update('currentIdx', idx);
 
-    const rule = this.rule(idx);
-
     if (rule.message) {
-      await this.send(rule.message, rule);
+      await this.sendMessage(rule.message, rule);
     }
 
     // run post-actions
-    if (rule.sleep && !rule.exit) {
+    if (rule.sleep) {
       await bot.actions.timeout(rule.sleep);
     }
     await runActions(bot, rule.actions);
 
     if (!rule.type) {
-      return this.next(rule);
+      return this.nextRule(rule);
     }
 
     if (!bot.types[rule.type]) {
@@ -108,7 +113,7 @@ export class Controller {
     return this;
   }
 
-  async send (message: string, rule: Rule): Promise<this> {
+  async sendMessage(message: string, rule: Rule): Promise<this> {
     const { bot } = this;
     bot.dispatch('typing');
 
@@ -117,24 +122,22 @@ export class Controller {
       await bot.actions.timeout(rule.delay);
     } else if (!rule.exit) {
       await bot.actions.timeout(
-        calculateDelayToTypeMessage(message) || bot.defaults.rule.delay,
+        calculateDelayToTypeMessage(message) || bot.defaults.rule.delay
       );
     }
     await runActions(bot, rule.preActions);
 
     const text = format(message, bot.store.output());
-    const ctx = getRuleContext(rule);
-    bot.dispatch('talk', text, ctx);
-
+    bot.dispatch('talk', text, rule);
     bot.dispatch('typed');
 
     return this;
   }
 
-  async receive(message: string): Promise<this> {
+  async receiveMessage(message: string): Promise<this> {
     const { bot } = this;
     const idx = bot.store.get('currentIdx');
-    const rule = this.rule(idx);
+    const rule = getRuleByIndex(bot, idx);
 
     if (!bot.store.get('waitingForAnswer')) {
       return this;
@@ -147,9 +150,9 @@ export class Controller {
 
     try {
       validateAnswer(bot, rule, message);
-    } catch(e) {
+    } catch (e) {
       if (e instanceof ValidatorError) {
-        await this.send(e.message, rule);
+        await this.sendMessage(e.message, rule);
         bot.dispatch('hear');
         return this;
       }
@@ -159,7 +162,7 @@ export class Controller {
     if ('transform' in bot.types[rule.type]) {
       try {
         answer = await bot.types[rule.type].transform(answer, rule, bot);
-      } catch(e) {
+      } catch (e) {
         bot.dispatch('hear');
         return this;
       }
@@ -173,13 +176,13 @@ export class Controller {
     }
 
     if (rule.replyMessage) {
-      await this.send(rule.replyMessage, rule);
+      await this.sendMessage(rule.replyMessage, rule);
     }
 
-    return this.next(rule, answer);
+    return this.nextRule(rule, answer);
   }
 
-  jump(ruleName: string): Promise<this> {
+  jumpByName(ruleName: string): Promise<this> {
     const { bot } = this;
     const idx = bot.store.get(`indexes.${ruleName}`);
     if (typeof idx !== 'number') {
@@ -188,21 +191,19 @@ export class Controller {
     return this.run(idx);
   }
 
-  next(rule: Rule, answer?: Answer): this {
+  nextRule(currentRule: Rule, answer?: Answer): this {
     const { bot } = this;
-    if (!rule.exit) {
-      const nextRule = getNextFromRule(rule, answer);
-      if (nextRule) {
-        this.jump(nextRule);
+    if (!currentRule.exit) {
+      const nextRuleName = getNextFromRule(currentRule, answer);
+      if (nextRuleName) {
+        this.jumpByName(nextRuleName);
       } else {
         const nextIdx = bot.store.get('currentIdx') + 1;
-        if (bot.rules[nextIdx]) {
-          this.run(nextIdx);
-        }
+        this.run(nextIdx);
       }
     } else {
       bot.end();
     }
     return this;
   }
-};
+}

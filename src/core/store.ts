@@ -2,7 +2,6 @@ import { get, set } from 'lodash';
 
 type StoreData = {
   sessionId?: string;
-  context: Object;
 };
 
 export class Store {
@@ -10,17 +9,15 @@ export class Store {
   private onUpdate: (Object) => void;
 
   constructor(
-    context: Object,
     onUpdate: (output: Object) => any,
   ) {
-    this.data = { context };
+    this.data = {};
     this.onUpdate = onUpdate;
   }
 
   output(): any {
     const output = this.get('output');
-    const context = this.get('context');
-    return Object.assign({}, output, context);
+    return Object.assign({}, output);
   }
 
   update(key: string, value: any): void {

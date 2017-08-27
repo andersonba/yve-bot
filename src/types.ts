@@ -32,11 +32,6 @@ export type RuleValidator = {
   [name: string]: any;
 };
 
-export type RuleContext = {
-  type: string;
-  options?: RuleOption[];
-};
-
 export type RuleNext = string;
 
 export type Answer = string;

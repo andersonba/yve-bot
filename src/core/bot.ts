@@ -25,12 +25,12 @@ export class YveBot {
   public actions: Actions;
   public validators: Validators;
 
-  constructor(rules: Rule[], context?: Object) {
+  constructor(rules: Rule[]) {
     this.defaults = DEFAULT_OPTS;
     this.rules = rules;
     this.handlers = {};
 
-    this.store = new Store(context || {}, output => {
+    this.store = new Store(output => {
       this.dispatch('outputChanged', output);
     });
     this.controller = new Controller(this);
@@ -44,8 +44,7 @@ export class YveBot {
   }
 
   session(id: string): YveBot {
-    const context = this.store.get('context');
-    const copy = new YveBot(this.rules, context);
+    const copy = new YveBot(this.rules);
     copy.store.update('sessionId', id);
     copy.handlers = this.handlers;
     return copy;
@@ -64,12 +63,12 @@ export class YveBot {
 
   talk(message: string, opts?: Object): this {
     const rule = Object.assign({}, this.defaults.rule, opts || {});
-    this.controller.send(message, rule);
+    this.controller.sendMessage(message, rule);
     return this;
   }
 
   hear(message: string): this {
-    this.controller.receive(message).catch(this.tryCatch.bind(this));
+    this.controller.receiveMessage(message).catch(this.tryCatch.bind(this));
     return this;
   }
 

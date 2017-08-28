@@ -49,7 +49,7 @@ window.Chat = {
           $input.value = '';
           $input.focus();
         };
-        btn.dataset.value = opt.value === '' ? '' : (opt.value || opt.label);
+        btn.dataset.value = opt.value === null ? '' : (opt.value || opt.label);
         btn.dataset.label = opt.label;
         btn.innerText = opt.label;
         options.appendChild(btn);

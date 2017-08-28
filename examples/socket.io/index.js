@@ -41,9 +41,9 @@ io.on('connection', chat => {
       chat.join(chat.id);
       bot.session(chat.id).start();
     })
-    .on('send message', ({ sid, store, message }) => {
+    .on('send message', ({ sid, store, message, label }) => {
       io.to(sid).emit('receive message', {
-        message,
+        message: label || message,
         from: 'USER',
       });
       bot.session(sid, { store }).hear(message);

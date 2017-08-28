@@ -90,15 +90,15 @@ export class Controller {
     const { bot } = this;
     const rule = getRuleByIndex(bot, idx);
 
-    if (rule.exit) {
-      bot.end();
-      return this;
-    }
-
     bot.store.set('currentIdx', idx);
 
     if (rule.message) {
       await this.sendMessage(rule.message, rule);
+    }
+
+    if (rule.exit) {
+      bot.end();
+      return this;
     }
 
     // run post-actions

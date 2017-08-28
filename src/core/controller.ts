@@ -171,6 +171,9 @@ export class Controller {
       try {
         answer = await bot.types[rule.type].transform(answer, rule, bot);
       } catch (e) {
+        if (e) {
+          console.error(e);
+        }
         bot.dispatch('hear');
         return this;
       }

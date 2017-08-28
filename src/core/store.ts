@@ -1,4 +1,4 @@
-import { get, set } from 'lodash';
+import { get, set, unset } from 'lodash';
 import { YveBot } from './bot';
 
 export type StoreData = {
@@ -30,6 +30,13 @@ export class Store {
 
   get(key?: string): any {
     return key ? get(this.data, key) : this.data;
+  }
+
+  unset(key: string): void {
+    const data = this.data;
+    unset(data, key);
+    this.data = data;
+    this.bot.dispatch('storeChanged', this.data);
   }
 
   reset(): void {

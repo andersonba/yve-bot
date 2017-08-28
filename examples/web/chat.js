@@ -41,9 +41,7 @@ window.Chat = {
         var opt = data.options[i];
         var btn = document.createElement('button');
         btn.onclick = function() {
-          Chat.sendMessage(this.dataset.value, {
-            label: this.dataset.label,
-          });
+          Chat.sendMessage(this.dataset.value, this.dataset.label);
           options.remove();
           $submitBtn.disabled = false;
           $input.disabled = false;

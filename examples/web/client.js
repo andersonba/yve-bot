@@ -3,8 +3,8 @@ $(document).ready(function() {
     var example = jsyaml.load(data);
     var bot = new YveBot(example);
 
-    Chat.sendMessage = function(message) {
-      Chat.receiveMessage('USER', $input.value);
+    Chat.sendMessage = function(message, label) {
+      Chat.receiveMessage('USER', label || message);
       bot.hear(message);
     };
 

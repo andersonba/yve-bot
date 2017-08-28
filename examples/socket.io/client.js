@@ -26,9 +26,10 @@ socket
     Chat.notTyping();
   });
 
-Chat.sendMessage = function (message) {
+Chat.sendMessage = function (message, label) {
   socket.emit('send message', {
     message: message,
+    label: label,
     store: window.store,
     sid: window.user,
   });

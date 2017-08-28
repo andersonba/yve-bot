@@ -11,7 +11,6 @@ export type Rule = {
   actions?: RuleAction[];
   preActions?: RuleAction[];
   replyMessage?: string;
-  confirmMessage?: string;
   options?: RuleOption[];
   validators?: RuleValidator[];
   next?: RuleNext;

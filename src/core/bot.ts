@@ -20,12 +20,14 @@ export class YveBot {
   public rules: Rule[];
   public controller: Controller;
   public store: Store;
+  public context: Object;
 
   public types: Types;
   public actions: Actions;
   public validators: Validators;
 
-  constructor(rules: Rule[]) {
+  constructor(rules: Rule[], context?: Object) {
+    this.context = context || {};
     this.defaults = DEFAULT_OPTS;
     this.rules = rules;
     this.handlers = {};
@@ -41,13 +43,6 @@ export class YveBot {
   on(evt: string, fn: (...args: any[]) => any): this {
     this.handlers[evt] = fn;
     return this;
-  }
-
-  session(id: string): YveBot {
-    const copy = new YveBot(this.rules);
-    copy.store.update('sessionId', id);
-    copy.handlers = this.handlers;
-    return copy;
   }
 
   start(): this {
@@ -74,7 +69,7 @@ export class YveBot {
 
   dispatch(name: string, ...args) {
     if (name in this.handlers) {
-      this.handlers[name](...args, this.store.get('sessionId'));
+      this.handlers[name](...args, this.context);
     }
   }
 

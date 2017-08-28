@@ -1,17 +1,27 @@
 import { get, set } from 'lodash';
 
 type StoreData = {
-  sessionId?: string;
+  currentIdx: number,
+  waitingForAnswer: boolean,
+  indexes: {
+    [name: string]: number,
+  },
+  output: {
+    [key: string]: any,
+  },
 };
 
 export class Store {
   private data: StoreData;
   private onUpdate: (Object) => void;
 
-  constructor(
-    onUpdate: (output: Object) => any,
-  ) {
-    this.data = {};
+  constructor(onUpdate: (output: Object) => any) {
+    this.data = {
+      currentIdx: null,
+      waitingForAnswer: false,
+      indexes: {},
+      output: {},
+    };
     this.onUpdate = onUpdate;
   }
 
@@ -20,7 +30,7 @@ export class Store {
     return Object.assign({}, output);
   }
 
-  update(key: string, value: any): void {
+  set(key: string, value: any): void {
     const copy = Object.assign({}, this.get());
     this.data = set(copy, key, value);
     if (/output\./.test(key) && this.onUpdate) {

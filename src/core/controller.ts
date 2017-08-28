@@ -69,10 +69,9 @@ export class Controller {
   private bot: YveBot;
 
   constructor(bot: YveBot) {
-    bot.store.update('indexes', {});
     bot.rules.forEach((rule, idx) => {
       if (rule.name) {
-        bot.store.update(`indexes.${rule.name}`, idx);
+        bot.store.set(`indexes.${rule.name}`, idx);
       }
     });
     this.bot = bot;
@@ -87,7 +86,7 @@ export class Controller {
       return this;
     }
 
-    bot.store.update('currentIdx', idx);
+    bot.store.set('currentIdx', idx);
 
     if (rule.message) {
       await this.sendMessage(rule.message, rule);
@@ -107,7 +106,7 @@ export class Controller {
       throw new InvalidAttributeError('type', rule);
     }
 
-    bot.store.update('waitingForAnswer', true);
+    bot.store.set('waitingForAnswer', true);
     bot.dispatch('hear');
 
     return this;
@@ -168,11 +167,11 @@ export class Controller {
       }
     }
 
-    bot.store.update('waitingForAnswer', false);
+    bot.store.set('waitingForAnswer', false);
 
     const output = rule.output || rule.name;
     if (output) {
-      bot.store.update(`output.${output}`, answer);
+      bot.store.set(`output.${output}`, answer);
     }
 
     if (rule.replyMessage) {

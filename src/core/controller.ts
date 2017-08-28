@@ -67,14 +67,23 @@ function getRuleByIndex(bot, idx: number): Rule {
 
 export class Controller {
   private bot: YveBot;
+  private indexes: {
+    [ruleName: string]: number,
+  };
 
   constructor(bot: YveBot) {
+    this.bot = bot;
+    this.indexes = {};
+    this.reindex();
+  }
+
+  reindex(): void {
+    const { bot } = this;
     bot.rules.forEach((rule, idx) => {
       if (rule.name) {
-        bot.store.set(`indexes.${rule.name}`, idx);
+        this.indexes[rule.name] = idx;
       }
     });
-    this.bot = bot;
   }
 
   async run(idx: number = 0): Promise<this> {
@@ -183,9 +192,9 @@ export class Controller {
 
   jumpByName(ruleName: string): Promise<this> {
     const { bot } = this;
-    const idx = bot.store.get(`indexes.${ruleName}`);
+    const idx = this.indexes[ruleName];
     if (typeof idx !== 'number') {
-      throw new RuleNotFound(ruleName, bot.store.get('indexes'));
+      throw RuleNotFound(ruleName, this.indexes);
     }
     return this.run(idx);
   }

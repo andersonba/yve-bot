@@ -1,28 +1,21 @@
 import { get, set } from 'lodash';
+import { YveBot } from './bot';
 
-type StoreData = {
+export type StoreData = {
   currentIdx: number,
   waitingForAnswer: boolean,
-  indexes: {
-    [name: string]: number,
-  },
   output: {
     [key: string]: any,
   },
 };
 
 export class Store {
+  private bot: YveBot;
   private data: StoreData;
-  private onUpdate: (Object) => void;
 
-  constructor(onUpdate: (output: Object) => any) {
-    this.data = {
-      currentIdx: null,
-      waitingForAnswer: false,
-      indexes: {},
-      output: {},
-    };
-    this.onUpdate = onUpdate;
+  constructor(bot) {
+    this.bot = bot;
+    this.reset();
   }
 
   output(): any {
@@ -31,14 +24,23 @@ export class Store {
   }
 
   set(key: string, value: any): void {
-    const copy = Object.assign({}, this.get());
-    this.data = set(copy, key, value);
-    if (/output\./.test(key) && this.onUpdate) {
-      this.onUpdate(this.output());
-    }
+    this.data = set(this.data, key, value);
+    this.bot.dispatch('storeChanged', this.data);
   }
 
   get(key?: string): any {
     return key ? get(this.data, key) : this.data;
+  }
+
+  reset(): void {
+    this.data = {
+      currentIdx: null,
+      waitingForAnswer: false,
+      output: {},
+    };
+  }
+
+  replace(data: StoreData): void {
+    this.data = data;
   }
 }

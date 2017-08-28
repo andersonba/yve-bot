@@ -15,7 +15,7 @@ export function RedefineConfigurationError(klass: string, name: string) {
   this.message = `You can't redefine the "${name}" in ${klass}.`;
 }
 
-export function RuleNotFound(name: string, indexes: string[]) {
+export function RuleNotFound(name: string, indexes: { [k: string]: number }) {
   this.key = 'ruleNotFound';
   this.message = `Rule "${name}" not found in indexes`;
   this.indexes = indexes;

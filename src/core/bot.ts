@@ -1,5 +1,5 @@
 import { Rule } from '../types';
-import { Store } from './store';
+import { Store, StoreData } from './store';
 import { Controller } from './controller';
 import { Actions } from './actions';
 import { Types } from './types';
@@ -15,26 +15,25 @@ const DEFAULT_OPTS = {
 
 export class YveBot {
   private handlers: { [handler: string]: () => any };
+  private _rules?: Rule[];
 
   public defaults: { rule: Rule };
   public rules: Rule[];
   public controller: Controller;
   public store: Store;
-  public context: Object;
+  public sessionId: string;
 
   public types: Types;
   public actions: Actions;
   public validators: Validators;
 
-  constructor(rules: Rule[], context?: Object) {
-    this.context = context || {};
+  constructor(rules: Rule[]) {
+    this.sessionId = 'session';
     this.defaults = DEFAULT_OPTS;
     this.rules = rules;
     this.handlers = {};
 
-    this.store = new Store(output => {
-      this.dispatch('outputChanged', output);
-    });
+    this.store = new Store(this);
     this.controller = new Controller(this);
 
     this.on('error', err => { throw err });
@@ -69,8 +68,30 @@ export class YveBot {
 
   dispatch(name: string, ...args) {
     if (name in this.handlers) {
-      this.handlers[name](...args, this.context);
+      this.handlers[name](...args, this.sessionId);
     }
+  }
+
+  session(
+    id: string,
+    opts: { store?: StoreData, rules?: Rule[] } = {},
+  ): this {
+    this.sessionId = id;
+
+    if (opts.rules) {
+      this._rules = this.rules;
+      this.rules = opts.rules;
+    } else {
+      this.rules = this._rules || this.rules;
+    }
+
+    if (opts.store) {
+      this.store.replace(opts.store);
+    } else {
+      this.store.reset();
+      this.controller.reindex();
+    }
+    return this;
   }
 
   private tryCatch(err: Error) {

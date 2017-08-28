@@ -3,17 +3,16 @@ const yaml = require('js-yaml');
 const prompt = require('prompt');
 const YveBot = require('../../lib/yve.core');
 
+const example = yaml.safeLoad(fs.readFileSync(__dirname + '/../example.yaml', 'utf8'));
+const bot = new YveBot(example);
+
 prompt.start();
-const example = yaml.safeLoad(fs.readFileSync(__dirname + '/../example.eyaml', 'utf8'));
-const bot = new YveBot(example, {
-  username: 'andersonba',
-});
 
 bot
   .on('talk', (message, data) => {
     console.log(message);
 
-    if (data.type === 'SingleChoice') {
+    if (data.options && data.options.length) {
       const options = data.options.map(o => o.value || o.label);
       console.log(`Escolha uma das opções: [${options.join(', ')}]`);
     }

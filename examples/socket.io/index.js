@@ -10,51 +10,50 @@ const app = express();
 const server = http.Server(app);
 const io = SocketIO(server);
 
-app.use(bodyParser.json());
-
-const example = yaml.safeLoad(fs.readFileSync(__dirname + '/../example.eyaml', 'utf8'));
+const example = yaml.safeLoad(fs.readFileSync(__dirname + '/../example.yaml', 'utf8'));
 const bot = new YveBot(example);
 
-app.use('/', express.static(__dirname));
+bot
+  .on('typing', sid => io.to(sid).emit('is typing'))
+  .on('typed', sid => io.to(sid).emit('is typed'))
+  .on('talk', (message, data, sid) => {
+    io.to(sid).emit('receive message', {
+      from: 'BOT',
+      message,
+      data,
+    });
+  })
+  .on('storeChanged', (data, sid) => io.to(sid).emit('store changed', data))
+  .on('error', (err, sid) => {
+    console.error(sid, err);
+    io.to(sid).emit('error', err.message);
+  })
+  .on('end', (_, sid) => {
+    if (io.sockets.sockets[sid]) {
+      io.sockets.sockets[sid].disconnect();
+    }
+  });
 
 io.on('connection', chat => {
   chat
     .on('join', () => {
-      chat.bot = bot.session(chat.id);
-      chat.bot
-        .on('typing', sid => io.to(sid).emit('is typing'))
-        .on('typed', sid => io.to(sid).emit('is typed'))
-        .on('talk', (message, data, sid) => {
-          io.to(sid).emit('receive message', {
-            from: 'BOT',
-            message,
-            data,
-          });
-        })
-        .on('outputChanged', (store, sid) => io.to(sid).emit('store changed', store))
-        .on('error', (err, sid) => {
-          console.error(sid, err);
-          io.to(sid).emit('error', err.message);
-        })
-        .on('end', (_, sid) => {
-          if (io.sockets.sockets[sid]) {
-            io.sockets.sockets[sid].disconnect();
-          }
-        })
-        .start();
-
       chat.emit('connected', chat.id);
       chat.join(chat.id);
+      bot.session(chat.id).start();
     })
-    .on('send message', ({ user, message }) => {
-      io.to(user).emit('receive message', {
+    .on('send message', ({ sid, store, message }) => {
+      io.to(sid).emit('receive message', {
         message,
         from: 'USER',
       });
-
-      chat.bot.hear(message);
+      bot.session(sid, { store }).hear(message);
     });
 });
+
+app.use(bodyParser.json());
+app.use('/', express.static(__dirname));
+app.use('/chat.css', express.static(__dirname + '/../web/chat.css'));
+app.use('/chat.js', express.static(__dirname + '/../web/chat.js'));
 
 server.listen(3000, () => {
   console.log('Yve server example listening on port 3000');

@@ -1,4 +1,4 @@
-import { DefineModule } from './utils';
+import { DefineModule } from './module';
 import { Rule, Answer } from '../types';
 import { findOptionByAnswer } from './utils';
 

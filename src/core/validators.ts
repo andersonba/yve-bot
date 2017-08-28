@@ -1,6 +1,6 @@
-import { Rule, Answer } from '../types';
+import { DefineModule } from './module';
 import { YveBot } from './bot';
-import { DefineModule } from './utils';
+import { Rule, Answer } from '../types';
 
 const isNumber = v => /^\d+$/.test(v);
 const sanitizeLength = v => isNumber(v) ? Number(v) : v.length;

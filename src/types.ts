@@ -1,13 +1,13 @@
 import { YveBot } from './core/bot';
 
-export type Rule = {
+export interface Rule {
   name?: string;
   type?: string;
   output?: string;
   message?: string;
   delay?: number;
   sleep?: number;
-  transform?: (value: string, rule: Rule, bot: YveBot) => Promise<any>,
+  transform?: (value: string, rule: Rule, bot: YveBot) => Promise<any>;
   actions?: RuleAction[];
   preActions?: RuleAction[];
   replyMessage?: string;
@@ -17,17 +17,17 @@ export type Rule = {
   exit?: boolean;
 }
 
-export type RuleOption = {
+export interface RuleOption {
   label?: string;
   value?: string | number;
   next?: RuleNext;
 };
 
-export type RuleAction = {
+export interface RuleAction {
   [name: string]: any;
 };
 
-export type RuleValidator = {
+export interface RuleValidator {
   [name: string]: any;
 };
 

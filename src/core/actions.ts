@@ -1,4 +1,4 @@
-import { DefineModule } from './utils';
+import { DefineModule } from './module';
 
 const actions = {
   timeout: (value: number): Promise<void> =>

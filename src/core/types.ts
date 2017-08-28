@@ -39,7 +39,7 @@ const types = {
     validators: [
       {
         function: (answers: Answer[], rule: Rule) => {
-          const options = rule.options.map(o => o.value || o.label);
+          const options = rule.options.map(o => String(o.value || o.label));
           return [...answers].filter(x => options.indexOf(x) < 0);
         },
         warning: 'Unknown options',

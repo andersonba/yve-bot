@@ -194,7 +194,7 @@ export class Controller {
     const { bot } = this;
     const idx = this.indexes[ruleName];
     if (typeof idx !== 'number') {
-      throw RuleNotFound(ruleName, this.indexes);
+      throw new RuleNotFound(ruleName, this.indexes);
     }
     return this.run(idx);
   }

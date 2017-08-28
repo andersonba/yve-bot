@@ -12,7 +12,10 @@ export function findOptionByAnswer(
   answer: Answer,
 ): RuleOption {
   const [option] = options
-    .filter(o => o.value === answer || o.label === answer);
+    .filter(
+      o => String(o.value) === answer ||
+      String(o.label) === answer
+    );
   return option;
 }
 

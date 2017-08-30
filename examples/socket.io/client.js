@@ -37,5 +37,3 @@ socket
   .on('typed', function() {
     chat.typed();
   });
-
-window.chat = chat;

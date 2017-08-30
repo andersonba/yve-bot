@@ -36,7 +36,7 @@ img { box-sizing: content-box; }
 
 .Chat {
   margin: 0 auto;
-  margin-top: 40px;
+  margin-top: 35px;
   max-width: 365px;
   min-height: 282px;
 }
@@ -45,10 +45,22 @@ img { box-sizing: content-box; }
     padding-top: 120px;
   }
 
+  .yvebot-chat {
+    position: relative;
+  }
+    .yvebot-chat:before {
+      content: '';
+      box-shadow: inset 0 20px 20px -20px #685c79;
+      position: absolute;
+      top: 0;
+      z-index: 1;
+      width: 100%;
+      height: 20px;
+    }
+
   .yvebot-conversation {
     height: 230px;
-    padding: 0 20px;
-    padding-bottom: 15px;
+    padding: 15px 20px;
     overflow-y: auto;
   }
     .yvebot-message-bubbles {

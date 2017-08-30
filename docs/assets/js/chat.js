@@ -27,11 +27,30 @@ var rules =
   { message: 'Bye! :(', exit: true }
 ];
 
-new YveBot(rules, { target: '.Chat' })
+const chat = new YveBot(rules, {
+  target: '.Chat',
+});
+
+chat.UI.input.addEventListener('focus', function() {
+  if (isMobile) {
+    window.scrollTo(0, document.querySelector('.Chat').offsetTop);
+  }
+});
+
+chat
   .on('start', function() {
     document.querySelector('.Chat-loading').remove();
+
+    if (isMobile()) {
+      chat.UI.input.blur();
+    }
   })
   .on('end', function(output) {
     console.log(output);
   })
   .start();
+
+
+function isMobile() {
+  return (window.innerWidth <= 800 && window.innerHeight <= 700);
+}

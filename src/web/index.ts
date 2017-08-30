@@ -5,7 +5,7 @@ import { ChatUI } from './ui';
 
 
 class YveBotChat {
-  private handlers: { [handler: string]: () => any };
+  private handlers: { [handler: string]: Array<() => any> };
 
   public bot: YveBot;
   public options: ChatOptions;
@@ -73,13 +73,17 @@ class YveBotChat {
   }
 
   on(evt: string, fn: (...args: any[]) => any): this {
-    this.handlers[evt] = fn;
+    if (evt in this.handlers) {
+      this.handlers[evt].push(fn);
+    } else {
+      this.handlers[evt] = [fn];
+    }
     return this;
   }
 
   dispatch(name: string, ...args) {
     if (name in this.handlers) {
-      this.handlers[name](...args);
+      this.handlers[name].forEach(fn => fn(...args));
     }
     return this;
   }

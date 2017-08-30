@@ -20,7 +20,7 @@ function sanitizeRule(bot: YveBot, rule: Rule): Rule {
 }
 
 export class YveBot {
-  private handlers: { [handler: string]: () => any };
+  private handlers: { [handler: string]: Array<() => any> };
   private _rules?: Rule[];
 
   public options: YveBotOptions;
@@ -55,7 +55,11 @@ export class YveBot {
   }
 
   on(evt: string, fn: (...args: any[]) => any): this {
-    this.handlers[evt] = fn;
+    if (evt in this.handlers) {
+      this.handlers[evt].push(fn);
+    } else {
+      this.handlers[evt] = [fn];
+    }
     return this;
   }
 
@@ -83,7 +87,7 @@ export class YveBot {
 
   dispatch(name: string, ...args) {
     if (name in this.handlers) {
-      this.handlers[name](...args, this.sessionId);
+      this.handlers[name].forEach(fn => fn(...args, this.sessionId));
     }
   }
 

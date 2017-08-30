@@ -20,10 +20,10 @@ var rules =
   { message: 'Which colors do you like?',
     name: 'colors',
     type: 'MultipleChoice',
-    options: [ { label: 'Blue' }, { label: 'Red' }, { label: 'Black' }, { label: 'Green' }, { label: 'Purple' } ] },
+    options: [ 'Blue', 'Red', 'Black', { label: 'Green' }, { value: 'Purple' } ] },
   { message: 'What you want to do?',
     type: 'SingleChoice',
-    options: [ { label: 'Restart', next: 'name' }, { label: 'Quit' } ] },
+    options: [ { label: 'Restart', next: 'name' }, 'Quit' ] },
   { message: 'Bye! :(', exit: true }
 ];
 

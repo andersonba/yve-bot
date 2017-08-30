@@ -1,5 +1,5 @@
 import * as format from 'string-template';
-import { Rule, RuleNext, Answer } from '../types';
+import { Rule, RuleNext, Answer, RuleAction } from '../types';
 import { YveBot } from './bot';
 import { findOptionByAnswer, calculateDelayToTypeMessage } from './utils';
 import {
@@ -29,7 +29,7 @@ function validateAnswer(bot: YveBot, rule: Rule, answer: Answer) {
   });
 }
 
-function runActions(bot, actions): Promise<any> {
+function runActions(bot: YveBot, actions: RuleAction[]): Promise<any> {
   return Promise.all(
     actions.map(async action => {
       return Promise.all(
@@ -57,11 +57,8 @@ function getNextFromRule(rule: Rule, answer?: Answer): RuleNext | null {
   return null;
 }
 
-function getRuleByIndex(bot, idx: number): Rule {
-  let rule = bot.rules[idx] ? bot.rules[idx] : { exit: true };
-  if (typeof rule === 'string') {
-    rule = { message: rule };
-  }
+function getRuleByIndex(bot: YveBot, idx: number): Rule {
+  const rule = bot.rules[idx] ? bot.rules[idx] : { exit: true };
   return Object.assign({}, bot.defaults.rule, rule);
 }
 

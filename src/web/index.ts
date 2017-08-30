@@ -90,9 +90,9 @@ function createMultipleChoice(
           $done.style.display = 'none';
         }
       };
-      $btn.dataset.label = opt.label;
       $btn.dataset.value = opt.value ? String(opt.value) : '';
-      $btn.innerText = opt.label;
+      $btn.dataset.label = opt.label || $btn.dataset.value;
+      $btn.innerText = $btn.dataset.label;
       $options.appendChild($btn);
     });
     if ($input instanceof HTMLInputElement) {
@@ -139,9 +139,9 @@ function createSingleChoice(
           $submit.disabled = false;
         }
       };
-      $btn.dataset.label = opt.label;
       $btn.dataset.value = opt.value ? String(opt.value) : '';
-      $btn.innerText = opt.label;
+      $btn.dataset.label = opt.label || $btn.dataset.value;
+      $btn.innerText = $btn.dataset.label;
       $options.appendChild($btn);
     });
     if ($input instanceof HTMLInputElement) {

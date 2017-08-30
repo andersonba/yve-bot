@@ -13,6 +13,20 @@ const DEFAULT_OPTS = {
   },
 };
 
+function sanitizeRule(bot: YveBot, rule: Rule): Rule {
+  if (typeof rule === 'string') {
+    return { message: rule };
+  } else if ('options' in rule) {
+    rule.options = rule.options.map(o => {
+      if (typeof o === 'string') {
+        return { value: o };
+      }
+      return o;
+    });
+  }
+  return rule;
+}
+
 export class YveBot {
   private handlers: { [handler: string]: () => any };
   private _rules?: Rule[];
@@ -30,7 +44,7 @@ export class YveBot {
   constructor(rules: Rule[]) {
     this.sessionId = 'session';
     this.defaults = DEFAULT_OPTS;
-    this.rules = rules;
+    this.rules = rules.map(rule => sanitizeRule(this, rule));
     this.handlers = {};
 
     this.store = new Store(this);
@@ -80,7 +94,7 @@ export class YveBot {
 
     if (opts.rules) {
       this._rules = this.rules;
-      this.rules = opts.rules;
+      this.rules = opts.rules.map(rule => sanitizeRule(this, rule));
     } else {
       this.rules = this._rules || this.rules;
     }

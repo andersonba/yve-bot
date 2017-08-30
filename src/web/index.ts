@@ -6,7 +6,10 @@ type MessageSource = 'BOT' | 'USER';
 interface ChatOptions {
   target: string;
   inputPlaceholder: string;
-  inputPlaceholderDisabled: string;
+  inputPlaceholderSingleChoice: string;
+  inputPlaceholderMutipleChoice: string;
+  doneMultipleChoiceLabel: string;
+  andSeparatorText: string;
   submitLabel: string;
   avatars: {
     bot: string;
@@ -50,7 +53,63 @@ function createMessage(source: MessageSource, message: string) {
   return createThread(source, el);
 }
 
-function createBubbleMessage(
+function createMultipleChoice(
+  source: MessageSource,
+  msg: string,
+  rule: Rule,
+  form: HTMLFormElement,
+  onClick: (bubbles: NodeListOf<Element>) => void,
+  options: ChatOptions,
+) {
+  const $message = createMessage(source, msg);
+  if (rule.options.length) {
+    const $submit = form.querySelector('.yvebot-form-submit');
+    const $input = form.querySelector('.yvebot-form-input');
+    const $options = document.createElement('div');
+    $options.className = 'yvebot-message-bubbles';
+
+    const $done = document.createElement('button');
+    $done.innerText = options.doneMultipleChoiceLabel;
+    $done.className = 'yvebot-message-bubbleDone';
+    $done.style.display = 'none';
+    $done.onclick = function() {
+      const $bubbles = $options.querySelectorAll('.yvebot-message-bubbleBtn.selected');
+      onClick($bubbles);
+      $options.remove();
+      $done.remove();
+    }
+
+    rule.options.forEach(opt => {
+      const $btn = document.createElement('button');
+      $btn.className = 'yvebot-message-bubbleBtn';
+      $btn.onclick = () => {
+        $btn.classList.toggle('selected');
+        if ($options.querySelectorAll('.yvebot-message-bubbleBtn.selected').length) {
+          $done.style.display = 'inline-block';
+        } else {
+          $done.style.display = 'none';
+        }
+      };
+      $btn.dataset.label = opt.label;
+      $btn.dataset.value = opt.value ? String(opt.value) : '';
+      $btn.innerText = opt.label;
+      $options.appendChild($btn);
+    });
+    if ($input instanceof HTMLInputElement) {
+      $input.disabled = true;
+      $input.placeholder = options.inputPlaceholderMutipleChoice;
+    }
+    if ($submit instanceof HTMLButtonElement) {
+      $submit.disabled = true;
+    }
+
+    $message.appendChild($options);
+    $message.appendChild($done);
+  }
+  return $message;
+}
+
+function createSingleChoice(
   source: MessageSource,
   msg: string,
   rule: Rule,
@@ -87,7 +146,7 @@ function createBubbleMessage(
     });
     if ($input instanceof HTMLInputElement) {
       $input.disabled = true;
-      $input.placeholder = options.inputPlaceholderDisabled;
+      $input.placeholder = options.inputPlaceholderSingleChoice;
     }
     if ($submit instanceof HTMLButtonElement) {
       $submit.disabled = true;
@@ -129,11 +188,27 @@ function appendThreadMessage(
   conversation.scrollTop = conversation.scrollHeight;
 }
 
+function nodeListToArray(nodeList: NodeListOf<Element>): HTMLButtonElement[] {
+  return [].slice.call(nodeList);
+}
+
+function arrayToString(texts: string[], separator: string): string {
+  const part1 = texts.slice(0, -1).join(', ');
+  const part2 = texts.slice(-1);
+  if (texts.length === 1) {
+    return texts[0];
+  }
+  return  `${part1} ${separator} ${part2}`;
+}
+
 
 function YveBotChat(rules: Rule[], opts: ChatOptions): YveBot {
   const DEFAULT_OPTS = {
     inputPlaceholder: 'Type your message',
-    inputPlaceholderDisabled: 'Interection above',
+    inputPlaceholderSingleChoice: 'Choose an option above',
+    inputPlaceholderMutipleChoice: 'Choose the options above',
+    doneMultipleChoiceLabel: 'Done',
+    andSeparatorText: 'and',
     submitLabel: 'Send',
     avatars: {
       bot: 'assets/images/avatar-bot.png',
@@ -184,11 +259,22 @@ function YveBotChat(rules: Rule[], opts: ChatOptions): YveBot {
       let $message;
       switch(rule.type) {
         case 'SingleChoice':
-        const onClickBubble = (bubble) => {
+        const onClickSingleChoice = (bubble) => {
           bot.hear(bubble.dataset.value || bubble.dataset.label);
           appendThreadMessage($conversation, $typing, createMessage('USER', bubble.dataset.label));
         };
-        $message = createBubbleMessage('BOT', msg, rule, $form, onClickBubble, options);
+        $message = createSingleChoice('BOT', msg, rule, $form, onClickSingleChoice, options);
+        break;
+
+        case 'MultipleChoice':
+        const onClickMultipleChoice = (bubbles) => {
+          const label = arrayToString(nodeListToArray(bubbles).map(b => b.dataset.label), options.andSeparatorText);
+          const value = nodeListToArray(bubbles)
+            .map(b => b.dataset.value || b.dataset.label);
+          bot.hear(value);
+          appendThreadMessage($conversation, $typing, createMessage('USER', label));
+        };
+        $message = createMultipleChoice('BOT', msg, rule, $form, onClickMultipleChoice, options);
         break;
 
         default:

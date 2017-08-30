@@ -51,19 +51,41 @@ img { box-sizing: content-box; }
     overflow-y: auto;
   }
     .yvebot-message-bubbles {
-      padding-top: 10px;
       text-align: right;
     }
     .yvebot-message-bubbleBtn {
       font-family: 'Roboto', sans-serif;
       border: 0;
       padding: 10px 15px;
+      margin-top: 10px;
       margin-left: 10px;
       border-radius: 10px;
       font-size: .9rem;
       cursor: pointer;
       display: inline-block;
       background-color: #eee;
+      outline: none;
+    }
+    .yvebot-message-bubbleDone {
+      font-family: 'Roboto', sans-serif;
+      border: 0;
+      background-color: transparent;
+      color: #FFBC67;
+      cursor: pointer;
+      font-size: .9rem;
+      float: right;
+      margin-top: 10px;
+    }
+    .yvebot-message-bubbleDone:hover {
+      text-decoration: underline;
+    }
+    .yvebot-message-bubbleBtn.selected:focus,
+    .yvebot-message-bubbleBtn.selected {
+      background-color: #423752;
+      color: #eee;
+    }
+    .yvebot-message-bubbleBtn.selected:hover {
+      background-color: #4B3E5D;
     }
     .yvebot-message-bubbleBtn:hover {
       background-color: white;
@@ -82,7 +104,8 @@ img { box-sizing: content-box; }
     }
     .yvebot-message {
       border-radius: 15px;
-      padding: 12px 15px;
+      padding: 8px 15px;
+      line-height: 24px;
       font-size: 1rem;
     }
     .yvebot-thread-bot {

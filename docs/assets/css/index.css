@@ -37,7 +37,12 @@ img { box-sizing: content-box; }
   margin: 0 auto;
   margin-top: 40px;
   max-width: 365px;
+  min-height: 282px;
 }
+  .Chat-loading {
+    text-align: center;
+    padding-top: 120px;
+  }
 
   .yvebot-conversation {
     height: 230px;

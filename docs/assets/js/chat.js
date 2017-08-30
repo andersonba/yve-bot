@@ -7,6 +7,7 @@ YveBot(rules, {
   },
 })
   .on('render', function() {
+    document.querySelector('.Chat-loading').remove();
     document.querySelector('.yvebot-form-input').focus();
   })
   .start();

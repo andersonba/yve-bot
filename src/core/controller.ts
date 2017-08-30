@@ -59,7 +59,7 @@ function getNextFromRule(rule: Rule, answer?: Answer): RuleNext | null {
 
 function getRuleByIndex(bot: YveBot, idx: number): Rule {
   const rule = bot.rules[idx] ? bot.rules[idx] : { exit: true };
-  return Object.assign({}, bot.defaults.rule, rule);
+  return Object.assign({}, bot.options.rule, rule);
 }
 
 export class Controller {
@@ -99,7 +99,7 @@ export class Controller {
     }
 
     // run post-actions
-    if (rule.sleep) {
+    if (bot.options.enableWaitForSleep && rule.sleep) {
       await bot.actions.timeout(rule.sleep);
     }
     await runActions(bot, rule.actions);
@@ -123,12 +123,14 @@ export class Controller {
     bot.dispatch('typing');
 
     // run pre-actions
-    if ('delay' in rule) {
-      await bot.actions.timeout(rule.delay);
-    } else if (!rule.exit) {
-      await bot.actions.timeout(
-        calculateDelayToTypeMessage(message) || bot.defaults.rule.delay
-      );
+    if (bot.options.enableWaitForSleep) {
+      if ('delay' in rule) {
+        await bot.actions.timeout(rule.delay);
+      } else if (!rule.exit) {
+        await bot.actions.timeout(
+          calculateDelayToTypeMessage(message) || bot.options.rule.delay
+        );
+      }
     }
     await runActions(bot, rule.preActions);
 
@@ -184,7 +186,7 @@ export class Controller {
     }
 
     if (rule.replyMessage) {
-      const replyRule = Object.assign({}, bot.defaults.rule);
+      const replyRule = Object.assign({}, bot.options.rule);
       await this.sendMessage(rule.replyMessage, replyRule);
     }
 

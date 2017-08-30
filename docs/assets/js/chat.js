@@ -27,14 +27,12 @@ var rules =
   { message: 'Bye! :(', exit: true }
 ];
 
-YveBot(rules, {
-  target: '.Chat',
-  onFinish: function(output) {
-    console.log(output);
-  },
-})
-  .on('render', function() {
+new YveBot(rules, { target: '.Chat' })
+  .on('start', function() {
     document.querySelector('.Chat-loading').remove();
     document.querySelector('.yvebot-form-input').focus();
+  })
+  .on('end', function(output) {
+    console.log(output);
   })
   .start();

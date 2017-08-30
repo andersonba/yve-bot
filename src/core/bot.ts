@@ -1,17 +1,9 @@
-import { Rule, Answer } from '../types';
+import { YveBotOptions, Rule, Answer } from '../types';
 import { Store, StoreData } from './store';
 import { Controller } from './controller';
 import { Actions } from './actions';
 import { Types } from './types';
 import { Validators } from './validators';
-
-const DEFAULT_OPTS = {
-  rule: {
-    delay: 1000,
-    actions: [],
-    preActions: [],
-  },
-};
 
 function sanitizeRule(bot: YveBot, rule: Rule): Rule {
   if (typeof rule === 'string') {
@@ -31,7 +23,7 @@ export class YveBot {
   private handlers: { [handler: string]: () => any };
   private _rules?: Rule[];
 
-  public defaults: { rule: Rule };
+  public options: YveBotOptions;
   public rules: Rule[];
   public controller: Controller;
   public store: Store;
@@ -41,9 +33,18 @@ export class YveBot {
   public actions: Actions;
   public validators: Validators;
 
-  constructor(rules: Rule[]) {
+  constructor(rules: Rule[], customOpts?: YveBotOptions) {
+    const DEFAULT_OPTS: YveBotOptions = {
+      enableWaitForSleep: true,
+      rule: {
+        delay: 1000,
+        actions: [],
+        preActions: [],
+      },
+    };
+
     this.sessionId = 'session';
-    this.defaults = DEFAULT_OPTS;
+    this.options = Object.assign({}, DEFAULT_OPTS, customOpts);
     this.rules = rules.map(rule => sanitizeRule(this, rule));
     this.handlers = {};
 
@@ -70,7 +71,7 @@ export class YveBot {
   }
 
   talk(message: string, opts?: Object): this {
-    const rule = Object.assign({}, this.defaults.rule, opts || {});
+    const rule = Object.assign({}, this.options.rule, opts || {});
     this.controller.sendMessage(message, rule);
     return this;
   }

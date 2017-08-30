@@ -73,6 +73,7 @@ function createMultipleChoice(
     $done.className = 'yvebot-message-bubbleDone';
     $done.style.display = 'none';
     $done.onclick = function() {
+      const $options = this.previousElementSibling;
       const $bubbles = $options.querySelectorAll('.yvebot-message-bubbleBtn.selected');
       onClick($bubbles);
       $options.remove();
@@ -129,7 +130,7 @@ function createSingleChoice(
       $btn.className = 'yvebot-message-bubbleBtn';
       $btn.onclick = function() {
         onClick(this);
-        $options.remove();
+        this.parentElement.remove();
         if ($input instanceof HTMLInputElement) {
           $input.disabled = false;
           $input.placeholder = options.inputPlaceholder;

@@ -14,16 +14,15 @@ const example = yaml.safeLoad(fs.readFileSync(__dirname + '/../example.yaml', 'u
 const bot = new YveBot(example);
 
 bot
-  .on('typing', sid => io.to(sid).emit('is typing'))
-  .on('typed', sid => io.to(sid).emit('is typed'))
+  .on('typing', sid => io.to(sid).emit('typing'))
+  .on('typed', sid => io.to(sid).emit('typed'))
   .on('talk', (message, data, sid) => {
-    io.to(sid).emit('receive message', {
-      from: 'BOT',
+    io.to(sid).emit('talk', {
       message,
       data,
     });
   })
-  .on('storeChanged', (data, sid) => io.to(sid).emit('store changed', data))
+  .on('storeChanged', (data, sid) => io.to(sid).emit('storeChanged', data))
   .on('error', (err, sid) => {
     console.error(sid, err);
     io.to(sid).emit('error', err.message);
@@ -41,11 +40,7 @@ io.on('connection', chat => {
       chat.join(chat.id);
       bot.session(chat.id).start();
     })
-    .on('send message', ({ sid, store, message, label }) => {
-      io.to(sid).emit('receive message', {
-        message: label || message,
-        from: 'USER',
-      });
+    .on('reply', ({ sid, store, message }) => {
       bot.session(sid, { store }).hear(message);
     });
 });
@@ -53,7 +48,7 @@ io.on('connection', chat => {
 app.use(bodyParser.json());
 app.use('/', express.static(__dirname));
 app.use('/chat.css', express.static(__dirname + '/../web/chat.css'));
-app.use('/chat.js', express.static(__dirname + '/../web/chat.js'));
+app.use('/yvebot.js', express.static(__dirname + '/../../lib/yve.web.js'));
 
 server.listen(3000, () => {
   console.log('Yve server example listening on port 3000');

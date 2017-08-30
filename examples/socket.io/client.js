@@ -1,5 +1,17 @@
 var socket = io.connect('http://localhost:3000');
 
+var chat = new YveBot([], {
+  target: '.Chat',
+})
+  .on('reply', function(value) {
+    socket.emit('reply', {
+      message: value,
+      store: window.store,
+      sid: window.user,
+    });
+  })
+  .start();
+
 socket
   .emit('join')
   .on('connected', function (user) {
@@ -8,29 +20,22 @@ socket
   });
 
 socket
-  .on('store changed', function(store) {
+  .on('storeChanged', function(store) {
     window.store = store;
-    Chat.changeOutput(store.output);
+    document.getElementById('output').innerText = JSON.stringify(store, null, 2);
   })
   .on('error', function(err) {
     alert('Error! Check the console output');
     console.error(err);
   })
-  .on('receive message', function (payload) {
-    Chat.receiveMessage(payload.from, payload.message, payload.data);
+  .on('talk', function (payload) {
+    chat.newMessage('BOT', payload.message, payload.data);
   })
-  .on('is typing', function() {
-    Chat.typing();
+  .on('typing', function() {
+    chat.typing();
   })
-  .on('is typed', function() {
-    Chat.notTyping();
+  .on('typed', function() {
+    chat.typed();
   });
 
-Chat.sendMessage = function (message, label) {
-  socket.emit('send message', {
-    message: message,
-    label: label,
-    store: window.store,
-    sid: window.user,
-  });
-};
+window.chat = chat;

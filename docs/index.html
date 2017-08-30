@@ -3,31 +3,40 @@
   <head>
     <title>yvebot - a rule based bot, but intelligent</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css
+" rel="stylesheet">
+    <link href="assets/css/index.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   </head>
-  <body>
-    <ul class="Menu">
-      <li>
-        <a href=".">Home</a>
-      </li>
-      <li>
-        <a href="docs.html">Docs</a>
-      </li>
-      <li>
-        <a href="https://github.com/andersonba/yve-bot">GitHub</a>
-      </li>
-    </ul>
-    
-    <div class="Logo">
-      <img src="" alt="yvebot logo" />
+  <body class="f">
+    <div class="container">
+      <ul class="Menu">
+        <li>
+          <a href=".">Home</a>
+        </li>
+        <li>
+          <a href="docs.html">Docs</a>
+        </li>
+        <li>
+          <a href="https://github.com/andersonba/yve-bot">GitHub</a>
+        </li>
+      </ul>
+
+      <div class="Logo">
+        <img src="assets/images/logo.png" alt="yvebot logo" />
+      </div>
+
+      <div class="Chat"></div>
+
+      <div class="Footer">
+        <p>Made with ♥ by <a href="http://andersonba.com">andersonba</a></p>
+      </div>
     </div>
-    
-    <div class="Chat">
-      <div class="Chat-conversation"></div>
-      
-      <form class="Chat-form">
-        <input name="message" type="text" placeholder="Type your message" />
-        <button type="submit">Send</button>
-      </form>
-    </div>
+
+    <script src="../lib/yve.web.js"></script>
+    <script src="assets/js/chat.js"></script>
   </body>
 </html>

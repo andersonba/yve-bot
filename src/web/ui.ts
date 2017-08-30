@@ -6,9 +6,10 @@ export class ChatUI {
   private options: ChatOptions;
   public chat: HTMLDivElement;
   public form: HTMLFormElement;
+  public input: HTMLInputElement;
+  public submit: HTMLButtonElement;
   public typing: HTMLLIElement;
   public conversation: HTMLUListElement;
-  public input: HTMLInputElement;
 
   constructor(options: ChatOptions) {
     this.options = options;
@@ -16,7 +17,8 @@ export class ChatUI {
     this.typing = this.createTyping();
     this.conversation = this.createConversation();
     this.input = this.createInput();
-    this.form = this.createForm(this.input);
+    this.submit = this.createSubmit();
+    this.form = this.createForm(this.input, this.submit);
     this.conversation.appendChild(this.typing);
     this.chat.appendChild(this.conversation);
     this.chat.appendChild(this.form);
@@ -24,8 +26,10 @@ export class ChatUI {
 
   createSingleChoiceMessage(answer: Answer, rule: Rule, onSelected: (label: string, value: string) => void) {
     if (rule.options.length) {
+      this.disableForm(this.options.inputPlaceholderSingleChoice);
       return this.createBubbleMessage(rule, (btn, list) => {
         list.remove();
+        this.enableForm();
         onSelected(btn.dataset.label, btn.dataset.value);
       });
     }
@@ -42,6 +46,25 @@ export class ChatUI {
     btn.dataset.label = label || value;
     btn.innerText = btn.dataset.label;
     return btn;
+  }
+
+  disableForm(placeholder?: string) {
+    this.submit.disabled = true;
+    this.input.disabled = true;
+
+    if (placeholder) {
+      this.input.placeholder = placeholder;
+    }
+  }
+
+  enableForm() {
+    this.submit.disabled = false;
+    this.input.disabled = false;
+    this.input.placeholder = this.options.inputPlaceholder;
+
+    if (this.options.autoFocus) {
+      this.input.focus();
+    }
   }
 
   createBubbleMessage(rule: Rule, onClick: (btn: HTMLButtonElement, list: HTMLDivElement) => void) {
@@ -62,6 +85,8 @@ export class ChatUI {
       done.innerText = this.options.doneMultipleChoiceLabel;
       done.className = 'yvebot-message-bubbleDone';
       done.style.display = 'none';
+
+      const self = this;
       done.onclick = function() {
         const bubbles = this.previousElementSibling;
         const selected = bubbles.querySelectorAll('.yvebot-message-bubbleBtn.selected');
@@ -70,6 +95,7 @@ export class ChatUI {
         onDone(label, value);
         bubbles.remove();
         done.remove();
+        self.enableForm();
       }
 
       const bubbles = this.createBubbleMessage(rule, (btn) => {
@@ -80,6 +106,8 @@ export class ChatUI {
           done.style.display = 'none';
         }
       });
+
+      this.disableForm(this.options.inputPlaceholderMutipleChoice);
 
       message.appendChild(bubbles);
       message.appendChild(done);
@@ -110,16 +138,20 @@ export class ChatUI {
     return this.createThread('BOT', typing, 'yvebot-thread-typing');
   }
 
-  createForm(input: HTMLInputElement) {
+  createForm(input: HTMLInputElement, submit: HTMLButtonElement) {
     const form = document.createElement('form');
     form.className = 'yvebot-form';
+    form.appendChild(input);
+    form.appendChild(submit);
+    return form;
+  }
+
+  createSubmit() {
     const submit = document.createElement('button');
     submit.className = 'yvebot-form-submit';
     submit.type = 'submit';
     submit.innerText = this.options.submitLabel;
-    form.appendChild(input);
-    form.appendChild(submit);
-    return form;
+    return submit;
   }
 
   createInput() {

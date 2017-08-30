@@ -59,10 +59,9 @@ class YveBotChat {
         this.bot.hear(msg);
         this.newMessage('USER', msg);
         input.value = '';
-      } else {
-        if (this.options.autoFocus) {
-          input.focus();
-        }
+      }
+      if (this.options.autoFocus) {
+        input.focus();
       }
     });
   }

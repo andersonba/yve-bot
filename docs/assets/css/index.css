@@ -170,6 +170,7 @@ img { box-sizing: content-box; }
       text-transform: uppercase;
       font-size: .9rem;
       cursor: pointer;
+      outline: none;
     }
     .yvebot-form-submit:disabled {
       cursor: default;

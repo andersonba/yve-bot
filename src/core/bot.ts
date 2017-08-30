@@ -1,4 +1,4 @@
-import { Rule } from '../types';
+import { Rule, Answer } from '../types';
 import { Store, StoreData } from './store';
 import { Controller } from './controller';
 import { Actions } from './actions';
@@ -61,8 +61,8 @@ export class YveBot {
     return this;
   }
 
-  hear(message: string): this {
-    this.controller.receiveMessage(message).catch(this.tryCatch.bind(this));
+  hear(answer: Answer): this {
+    this.controller.receiveMessage(answer).catch(this.tryCatch.bind(this));
     return this;
   }
 

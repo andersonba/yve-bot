@@ -142,7 +142,7 @@ export class Controller {
     return this;
   }
 
-  async receiveMessage(message: string): Promise<this> {
+  async receiveMessage(message: Answer): Promise<this> {
     const { bot } = this;
     const idx = bot.store.get('currentIdx');
     const rule = getRuleByIndex(bot, idx);
@@ -153,11 +153,11 @@ export class Controller {
 
     let answer = message;
     if ('parser' in bot.types[rule.type]) {
-      answer = bot.types[rule.type].parser(answer);
+      answer = bot.types[rule.type].parser(answer, rule);
     }
 
     try {
-      validateAnswer(bot, rule, message);
+      validateAnswer(bot, rule, message); // validates with message instead parsed answer
     } catch (e) {
       if (e instanceof ValidatorError) {
         await this.sendMessage(e.message, rule);

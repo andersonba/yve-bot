@@ -1,6 +1,6 @@
 import { DefineModule } from './module';
 import { Rule, Answer } from '../types';
-import { findOptionByAnswer } from './utils';
+import { findOptionByAnswer, treatAsArray } from './utils';
 
 const types = {
   Any: {},
@@ -26,6 +26,10 @@ const types = {
   },
 
   SingleChoice: {
+    parser: (value: string, rule: Rule) => {
+      const option = findOptionByAnswer(rule.options, value);
+      return option.value || option.label;
+    },
     validators: [
       {
         function: (answer: Answer, rule: Rule) =>
@@ -36,11 +40,16 @@ const types = {
   },
 
   MultipleChoice: {
+    parser: (values: string[], rule: Rule) => values.map(value => {
+      const option = findOptionByAnswer(rule.options, value);
+      return option.value || option.label;
+    }),
     validators: [
       {
-        function: (answers: Answer[], rule: Rule) => {
+        function: (answer: Answer, rule: Rule) => {
+          const answers = treatAsArray(answer);
           const options = rule.options.map(o => String(o.value || o.label));
-          return [...answers].filter(x => options.indexOf(x) < 0);
+          return answers.every(x => options.indexOf(x) >= 0);
         },
         warning: 'Unknown options',
       },

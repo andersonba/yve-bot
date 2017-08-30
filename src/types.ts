@@ -33,4 +33,4 @@ export interface RuleValidator {
 
 export type RuleNext = string;
 
-export type Answer = string;
+export type Answer = string | string[];

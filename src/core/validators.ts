@@ -1,72 +1,83 @@
 import { DefineModule } from './module';
 import { YveBot } from './bot';
 import { Rule, Answer } from '../types';
+import { treatAsArray } from './utils';
 
 const isNumber = v => /^\d+$/.test(v);
 const sanitizeLength = v => isNumber(v) ? Number(v) : v.length;
 
+function testAsArray(
+  validator: (input: any, answer: String, rule?: Rule) => boolean,
+): (expected: any, answer: Answer, rule?: Rule) => boolean {
+  return (expected, answer, rule) => {
+    const answers = treatAsArray(answer);
+    return answers
+      .map(a => validator(expected, a, rule))
+      .every(a => a === true);
+  };
+}
+
 const validators = {
   required: {
-    validate: (expected: boolean, answer: Answer) => {
-      return Boolean((answer || '').trim()) === expected;
-    },
+    validate: testAsArray((expected: boolean, answer: string) =>
+      Boolean((answer || '').trim()) === expected),
     warning: 'This is required',
   },
 
   regex: {
-    validate: (reg: string, answer: Answer): boolean =>
-      new RegExp(reg).test(answer),
+    validate: testAsArray((reg: string, answer: string) =>
+      new RegExp(reg).test(answer)),
     warning: 'Invalid answer format',
   },
 
   minWords: {
-    validate: (num: number, answer: Answer): boolean =>
-      answer.split(' ').length >= num,
+    validate: testAsArray((num: number, answer: string) =>
+      answer.split(' ').length >= num),
     warning: min => `This answer must have at least ${min} words`,
   },
 
   maxWords: {
-    validate: (num: number, answer: Answer): boolean =>
-      answer.split(' ').length <= num,
+    validate: testAsArray((num: number, answer: string) =>
+      answer.split(' ').length <= num),
     warning: max => `This answer must have a maximum ${max} words`,
   },
 
   min: {
-    validate: (num: number, answer: Answer): boolean =>
-      sanitizeLength(answer) >= num,
+    validate: testAsArray((num: number, answer: string) =>
+      sanitizeLength(answer) >= num),
     warning: min => `This answer length must be min ${min}`,
   },
 
   max: {
-    validate: (num: number, answer: Answer): boolean =>
-      sanitizeLength(answer) <= num,
+    validate: testAsArray((num: number, answer: string) =>
+      sanitizeLength(answer) <= num),
     warning: max => `This answer length must be max ${max}`,
   },
 
   lenght: {
-    validate: (num: number, answer: Answer) =>
-      sanitizeLength(answer) === num,
+    validate: testAsArray((num: number, answer: string) =>
+      sanitizeLength(answer) === num),
     warning: (num) => `It must have lenght ${num}`,
   },
 
   string: {
-    validate: (expected: boolean, answer: Answer): boolean =>
-      Boolean(!isNumber(answer) && typeof answer === 'string') === expected,
+    validate: testAsArray((expected: boolean, answer: string): boolean =>
+      Boolean(!isNumber(answer) && typeof answer === 'string') === expected),
     warning: 'It must be a string',
   },
 
   number: {
-    validate: (expected: boolean, answer: Answer): boolean =>
-      isNumber(answer) === expected,
+    validate: testAsArray((expected: boolean, answer: string): boolean =>
+      isNumber(answer) === expected),
     warning: 'It must be a number',
   },
 
   function: {
-    validate: (
-      fn: (answer: Answer, rule: Rule) => boolean,
+    validate: testAsArray((
+      fn: (answer: string, rule: Rule) => boolean,
       answer: string,
       rule: Rule,
-    ) => fn(answer, rule),
+    ) => fn(answer, rule)),
     warning: 'Error on execute a validator function',
   },
 }

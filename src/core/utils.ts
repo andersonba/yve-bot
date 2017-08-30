@@ -16,3 +16,10 @@ export function findOptionByAnswer(
     );
   return option;
 }
+
+export function treatAsArray<T>(arr: T | Array<T>): Array<T> {
+  if (arr instanceof Array) {
+    return arr;
+  }
+  return [arr];
+}

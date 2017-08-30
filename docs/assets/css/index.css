@@ -55,6 +55,7 @@ img { box-sizing: content-box; }
       text-align: right;
     }
     .yvebot-message-bubbleBtn {
+      font-family: 'Roboto', sans-serif;
       border: 0;
       padding: 10px 15px;
       margin-left: 10px;
@@ -117,6 +118,7 @@ img { box-sizing: content-box; }
     position: relative;
   }
     .yvebot-form-input {
+      font-family: 'Roboto', sans-serif;
       border: 2px solid #685C79;
       border-radius: 10px;
       padding: 15px;
@@ -135,6 +137,7 @@ img { box-sizing: content-box; }
       opacity: .4;
     }
     .yvebot-form-submit {
+      font-family: 'Roboto', sans-serif;
       position: absolute;
       right: 10px;
       top: 16px;

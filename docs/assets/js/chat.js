@@ -30,7 +30,6 @@ var rules =
 new YveBot(rules, { target: '.Chat' })
   .on('start', function() {
     document.querySelector('.Chat-loading').remove();
-    document.querySelector('.yvebot-form-input').focus();
   })
   .on('end', function(output) {
     console.log(output);

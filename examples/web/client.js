@@ -1,25 +1,15 @@
 $(document).ready(function() {
   $.get('/example.yaml').done(function(data) {
-    var example = jsyaml.load(data);
-    var bot = new YveBot(example);
+    var rules = jsyaml.load(data);
 
-    Chat.sendMessage = function(message, label) {
-      Chat.receiveMessage('USER', label || message);
-      bot.hear(message);
-    };
-
-    bot
-      .on('talk', function(message, data) {
-        Chat.receiveMessage('BOT', message, data);
-      })
-      .on('typing', function() {
-        Chat.typing();
-      })
-      .on('typed', function() {
-        Chat.notTyping();
-      })
+    YveBot(rules, {
+      target: '.Chat',
+    })
       .on('storeChanged', function(data) {
-        Chat.changeOutput(data.output);
+        document.getElementById('output').innerText = JSON.stringify(data, null, 2);
+      })
+      .on('render', function() {
+        document.querySelector('.yvebot-form-input').focus();
       })
       .start();
   });

@@ -27,6 +27,17 @@
 
 - message: Okay! You choose the button {choice}.
 
+- message: Which colors do you like?
+  name: colors
+  type: MultipleChoice
+  options:
+    - Blue
+    - Red
+    - Black
+    - label: Green
+    - value: Purple
+  replyMessage: Cool colors!
+
 - message: What you want to do?
   type: SingleChoice
   options:

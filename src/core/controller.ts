@@ -184,7 +184,8 @@ export class Controller {
     }
 
     if (rule.replyMessage) {
-      await this.sendMessage(rule.replyMessage, rule);
+      const replyRule = Object.assign({}, bot.defaults.rule);
+      await this.sendMessage(rule.replyMessage, replyRule);
     }
 
     return this.nextRule(rule, answer);

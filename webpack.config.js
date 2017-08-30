@@ -10,6 +10,7 @@ module.exports = {
 
   entry: {
     core: './core/index.ts',
+    web: './web/index.ts',
   },
 
   output: {

@@ -1,5 +1,5 @@
 import * as format from 'string-template';
-import { Rule, RuleNext, Answer, RuleAction } from '../types';
+import { Rule, RuleNext, Answer, RuleAction, ParsedAnswer } from '../types';
 import { YveBot } from './bot';
 import { findOptionByAnswer, calculateDelayToTypeMessage } from './utils';
 import {
@@ -8,7 +8,7 @@ import {
   RuleNotFound,
 } from './exceptions';
 
-function validateAnswer(bot: YveBot, rule: Rule, answer: Answer) {
+function validateAnswer(bot: YveBot, rule: Rule, answer: ParsedAnswer) {
   const validators = [].concat(
     rule.validators || [],
     bot.types[rule.type].validators || []
@@ -44,7 +44,7 @@ function runActions(bot: YveBot, actions: RuleAction[]): Promise<any> {
   );
 }
 
-function getNextFromRule(rule: Rule, answer?: Answer): RuleNext | null {
+function getNextFromRule(rule: Rule, answer?: ParsedAnswer): RuleNext | null {
   if (rule.options && answer) {
     const option = findOptionByAnswer(rule.options, answer);
     if (option && option.next) {
@@ -150,13 +150,13 @@ export class Controller {
       return this;
     }
 
-    let answer = message;
+    let answer: ParsedAnswer = message;
     if ('parser' in bot.types[rule.type]) {
       answer = bot.types[rule.type].parser(answer, rule);
     }
 
     try {
-      validateAnswer(bot, rule, message); // validates with message instead parsed answer
+      validateAnswer(bot, rule, answer);
     } catch (e) {
       if (e instanceof ValidatorError) {
         await this.sendMessage(e.message, rule);
@@ -202,7 +202,7 @@ export class Controller {
     return this.run(idx);
   }
 
-  nextRule(currentRule: Rule, answer?: Answer): this {
+  nextRule(currentRule: Rule, answer?: ParsedAnswer): this {
     const { bot } = this;
     if (!currentRule.exit) {
       const nextRuleName = getNextFromRule(currentRule, answer);

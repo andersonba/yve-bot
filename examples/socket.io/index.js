@@ -10,7 +10,7 @@ const app = express();
 const server = http.Server(app);
 const io = SocketIO(server);
 
-const example = yaml.safeLoad(fs.readFileSync(__dirname + '/../example.yaml', 'utf8'));
+const example = yaml.safeLoad(fs.readFileSync(__dirname + '/../chat.yaml', 'utf8'));
 const bot = new YveBot(example);
 
 bot

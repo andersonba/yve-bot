@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  $.get('/example.yaml').done(function(data) {
+  $.get('/chat.yaml').done(function(data) {
     var rules = jsyaml.load(data);
 
     YveBot(rules, {

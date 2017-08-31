@@ -1,0 +1,11 @@
+{
+  "name": "yvebot-examples-web",
+  "version": "1.0.0",
+  "description": "yve-bot examples - web",
+  "main": "index.js",
+  "author": "Anderson de Oliveira <andersonba@me.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.15.4"
+  }
+}

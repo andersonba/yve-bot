@@ -1,0 +1,12 @@
+{
+  "name": "yvebot-examples-cli",
+  "version": "1.0.0",
+  "description": "yve-bot examples - cli",
+  "main": "index.js",
+  "author": "Anderson de Oliveira <andersonba@me.com>",
+  "license": "MIT",
+  "dependencies": {
+    "js-yaml": "^3.9.1",
+    "prompt": "^1.0.0"
+  }
+}

@@ -21,25 +21,15 @@
     "chai": "^4.1.0",
     "chai-as-promised": "^7.1.1",
     "istanbul": "^0.4.5",
+    "lodash": "^4.17.4",
     "mocha": "^3.5.0",
     "nyc": "^11.1.0",
+    "string-template": "^1.0.0",
     "ts-node": "^3.3.0",
     "tslint": "^5.6.0",
     "tslint-loader": "^3.5.3",
     "typescript": "^2.4.2",
     "webpack": "^3.4.1"
-  },
-  "dependencies": {
-    "lodash": "^4.17.4",
-    "string-template": "^1.0.0"
-  },
-  "optionalDependencies": {
-    "body-parser": "^1.17.2",
-    "express": "^4.15.4",
-    "js-yaml": "^3.9.1",
-    "prompt": "^1.0.0",
-    "socket.io": "^2.0.3",
-    "watch-spawn": "^2.0.0"
   },
   "nyc": {
     "include": [

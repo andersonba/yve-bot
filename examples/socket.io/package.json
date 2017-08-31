@@ -1,0 +1,14 @@
+{
+  "name": "yvebot-examples-socket-io",
+  "version": "1.0.0",
+  "description": "yve-bot examples - socket.io",
+  "main": "index.js",
+  "author": "Anderson de Oliveira <andersonba@me.com>",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.4",
+    "js-yaml": "^3.9.1",
+    "socket.io": "^2.0.3"
+  }
+}

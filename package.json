@@ -1,7 +1,7 @@
 {
   "name": "yve-bot",
   "version": "1.0.0",
-  "description": "A rule based Bot, but intelligent.",
+  "description": "Smart rule-based bot",
   "main": "lib/yve.core.js",
   "repository": "https://github.com/andersonba/yve-bot",
   "author": "Anderson de Oliveira <andersonba@me.com>",

@@ -13,7 +13,7 @@ title: Documentation
 1. [Creating custom actions]({{ site.baseurl }}/docs/core/#custom-actions)
 1. [Creating custom validators]({{ site.baseurl }}/docs/core/#custom-validators)
 1. [Web API]({{ site.baseurl }}/docs/web)
-1. [Play demo]({{ site.baseurl }}/docs/#play-demo)
+1. [Playground]({{ site.baseurl }}/docs/#playground)
 1. [Integration examples]({{ site.baseurl }}/docs/#integration-examples)
 
 
@@ -73,9 +73,9 @@ YveBot have two bundles. Make your choice:
 | [Core]({{ site.baseurl }}/docs/core) | Minimal code to configure and run the bot. You will need to implement each bot hook. | X | X
 | [Web]({{ site.baseurl }}/docs/web) | A pre-defined wrapper over the *Core* that implements a basic chat conversation ([like that]({{ site.baseurl }}/)). You will only have to create a style file. | X
 
-# Play demo
+# Playground
 
-[Check out](https://codepen.io/) in Codepen
+[Check out](https://jsfiddle.net/andersonba/m9huffrb/)
 
 # Integration examples
 

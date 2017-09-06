@@ -35,3 +35,31 @@
   color: rgba(255, 255, 255, .5);
   opacity: .5;
 }
+
+.IndexMenu {
+  border-top: 1px solid $purpleMiddleDark;
+  font-size: 80%;
+  margin-top: 40px;
+  padding-top: 20px;
+
+  &.markdown-body h4 {
+    margin-top: 0;
+    font-size: 1rem;
+  }
+}
+
+.btn {
+  font-family: 'Roboto', sans-serif;
+  padding: 8px 15px;
+  margin-top: 10px;
+  border-radius: 5px;
+  font-size: .9rem;
+  display: inline-block;
+  background-color: $yellow;
+  color: $purpleMiddleDark;
+  text-decoration: none;
+
+  &:hover {
+    background-color: $yellowMiddleDark;
+  }
+}

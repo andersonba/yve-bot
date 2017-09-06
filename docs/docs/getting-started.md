@@ -1,0 +1,32 @@
+---
+title: Getting started
+---
+
+# Getting started
+
+The simplest way to build a smart and customized rule-based conversation. YveBot was made to run on Browser and Node environment.
+
+To use on **Browser**:
+
+```html
+<script src="directory/to/yve-bot.web.js"></script>
+```
+
+```javascript
+new YveBot(rules, { target: '.Chat' }).start();
+```
+
+To use on **Node**:
+
+```bash
+npm install yve-bot
+```
+
+```javascript
+import YveBot from 'yve-bot';
+
+const bot = new YveBot(rules);
+bot.start();
+```
+
+[Next: Building rules]({{ site.baseurl }}/docs/building-rules){:.btn}

@@ -1,6 +1,7 @@
 ---
 title: Home
 container: Home-body
+include_index_menu: false
 ---
 
 <div class="Logo">

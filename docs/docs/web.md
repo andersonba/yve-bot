@@ -2,9 +2,11 @@
 title: Web API
 ---
 
-[Documentation]({{ site.baseurl }}/docs) / Web API
+# Web API
 
-# Initializing
+Create bots without re-implement the chat conversation UI components. This browser lib is a wrapper over the Core bundle.
+
+## Initializing
 ```html
 <script src="destination/to/yve-bot.web.js"></script>
 
@@ -31,9 +33,9 @@ title: Web API
 | options.autoFocus | `true` | boolean | Autofocus the message input whenever possible
 
 
-# Methods
+## Methods
 
-### Start
+#### Start
 
 Initialize the chat
 
@@ -41,7 +43,7 @@ Initialize the chat
 bot.start();
 ```
 
-### Typing
+#### Typing
 
 Show the typing component
 
@@ -49,7 +51,7 @@ Show the typing component
 bot.typing();
 ```
 
-### Typed
+#### Typed
 
 Hide the typing component
 
@@ -57,7 +59,7 @@ Hide the typing component
 bot.typed();
 ```
 
-### newMessage
+#### newMessage
 
 New message in chat
 
@@ -76,11 +78,11 @@ bot.newMessage('BOT', message, rule);
 | rule | Rule | Rule configuration
 
 
-# Binding events
+## Binding events
 
 Listen to events
 
-### Start
+#### Start
 
 Event triggered on started conversation
 
@@ -91,7 +93,7 @@ bot.on('start', () => {
 });
 ```
 
-### Reply
+#### Reply
 
 Event triggered when user replies a message
 
@@ -102,7 +104,7 @@ bot.on('reply', (value) => {
 });
 ```
 
-### End
+#### End
 
 Event triggered when bot terminates the conversation
 
@@ -113,3 +115,5 @@ bot.on('end', (output) => {
   });
 });
 ```
+
+[Next: Core API]({{ site.baseurl }}/docs/core){:.btn}

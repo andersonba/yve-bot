@@ -23,7 +23,7 @@
         <a href="{{ site.baseurl }}/">Home</a>
       </li>
       <li>
-        <a href="{{ site.baseurl }}/docs">Docs</a>
+        <a href="{{ site.baseurl }}/docs/getting-started">Docs</a>
       </li>
       <li>
         <a href="https://github.com/andersonba/yve-bot">GitHub</a>
@@ -34,6 +34,13 @@
       <div class="{{ page.container | default: 'markdown-body' }}">
         {{ content }}
       </div>
+
+      {% if page.include_index_menu != false %}
+        <div class="IndexMenu markdown-body">
+          {% capture index_menu %}{% include index_menu.md %}{% endcapture %}
+          {{ index_menu | markdownify }}
+        </div>
+      {% endif %}
 
       <div class="Footer">
         <p>Made with ♥ by <a href="http://andersonba.com">andersonba</a></p>

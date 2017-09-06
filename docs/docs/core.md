@@ -2,9 +2,11 @@
 title: Core API
 ---
 
-[Documentation]({{ site.baseurl }}/docs) / Core API
+# Core API
 
-# Initializing
+Create your own UI chat conversation or run bots on your backend.
+
+## Initializing
 ```javascript
 import YveBot from 'yve-bot';
 
@@ -24,9 +26,9 @@ const bot = new YveBot(rules, options);
 | options.rule | `{}` | Rule | Define default properties of Rule
 
 
-# Methods
+## Methods
 
-### Start
+#### Start
 
 Initialize the conversation
 
@@ -34,7 +36,7 @@ Initialize the conversation
 bot.start();
 ```
 
-### End
+#### End
 
 Finalize the conversation
 
@@ -42,7 +44,7 @@ Finalize the conversation
 bot.end();
 ```
 
-### Talk
+#### Talk
 
 Send message as BOT
 
@@ -59,7 +61,7 @@ bot.talk(message, rule);
 | message | string | Bot's message
 | rule | Rule | Message's rule
 
-### Hear
+#### Hear
 
 Reply bot with user's message
 
@@ -72,7 +74,7 @@ bot.hear(message);
 |----------|------|-------------|
 | message | string, array[string] | User's answer
 
-### Session
+#### Session
 
 Set a current session in the instance. It's useful to configure multiple conversations in a node application (eg: socket.io + mongo)
 
@@ -89,11 +91,11 @@ bot.session(sessionId, { store });
 | options.rules | `[]` | [Rule] | Use custom rules for this session
 
 
-# Binding events
+## Binding events
 
 Listen to events and create chat behaviors
 
-### Start
+#### Start
 
 Event triggered on started conversation
 
@@ -104,7 +106,7 @@ bot.on('start', (sessionId) => {
 });
 ```
 
-### Talk
+#### Talk
 
 Event triggered when the bot talks with you
 
@@ -118,7 +120,7 @@ bot.on('talk', (message, rule, sessionId) => {
 });
 ```
 
-### Typing
+#### Typing
 
 Event triggered when bot is typing a message
 
@@ -128,7 +130,7 @@ bot.on('typing', (sessionId) => {
 });
 ```
 
-### Typed
+#### Typed
 
 Event triggered when bot is typed a message
 
@@ -138,7 +140,7 @@ bot.on('typed', (sessionId) => {
 });
 ```
 
-### Error
+#### Error
 
 Event triggered when an error is raised
 
@@ -148,7 +150,7 @@ bot.on('error', (err, sessionId) => {
 });
 ```
 
-### End
+#### End
 
 Event triggered when bot terminates the conversation
 
@@ -162,84 +164,4 @@ bot.on('end', (output, sessionId) => {
 });
 ```
 
-# Custom types
-
-Creating custom types to be used in your bot
-
-**Object configuration:**
-
-- **parser** - parses the user's answer
-- **transform** - transforms answer with async function
-- **validators** - configures the validators
-
-### Extends
-
-```javascript
-bot.types.extend('Name', 'String', {
-  parser: (answer, rule, bot) => {},
-  transform: (answer, rule, bot) => {},
-  validators: [],
-});
-```
-
-### Define
-
-Create a type from zero
-
-```javascript
-bot.types.define('Username', {
-  parser: answer => Number(answer),
-  transform: answer => fetch('/find-username-by-id', {
-    body: JSON.stringify({ id: answer }),
-  }),
-  validators: [{
-    number: true,
-    warning: 'Invalid user id'
-  }]
-});
-```
-
-# Custom actions
-
-Creating custom actions to be used in your bot
-
-### Define
-
-```javascript
-bot.actions.define('welcomeEmail', async (actionOptions, bot) => {
-  const email = bot.store.get('email');
-  const name = bot.store.get('name');
-  const title = 'Welcome, ' + name;
-  await sendEmail(email, title, actionOptions.templateName);
-  return true;
-});
-```
-
-```yaml
-...
-- message: Okay! Wait a moment...
-  actions:
-    - welcomeEmail:
-      - templateName: first-step-done.html
-```
-
-# Custom validators
-
-Creating custom validators to be used in your bot
-
-**Object configuration:**
-
-- **validate** - a function to check if is valid
-- **warning** - a error message to send to user
-
-### Define
-
-```javascript
-bot.validators.define('email', {
-  validate: (expected, answer) => {
-    const isEmail = answer.indexOf('@') > 0;
-    return isEmail === expected;
-  },
-  warning: 'A friendly error message',
-});
-```
+[Next: Examples]({{ site.baseurl }}/docs/examples){:.btn}

@@ -1,0 +1,209 @@
+.Chat {
+  margin: 0 auto;
+  margin-top: 35px;
+  max-width: 365px;
+  min-height: 282px;
+
+  &-loading {
+    text-align: center;
+    padding-top: 120px;
+  }
+}
+
+.yvebot-chat {
+  position: relative;
+
+  &:before {
+    content: '';
+    box-shadow: inset 0 20px 20px -20px #685c79;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    width: 100%;
+    height: 20px;
+  }
+}
+
+.yvebot-conversation {
+  height: 230px;
+  padding: 15px 20px;
+  overflow-y: auto;
+}
+  .yvebot-message-bubbles {
+    text-align: right;
+  }
+  .yvebot-message-bubbleBtn {
+    font-family: 'Roboto', sans-serif;
+    border: 0;
+    padding: 10px 15px;
+    margin-top: 10px;
+    margin-left: 10px;
+    border-radius: 10px;
+    font-size: .9rem;
+    cursor: pointer;
+    display: inline-block;
+    background-color: #eee;
+    outline: none;
+
+    &.selected:focus,
+    &.selected {
+      background-color: #423752;
+      color: #eee;
+    }
+    &.selected:hover {
+      background-color: #4B3E5D;
+    }
+    &:hover {
+      background-color: white;
+    }
+  }
+  .yvebot-message-bubbleDone {
+    font-family: 'Roboto', sans-serif;
+    border: 0;
+    background-color: transparent;
+    color: #FFBC67;
+    cursor: pointer;
+    font-size: .9rem;
+    float: right;
+    margin-top: 10px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  .yvebot-thread {
+    margin-bottom: 15px;
+    position: relative;
+
+    &:before {
+      content: '';
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border-radius: 40px;
+      overflow: hidden;
+    }
+  }
+  .yvebot-message {
+    border-radius: 15px;
+    padding: 8px 15px;
+    line-height: 24px;
+    font-size: 1rem;
+  }
+  .yvebot-thread-bot {
+    padding-left: 55px;
+    padding-right: 20px;
+
+    &:before {
+      left: 0;
+      background-image: url(../images/icon.png);
+      background-size: cover;
+      background-color: #AC6C82;
+    }
+
+    .yvebot-message {
+      background-color: #FFBC67;
+      color: #333;
+    }
+  }
+  .yvebot-thread-user {
+    padding-right: 55px;
+    padding-left: 20px;
+
+    &:before {
+      right: 0;
+      font-size: 2.5rem;
+      line-height: 54px;
+      background-color: rgba(255,255,255, .15);
+      content: "👤";
+    }
+
+    .yvebot-message {
+      background-color: rgba(255, 255, 255, .15);
+      color: white;
+    }
+  }
+
+.yvebot-form {
+  position: relative;
+
+  &-input {
+    font-family: 'Roboto', sans-serif;
+    border: 2px solid #685C79;
+    border-radius: 10px;
+    padding: 15px;
+    padding-right: 65px;
+    font-size: 1rem;
+    display: block;
+    width: 100%;
+    color: #333;
+
+    &:focus {
+      outline: none;
+      border-color: #AC6C82;
+      box-shadow: 0 0 10px #AC6C82;
+    }
+    &:disabled {
+      opacity: .4;
+    }
+  }
+
+  &-submit {
+    font-family: 'Roboto', sans-serif;
+    position: absolute;
+    right: 10px;
+    top: 16px;
+    background: transparent;
+    color: #685C79;
+    border: 0;
+    text-transform: uppercase;
+    font-size: .9rem;
+    cursor: pointer;
+    outline: none;
+
+    &:disabled {
+      cursor: default;
+    }
+  }
+}
+
+
+.yvebot-thread-typing {
+  display: none;
+
+  &.is-typing {
+    display: block;
+  }
+}
+.yvebot-typing-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 9px;
+  background-color: #AC6C82;
+  animation: wave 1.3s linear infinite;
+  margin-top: 15px;
+  margin-right: 5px;
+
+  &:nth-child(2) {
+    animation-delay: -1.1s;
+  }
+  &:nth-child(3) {
+    animation-delay: -0.9s;
+  }
+}
+
+@keyframes wave {
+  0%, 60%, 100% { transform: initial; }
+  30% { transform: translateY(-8px); }
+}
+
+
+@media (max-width: 600px) {
+  .Footer {
+    margin-top: 30px;
+  }
+  .Logo img {
+    max-width: 240px;
+  }
+}

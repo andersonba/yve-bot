@@ -1,0 +1,78 @@
+@import "variables";
+
+.markdown-body {
+   h1, h2, h3, h4, h5, h6, p, pre, ul, ol, dl, table, blockquote {
+    margin-bottom: 20px;
+  }
+
+  strong {
+    font-weight: bold;
+  }
+
+  code, pre {
+    font-family: 'Monaco', 'Lucida Console', monospace;
+    font-size: 13px;
+    line-height: 20px;
+  }
+
+  pre {
+    padding: 10px;
+    word-wrap: break-word;
+    background-color: $purpleDark;
+    border-radius: 5px;
+  }
+
+  p {
+    line-height: 24px;
+  }
+
+  h1, h2, h3, h4, h5 {
+    color: $yellow;
+    font-weight: bold;
+    margin-top: 60px;
+    display: block;
+  }
+  h1 { font-size: 28px; }
+  h2 { font-size: 24px; }
+  h3 { font-size: 20px; }
+  h4 { font-size: 18px; }
+  h5 { font-size: 16px; }
+
+  table {
+    width: 100%;
+  }
+
+  tbody {
+    border-top: 1px solid $purpleDark;
+  }
+
+  td {
+    border-right: 1px solid $purpleDark;
+    border-bottom: 1px solid $purpleDark;
+    padding: 5px 10px;
+    line-height: 24px;
+  }
+
+  td:last-child {
+    border-right: 0 none;
+  }
+
+  th {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: left;
+    padding: 10px;
+  }
+
+  ul {
+    padding-left: 20px;
+    list-style-type: disc;
+  }
+  ol {
+    padding-left: 20px;
+    list-style-type: decimal;
+  }
+  li {
+    margin-bottom: 10px;
+  }
+}

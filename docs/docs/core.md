@@ -2,7 +2,7 @@
 title: Core API
 ---
 
-[Documentation](/docs) / Core API
+[Documentation]({{ site.baseurl }}/docs) / Core API
 
 # Initializing
 ```javascript

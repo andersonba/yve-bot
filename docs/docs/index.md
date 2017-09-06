@@ -4,17 +4,17 @@ title: Documentation
 
 ### Index
 
-1. [Getting started](/docs/#getting-started)
-1. [Building rules](/docs/#building-rules)
-1. [Rule specification](/docs/rule)
-1. [Choosing the Bundle](/docs/#choosing-the-bundle)
-1. [Core API](/docs/core)
-1. [Creating custom types](/docs/core/#custom-types)
-1. [Creating custom actions](/docs/core/#custom-actions)
-1. [Creating custom validators](/docs/core/#custom-validators)
-1. [Web API](/docs/web)
-1. [Play demo](/docs/#play-demo)
-1. [Integration examples](/docs/#integrations)
+1. [Getting started]({{ site.baseurl }}/docs/#getting-started)
+1. [Building rules]({{ site.baseurl }}/docs/#building-rules)
+1. [Rule specification]({{ site.baseurl }}/docs/rule)
+1. [Choosing the Bundle]({{ site.baseurl }}/docs/#choosing-the-bundle)
+1. [Core API]({{ site.baseurl }}/docs/core)
+1. [Creating custom types]({{ site.baseurl }}/docs/core/#custom-types)
+1. [Creating custom actions]({{ site.baseurl }}/docs/core/#custom-actions)
+1. [Creating custom validators]({{ site.baseurl }}/docs/core/#custom-validators)
+1. [Web API]({{ site.baseurl }}/docs/web)
+1. [Play demo]({{ site.baseurl }}/docs/#play-demo)
+1. [Integration examples]({{ site.baseurl }}/docs/#integration-examples)
 
 
 # Getting started
@@ -46,7 +46,7 @@ bot.start();
 
 # Building rules
 
-Define the conversation with an array of [Rules](/docs/rule). For better readability, It's recommended that you use `yaml` to write the rules (you will need to compile it to `javascript Object`).
+Define the conversation with an array of [Rules]({{ site.baseurl }}/docs/rule). For better readability, It's recommended that you use `yaml` to write the rules (you will need to compile it to `javascript Object`).
 
 ```javascript
 // javascript object
@@ -62,7 +62,7 @@ const rules = yaml.safeLoad(file);
 new YveBot(rules);
 ```
 
-See the [Rule specification](/docs/rule)
+See the [Rule specification]({{ site.baseurl }}/docs/rule)
 
 # Choosing the Bundle
 
@@ -70,8 +70,8 @@ YveBot have two bundles. Make your choice:
 
 | Bundle | Description | Browser | Node |
 |--------|-------------|---------|------|
-| [Core](/docs/core) | Minimal code to configure and run the bot. You will need to implement each bot hook. | X | X
-| [Web](/docs/web) | A pre-defined wrapper over the *Core* that implements a basic chat conversation ([like that](/)). You will only have to create a style file. | X
+| [Core]({{ site.baseurl }}/docs/core) | Minimal code to configure and run the bot. You will need to implement each bot hook. | X | X
+| [Web]({{ site.baseurl }}/docs/web) | A pre-defined wrapper over the *Core* that implements a basic chat conversation ([like that]({{ site.baseurl }}/)). You will only have to create a style file. | X
 
 # Play demo
 

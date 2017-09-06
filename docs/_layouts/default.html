@@ -7,8 +7,8 @@
 
     {% seo %}
 
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ site.baseurl }}/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="{{ site.baseurl }}/favicon.ico" type="image/x-icon">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css " rel="stylesheet">
     <link rel="stylesheet" href="{{ '/assets/css/index.css?v=' | append: site.github.build_revision | relative_url }}">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
@@ -20,10 +20,10 @@
   <body class="f">
     <ul class="Menu">
       <li>
-        <a href="/">Home</a>
+        <a href="{{ site.baseurl }}/">Home</a>
       </li>
       <li>
-        <a href="/docs">Docs</a>
+        <a href="{{ site.baseurl }}/docs">Docs</a>
       </li>
       <li>
         <a href="https://github.com/andersonba/yve-bot">GitHub</a>

@@ -2,7 +2,7 @@
 title: Web API
 ---
 
-[Documentation](/docs) / Web API
+[Documentation]({{ site.baseurl }}/docs) / Web API
 
 # Initializing
 ```html

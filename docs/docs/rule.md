@@ -2,7 +2,7 @@
 title: Rule Specification
 ---
 
-[Documentation](/docs) / Rule Specification
+[Documentation]({{ site.baseurl }}/docs) / Rule Specification
 
 # Rule
 ```yaml
@@ -21,7 +21,7 @@ title: Rule Specification
 | name | - | string | Rule name used to jump between rules or to be store in output
 | message | - | string | Message to be talk
 | output | - | string | Custom key to be stored in output (if empty, the property `name` will be used)
-| type | - | string | A pre-defined or user-defined type of user answer. Pre-defined: `String`, `Number`, `SingleChoice`, `MultipleChoice` or `Any`. You can [create a custom type](/docs/core/#custom-types)
+| type | - | string | A pre-defined or user-defined type of user answer. Pre-defined: `String`, `Number`, `SingleChoice`, `MultipleChoice` or `Any`. You can [create a custom type]({{ site.baseurl }}/docs/core/#custom-types)
 | next | - | string | Name of next rule
 | delay | `1000` | number | Fake time to simulate a bot typing. By default, the bot calculates this time based on message length and average of typing speed. If entered, the calculation is ignored
 | sleep | `0` | number | Fake time to simulate the AFK mode (await from keyboard for a defined time)
@@ -31,7 +31,7 @@ title: Rule Specification
 | actions | `[]` | array[[RuleAction](#ruleaction)] | Executes an action after bot's message. Pre-defined: `timeout`
 | preActions | `[]` | array[[RuleAction](#ruleaction)] | Executes an action before bot's message
 | exit | `false` | boolean | Terminates the conversation on this rule
-| transform | - | function | Used to create [user-defined type](/docs/core/#custom-types) only
+| transform | - | function | Used to create [user-defined type]({{ site.baseurl }}/docs/core/#custom-types) only
 
 # RuleOption
 
@@ -82,7 +82,7 @@ title: Rule Specification
 | email | boolean | Assert answer is email
 | function | function | Assert result of function
 
-[How to create a custom validator?](/docs/core/#custom-validators)
+[How to create a custom validator?]({{ site.baseurl }}/docs/core/#custom-validators)
 
 # RuleAction
 
@@ -97,4 +97,4 @@ title: Rule Specification
 |----------|-----------|-------------|
 | timeout | number | Executes setTimeout
 
-[How to create a custom action?](/docs/core/#custom-actions)
+[How to create a custom action?]({{ site.baseurl }}/docs/core/#custom-actions)

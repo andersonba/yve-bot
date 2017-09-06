@@ -10,12 +10,12 @@ module.exports = {
 
   entry: {
     core: './core/index.ts',
-    web: './web/index.ts',
+    ui: './ui/index.ts',
   },
 
   output: {
     path: libPath,
-    filename: 'yve.[name].js',
+    filename: 'yve-bot.[name].js',
     library: 'YveBot',
     libraryTarget: 'umd',
     umdNamedDefine: true,

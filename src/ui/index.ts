@@ -47,6 +47,7 @@ class YveBotChat {
       })
       .on('typing', () => this.typing())
       .on('typed', () => this.typed())
+      .on('storeChanged', (...args) => this.dispatch('storeChanged', ...args))
       .on('end', (...args) => this.dispatch('end', ...args));
 
     this.UI.form.addEventListener('submit', ev => {

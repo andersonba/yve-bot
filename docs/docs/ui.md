@@ -1,14 +1,14 @@
 ---
-title: Web API
+title: UI API
 ---
 
-# Web API
+# UI API
 
 Create bots without re-implement the chat conversation UI components. This browser lib is a wrapper over the Core bundle.
 
 ## Initializing
 ```html
-<script src="destination/to/yve-bot.web.js"></script>
+<script src="destination/to/yve-bot.ui.js"></script>
 
 <script>
   var rules = [...];

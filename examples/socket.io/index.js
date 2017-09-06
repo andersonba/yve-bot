@@ -4,7 +4,7 @@ const SocketIO = require('socket.io');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const yaml = require('js-yaml');
-const YveBot = require('../../lib/yve.core');
+const YveBot = require('../../lib/yve-bot.core');
 
 const app = express();
 const server = http.Server(app);
@@ -48,7 +48,7 @@ io.on('connection', chat => {
 app.use(bodyParser.json());
 app.use('/', express.static(__dirname));
 app.use('/chat.css', express.static(__dirname + '/../web/chat.css'));
-app.use('/yvebot.js', express.static(__dirname + '/../../lib/yve.web.js'));
+app.use('/yve-bot.ui.js', express.static(__dirname + '/../../lib/yve-bot.ui.js'));
 
 server.listen(3000, () => {
   console.log('Yve server example listening on port 3000');

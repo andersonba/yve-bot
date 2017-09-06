@@ -2,7 +2,7 @@ $(document).ready(function() {
   $.get('/chat.yaml').done(function(data) {
     var rules = jsyaml.load(data);
 
-    YveBot(rules, {
+    new YveBot(rules, {
       target: '.Chat',
     })
       .on('storeChanged', function(data) {

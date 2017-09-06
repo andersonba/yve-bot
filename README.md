@@ -1,6 +1,10 @@
 # yvebot
-Smart rule-based bot. Simplest way to create simple and advanced bots.
+The simplest way to build a smart and customized rule-based conversation. For Browser & Node environments.
 
-[Live demo](https://andersonba.github.io/yve-bot) 
+![Preview](docs/assets/images/screen.gif)
 
-Examples: [CLI](examples/cli) - [Browser](examples/web) - [Node/Socket.io](examples/socket.io)
+[Live demo](https://andersonba.github.io/yve-bot)
+
+[Documentation](https://andersonba.github.io/yve-bot/docs)
+
+Code examples: [CLI](examples/cli) - [Browser](examples/web) - [Node/Socket.io](examples/socket.io)

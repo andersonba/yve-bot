@@ -1,12 +1,12 @@
 import { DefineModule } from './module';
-import { Rule, Answer, ParsedAnswer } from '../types';
-import { findOptionByAnswer, treatAsArray, identifyAnswersInString } from './utils';
+import { Rule, Answer } from '../types';
+import { findOptionByAnswer, ensureArray, identifyAnswersInString } from './utils';
 
 const types = {
   Any: {},
 
   String: {
-    parser: (value: string) => !!value ? String(value) : '',
+    parser: (value: Answer) => !!value ? String(value) : '',
     validators: [
       {
         string: true,
@@ -16,7 +16,7 @@ const types = {
   },
 
   Number: {
-    parser: (value: string) => Number(value),
+    parser: (value: Answer) => Number(value),
     validators: [
       {
         number: true,
@@ -26,13 +26,13 @@ const types = {
   },
 
   SingleChoice: {
-    parser: (value: string, rule: Rule) => {
+    parser: (value: Answer | Answer[], rule: Rule) => {
       const option = findOptionByAnswer(rule.options, value);
       return option.value || option.label;
     },
     validators: [
       {
-        function: (answer: ParsedAnswer, rule: Rule) =>
+        function: (answer: Answer | Answer[], rule: Rule) =>
           !!findOptionByAnswer(rule.options, answer),
         warning: 'Unknown option',
       },
@@ -40,13 +40,13 @@ const types = {
   },
 
   MultipleChoice: {
-    parser: (answer: Answer, rule: Rule) => {
+    parser: (answer: Answer | Answer[], rule: Rule) => {
       let values;
       if (answer instanceof Array) {
         values = answer;
       } else {
         const options = rule.options.map(o => String(o.value || o.label));
-        values = identifyAnswersInString(answer, options);
+        values = identifyAnswersInString(String(answer), options);
       }
       return values.map(value => {
         const option = findOptionByAnswer(rule.options, value);
@@ -55,8 +55,8 @@ const types = {
     },
     validators: [
       {
-        function: (answer: Answer, rule: Rule) => {
-          const answers = treatAsArray(answer);
+        function: (answer: Answer | Answer[], rule: Rule) => {
+          const answers = ensureArray(answer);
           const options = rule.options.map(o => String(o.value || o.label));
           return answers.every(x => options.indexOf(x) >= 0);
         },

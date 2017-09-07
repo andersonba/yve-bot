@@ -24,7 +24,11 @@ export class ChatUI {
     this.chat.appendChild(this.form);
   }
 
-  createSingleChoiceMessage(answer: Answer, rule: Rule, onSelected: (label: string, value: string) => void) {
+  createSingleChoiceMessage(
+    answer: Answer | Answer[],
+    rule: Rule,
+    onSelected: (label: string, value: string) => void,
+  ) {
     if (rule.options.length) {
       this.disableForm(this.options.inputPlaceholderSingleChoice);
       return this.createBubbleMessage(rule, (btn, list) => {
@@ -77,7 +81,11 @@ export class ChatUI {
     return bubbles;
   }
 
-  createMultipleChoiceMessage(answer: Answer, rule: Rule, onDone: (label: string[], value: string[]) => void) {
+  createMultipleChoiceMessage(
+    answer: Answer | Answer[],
+    rule: Rule,
+    onDone: (label: string[], value: string[]) => void,
+  ) {
     const message = document.createElement('div');
 
     if (rule.options.length) {
@@ -178,12 +186,14 @@ export class ChatUI {
     conversation.scrollTop = conversation.scrollHeight;
   }
 
-  createTextMessage(answer: Answer) {
+  createTextMessage(answer: Answer | Answer[]) {
     let text: string;
-    if (typeof answer === 'string') {
-      text = answer;
+
+    if (answer instanceof Array) {
+      const answers = (answer as string[]).map(a => String(a));
+      text = utils.arrayToString(answers, this.options.andSeparatorText);
     } else {
-      text = utils.arrayToString(answer, this.options.andSeparatorText);
+      text = String(answer);
     }
 
     const message = document.createElement('div');

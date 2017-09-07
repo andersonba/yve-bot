@@ -1,35 +1,42 @@
-import { RuleOption, Answer, ParsedAnswer } from '../types';
+import { RuleOption, Answer } from '../types';
 
 export function calculateDelayToTypeMessage(message: string): number {
   const timePerChar = 40;
   return (message || '').length * timePerChar;
 }
 
+export function isMatchAnswer(answer: Answer, option: string | number) {
+  const sanitizedOption = String(option).toLowerCase();
+  const sanitizedAnswer = String(answer).toLowerCase();
+  return sanitizedAnswer === sanitizedOption;
+}
+
 export function findOptionByAnswer(
   options: RuleOption[],
-  answer: ParsedAnswer,
+  answer: Answer | Answer[],
 ): RuleOption {
+  const answers: Answer[] = ensureArray(answer);
   const [option] = options
     .filter(
-      o => String(o.value).toLowerCase() === String(answer).toLowerCase() ||
-      String(o.label).toLowerCase() === String(answer).toLowerCase()
+      o =>
+        answers.some(a => isMatchAnswer(a, o.value)) ||
+        answers.some(a => isMatchAnswer(a, o.label))
     );
   return option;
 }
 
-export function treatAsArray<T>(arr: T | Array<T>): Array<T> {
+export function ensureArray(arr) {
   if (arr instanceof Array) {
     return arr;
   }
   return [arr];
 }
 
-export function identifyAnswersInString(answer: string, options: string[]): string[] {
-  const answers = [];
-  options.forEach(opt => {
-    if (answer.indexOf(opt) >= 0) {
-      answers.push(opt);
-    }
-  });
-  return answers;
+export function identifyAnswersInString(
+  answer: string,
+  options: string[],
+): string[] {
+  return options.filter(o =>
+    answer.toLowerCase().indexOf(o.toLowerCase()) >= 0
+  );
 }

@@ -37,7 +37,6 @@ export class YveBot {
     const DEFAULT_OPTS: YveBotOptions = {
       enableWaitForSleep: true,
       rule: {
-        delay: 1000,
         actions: [],
         preActions: [],
       },
@@ -80,7 +79,7 @@ export class YveBot {
     return this;
   }
 
-  hear(answer: Answer): this {
+  hear(answer: Answer | Answer[]): this {
     this.controller.receiveMessage(answer).catch(this.tryCatch.bind(this));
     return this;
   }

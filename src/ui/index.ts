@@ -98,7 +98,7 @@ class YveBotChat {
     return this;
   }
 
-  newMessage(source: MessageSource, message: Answer, rule?: Rule) {
+  newMessage(source: MessageSource, message: Answer | Answer[], rule?: Rule) {
     const { UI } = this;
     const thread = UI.createThread(source, UI.createTextMessage(message));
 

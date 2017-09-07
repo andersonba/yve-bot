@@ -38,6 +38,4 @@ export interface RuleValidator {
 
 export type RuleNext = string;
 
-export type Answer = string | string[];
-
-export type ParsedAnswer = string | number | string[] | number[];
+export type Answer = string | number;

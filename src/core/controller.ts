@@ -1,14 +1,14 @@
 import * as format from 'string-template';
-import { Rule, RuleNext, Answer, RuleAction, ParsedAnswer } from '../types';
+import { Rule, RuleNext, Answer, RuleAction } from '../types';
 import { YveBot } from './bot';
-import { findOptionByAnswer, calculateDelayToTypeMessage } from './utils';
-import {
-  ValidatorError,
-  InvalidAttributeError,
-  RuleNotFound,
-} from './exceptions';
+import { ValidatorError, InvalidAttributeError, RuleNotFound } from './exceptions';
+import * as utils from './utils';
 
-function validateAnswer(bot: YveBot, rule: Rule, answer: ParsedAnswer) {
+function validateAnswer(
+  bot: YveBot,
+  rule: Rule,
+  answers: Answer | Answer[],
+) {
   const validators = [].concat(
     rule.validators || [],
     bot.types[rule.type].validators || []
@@ -19,23 +19,29 @@ function validateAnswer(bot: YveBot, rule: Rule, answer: ParsedAnswer) {
       if (!validator || k === 'warning') {
         return;
       }
-      if (!validator.validate(obj[k], answer, rule)) {
+      const opts = obj[k];
+      const isValid = utils.ensureArray(answers)
+        .map(answer => validator.validate(opts, answer, rule, bot))
+        .every(a => a === true);
+
+      if (!isValid) {
         const warning = obj.warning || validator.warning;
         const message =
-          typeof warning === 'function' ? warning(obj[k]) : warning;
+          typeof warning === 'function' ? warning(opts) : warning;
         throw new ValidatorError(message, rule);
       }
     });
   });
 }
 
-function runActions(bot: YveBot, actions: RuleAction[]): Promise<any> {
+function runActions(bot: YveBot, rule: Rule, prop: string): Promise<any> {
+  const actions = rule[prop];
   return Promise.all(
     actions.map(async action => {
       return Promise.all(
         Object.keys(action).map(async k => {
           if (k in bot.actions) {
-            return await bot.actions[k](action[k], bot);
+            return await bot.actions[k](action[k], rule, bot);
           }
           return null;
         })
@@ -44,9 +50,9 @@ function runActions(bot: YveBot, actions: RuleAction[]): Promise<any> {
   );
 }
 
-function getNextFromRule(rule: Rule, answer?: ParsedAnswer): RuleNext | null {
+function getNextFromRule(rule: Rule, answer?: Answer | Answer[]): RuleNext | null {
   if (rule.options && answer) {
-    const option = findOptionByAnswer(rule.options, answer);
+    const option = utils.findOptionByAnswer(rule.options, answer);
     if (option && option.next) {
       return option.next;
     }
@@ -99,10 +105,10 @@ export class Controller {
     }
 
     // run post-actions
-    if (bot.options.enableWaitForSleep && rule.sleep) {
+    if (bot.options.enableWaitForSleep && 'sleep' in rule) {
       await bot.actions.timeout(rule.sleep);
     }
-    await runActions(bot, rule.actions);
+    await runActions(bot, rule, 'actions');
 
     if (!rule.type) {
       return this.nextRule(rule);
@@ -123,16 +129,16 @@ export class Controller {
     bot.dispatch('typing');
 
     // run pre-actions
-    if (bot.options.enableWaitForSleep) {
+    if (bot.options.enableWaitForSleep && !rule.exit) {
       if ('delay' in rule) {
         await bot.actions.timeout(rule.delay);
-      } else if (!rule.exit) {
+      } else {
         await bot.actions.timeout(
-          calculateDelayToTypeMessage(message) || bot.options.rule.delay
+          utils.calculateDelayToTypeMessage(message)
         );
       }
     }
-    await runActions(bot, rule.preActions);
+    await runActions(bot, rule, 'preActions');
 
     const text = format(message, bot.store.output());
     bot.dispatch('talk', text, rule);
@@ -141,7 +147,7 @@ export class Controller {
     return this;
   }
 
-  async receiveMessage(message: Answer): Promise<this> {
+  async receiveMessage(message: Answer | Answer[]): Promise<this> {
     const { bot } = this;
     const idx = bot.store.get('currentIdx');
     const rule = getRuleByIndex(bot, idx);
@@ -150,9 +156,9 @@ export class Controller {
       return this;
     }
 
-    let answer: ParsedAnswer = message;
+    let answer = message;
     if ('parser' in bot.types[rule.type]) {
-      answer = bot.types[rule.type].parser(answer, rule);
+      answer = bot.types[rule.type].parser(answer, rule, bot);
     }
 
     try {
@@ -202,7 +208,7 @@ export class Controller {
     return this.run(idx);
   }
 
-  nextRule(currentRule: Rule, answer?: ParsedAnswer): this {
+  nextRule(currentRule: Rule, answer?: Answer | Answer[]): this {
     const { bot } = this;
     if (!currentRule.exit) {
       const nextRuleName = getNextFromRule(currentRule, answer);

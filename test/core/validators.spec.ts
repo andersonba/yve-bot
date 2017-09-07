@@ -3,14 +3,15 @@ import { expect } from 'chai';
 import { YveBot } from '../../src/core/bot';
 
 function getValidate(name) {
-  return new YveBot([]).validators[name].validate;
+  return YveBot.prototype.validators[name].validate;
 }
 
 describe('validators', () => {
   it('validators.length', () => {
-    const validators = Object.keys(new YveBot([]).validators);
+    const validators = Object.keys(YveBot.prototype.validators);
     expect(validators).to.be.deep.eq([
       'required',
+      'email',
       'regex',
       'minWords',
       'maxWords',
@@ -30,6 +31,16 @@ describe('validators', () => {
     expect(validate(true, undefined)).to.be.false;
     expect(validate(true, 'hello')).to.be.true;
     expect(validate(true, ' - ')).to.be.true;
+  });
+
+  it('email', () => {
+    const validate = getValidate('email');
+    expect(validate(true, 'email@domain.com')).to.be.true;
+    expect(validate(true, 'email@w.edu')).to.be.true;
+    expect(validate(true, 'a.com')).to.be.false;
+    expect(validate(true, '@a.com')).to.be.false;
+    expect(validate(true, '@')).to.be.false;
+    expect(validate(true, 'a@.com')).to.be.false;
   });
 
   it('regex', () => {

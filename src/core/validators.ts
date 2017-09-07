@@ -3,6 +3,7 @@ import { YveBot } from './bot';
 import { Rule } from '../types';
 
 const isNumber = v => /^\d+$/.test(v);
+const isEmail = v => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v); // http://emailregex.com
 const sanitizeLength = v => isNumber(v) ? Number(v) : v.length;
 
 const validators = {
@@ -10,6 +11,12 @@ const validators = {
     validate: (expected: boolean, answer: string) =>
       Boolean((answer || '').trim()) === expected,
     warning: 'This is required',
+  },
+
+  email: {
+    validate: (expected: boolean, answer: string) =>
+      isEmail(answer) === expected,
+    warning: 'Invalid email format',
   },
 
   regex: {

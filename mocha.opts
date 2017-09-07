@@ -1,3 +1,4 @@
 --require ts-node/register
 --require test/setup
 --recursive
+test/**/*.spec.ts

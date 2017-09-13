@@ -10,6 +10,7 @@
     "test": "yarn lint && yarn test:strict -- --coverage",
     "test:strict": "jest",
     "test:watch": "yarn test:strict -- --watch",
+    "lint": "tslint --project tsconfig.json",
     "clean": "rm -rf lib",
     "build": "webpack --bail",
     "watch": "webpack --watch --watch-poll"

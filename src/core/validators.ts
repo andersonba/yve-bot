@@ -1,5 +1,4 @@
 import { DefineModule } from './module';
-import { YveBot } from './bot';
 import { Rule } from '../types';
 
 const isNumber = v => /^\d+$/.test(v);

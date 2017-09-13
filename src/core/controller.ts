@@ -1,5 +1,5 @@
 import * as format from 'string-template';
-import { Rule, RuleNext, Answer, RuleAction } from '../types';
+import { Rule, RuleNext, Answer } from '../types';
 import { YveBot } from './bot';
 import { ValidatorError, InvalidAttributeError, RuleNotFound } from './exceptions';
 import * as utils from './utils';
@@ -200,7 +200,6 @@ export class Controller {
   }
 
   jumpByName(ruleName: string): Promise<this> {
-    const { bot } = this;
     const idx = this.indexes[ruleName];
     if (typeof idx !== 'number') {
       throw new RuleNotFound(ruleName, this.indexes);

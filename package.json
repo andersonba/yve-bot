@@ -7,7 +7,7 @@
   "author": "Anderson de Oliveira <andersonba@me.com>",
   "license": "MIT",
   "scripts": {
-    "test": "nyc yarn test:strict",
+    "test": "yarn lint && yarn test:strict -- --coverage",
     "test:strict": "jest",
     "test:watch": "yarn test:strict -- --watch",
     "clean": "rm -rf lib",
@@ -20,10 +20,8 @@
     "@types/node": "^8.0.24",
     "awesome-typescript-loader": "^3.2.3",
     "faker": "^4.1.0",
-    "istanbul": "^0.4.5",
     "jest": "^21.0.2",
     "lodash": "^4.17.4",
-    "nyc": "^11.1.0",
     "string-template": "^1.0.0",
     "ts-jest": "^21.0.0",
     "ts-node": "^3.3.0",
@@ -46,18 +44,5 @@
     "moduleNameMapper": {
       "^@test/(.*)": "<rootDir>/test/$1"
     }
-  },
-  "nyc": {
-    "extension": [
-      ".ts"
-    ],
-    "include": [
-      "src/**/*.ts"
-    ],
-    "reporter": [
-      "text",
-      "html"
-    ],
-    "all": true
   }
 }

@@ -6,7 +6,6 @@
     "class-name": true,
     "semicolon": ["always"],
     "triple-equals": true,
-    "quotemark": [true, "single"],
-    "no-unused-expression-chai": true
+    "quotemark": [true, "single"]
   }
 }

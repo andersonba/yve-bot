@@ -1,12 +1,13 @@
+import { uniq } from 'lodash';
 import { DefineModule } from './module';
 import { Rule, Answer } from '../types';
-import { findOptionByAnswer, ensureArray, identifyAnswersInString } from './utils';
+import * as utils from './utils';
 
 const types = {
   Any: {},
 
   String: {
-    parser: (value: Answer) => !!value ? String(value) : '',
+    parser: (value: Answer) => String(value),
     validators: [
       {
         string: true,
@@ -27,13 +28,16 @@ const types = {
 
   SingleChoice: {
     parser: (value: Answer | Answer[], rule: Rule) => {
-      const option = findOptionByAnswer(rule.options, value);
+      const option = utils.findOptionByAnswer(rule.options, value);
+      if (!option) {
+        return undefined;
+      }
       return option.value || option.label;
     },
     validators: [
       {
         function: (answer: Answer | Answer[], rule: Rule) =>
-          !!findOptionByAnswer(rule.options, answer),
+          !!utils.findOptionByAnswer(rule.options, answer),
         warning: 'Unknown option',
       },
     ],
@@ -46,19 +50,24 @@ const types = {
         values = answer;
       } else {
         const options = rule.options.map(o => String(o.value || o.label));
-        values = identifyAnswersInString(String(answer), options);
+        values = utils.identifyAnswersInString(String(answer), options);
       }
-      return values.map(value => {
-        const option = findOptionByAnswer(rule.options, value);
-        return option.value || option.label;
-      });
+      return uniq(values
+        .map(value => {
+          const option = utils.findOptionByAnswer(rule.options, value);
+          if (!option) {
+            return undefined;
+          }
+          return option.value || option.label;
+        })
+        .filter(x => x));
     },
     validators: [
       {
         function: (answer: Answer | Answer[], rule: Rule) => {
-          const answers = ensureArray(answer);
+          const answers = utils.ensureArray(answer);
           const options = rule.options.map(o => String(o.value || o.label));
-          return answers.every(x => options.indexOf(x) >= 0);
+          return answers.every(a => options.some(o => utils.isMatchAnswer(a, o)));
         },
         warning: 'Unknown options',
       },

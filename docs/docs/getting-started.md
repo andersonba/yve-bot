@@ -4,7 +4,7 @@ title: Getting started
 
 # Getting started
 
-The simplest way to build a smart and customized rule-based conversation. YveBot was made to run on Browser and Node environment.
+The simplest way to build a smart and customized rule-based bot conversation. YveBot was made to run on Browser and Node environment.
 
 To use on **Browser**:
 

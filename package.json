@@ -36,14 +36,19 @@
     "webpack": "^3.4.1"
   },
   "nyc": {
+    "extension": [
+      ".ts"
+    ],
     "include": [
-      "src/**/*.js"
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "**/*.d.ts"
     ],
     "reporter": [
-      "lcov",
-      "text"
+      "text",
+      "html"
     ],
-    "sourceMap": false,
-    "instrument": false
+    "all": true
   }
 }

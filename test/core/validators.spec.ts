@@ -6,7 +6,7 @@ function getValidate(name) {
   return YveBot.prototype.validators[name].validate;
 }
 
-describe('validators', () => {
+describe('core.validators', () => {
   it('validators.length', () => {
     const validators = Object.keys(YveBot.prototype.validators);
     expect(validators).to.be.deep.eq([

@@ -2,11 +2,13 @@ import * as faker from 'faker';
 import * as types from '../src/types';
 
 function createMock(obj: Object | Function) {
-  let data = obj;
-  if (obj instanceof Function) {
-    data = obj();
+  return function(custom) {
+    let data = obj;
+    if (obj instanceof Function) {
+      data = obj();
+    }
+    return Object.assign({}, data, custom);
   }
-  return custom => Object.assign({}, obj, custom);
 }
 
 export const RuleOption: (custom?: Object) => types.RuleOption = createMock(() => {
@@ -15,5 +17,15 @@ export const RuleOption: (custom?: Object) => types.RuleOption = createMock(() =
     label: word,
     value: faker.helpers.slugify(word),
     next: faker.database.column(),
+  };
+});
+
+export const Rule: (custom?: Object) => types.Rule = createMock(() => {
+  const options = [];
+  options.push(RuleOption());
+  options.push(RuleOption());
+  options.push(RuleOption());
+  return {
+    options,
   };
 });

@@ -2,7 +2,7 @@ import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import * as utils from '../../src/ui/utils';
 
-describe('utils', () => {
+describe('ui.utils', () => {
   describe('arrayToString', () => {
     it('common', () => {
       function testMethod(arr, sep, expected) {

@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import * as utils from '../../src/core/utils';
 import * as mocks from '../mocks';
 
-describe('utils', () => {
+describe('core.utils', () => {
   describe('calculateDelayToTypeMessage', () => {
     it('common', () => {
       function testMethod(msg, expected) {

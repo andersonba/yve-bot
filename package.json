@@ -25,6 +25,8 @@
     "lodash": "^4.17.4",
     "mocha": "^3.5.0",
     "nyc": "^11.1.0",
+    "sinon": "^3.2.1",
+    "sinon-chai": "^2.13.0",
     "string-template": "^1.0.0",
     "ts-node": "^3.3.0",
     "tslint": "^5.6.0",

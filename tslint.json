@@ -8,8 +8,5 @@
     "triple-equals": true,
     "quotemark": [true, "single"],
     "no-unused-expression-chai": true
-  },
-  "rulesDirectory": [
-    "node_modules/tslint-no-unused-expression-chai/rules"
-  ]
+  }
 }

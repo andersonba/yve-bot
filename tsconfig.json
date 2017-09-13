@@ -7,7 +7,11 @@
       "es6",
       "dom"
     ],
-    "pretty": true
+    "pretty": true,
+    "baseUrl": ".",
+    "paths": {
+      "@test/*": ["test/*"]
+    }
   },
   "exclude": [
     "node_modules",

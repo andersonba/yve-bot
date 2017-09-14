@@ -44,6 +44,12 @@
     ],
     "moduleNameMapper": {
       "^@test/(.*)": "<rootDir>/test/$1"
-    }
+    },
+    "collectCoverageFrom": [
+      "src/**/*.ts",
+      "!src/types.ts",
+      "!src/core/index.ts",
+      "!src/ui/index.ts"
+    ]
   }
 }

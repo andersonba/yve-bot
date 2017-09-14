@@ -1,6 +1,5 @@
 import { YveBot } from '../core/bot';
-import { Rule, Answer } from '../types';
-import { ChatOptions, MessageSource } from './types';
+import { Rule, Answer, ChatOptions, ChatMessageSource } from '../types';
 import { ChatUI } from './ui';
 
 
@@ -98,7 +97,7 @@ export class YveBotChat {
     return this;
   }
 
-  newMessage(source: MessageSource, message: Answer | Answer[], rule?: Rule) {
+  newMessage(source: ChatMessageSource, message: Answer | Answer[], rule?: Rule) {
     const { UI } = this;
     const thread = UI.createThread(source, UI.createTextMessage(message));
 

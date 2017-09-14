@@ -1,5 +1,4 @@
-import { Answer, Rule, RuleOption } from '../types';
-import { ChatOptions, MessageSource } from './types';
+import { Answer, Rule, RuleOption, ChatOptions, ChatMessageSource } from '../types';
 import * as utils from './utils';
 
 export class ChatUI {
@@ -171,7 +170,7 @@ export class ChatUI {
     return input;
   }
 
-  createThread(source: MessageSource, content: HTMLElement, customClass?: string) {
+  createThread(source: ChatMessageSource, content: HTMLElement, customClass?: string) {
     const thread = document.createElement('li');
     thread.className = `yvebot-thread yvebot-thread-${source.toLowerCase()}`;
     if (customClass) {

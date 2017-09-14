@@ -39,3 +39,17 @@ export interface RuleValidator {
 export type RuleNext = string;
 
 export type Answer = string | number;
+
+export interface ChatOptions {
+  target?: string;
+  inputPlaceholder?: string;
+  inputPlaceholderSingleChoice?: string;
+  inputPlaceholderMutipleChoice?: string;
+  doneMultipleChoiceLabel?: string;
+  andSeparatorText?: string;
+  submitLabel?: string;
+  autoFocus?: boolean;
+  yveBotOptions?: YveBotOptions;
+}
+
+export type ChatMessageSource = 'BOT' | 'USER';

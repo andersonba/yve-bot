@@ -24,7 +24,6 @@ export class ChatUI {
   }
 
   createSingleChoiceMessage(
-    answer: Answer | Answer[],
     rule: Rule,
     onSelected: (label: string, value: string) => void,
   ) {
@@ -51,13 +50,10 @@ export class ChatUI {
     return btn;
   }
 
-  disableForm(placeholder?: string) {
+  disableForm(placeholder: string) {
     this.submit.disabled = true;
     this.input.disabled = true;
-
-    if (placeholder) {
-      this.input.placeholder = placeholder;
-    }
+    this.input.placeholder = placeholder;
   }
 
   enableForm() {
@@ -81,7 +77,6 @@ export class ChatUI {
   }
 
   createMultipleChoiceMessage(
-    answer: Answer | Answer[],
     rule: Rule,
     onDone: (label: string[], value: string[]) => void,
   ) {

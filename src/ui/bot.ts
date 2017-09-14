@@ -104,7 +104,7 @@ export class YveBotChat {
     if (source === 'BOT') {
       switch (rule.type) {
         case 'SingleChoice':
-        thread.appendChild(UI.createSingleChoiceMessage(message, rule, (label, value) => {
+        thread.appendChild(UI.createSingleChoiceMessage(rule, (label, value) => {
           this.bot.hear(value);
           this.dispatch('reply', value);
           this.newMessage('USER', label);
@@ -112,7 +112,7 @@ export class YveBotChat {
         break;
 
         case 'MultipleChoice':
-        thread.appendChild(UI.createMultipleChoiceMessage(message, rule, (label, value) => {
+        thread.appendChild(UI.createMultipleChoiceMessage(rule, (label, value) => {
           this.bot.hear(value);
           this.dispatch('reply', value);
           this.newMessage('USER', label);

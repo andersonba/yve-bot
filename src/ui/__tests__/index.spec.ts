@@ -49,8 +49,8 @@ test('event binding', async () => {
 
 describe('DOM behaviors', () => {
   test('initial elements', () => {
-    const bot = new YveBotChat([], OPTS).start();
-    const { target, conversation, form, input, submit, getTyping } = getChatElements();
+    new YveBotChat([], OPTS).start();
+    const { conversation, form, input, submit, getTyping } = getChatElements();
 
     expect(conversation).toBeDefined;
     expect(getTyping()).toBeDefined;
@@ -64,7 +64,7 @@ describe('DOM behaviors', () => {
     - message: Your name
       type: String
     `);
-    const bot = new YveBotChat(rules, OPTS).start();
+    new YveBotChat(rules, OPTS).start();
     const { target, input, submit, getMessages, getUserMessages, getBotMessages } = getChatElements();
 
     await sleep();
@@ -89,7 +89,7 @@ describe('DOM behaviors', () => {
         - One
         - Two
     `);
-    const bot = new YveBotChat(rules, OPTS).start();
+    new YveBotChat(rules, OPTS).start();
     const { target, input, submit, getBubbleButtons, getUserMessages } = getChatElements();
 
     await sleep();
@@ -123,8 +123,8 @@ describe('DOM behaviors', () => {
         - One
         - Two
     `);
-    const bot = new YveBotChat(rules, OPTS).start();
-    const { target, input, submit, getBubbleButtons, getBubbleDone, getUserMessages } = getChatElements();
+    new YveBotChat(rules, OPTS).start();
+    const { input, submit, getBubbleButtons, getBubbleDone, getUserMessages } = getChatElements();
 
     await sleep();
 
@@ -165,10 +165,10 @@ describe('DOM behaviors', () => {
     - message: Hello
       delay: 1
     `);
-    const bot = new YveBotChat(rules).start();
+    new YveBotChat(rules).start();
 
     // typing
-    const { target, getTyping } = getChatElements();
+    const { getTyping } = getChatElements();
     expect(getTyping().classList).toContain('is-typing');
 
     await sleep(1);
@@ -183,10 +183,10 @@ describe('DOM behaviors', () => {
       delay: 1
       sleep: 1
     `);
-    const bot = new YveBotChat(rules).start();
+    new YveBotChat(rules).start();
 
     // sleeping
-    const { target, getTyping, getBotMessages } = getChatElements();
+    const { getTyping, getBotMessages } = getChatElements();
     expect(getTyping().classList).not.toContain('is-typing');
     expect(getBotMessages()).toHaveLength(0);
 
@@ -210,7 +210,7 @@ describe('DOM behaviors', () => {
         - One
         - Two
     `);
-    const bot = new YveBotChat(rules, OPTS).start();
+    new YveBotChat(rules, OPTS).start();
     const { target, input, submit } = getChatElements();
 
     await sleep();

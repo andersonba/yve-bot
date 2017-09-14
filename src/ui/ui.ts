@@ -34,7 +34,7 @@ export class ChatUI {
       return this.createBubbleMessage(rule, (btn, list) => {
         list.remove();
         this.enableForm();
-        onSelected(btn.dataset.label, btn.dataset.value);
+        onSelected(btn.getAttribute('data-label'), btn.getAttribute('data-value'));
       });
     }
     return document.createElement('div');
@@ -46,9 +46,9 @@ export class ChatUI {
     btn.onclick = () => onClick(btn);
     const value = option.value ? String(option.value) : '';
     const label = option.label;
-    btn.dataset.value = value || label;
-    btn.dataset.label = label || value;
-    btn.innerText = btn.dataset.label;
+    btn.setAttribute('data-value', value || label);
+    btn.setAttribute('data-label', label || value);
+    btn.textContent = btn.getAttribute('data-label');
     return btn;
   }
 
@@ -90,7 +90,7 @@ export class ChatUI {
 
     if (rule.options.length) {
       const done = document.createElement('button');
-      done.innerText = this.options.doneMultipleChoiceLabel;
+      done.textContent = this.options.doneMultipleChoiceLabel;
       done.className = 'yvebot-message-bubbleDone';
       done.style.display = 'none';
 
@@ -98,8 +98,8 @@ export class ChatUI {
       done.onclick = function() {
         const bubbles = this.previousElementSibling;
         const selected = bubbles.querySelectorAll('.yvebot-message-bubbleBtn.selected');
-        const label = utils.nodeListToArray(selected).map(b => b.dataset.label);
-        const value = utils.nodeListToArray(selected).map(b => b.dataset.value);
+        const label = utils.nodeListToArray(selected).map(b => b.getAttribute('data-label'));
+        const value = utils.nodeListToArray(selected).map(b => b.getAttribute('data-value'));
         onDone(label, value);
         bubbles.remove();
         done.remove();
@@ -158,7 +158,7 @@ export class ChatUI {
     const submit = document.createElement('button');
     submit.className = 'yvebot-form-submit';
     submit.type = 'submit';
-    submit.innerText = this.options.submitLabel;
+    submit.textContent = this.options.submitLabel;
     return submit;
   }
 
@@ -198,7 +198,7 @@ export class ChatUI {
 
     const message = document.createElement('div');
     message.className = 'yvebot-message';
-    message.innerText = text;
+    message.innerHTML = text;
     return message;
   }
 

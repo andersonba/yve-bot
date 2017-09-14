@@ -8,7 +8,13 @@ import { Validators } from './validators';
 function sanitizeRule(bot: YveBot, rule: Rule): Rule {
   if (typeof rule === 'string') {
     return { message: rule };
-  } else if ('options' in rule) {
+  }
+
+  if (['SingleChoice', 'MultipleChoice'].indexOf(rule.type) >= 0) {
+    rule.options = rule.options || [];
+  }
+
+  if ('options' in rule) {
     rule.options = rule.options.map(o => {
       if (typeof o === 'string') {
         return { value: o };

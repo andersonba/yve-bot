@@ -1,0 +1,204 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DOM behaviors user reply 1`] = `
+<body>
+  <div
+    class="yvebot-chat"
+  >
+    <ul
+      class="yvebot-conversation"
+    >
+      <li
+        class="yvebot-thread yvebot-thread-bot"
+      >
+        <div
+          class="yvebot-message"
+        >
+          Your name
+        </div>
+      </li>
+      <li
+        class="yvebot-thread yvebot-thread-user"
+      >
+        <div
+          class="yvebot-message"
+        >
+          James
+        </div>
+      </li>
+      <li
+        class="yvebot-thread yvebot-thread-bot yvebot-thread-typing"
+      >
+        <div
+          class="yvebot-typing"
+        >
+          <span
+            class="yvebot-typing-dot"
+          />
+          <span
+            class="yvebot-typing-dot"
+          />
+          <span
+            class="yvebot-typing-dot"
+          />
+        </div>
+      </li>
+    </ul>
+    <form
+      class="yvebot-form"
+    >
+      <input
+        autocomplete="off"
+        class="yvebot-form-input"
+        placeholder="Type your message"
+        type="text"
+      />
+      <button
+        class="yvebot-form-submit"
+        type="submit"
+      >
+        Send
+      </button>
+    </form>
+  </div>
+</body>
+`;
+
+exports[`DOM behaviors user reply with single choice 1`] = `
+<body>
+  <div
+    class="yvebot-chat"
+  >
+    <ul
+      class="yvebot-conversation"
+    >
+      <li
+        class="yvebot-thread yvebot-thread-bot"
+      >
+        <div
+          class="yvebot-message"
+        >
+          Make your choice
+        </div>
+        <div
+          class="yvebot-message-bubbles"
+        >
+          <button
+            class="yvebot-message-bubbleBtn"
+            data-label="One"
+            data-value="One"
+          >
+            One
+          </button>
+          <button
+            class="yvebot-message-bubbleBtn"
+            data-label="Two"
+            data-value="Two"
+          >
+            Two
+          </button>
+        </div>
+      </li>
+      <li
+        class="yvebot-thread yvebot-thread-bot yvebot-thread-typing"
+      >
+        <div
+          class="yvebot-typing"
+        >
+          <span
+            class="yvebot-typing-dot"
+          />
+          <span
+            class="yvebot-typing-dot"
+          />
+          <span
+            class="yvebot-typing-dot"
+          />
+        </div>
+      </li>
+    </ul>
+    <form
+      class="yvebot-form"
+    >
+      <input
+        autocomplete="off"
+        class="yvebot-form-input"
+        disabled=""
+        placeholder="Choose an option above"
+        type="text"
+      />
+      <button
+        class="yvebot-form-submit"
+        disabled=""
+        type="submit"
+      >
+        Send
+      </button>
+    </form>
+  </div>
+</body>
+`;
+
+exports[`DOM behaviors user reply with single choice 2`] = `
+<body>
+  <div
+    class="yvebot-chat"
+  >
+    <ul
+      class="yvebot-conversation"
+    >
+      <li
+        class="yvebot-thread yvebot-thread-bot"
+      >
+        <div
+          class="yvebot-message"
+        >
+          Make your choice
+        </div>
+      </li>
+      <li
+        class="yvebot-thread yvebot-thread-user"
+      >
+        <div
+          class="yvebot-message"
+        >
+          One
+        </div>
+      </li>
+      <li
+        class="yvebot-thread yvebot-thread-bot yvebot-thread-typing"
+      >
+        <div
+          class="yvebot-typing"
+        >
+          <span
+            class="yvebot-typing-dot"
+          />
+          <span
+            class="yvebot-typing-dot"
+          />
+          <span
+            class="yvebot-typing-dot"
+          />
+        </div>
+      </li>
+    </ul>
+    <form
+      class="yvebot-form"
+    >
+      <input
+        autocomplete="off"
+        class="yvebot-form-input"
+        placeholder="Type your message"
+        type="text"
+      />
+      <button
+        class="yvebot-form-submit"
+        type="submit"
+      >
+        Send
+      </button>
+    </form>
+  </div>
+</body>
+`;

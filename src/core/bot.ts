@@ -11,17 +11,14 @@ function sanitizeRule(rule: Rule): Rule {
   }
 
   if (['SingleChoice', 'MultipleChoice'].indexOf(rule.type) >= 0) {
-    rule.options = rule.options || [];
-  }
-
-  if ('options' in rule) {
-    rule.options = rule.options.map(o => {
+    rule.options = (rule.options || []).map(o => {
       if (typeof o === 'string') {
         return { value: o };
       }
       return o;
     });
   }
+
   return rule;
 }
 

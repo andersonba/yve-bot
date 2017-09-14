@@ -95,6 +95,12 @@ export class Controller {
 
     bot.store.set('currentIdx', idx);
 
+    // run pre-actions
+    if (bot.options.enableWaitForSleep && 'sleep' in rule) {
+      await bot.actions.timeout(rule.sleep);
+    }
+    await runActions(bot, rule, 'preActions');
+
     if (rule.message) {
       await this.sendMessage(rule.message, rule);
     }
@@ -124,13 +130,9 @@ export class Controller {
   async sendMessage(message: string, rule: Rule): Promise<this> {
     const { bot } = this;
 
-    if (bot.options.enableWaitForSleep && 'sleep' in rule) {
-      await bot.actions.timeout(rule.sleep);
-    }
-
     bot.dispatch('typing');
 
-    // run pre-actions
+    // typing delay
     if (bot.options.enableWaitForSleep && !rule.exit) {
       if ('delay' in rule) {
         await bot.actions.timeout(rule.delay);
@@ -140,7 +142,6 @@ export class Controller {
         );
       }
     }
-    await runActions(bot, rule, 'preActions');
 
     const text = format(message, bot.store.output());
     bot.dispatch('talk', text, rule);

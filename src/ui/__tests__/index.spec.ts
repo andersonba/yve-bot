@@ -19,12 +19,14 @@ test('event binding', async () => {
   const onStart = jest.fn();
   const onStoreChanged = jest.fn();
   const onEnd = jest.fn();
+  const onEndCopy = jest.fn();
   const onReply = jest.fn();
 
   new YveBotChat(rules, OPTS)
     .on('start', onStart)
     .on('storeChanged', onStoreChanged)
     .on('end', onEnd)
+    .on('end', onEndCopy)
     .on('reply', onReply)
     .start();
   const { input, submit } = getChatElements();
@@ -45,6 +47,7 @@ test('event binding', async () => {
   expect(onReply).toBeCalledWith(msg);
   expect(onStoreChanged).toBeCalledWith({ output, currentIdx: 1, waitingForAnswer: false }, session);
   expect(onEnd).toBeCalledWith(output, session);
+  expect(onEndCopy).toBeCalledWith(output, session);
 });
 
 describe('DOM behaviors', () => {
@@ -81,13 +84,32 @@ describe('DOM behaviors', () => {
     expect(target).toMatchSnapshot();
   });
 
+  test('user reply without message', async () => {
+    const rules = loadYaml(`
+    - message: Your name
+      type: String
+    `);
+    new YveBotChat(rules, OPTS).start();
+    const { input, submit, getMessages } = getChatElements();
+
+    await sleep();
+
+    input.value = '';
+    submit.click();
+
+    await sleep();
+
+    expect(getMessages()).toHaveLength(0);
+  });
+
   test('user reply with single choice', async () => {
     const rules = loadYaml(`
     - message: Make your choice
       type: SingleChoice
       options:
-        - One
-        - Two
+        - label: One
+        - value: Two
+        - Three
     `);
     new YveBotChat(rules, OPTS).start();
     const { target, input, submit, getBubbleButtons, getUserMessages } = getChatElements();
@@ -99,7 +121,7 @@ describe('DOM behaviors', () => {
     expect(input.hasAttribute('disabled')).toBeTruthy;
     expect(input.placeholder).toContain('Choose an option');
     expect(submit.hasAttribute('disabled')).toBeTruthy;
-    expect(bubbles).toHaveLength(2);
+    expect(bubbles).toHaveLength(3);
     expect(getUserMessages()).toHaveLength(0);
     expect(target).toMatchSnapshot();
 
@@ -115,13 +137,25 @@ describe('DOM behaviors', () => {
     expect(target).toMatchSnapshot();
   });
 
+  test('user reply with single choice and no options', async () => {
+    const rules = loadYaml(`
+    - message: Make your choice
+      type: SingleChoice
+    `);
+    new YveBotChat(rules, OPTS).start();
+    const { getBubbleButtons } = getChatElements();
+    await sleep();
+    expect(getBubbleButtons()).toHaveLength(0);
+  });
+
   test('user reply with multiple choice', async () => {
     const rules = loadYaml(`
     - message: Make your choice
       type: MultipleChoice
       options:
-        - One
-        - Two
+        - label: One
+        - value: Two
+        - Three
     `);
     new YveBotChat(rules, OPTS).start();
     const { input, submit, getBubbleButtons, getBubbleDone, getUserMessages } = getChatElements();
@@ -136,7 +170,7 @@ describe('DOM behaviors', () => {
     expect(input.hasAttribute('disabled')).toBeTruthy;
     expect(input.placeholder).toContain('Choose the options');
     expect(submit.hasAttribute('disabled')).toBeTruthy;
-    expect(bubbles).toHaveLength(2);
+    expect(bubbles).toHaveLength(3);
     expect(getUserMessages()).toHaveLength(0);
 
     // select one
@@ -145,7 +179,14 @@ describe('DOM behaviors', () => {
     expect(bubbles[1].classList).not.toContain('selected');
     expect(getUserMessages()).toHaveLength(0);
 
-    // select two
+    // unselect
+    bubbles[0].click();
+    expect(bubbles[0].classList).not.toContain('selected');
+    expect(bubbles[1].classList).not.toContain('selected');
+    expect(getUserMessages()).toHaveLength(0);
+
+    // select all
+    bubbles[0].click();
     bubbles[1].click();
     expect(bubbles[0].classList).toContain('selected');
     expect(bubbles[1].classList).toContain('selected');
@@ -160,18 +201,31 @@ describe('DOM behaviors', () => {
     expect(getUserMessages()).toHaveLength(1);
   });
 
+  test('user reply with multiple choice and no options', async () => {
+    const rules = loadYaml(`
+    - message: Make your choice
+      type: MultipleChoice
+    `);
+    new YveBotChat(rules, OPTS).start();
+    const { getBubbleButtons } = getChatElements();
+    await sleep();
+    expect(getBubbleButtons()).toHaveLength(0);
+  });
+
   test('bot typing', async () => {
     const rules = loadYaml(`
     - message: Hello
-      delay: 1
+      delay: 10
     `);
     new YveBotChat(rules).start();
+
+    await sleep(5);
 
     // typing
     const { getTyping } = getChatElements();
     expect(getTyping().classList).toContain('is-typing');
 
-    await sleep(1);
+    await sleep(20);
 
     // typed
     expect(getTyping().classList).not.toContain('is-typing');
@@ -211,7 +265,7 @@ describe('DOM behaviors', () => {
         - Two
     `);
     new YveBotChat(rules, OPTS).start();
-    const { target, input, submit } = getChatElements();
+    const { input, submit, getBubbleButtons } = getChatElements();
 
     await sleep();
 
@@ -224,10 +278,36 @@ describe('DOM behaviors', () => {
     await sleep();
 
     // clicking on bubble
-    const bubble = target.querySelectorAll('.yvebot-message-bubbleBtn')[0] as HTMLButtonElement;
-    bubble.click();
+    const bubbles = getBubbleButtons();
+    bubbles[0].click();
     expect(document.activeElement).toEqual(input);
+  });
+
+  test('disabled autofocus', async () => {
+    const rules = loadYaml(`
+    - type: Any
+    - message: Make your choice
+      type: SingleChoice
+      options:
+        - One
+        - Two
+    `);
+    new YveBotChat(rules, Object.assign({ autoFocus: false }, OPTS)).start();
+    const { input, submit, getBubbleButtons } = getChatElements();
 
     await sleep();
+
+    // sending message
+    expect(document.activeElement).not.toEqual(input);
+    input.value = 'A testing message';
+    submit.click();
+    expect(document.activeElement).not.toEqual(input);
+
+    await sleep();
+
+    // clicking on bubble
+    const bubbles = getBubbleButtons();
+    bubbles[0].click();
+    expect(document.activeElement).not.toEqual(input);
   });
 });

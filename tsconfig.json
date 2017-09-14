@@ -11,7 +11,9 @@
     "baseUrl": ".",
     "paths": {
       "@test/*": ["test/*"]
-    }
+    },
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
   },
   "exclude": [
     "node_modules",

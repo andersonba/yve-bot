@@ -32,6 +32,7 @@
     "webpack": "^3.4.1"
   },
   "jest": {
+    "mapCoverage": true,
     "moduleFileExtensions": [
       "ts",
       "js"

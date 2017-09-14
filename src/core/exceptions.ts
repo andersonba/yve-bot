@@ -3,7 +3,7 @@ import { Rule } from '../types';
 export function ValidatorError(message: string, rule: Rule) {
   this.key = 'validator';
   this.message = message || `Invalid value for "${rule.type}" type`;
-};
+}
 
 export function InvalidAttributeError(type: string, rule: Rule) {
   this.key = 'invalidAttribute';
@@ -19,4 +19,4 @@ export function RuleNotFound(name: string, indexes: { [k: string]: number }) {
   this.key = 'ruleNotFound';
   this.message = `Rule "${name}" not found in indexes`;
   this.indexes = indexes;
-};
+}

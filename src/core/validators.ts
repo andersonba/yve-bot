@@ -74,7 +74,7 @@ const validators = {
     ) => fn(answer, rule),
     warning: 'Error on execute a validator function',
   },
-}
+};
 
 export class Validators extends DefineModule {
   public required: typeof validators.required;

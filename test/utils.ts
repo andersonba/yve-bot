@@ -5,7 +5,7 @@ export function loadYamlFile(path: string): any {
   const filename = `${__dirname}/yamls/${path}.yaml`;
   const content = fs.readFileSync(filename, 'utf8');
   return loadYaml(content);
-};
+}
 
 export function loadYaml(content: string): any {
   return yaml.safeLoad(content);

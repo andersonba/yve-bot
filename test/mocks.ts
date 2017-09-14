@@ -8,7 +8,7 @@ function createMock(obj: Object | Function) {
       data = obj();
     }
     return Object.assign({}, data, custom);
-  }
+  };
 }
 
 export const RuleOption: (custom?: Object) => types.RuleOption = createMock(() => {

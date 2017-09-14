@@ -36,9 +36,9 @@ describe('findOptionByAnswer', () => {
       mocks.RuleOption({ label: 'Option 1' }),
       mocks.RuleOption({ label: 'Option 2' }),
     ];
-    testMethod(options, 'option 1', options[0])
-    testMethod(options, 'OPTION 2', options[1])
-    testMethod(options, 'unknown', undefined)
+    testMethod(options, 'option 1', options[0]);
+    testMethod(options, 'OPTION 2', options[1]);
+    testMethod(options, 'unknown', undefined);
   });
 
   test('match by label', () => {
@@ -46,9 +46,9 @@ describe('findOptionByAnswer', () => {
       mocks.RuleOption({ label: 'Word 1', value: 'option-1' }),
       mocks.RuleOption({ label: 'Word 2', value: 'option-2' }),
     ];
-    testMethod(options, 'option-1', options[0])
-    testMethod(options, 'OPTION-2', options[1])
-    testMethod(options, 'unknown', undefined)
+    testMethod(options, 'option-1', options[0]);
+    testMethod(options, 'OPTION-2', options[1]);
+    testMethod(options, 'unknown', undefined);
   });
 });
 

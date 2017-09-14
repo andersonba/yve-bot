@@ -47,6 +47,6 @@ test('replacing', () => {
     waitingForAnswer: true,
     output: { a: 1 },
   };
-  store.replace(obj)
+  store.replace(obj);
   expect(store.get()).toEqual(obj);
 });

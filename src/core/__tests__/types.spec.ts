@@ -20,7 +20,7 @@ describe('String', () => {
   });
 
   test('validators', () => {
-    const values = validators.map(v => omit(v, ['warning']))
+    const values = validators.map(v => omit(v, ['warning']));
     expect(values).toContainEqual({ string: true });
     expect(values).toHaveLength(1);
   });
@@ -36,7 +36,7 @@ describe('Number', () => {
   });
 
   test('validators', () => {
-    const values = validators.map(v => omit(v, ['warning']))
+    const values = validators.map(v => omit(v, ['warning']));
     expect(values).toContainEqual({ number: true });
     expect(values).toHaveLength(1);
   });

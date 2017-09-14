@@ -5,7 +5,7 @@ import { Actions } from './actions';
 import { Types } from './types';
 import { Validators } from './validators';
 
-function sanitizeRule(bot: YveBot, rule: Rule): Rule {
+function sanitizeRule(rule: Rule): Rule {
   if (typeof rule === 'string') {
     return { message: rule };
   }
@@ -50,13 +50,13 @@ export class YveBot {
 
     this.sessionId = 'session';
     this.options = Object.assign({}, DEFAULT_OPTS, customOpts);
-    this.rules = rules.map(rule => sanitizeRule(this, rule));
+    this.rules = rules.map(rule => sanitizeRule(rule));
     this.handlers = {};
 
     this.store = new Store(this);
     this.controller = new Controller(this);
 
-    this.on('error', err => { throw err });
+    this.on('error', err => { throw err; });
   }
 
   on(evt: string, fn: (...args: any[]) => any): this {
@@ -104,7 +104,7 @@ export class YveBot {
 
     if (opts.rules) {
       this._rules = this.rules;
-      this.rules = opts.rules.map(rule => sanitizeRule(this, rule));
+      this.rules = opts.rules.map(rule => sanitizeRule(rule));
     } else {
       this.rules = this._rules || this.rules;
     }

@@ -1,8 +1,8 @@
 import { YveBot } from './core/bot';
 
 export interface YveBotOptions {
-  enableWaitForSleep?: boolean,
-  rule?: Rule,
+  enableWaitForSleep?: boolean;
+  rule?: Rule;
 }
 
 export interface Rule {
@@ -26,15 +26,15 @@ export interface RuleOption {
   label?: string;
   value?: string | number;
   next?: RuleNext;
-};
+}
 
 export interface RuleAction {
   [name: string]: any;
-};
+}
 
 export interface RuleValidator {
   [name: string]: any;
-};
+}
 
 export type RuleNext = string;
 

@@ -98,7 +98,7 @@ export class ChatUI {
         bubbles.remove();
         done.remove();
         self.enableForm();
-      }
+      };
 
       const bubbles = this.createBubbleMessage(rule, (btn) => {
         btn.classList.toggle('selected');

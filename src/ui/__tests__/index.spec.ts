@@ -90,16 +90,14 @@ describe('DOM behaviors', () => {
       type: String
     `);
     new YveBotChat(rules, OPTS).start();
-    const { input, submit, getMessages } = getChatElements();
-
-    await sleep();
+    const { input, submit, getUserMessages } = getChatElements();
 
     input.value = '';
     submit.click();
 
     await sleep();
 
-    expect(getMessages()).toHaveLength(0);
+    expect(getUserMessages()).toHaveLength(0);
   });
 
   test('user reply with single choice', async () => {

@@ -105,9 +105,6 @@ export class Controller {
     }
 
     // run post-actions
-    if (bot.options.enableWaitForSleep && 'sleep' in rule) {
-      await bot.actions.timeout(rule.sleep);
-    }
     await runActions(bot, rule, 'actions');
 
     if (!rule.type) {
@@ -126,6 +123,11 @@ export class Controller {
 
   async sendMessage(message: string, rule: Rule): Promise<this> {
     const { bot } = this;
+
+    if (bot.options.enableWaitForSleep && 'sleep' in rule) {
+      await bot.actions.timeout(rule.sleep);
+    }
+
     bot.dispatch('typing');
 
     // run pre-actions

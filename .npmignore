@@ -1,5 +1,9 @@
 .*
-**/tsconfig.json
-**/webpack.config.js
-node_modules
+tsconfig.json
+tslint.json
+webpack.config.js
 src
+coverage
+docs
+test
+examples

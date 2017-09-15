@@ -1,7 +1,15 @@
 language: node_js
 node_js:
-  - "8"
+  - '8'
 cache: yarn
 script:
   - yarn run lint
   - yarn run test:coverage
+deploy:
+  provider: npm
+  email: andersonba@me.com
+  api_key:
+    secure: Z5guSSTS1OXfTDCs1nh8Xi6GiraPXQ03fMyO6mPsRqB0Vd9jw9H+lQwt7hYIjJ1h0Bo+cMEDQ1Wl27cnMd/575UXam84nsli0bOKh4SHDSirlZW05DRs73bf7tJdYthVDTEZH3kOt0MUKyGBH3ZrLmbgMbcCh6GHpImMbA9ufSL1TBzvzyM/hQO+hWgQrqXG5PlS61+iPabOlPfjoHWVjhXdILZIVFRBwQHp9H/nVDQLBNn+3XR5vIFCaJZ1ixbrEHJ5MD9G+bCNFdpRc+KSHlYdbZsGw0TbNJ88zq+mlgGdXesq6reR3iFxRwNW1zgGt66dvKeBuOVIGSriyYChKaPKC9tVHJTUIg+096MIhnAJMoDHJ8gbNeKamxVdVnNZYGV3XSLaXseIXBzsGChk1l1pT/DPQgDb1KK/1wsOjZIJ4X0AyDyoBBifBLcajDkqIV/3q41F2Fab4zH7o+mJD6JeGbxggq+CeCgE9BBxzK6sxzaJhLF510+scd4u7mK4vXgeddaETp0dxdnQfudTFphaiKjBVV/eiuhvhtGqrA+k0GVB5yOqbsadPz6/2QUBAngoavTJHoruY/TsZXLdjsAIdzodftorEZtipX3W47VtvQk0L7FoxfwLrQSJGCkiTf1GL7Od6DxyTs75A9DGQt0RWCGE4CZOWgyS1n1jCRg=
+  on:
+    tags: true
+    repo: andersonba/yve-bot

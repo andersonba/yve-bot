@@ -232,8 +232,7 @@ describe('DOM behaviors', () => {
   test('bot sleeping', async () => {
     const rules = loadYaml(`
     - message: Hello
-      delay: 5
-      sleep: 5
+      delay: 1
     `);
     new YveBotChat(rules).start();
 
@@ -242,15 +241,9 @@ describe('DOM behaviors', () => {
     expect(getTyping().classList).not.toContain('is-typing');
     expect(getBotMessages()).toHaveLength(0);
 
-    // typing
-    await sleep(6);
-    expect(getBotMessages()).toHaveLength(0);
-    expect(getTyping().classList).toContain('is-typing');
-
     // typed
-    await sleep(11);
+    await sleep(5);
     expect(getBotMessages()).toHaveLength(1);
-    expect(getTyping().classList).not.toContain('is-typing');
   });
 
   test('autofocus', async () => {

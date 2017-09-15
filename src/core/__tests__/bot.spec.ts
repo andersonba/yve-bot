@@ -1,6 +1,7 @@
 import * as faker from 'faker';
 import * as mocks from '@test/mocks';
-import { InvalidAttributeError } from '../exceptions';
+import { calculateDelayToTypeMessage } from '../utils';
+import { InvalidAttributeError, RuleNotFound } from '../exceptions';
 import { sleep, loadYaml } from '@test/utils';
 import { YveBot } from '../bot';
 import { Store } from '../store';
@@ -124,6 +125,287 @@ test('using session with custom store/rules', () => {
   expect(bot.store.get()).toEqual(newStore);
   expect(bot.rules).toHaveLength(1);
   expect(bot.rules[0].message).toBe(newRules[0].message);
+});
+
+test('auto reply message', async () => {
+  const onTalk = jest.fn();
+  const rules = loadYaml(`
+  - message: Color
+    type: String
+    replyMessage: Thanks
+  `);
+  const bot = new YveBot(rules, OPTS)
+    .on('talk', onTalk)
+    .start();
+
+  await sleep();
+  bot.hear('red');
+  await sleep();
+
+  expect(onTalk).toBeCalledWith('Color', rules[0], 'session');
+  expect(onTalk).toBeCalledWith('Thanks', {}, 'session');
+});
+
+test('jumping to rule', async () => {
+  const onTalk = jest.fn();
+  const rules = loadYaml(`
+  - message: Step 1
+    next: three
+  - message: Skipped
+    name: two
+  - message: Step 3
+    name: three
+  `);
+  new YveBot(rules, OPTS)
+    .on('talk', onTalk)
+    .start();
+  await sleep();
+
+  expect(onTalk).not.toBeCalledWith(rules[1].message, rules[1], 'session');
+  expect(onTalk).toBeCalledWith(rules[0].message, rules[0], 'session');
+  expect(onTalk).toBeCalledWith(rules[2].message, rules[2], 'session');
+  expect(onTalk).toHaveBeenCalledTimes(2);
+});
+
+test('jumping to option next', async () => {
+  const onTalk = jest.fn();
+  const rules = loadYaml(`
+  - message: Step 1
+    type: SingleChoice
+    options:
+      - value: Jump
+        next: three
+  - message: Skipped
+    name: two
+  - message: Step 3
+    name: three
+  `);
+  const bot = new YveBot(rules, OPTS)
+    .on('talk', onTalk)
+    .start();
+
+  await sleep();
+  bot.hear('Jump');
+  await sleep();
+
+  expect(onTalk).not.toBeCalledWith(rules[1].message, rules[1], 'session');
+  expect(onTalk).toBeCalledWith(rules[0].message, rules[0], 'session');
+  expect(onTalk).toBeCalledWith(rules[2].message, rules[2], 'session');
+  expect(onTalk).toHaveBeenCalledTimes(2);
+});
+
+test('jumping to invalid rule', (done) => {
+  const rules = loadYaml(`
+  - message: Hello
+    next: bye
+  - U name?
+  `);
+  new YveBot(rules, OPTS)
+    .on('error', err => {
+      expect(err).toBeInstanceOf(RuleNotFound);
+      done();
+    })
+    .start();
+});
+
+test('repeat ask on error validation', async () => {
+  const onTalk = jest.fn();
+  const rules = loadYaml(`
+  - message: Tell me a number
+    type: Number
+  `);
+  const bot = new YveBot(rules, OPTS)
+    .on('talk', onTalk)
+    .start();
+  await sleep();
+  expect(onTalk).toBeCalledWith('Tell me a number', rules[0], 'session');
+  bot.hear('asdfg');
+  await sleep();
+  expect(onTalk).toBeCalledWith('Invalid number', rules[0], 'session');
+  expect(onTalk).toHaveBeenCalledTimes(2);
+});
+
+test('warning message as function', async () => {
+  const onTalk = jest.fn();
+  const rules = loadYaml(`
+  - message: Tell me a number
+    type: Number
+    validators:
+      - max: 10
+  `);
+  const bot = new YveBot(rules, OPTS)
+    .on('talk', onTalk)
+    .start();
+  await sleep();
+  bot.hear(1000);
+  await sleep();
+  expect(onTalk).toBeCalledWith('This answer length must be max 10', rules[0], 'session');
+});
+
+test('bot sleeping', async () => {
+  const onTalk = jest.fn();
+  const onTyping = jest.fn();
+  const onTyped = jest.fn();
+  const rules = loadYaml(`
+  - sleep: 2
+  - message: Ok
+    delay: 0
+  `);
+  new YveBot(rules)
+    .on('talk', onTalk)
+    .on('typing', onTyping)
+    .on('typed', onTyped)
+    .start();
+  expect(onTalk).not.toBeCalled();
+  expect(onTyping).not.toBeCalled();
+  await sleep(5);
+  expect(onTyping).toBeCalledWith('session');
+  expect(onTyped).toBeCalledWith('session');
+  expect(onTalk).toBeCalledWith('Ok', rules[1], 'session');
+});
+
+test('running actions', async () => {
+  const act = jest.fn();
+  const preAct = jest.fn();
+  const rules = loadYaml(`
+  - message: Hello
+    actions:
+      - testAction: false
+      - unknown: 10
+    preActions:
+      - testPreAction: true
+  `);
+  const bot = new YveBot(rules, OPTS);
+  bot.actions.define('testAction', act);
+  bot.actions.define('testPreAction', preAct);
+  bot.start();
+  await sleep();
+  expect(act).toBeCalledWith(false, rules[0], bot);
+  expect(preAct).toBeCalledWith(true, rules[0], bot);
+});
+
+test('transform answer', async () => {
+  const rules = loadYaml(`
+  - message: Enter
+    name: value
+    type: ValidTransform
+  `);
+  const onEnd = jest.fn();
+  const bot = new YveBot(rules, OPTS);
+  bot.types.define('ValidTransform', {
+    transform: () => 'Transformed',
+  });
+
+  bot
+    .on('end', onEnd)
+    .start();
+
+  await sleep();
+  bot.hear('Original');
+  await sleep();
+
+  expect(onEnd).toBeCalledWith({ value: 'Transformed' }, 'session');
+});
+
+test('throw error on transform answer', async () => {
+  const rules = loadYaml(`
+  - message: Enter
+    name: value
+    type: InvalidTransform
+  `);
+  const onHear = jest.fn();
+  const bot = new YveBot(rules, OPTS);
+  bot.types.define('InvalidTransform', {
+    transform: () => Promise.reject(new Error('Transform failed')),
+  });
+
+  bot
+    .on('hear', onHear)
+    .start();
+
+  await sleep();
+  expect(onHear).toHaveBeenCalledTimes(1);
+  bot.hear('Original');
+  await sleep();
+  expect(onHear).toHaveBeenCalledTimes(2);
+});
+
+test('calculate delay to type', async () => {
+  const onTyped = jest.fn();
+  const rules = loadYaml(`
+  - message: .
+  - message: A long message here
+  `);
+  new YveBot(rules)
+    .on('typed', onTyped)
+    .start();
+
+  await sleep(calculateDelayToTypeMessage(rules[0].message) + 10);
+  expect(onTyped).toHaveBeenCalledTimes(1);
+
+  await sleep(calculateDelayToTypeMessage(rules[1].message) + 10);
+  expect(onTyped).toHaveBeenCalledTimes(2);
+});
+
+test('do nothing when bot is not waiting for answer', async () => {
+  const onTalk = jest.fn();
+  const onHear = jest.fn();
+  const bot = new YveBot([], OPTS)
+    .on('talk', onTalk)
+    .on('hear', onHear)
+    .start();
+  await sleep();
+  bot.hear('Ok');
+  await sleep();
+  expect(onTalk).not.toBeCalled();
+  expect(onHear).not.toBeCalled();
+});
+
+test('using default warning message as function', async () => {
+  const onTalk = jest.fn();
+  const rules = loadYaml(`
+  - message: Exception on validate
+    type: String
+    validators:
+      - defaultWarning: true
+  `);
+  const bot = new YveBot(rules, OPTS);
+  bot.validators.define('defaultWarning', {
+    validate: () => false,
+    warning: () => null,
+  });
+  bot
+    .on('talk', onTalk)
+    .start();
+  await sleep();
+  bot.hear('ok');
+  await sleep();
+  expect(onTalk).toBeCalledWith('Invalid value for "String" type', rules[0], 'session');
+});
+
+test('throw error in warning message as function', async (done) => {
+  const customError = new Error('Unknown in validator');
+  const rules = loadYaml(`
+  - message: Exception on validate
+    type: String
+    validators:
+      - failed: true
+  `);
+  const bot = new YveBot(rules, OPTS);
+  bot.validators.define('failed', {
+    validate: () => false,
+    warning: () => { throw customError; },
+  });
+
+  bot
+    .on('error', err => {
+      expect(err).toEqual(customError);
+      done();
+    })
+    .start();
+
+  await sleep();
+  bot.hear('Ok');
 });
 
 test('throw error', (done) => {

@@ -14,8 +14,7 @@
     "lint": "tslint --project tsconfig.json",
     "clean": "rm -rf lib",
     "build": "webpack --bail",
-    "watch": "webpack --watch --watch-poll",
-    "prepublishOnly": "yarn build"
+    "watch": "webpack --watch --watch-poll"
   },
   "devDependencies": {
     "@types/jest": "^20.0.8",

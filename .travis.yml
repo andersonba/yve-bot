@@ -5,6 +5,7 @@ cache: yarn
 script:
   - yarn run lint
   - yarn run test:coverage
+  - yarn build
 deploy:
   provider: npm
   email: andersonba@me.com
@@ -13,3 +14,4 @@ deploy:
   on:
     tags: true
     repo: andersonba/yve-bot
+  skip_cleanup: true

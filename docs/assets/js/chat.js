@@ -16,7 +16,7 @@ var rules =
     options:
      [ { label: 'Button 1', value: 1 },
        { label: 'Button 2', value: 2 } ] },
-  { message: 'Okay! You choose the button {choice}.' },
+  { message: 'Okay! You chose the button {choice}.' },
   { message: 'Which colors do you like?',
     name: 'colors',
     type: 'MultipleChoice',

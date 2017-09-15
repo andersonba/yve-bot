@@ -35,7 +35,7 @@ function validateAnswer(
 }
 
 function runActions(bot: YveBot, rule: Rule, prop: string): Promise<any> {
-  const actions = rule[prop];
+  const actions = rule[prop] || [];
   return Promise.all(
     actions.map(async action => {
       return Promise.all(

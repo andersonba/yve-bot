@@ -39,10 +39,6 @@ export class YveBot {
   constructor(rules: Rule[], customOpts?: YveBotOptions) {
     const DEFAULT_OPTS: YveBotOptions = {
       enableWaitForSleep: true,
-      rule: {
-        actions: [],
-        preActions: [],
-      },
     };
 
     this.sessionId = 'session';
@@ -57,7 +53,8 @@ export class YveBot {
   }
 
   on(evt: string, fn: (...args: any[]) => any): this {
-    if (evt in this.handlers) {
+    const isUniqueType = ['error'].indexOf(evt) >= 0;
+    if (!isUniqueType && evt in this.handlers) {
       this.handlers[evt].push(fn);
     } else {
       this.handlers[evt] = [fn];
@@ -116,11 +113,7 @@ export class YveBot {
   }
 
   private tryCatch(err: Error) {
-    try {
-      this.dispatch('error', err);
-    } catch (e) {
-      console.error(e);
-    }
+    this.dispatch('error', err);
     this.end();
   }
 }

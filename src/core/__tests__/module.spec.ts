@@ -1,4 +1,5 @@
 import { DefineModule } from '../module';
+import { RedefineConfigurationError } from '../exceptions';
 
 describe('define', () => {
   test('using object', () => {
@@ -31,7 +32,11 @@ describe('define', () => {
     }
     const mod = new A;
     mod.define('a', 123);
-    expect(() => mod.define('a', 321)).toThrow(/can't redefine/);
+    try {
+      mod.define('a', 321);
+    } catch(e) {
+      expect(e).toBeInstanceOf(RedefineConfigurationError);
+    }
     expect(mod.a).toBe(123);
   });
 });

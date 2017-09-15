@@ -18,8 +18,10 @@ Create types of messages that your bot will use. Examples: City and username aut
 
 #### Extends
 
+Extends from an existing type
+
 ```javascript
-bot.types.extend('Name', 'String', {
+bot.types.extend('CustomString', 'String', {
   parser: (answer, rule, bot) => {},
   transform: (answer, rule, bot) => {},
   validators: [],

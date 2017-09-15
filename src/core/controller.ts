@@ -179,9 +179,6 @@ export class Controller {
       try {
         answer = await bot.types[rule.type].transform(answer, rule, bot);
       } catch (e) {
-        if (e) {
-          console.error(e);
-        }
         bot.dispatch('hear');
         return this;
       }
@@ -212,16 +209,12 @@ export class Controller {
 
   nextRule(currentRule: Rule, answer?: Answer | Answer[]): this {
     const { bot } = this;
-    if (!currentRule.exit) {
-      const nextRuleName = getNextFromRule(currentRule, answer);
-      if (nextRuleName) {
-        this.jumpByName(nextRuleName);
-      } else {
-        const nextIdx = bot.store.get('currentIdx') + 1;
-        this.run(nextIdx);
-      }
+    const nextRuleName = getNextFromRule(currentRule, answer);
+    if (nextRuleName) {
+      this.jumpByName(nextRuleName);
     } else {
-      bot.end();
+      const nextIdx = bot.store.get('currentIdx') + 1;
+      this.run(nextIdx);
     }
     return this;
   }

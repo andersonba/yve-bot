@@ -7,8 +7,9 @@
   "author": "Anderson de Oliveira <andersonba@me.com>",
   "license": "MIT",
   "scripts": {
-    "test": "yarn lint && yarn test:strict -- --coverage",
+    "test": "yarn lint && yarn test:coverage",
     "test:strict": "jest",
+    "test:coverage": "yarn test:strict -- --coverage",
     "test:watch": "yarn test:strict -- --watch",
     "lint": "tslint --project tsconfig.json",
     "clean": "rm -rf lib",

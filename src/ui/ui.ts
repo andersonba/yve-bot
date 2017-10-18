@@ -42,10 +42,9 @@ export class ChatUI {
     const btn = document.createElement('button');
     btn.className = 'yvebot-message-bubbleBtn';
     btn.onclick = () => onClick(btn);
-    const value = option.value ? String(option.value) : '';
-    const label = option.label;
-    btn.setAttribute('data-value', value || label);
-    btn.setAttribute('data-label', label || value);
+    const { value, label } = option;
+    btn.setAttribute('data-value', String((value === undefined ? label : value) || ''));
+    btn.setAttribute('data-label', String((label === undefined ? value : label) || ''));
     btn.textContent = btn.getAttribute('data-label');
     return btn;
   }

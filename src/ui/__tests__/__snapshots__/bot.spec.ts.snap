@@ -100,9 +100,21 @@ exports[`DOM behaviors user reply with single choice 1`] = `
           <button
             class="yvebot-message-bubbleBtn"
             data-label="Three"
-            data-value="Three"
+            data-value=""
           >
             Three
+          </button>
+          <button
+            class="yvebot-message-bubbleBtn"
+            data-label=""
+            data-value="Four"
+          />
+          <button
+            class="yvebot-message-bubbleBtn"
+            data-label="Five"
+            data-value="Five"
+          >
+            Five
           </button>
         </div>
       </li>

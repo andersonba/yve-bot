@@ -107,7 +107,11 @@ describe('DOM behaviors', () => {
       options:
         - label: One
         - value: Two
-        - Three
+        - label: Three
+          value:
+        - label:
+          value: Four
+        - Five
     `);
     new YveBotChat(rules, OPTS).start();
     const { target, input, submit, getBubbleButtons, getUserMessages } = getChatElements();
@@ -119,7 +123,7 @@ describe('DOM behaviors', () => {
     expect(input.hasAttribute('disabled')).toBeTruthy;
     expect(input.placeholder).toContain('Choose an option');
     expect(submit.hasAttribute('disabled')).toBeTruthy;
-    expect(bubbles).toHaveLength(3);
+    expect(bubbles).toHaveLength(5);
     expect(getUserMessages()).toHaveLength(0);
     expect(target).toMatchSnapshot();
 

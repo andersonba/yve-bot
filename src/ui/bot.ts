@@ -19,6 +19,7 @@ export class YveBotChat {
       doneMultipleChoiceLabel: 'Done',
       andSeparatorText: 'and',
       submitLabel: 'Send',
+      showTimestamp: true,
       autoFocus: true,
     };
 
@@ -99,8 +100,9 @@ export class YveBotChat {
 
   newMessage(source: ChatMessageSource, message: Answer | Answer[], rule?: Rule) {
     const { UI } = this;
+    const { showTimestamp } = this.options;
     const sender = source === 'BOT' ? this.options.name : null;
-    const thread = UI.createThread(source, UI.createTextMessage(message, sender));
+    const thread = UI.createThread(source, UI.createTextMessage(message, sender, showTimestamp));
 
     if (source === 'BOT') {
       switch (rule.type) {

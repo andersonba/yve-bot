@@ -53,5 +53,8 @@
       "!src/core/index.ts",
       "!src/ui/index.ts"
     ]
+  },
+  "dependencies": {
+    "moment": "^2.19.1"
   }
 }

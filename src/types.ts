@@ -49,6 +49,7 @@ export interface ChatOptions {
   doneMultipleChoiceLabel?: string;
   andSeparatorText?: string;
   submitLabel?: string;
+  showTimestamp?: boolean;
   autoFocus?: boolean;
   yveBotOptions?: YveBotOptions;
 }

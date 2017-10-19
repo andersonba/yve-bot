@@ -1,4 +1,4 @@
-import { get, set, unset } from 'lodash';
+import { get, set, unset, merge } from 'lodash';
 import { YveBot } from './bot';
 
 export type StoreData = {
@@ -41,13 +41,14 @@ export class Store {
 
   reset(): void {
     this.data = {
-      currentIdx: null,
+      currentIdx: 0,
       waitingForAnswer: false,
       output: {},
     };
   }
 
   replace(data: StoreData): void {
-    this.data = data;
+    this.reset();
+    this.data = merge({}, this.data, data);
   }
 }

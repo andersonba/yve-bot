@@ -9,7 +9,7 @@ function mockBot() {
 test('initial state', () => {
   const store = new Store(null);
   expect(store.get()).toEqual({
-    currentIdx: null,
+    currentIdx: 0,
     waitingForAnswer: false,
     output: {},
   });
@@ -37,7 +37,7 @@ test('reseting', () => {
   store.set('currentIdx', 1);
   expect(store.get('currentIdx')).toBe(1);
   store.reset();
-  expect(store.get('currentIdx')).toBeNull();
+  expect(store.get('currentIdx')).toBe(0);
 });
 
 test('replacing', () => {
@@ -49,4 +49,12 @@ test('replacing', () => {
   };
   store.replace(obj);
   expect(store.get()).toEqual(obj);
+});
+
+test('replacing keeping default value', () => {
+  const store = new Store(mockBot());
+  const obj = {};
+  store.replace(obj as any);
+  expect(store.get('currentIdx')).toEqual(0);
+  expect(store.get('output')).toEqual({});
 });

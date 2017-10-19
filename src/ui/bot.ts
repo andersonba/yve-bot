@@ -13,7 +13,6 @@ export class YveBotChat {
   constructor(rules: Rule[], opts?: ChatOptions) {
     const DEFAULT_OPTS: ChatOptions = {
       target: 'body',
-      name: '',
       inputPlaceholder: 'Type your message',
       inputPlaceholderSingleChoice: 'Choose an option above',
       inputPlaceholderMutipleChoice: 'Choose the options above',
@@ -100,7 +99,7 @@ export class YveBotChat {
 
   newMessage(source: ChatMessageSource, message: Answer | Answer[], rule?: Rule) {
     const { UI } = this;
-    const sender = source === 'BOT' ? this.options.name : '';
+    const sender = source === 'BOT' ? this.options.name : null;
     const thread = UI.createThread(source, UI.createTextMessage(message, sender));
 
     if (source === 'BOT') {

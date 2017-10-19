@@ -84,7 +84,10 @@
       overflow: hidden;
     }
   }
-  .yvebot-message {
+  .yvebot-sender {
+    font-weight: bold;
+  }
+  .yvebot-bubble {
     border-radius: 15px;
     padding: 8px 15px;
     line-height: 24px;

@@ -1,5 +1,51 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`DOM behaviors initial elements 1`] = `
+<body>
+  <div
+    class="yvebot-chat"
+  >
+    <ul
+      class="yvebot-conversation"
+    >
+      <li
+        class="yvebot-thread yvebot-thread-bot yvebot-thread-typing"
+      >
+        <div
+          class="yvebot-typing"
+        >
+          <span
+            class="yvebot-typing-dot"
+          />
+          <span
+            class="yvebot-typing-dot"
+          />
+          <span
+            class="yvebot-typing-dot"
+          />
+        </div>
+      </li>
+    </ul>
+    <form
+      class="yvebot-form"
+    >
+      <input
+        autocomplete="off"
+        class="yvebot-form-input"
+        placeholder="Type your message"
+        type="text"
+      />
+      <button
+        class="yvebot-form-submit"
+        type="submit"
+      >
+        Send
+      </button>
+    </form>
+  </div>
+</body>
+`;
+
 exports[`DOM behaviors user reply 1`] = `
 <body>
   <div

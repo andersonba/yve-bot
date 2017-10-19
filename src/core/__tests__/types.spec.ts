@@ -4,8 +4,8 @@ import { Types } from '../types';
 
 describe('Any', () => {
   test('common', () => {
-    expect('parser' in new Types).toBeFalsy;
-    expect('validators' in new Types).toBeFalsy;
+    expect('parser' in new Types).toBeFalsy();
+    expect('validators' in new Types).toBeFalsy();
   });
 });
 
@@ -156,9 +156,9 @@ describe('MultipleChoice', () => {
     test('unknown options', () => {
       const rule = mocks.Rule();
       // from single
-      expect(validators[0].function('--', rule)).toBeFalsy;
+      expect(validators[0].function('--', rule)).toBeFalsy();
       // from multiple
-      expect(validators[0].function(['a', 'b'], rule)).toBeFalsy;
+      expect(validators[0].function(['a', 'b'], rule)).toBeFalsy();
     });
 
     test('using label', () => {
@@ -175,9 +175,9 @@ describe('MultipleChoice', () => {
         ],
       });
       // from single
-      expect(validators[0].function('a phrase', rule)).toBeTruthy;
+      expect(validators[0].function('a phrase', rule)).toBeTruthy();
       // from multiple
-      expect(validators[0].function(['The Word', 'a phrase'], rule)).toBeTruthy;
+      expect(validators[0].function(['The Word', 'a phrase'], rule)).toBeTruthy();
     });
 
     test('using value', () => {
@@ -194,9 +194,9 @@ describe('MultipleChoice', () => {
         ],
       });
       // from single
-      expect(validators[0].function('A-Phrase', rule)).toBeTruthy;
+      expect(validators[0].function('A-Phrase', rule)).toBeTruthy();
       // from multiple
-      expect(validators[0].function(['The WorD', 'a-phrase'], rule)).toBeTruthy;
+      expect(validators[0].function(['The WorD', 'a-phrase'], rule)).toBeTruthy();
     });
   });
 });

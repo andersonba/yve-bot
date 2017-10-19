@@ -189,18 +189,22 @@ export class ChatUI {
       text = String(answer);
     }
 
-    const message = document.createElement('div');
-    message.className = 'yvebot-message';
-    message.innerHTML = text;
+    const bubble = document.createElement('div');
+    bubble.className = 'yvebot-bubble';
 
     if (senderName) {
       const name = document.createElement('div');
       name.className = 'yvebot-sender';
       name.innerHTML = senderName;
-      message.insertBefore(name, message.childNodes[0]);
+      bubble.appendChild(name);
     }
 
-    return message;
+    const message = document.createElement('div');
+    message.className = 'yvebot-message';
+    message.innerHTML = text;
+    bubble.appendChild(message);
+
+    return bubble;
   }
 
 }

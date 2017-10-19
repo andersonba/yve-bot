@@ -54,13 +54,13 @@ form button:hover {
 .yvebot-sender {
   font-weight: bold;
 }
-.yvebot-message,
+.yvebot-bubble,
 .yvebot-typing {
   display: inline-block;
   padding: 5px 10px;
   border-radius: 8px;
 }
-.yvebot-thread-bot .yvebot-message,
+.yvebot-thread-bot .yvebot-bubble,
 .yvebot-thread-bot .yvebot-typing {
   background-color: #eee;
 }

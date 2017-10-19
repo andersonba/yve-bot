@@ -12,14 +12,18 @@ exports[`DOM behaviors bot with name 1`] = `
         class="yvebot-thread yvebot-thread-bot"
       >
         <div
-          class="yvebot-message"
+          class="yvebot-bubble"
         >
           <div
             class="yvebot-sender"
           >
             YveBot
           </div>
-          Hello
+          <div
+            class="yvebot-message"
+          >
+            Hello
+          </div>
         </div>
       </li>
       <li
@@ -72,9 +76,13 @@ exports[`DOM behaviors initial elements 1`] = `
         class="yvebot-thread yvebot-thread-bot"
       >
         <div
-          class="yvebot-message"
+          class="yvebot-bubble"
         >
-          Hello
+          <div
+            class="yvebot-message"
+          >
+            Hello
+          </div>
         </div>
       </li>
       <li
@@ -127,18 +135,26 @@ exports[`DOM behaviors user reply 1`] = `
         class="yvebot-thread yvebot-thread-bot"
       >
         <div
-          class="yvebot-message"
+          class="yvebot-bubble"
         >
-          Your name
+          <div
+            class="yvebot-message"
+          >
+            Your name
+          </div>
         </div>
       </li>
       <li
         class="yvebot-thread yvebot-thread-user"
       >
         <div
-          class="yvebot-message"
+          class="yvebot-bubble"
         >
-          James
+          <div
+            class="yvebot-message"
+          >
+            James
+          </div>
         </div>
       </li>
       <li
@@ -191,9 +207,13 @@ exports[`DOM behaviors user reply with single choice 1`] = `
         class="yvebot-thread yvebot-thread-bot"
       >
         <div
-          class="yvebot-message"
+          class="yvebot-bubble"
         >
-          Make your choice
+          <div
+            class="yvebot-message"
+          >
+            Make your choice
+          </div>
         </div>
         <div
           class="yvebot-message-bubbles"
@@ -285,18 +305,26 @@ exports[`DOM behaviors user reply with single choice 2`] = `
         class="yvebot-thread yvebot-thread-bot"
       >
         <div
-          class="yvebot-message"
+          class="yvebot-bubble"
         >
-          Make your choice
+          <div
+            class="yvebot-message"
+          >
+            Make your choice
+          </div>
         </div>
       </li>
       <li
         class="yvebot-thread yvebot-thread-user"
       >
         <div
-          class="yvebot-message"
+          class="yvebot-bubble"
         >
-          One
+          <div
+            class="yvebot-message"
+          >
+            One
+          </div>
         </div>
       </li>
       <li

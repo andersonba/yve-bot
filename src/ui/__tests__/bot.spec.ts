@@ -53,13 +53,14 @@ test('event binding', async () => {
 describe('DOM behaviors', () => {
   test('initial elements', () => {
     new YveBotChat([], OPTS).start();
-    const { conversation, form, input, submit, getTyping } = getChatElements();
+    const { target, conversation, form, input, submit, getTyping } = getChatElements();
 
-    expect(conversation).toBeDefined;
-    expect(getTyping()).toBeDefined;
-    expect(form).toBeDefined;
-    expect(input).toBeDefined;
-    expect(submit).toBeDefined;
+    expect(conversation).not.toBeNull();
+    expect(getTyping()).not.toBeNull();
+    expect(form).not.toBeNull();
+    expect(input).not.toBeNull();
+    expect(submit).not.toBeNull();
+    expect(target).toMatchSnapshot();
   });
 
   test('user reply', async () => {
@@ -120,9 +121,9 @@ describe('DOM behaviors', () => {
 
     // showing the options
     const bubbles = getBubbleButtons();
-    expect(input.hasAttribute('disabled')).toBeTruthy;
+    expect(input.hasAttribute('disabled')).toBeTruthy();
     expect(input.placeholder).toContain('Choose an option');
-    expect(submit.hasAttribute('disabled')).toBeTruthy;
+    expect(submit.hasAttribute('disabled')).toBeTruthy();
     expect(bubbles).toHaveLength(5);
     expect(getUserMessages()).toHaveLength(0);
     expect(target).toMatchSnapshot();
@@ -131,9 +132,9 @@ describe('DOM behaviors', () => {
     bubbles[0].click();
     await sleep();
 
-    expect(input.hasAttribute('disabled')).toBeFalsy;
-    expect(input.placeholder).toBeUndefined;
-    expect(submit.hasAttribute('disabled')).toBeFalsy;
+    expect(input.hasAttribute('disabled')).toBeFalsy();
+    expect(input.placeholder).toBe('Type your message');
+    expect(submit.hasAttribute('disabled')).toBeFalsy();
     expect(getBubbleButtons()).toHaveLength(0);
     expect(getUserMessages()).toHaveLength(1);
     expect(target).toMatchSnapshot();
@@ -168,10 +169,10 @@ describe('DOM behaviors', () => {
     const done = getBubbleDone();
 
     // showing the options
-    expect(done).toBeDefined;
-    expect(input.hasAttribute('disabled')).toBeTruthy;
+    expect(done).not.toBeNull();
+    expect(input.hasAttribute('disabled')).toBeTruthy();
     expect(input.placeholder).toContain('Choose the options');
-    expect(submit.hasAttribute('disabled')).toBeTruthy;
+    expect(submit.hasAttribute('disabled')).toBeTruthy();
     expect(bubbles).toHaveLength(3);
     expect(getUserMessages()).toHaveLength(0);
 
@@ -196,9 +197,9 @@ describe('DOM behaviors', () => {
 
     // sending answer
     done.click();
-    expect(input.hasAttribute('disabled')).toBeFalsy;
-    expect(input.placeholder).toBeUndefined;
-    expect(submit.hasAttribute('disabled')).toBeFalsy;
+    expect(input.hasAttribute('disabled')).toBeFalsy();
+    expect(input.placeholder).toBe('Type your message');
+    expect(submit.hasAttribute('disabled')).toBeFalsy();
     expect(getBubbleButtons()).toHaveLength(0);
     expect(getUserMessages()).toHaveLength(1);
   });

@@ -42,6 +42,7 @@ export type Answer = string | number;
 
 export interface ChatOptions {
   target?: string;
+  name?: string;
   inputPlaceholder?: string;
   inputPlaceholderSingleChoice?: string;
   inputPlaceholderMutipleChoice?: string;

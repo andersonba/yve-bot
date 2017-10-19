@@ -1,5 +1,69 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`DOM behaviors bot with name 1`] = `
+<body>
+  <div
+    class="yvebot-chat"
+  >
+    <ul
+      class="yvebot-conversation"
+    >
+      <li
+        class="yvebot-thread yvebot-thread-bot"
+      >
+        <div
+          class="yvebot-bubble"
+        >
+          <div
+            class="yvebot-sender"
+          >
+            YveBot
+          </div>
+          <div
+            class="yvebot-message"
+          >
+            Hello
+          </div>
+        </div>
+      </li>
+      <li
+        class="yvebot-thread yvebot-thread-bot yvebot-thread-typing"
+      >
+        <div
+          class="yvebot-typing"
+        >
+          <span
+            class="yvebot-typing-dot"
+          />
+          <span
+            class="yvebot-typing-dot"
+          />
+          <span
+            class="yvebot-typing-dot"
+          />
+        </div>
+      </li>
+    </ul>
+    <form
+      class="yvebot-form"
+    >
+      <input
+        autocomplete="off"
+        class="yvebot-form-input"
+        placeholder="Type your message"
+        type="text"
+      />
+      <button
+        class="yvebot-form-submit"
+        type="submit"
+      >
+        Send
+      </button>
+    </form>
+  </div>
+</body>
+`;
+
 exports[`DOM behaviors initial elements 1`] = `
 <body>
   <div
@@ -8,6 +72,19 @@ exports[`DOM behaviors initial elements 1`] = `
     <ul
       class="yvebot-conversation"
     >
+      <li
+        class="yvebot-thread yvebot-thread-bot"
+      >
+        <div
+          class="yvebot-bubble"
+        >
+          <div
+            class="yvebot-message"
+          >
+            Hello
+          </div>
+        </div>
+      </li>
       <li
         class="yvebot-thread yvebot-thread-bot yvebot-thread-typing"
       >
@@ -58,18 +135,26 @@ exports[`DOM behaviors user reply 1`] = `
         class="yvebot-thread yvebot-thread-bot"
       >
         <div
-          class="yvebot-message"
+          class="yvebot-bubble"
         >
-          Your name
+          <div
+            class="yvebot-message"
+          >
+            Your name
+          </div>
         </div>
       </li>
       <li
         class="yvebot-thread yvebot-thread-user"
       >
         <div
-          class="yvebot-message"
+          class="yvebot-bubble"
         >
-          James
+          <div
+            class="yvebot-message"
+          >
+            James
+          </div>
         </div>
       </li>
       <li
@@ -122,9 +207,13 @@ exports[`DOM behaviors user reply with single choice 1`] = `
         class="yvebot-thread yvebot-thread-bot"
       >
         <div
-          class="yvebot-message"
+          class="yvebot-bubble"
         >
-          Make your choice
+          <div
+            class="yvebot-message"
+          >
+            Make your choice
+          </div>
         </div>
         <div
           class="yvebot-message-bubbles"
@@ -216,18 +305,26 @@ exports[`DOM behaviors user reply with single choice 2`] = `
         class="yvebot-thread yvebot-thread-bot"
       >
         <div
-          class="yvebot-message"
+          class="yvebot-bubble"
         >
-          Make your choice
+          <div
+            class="yvebot-message"
+          >
+            Make your choice
+          </div>
         </div>
       </li>
       <li
         class="yvebot-thread yvebot-thread-user"
       >
         <div
-          class="yvebot-message"
+          class="yvebot-bubble"
         >
-          One
+          <div
+            class="yvebot-message"
+          >
+            One
+          </div>
         </div>
       </li>
       <li

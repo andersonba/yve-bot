@@ -51,15 +51,34 @@ test('event binding', async () => {
 });
 
 describe('DOM behaviors', () => {
-  test('initial elements', () => {
-    new YveBotChat([], OPTS).start();
+  test('initial elements', async () => {
+    const rules = loadYaml(`
+    - message: Hello
+    `);
+
+    new YveBotChat(rules, OPTS).start();
     const { target, conversation, form, input, submit, getTyping } = getChatElements();
+
+    await sleep();
 
     expect(conversation).not.toBeNull();
     expect(getTyping()).not.toBeNull();
     expect(form).not.toBeNull();
     expect(input).not.toBeNull();
     expect(submit).not.toBeNull();
+    expect(target).toMatchSnapshot();
+  });
+
+  test('bot with name', async () => {
+    const rules = loadYaml(`
+    - message: Hello
+    `);
+    new YveBotChat(rules, Object.assign({ name: 'YveBot' }, OPTS)).start();
+    const { target, getSenderName } = getChatElements();
+
+    await sleep();
+
+    expect(getSenderName()).not.toBeNull();
     expect(target).toMatchSnapshot();
   });
 

@@ -29,6 +29,7 @@ export function getChatElements(selector: string = 'body') {
   const getBubbleButtons = () => target.querySelectorAll('.yvebot-message-bubbleBtn') as NodeListOf<HTMLButtonElement>;
   const getBubbleDone = () => target.querySelector('.yvebot-message-bubbleDone') as HTMLButtonElement;
   const getTyping = () => target.querySelector('.yvebot-thread-typing') as HTMLLIElement;
+  const getSenderName = () => target.querySelector('.yvebot-sender') as HTMLDivElement;
   return {
     target,
     form,
@@ -41,5 +42,6 @@ export function getChatElements(selector: string = 'body') {
     getBubbleButtons,
     getBubbleDone,
     getTyping,
+    getSenderName,
   };
 }

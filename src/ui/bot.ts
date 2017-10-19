@@ -13,7 +13,7 @@ export class YveBotChat {
   constructor(rules: Rule[], opts?: ChatOptions) {
     const DEFAULT_OPTS: ChatOptions = {
       target: 'body',
-      name: 'YveBot',
+      name: '',
       inputPlaceholder: 'Type your message',
       inputPlaceholderSingleChoice: 'Choose an option above',
       inputPlaceholderMutipleChoice: 'Choose the options above',

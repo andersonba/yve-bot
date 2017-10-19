@@ -8,7 +8,7 @@ var rules =
   { message: 'What city do you live in?',
     name: 'city',
     type: 'String' },
-  { message: 'Thanks, wait for a moment.' },
+  { message: 'Thanks, wait a moment.' },
   { sleep: 4000 },
   { message: 'Make your choice',
     name: 'choice',

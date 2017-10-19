@@ -19,6 +19,8 @@ export class YveBotChat {
       doneMultipleChoiceLabel: 'Done',
       andSeparatorText: 'and',
       submitLabel: 'Send',
+      timestampable: false,
+      timestampFormatter: ts => new Date(ts).toUTCString().slice(-12, -4),
       autoFocus: true,
     };
 

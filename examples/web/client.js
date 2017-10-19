@@ -5,6 +5,7 @@ $(document).ready(function() {
     new YveBot(rules, {
       target: '.Chat',
       name: 'YveBot',
+      timestampable: true,
     })
       .on('storeChanged', function(data) {
         document.getElementById('output').innerText = JSON.stringify(data, null, 2);

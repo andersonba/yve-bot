@@ -14,6 +14,11 @@ exports[`DOM behaviors user reply 1`] = `
         <div
           class="yvebot-message"
         >
+          <div
+            class="yvebot-sender"
+          >
+            YveBot
+          </div>
           Your name
         </div>
       </li>
@@ -78,6 +83,11 @@ exports[`DOM behaviors user reply with single choice 1`] = `
         <div
           class="yvebot-message"
         >
+          <div
+            class="yvebot-sender"
+          >
+            YveBot
+          </div>
           Make your choice
         </div>
         <div
@@ -172,6 +182,11 @@ exports[`DOM behaviors user reply with single choice 2`] = `
         <div
           class="yvebot-message"
         >
+          <div
+            class="yvebot-sender"
+          >
+            YveBot
+          </div>
           Make your choice
         </div>
       </li>

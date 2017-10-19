@@ -179,7 +179,7 @@ export class ChatUI {
     conversation.scrollTop = conversation.scrollHeight;
   }
 
-  createTextMessage(answer: Answer | Answer[]) {
+  createTextMessage(answer: Answer | Answer[], senderName?: string) {
     let text: string;
 
     if (answer instanceof Array) {
@@ -192,6 +192,14 @@ export class ChatUI {
     const message = document.createElement('div');
     message.className = 'yvebot-message';
     message.innerHTML = text;
+
+    if (senderName) {
+      const name = document.createElement('div');
+      name.className = 'yvebot-sender';
+      name.innerHTML = senderName;
+      message.insertBefore(name, message.childNodes[0]);
+    }
+
     return message;
   }
 

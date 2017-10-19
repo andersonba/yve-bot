@@ -51,6 +51,9 @@ form button:hover {
 .yvebot-thread {
   margin: 3px;
 }
+.yvebot-sender {
+  font-weight: bold;
+}
 .yvebot-message,
 .yvebot-typing {
   display: inline-block;

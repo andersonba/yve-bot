@@ -1,6 +1,20 @@
 import * as mocks from '@test/mocks';
 import * as utils from '../utils';
 
+describe('compileTemplate', () => {
+  test('common', () => {
+    function testMethod(msg, payload, expected) {
+      expect(utils.compileTemplate(msg, payload)).toBe(expected);
+    }
+
+    testMethod('A {0} {1}', [1, 'w'], 'A 1 w');
+    testMethod('{a}{b}{c.d.e}', { a: 1, b: 2, c: { d: { e: 3 } }}, '123');
+    testMethod('A{}', {}, 'A');
+    testMethod('{numbers}', { numbers: [1,2,3] }, '1,2,3');
+    testMethod('{a.0.b}', { a: [{ b: '#' }]}, '#');
+  });
+});
+
 describe('calculateDelayToTypeMessage', () => {
   test('common', () => {
     function testMethod(msg, expected) {

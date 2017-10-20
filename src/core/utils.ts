@@ -1,5 +1,15 @@
 import { RuleOption, Answer } from '../types';
 
+export function compileTemplate(template: string, payload: any): string {
+	return template.replace(/{(.*?)}/g, (_, key) => {
+		let output = payload;
+		for (const prop of key.split('.')) {
+      output = output[prop];
+		}
+		return output || '';
+	});
+}
+
 export function calculateDelayToTypeMessage(message: string): number {
   const timePerChar = 40;
   return (message || '').length * timePerChar;

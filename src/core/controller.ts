@@ -1,4 +1,3 @@
-import * as format from 'string-template';
 import { Rule, RuleNext, Answer } from '../types';
 import { YveBot } from './bot';
 import { ValidatorError, InvalidAttributeError, RuleNotFound } from './exceptions';
@@ -32,6 +31,34 @@ function validateAnswer(
       }
     });
   });
+}
+
+function compileMessage(bot: YveBot, message: string): string {
+  const output = bot.store.output();
+  const indexes = bot.controller.getIndexes();
+  const re = /(?!\{)\w+[.]((?:\w+[.])*\w+)(?=\})/g;
+  const matches = (message.match(re) || []).map(s => s.split('.')[0]);
+  Array.from(new Set(matches)).map(key => {
+    const rule = bot.rules[indexes[key]];
+    if (!rule || !rule.options) { return; }
+    const answer = output[key];
+    output[key] = (function() {
+      // multiple choice
+      if (answer instanceof Array) {
+        return answer
+          .map(a => {
+            const opt = utils.findOptionByAnswer(rule.options, a);
+            opt.toString = () => a;
+            return opt;
+          });
+      }
+      // single choice
+      const option = utils.findOptionByAnswer(rule.options, answer);
+      option.toString = () => answer;
+      return option;
+    }());
+  });
+  return utils.compileTemplate(message, output).trim();
 }
 
 function runActions(bot: YveBot, rule: Rule, prop: string): Promise<any> {
@@ -89,6 +116,10 @@ export class Controller {
     });
   }
 
+  getIndexes() {
+    return this.indexes;
+  }
+
   async run(idx: number = 0): Promise<this> {
     const { bot } = this;
     const rule = getRuleByIndex(bot, idx);
@@ -143,7 +174,7 @@ export class Controller {
       }
     }
 
-    const text = format(message, bot.store.output());
+    const text = compileMessage(bot, message);
     bot.dispatch('talk', text, rule);
     bot.dispatch('typed');
 

@@ -24,7 +24,6 @@
     "faker": "^4.1.0",
     "jest": "^21.0.2",
     "lodash": "^4.17.4",
-    "string-template": "^1.0.0",
     "ts-jest": "^21.0.0",
     "ts-node": "^3.3.0",
     "tslint": "^5.6.0",

@@ -146,6 +146,75 @@ test('auto reply message', async () => {
   expect(onTalk).toBeCalledWith('Thanks', {}, 'session');
 });
 
+test('compiled template', async () => {
+  const onTalk = jest.fn();
+  const rules = loadYaml(`
+  - message: Color
+    name: color
+    type: String
+    replyMessage: "Your color: {color} {color.invalid}"
+  `);
+  const bot = new YveBot(rules, OPTS)
+    .on('talk', onTalk)
+    .start();
+
+  await sleep();
+  bot.hear('red');
+  await sleep();
+
+  expect(onTalk).toBeCalledWith('Your color: red', {}, 'session');
+});
+
+test('compiled template with dot notation using single choice', async () => {
+  const onTalk = jest.fn();
+  const rules = loadYaml(`
+  - message: Number
+    name: number
+    type: SingleChoice
+    options:
+      - label: One
+        value: 1
+      - label: Two
+        value: 2
+    replyMessage: "Your number: {number} ({number.label})"
+  `);
+  const bot = new YveBot(rules, OPTS)
+    .on('talk', onTalk)
+    .start();
+
+  await sleep();
+  bot.hear(1);
+  await sleep();
+
+  expect(onTalk).toBeCalledWith('Your number: 1 (One)', {}, 'session');
+});
+
+test('compiled template with dot notation using multiple choice', async () => {
+  const onTalk = jest.fn();
+  const rules = loadYaml(`
+  - message: Number
+    name: numbers
+    type: MultipleChoice
+    options:
+      - label: One
+        value: 1
+      - label: Two
+        value: 2
+      - label: Three
+        value: 3
+    replyMessage: "Your numbers: {numbers.0.label}, {numbers.1.value} and {numbers.2}"
+  `);
+  const bot = new YveBot(rules, OPTS)
+    .on('talk', onTalk)
+    .start();
+
+  await sleep();
+  bot.hear([1, 2, 3]);
+  await sleep();
+
+  expect(onTalk).toBeCalledWith('Your numbers: One, 2 and 3', {}, 'session');
+});
+
 test('jumping to rule', async () => {
   const onTalk = jest.fn();
   const rules = loadYaml(`

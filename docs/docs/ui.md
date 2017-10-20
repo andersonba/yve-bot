@@ -23,6 +23,7 @@ Create bots without re-implement the chat conversation UI components. This brows
 | Argument | Default | Type | Description |
 |----------|---------|------|-------------|
 | rules | - | array[Rule] | Array of Rule
+| options.name | `null` | string | The bot name. If filled, a label will appear in message bubble
 | options.target | `body` | string | DOM target to create the chat
 | options.inputPlaceholder | `Type your message` | string | Message of input placeholder
 | options.inputPlaceholderSingleChoice | `Choose an option above` | string | Message of input placeholder when current rule is a SingleChoice type

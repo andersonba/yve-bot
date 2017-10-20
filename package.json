@@ -18,12 +18,11 @@
   },
   "devDependencies": {
     "@types/jest": "^20.0.8",
-    "@types/lodash": "^4.14.73",
     "@types/node": "^8.0.24",
+    "@types/lodash": "^4.14.73",
     "awesome-typescript-loader": "^3.2.3",
     "faker": "^4.1.0",
     "jest": "^21.0.2",
-    "lodash": "^4.17.4",
     "ts-jest": "^21.0.0",
     "ts-node": "^3.3.0",
     "tslint": "^5.6.0",
@@ -31,6 +30,9 @@
     "typescript": "^2.4.2",
     "webpack": "^3.4.1",
     "webpack-node-externals": "^1.6.0"
+  },
+  "dependencies": {
+    "lodash": "^4.17.4"
   },
   "jest": {
     "mapCoverage": true,

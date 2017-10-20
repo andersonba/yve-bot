@@ -31,11 +31,9 @@ const baseConfig = {
 
   plugins: [
     new CheckerPlugin(),
-    /*
     new webpack.optimize.UglifyJsPlugin({
       minimize: true,
     }),
-    */
   ],
 };
 

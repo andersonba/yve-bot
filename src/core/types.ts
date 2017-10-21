@@ -7,7 +7,7 @@ const types = {
   Any: {},
 
   String: {
-    parser: (value: Answer) => String(value),
+    parser: async (value: Answer) => String(value),
     validators: [
       {
         string: true,
@@ -17,7 +17,7 @@ const types = {
   },
 
   Number: {
-    parser: (value: Answer) => Number(value),
+    parser: async (value: Answer) => Number(value),
     validators: [
       {
         number: true,
@@ -27,7 +27,7 @@ const types = {
   },
 
   SingleChoice: {
-    parser: (value: Answer | Answer[], rule: Rule) => {
+    parser: async (value: Answer | Answer[], rule: Rule) => {
       const option = utils.findOptionByAnswer(rule.options, value);
       if (!option) {
         return undefined;
@@ -44,7 +44,7 @@ const types = {
   },
 
   MultipleChoice: {
-    parser: (answer: Answer | Answer[], rule: Rule) => {
+    parser: async (answer: Answer | Answer[], rule: Rule) => {
       let values;
       if (answer instanceof Array) {
         values = answer;

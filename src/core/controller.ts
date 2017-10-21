@@ -192,7 +192,7 @@ export class Controller {
 
     let answer = message;
     if ('parser' in bot.types[rule.type]) {
-      answer = bot.types[rule.type].parser(answer, rule, bot);
+      answer = await bot.types[rule.type].parser(answer, rule, bot);
     }
 
     try {

@@ -12,11 +12,11 @@ describe('Any', () => {
 describe('String', () => {
   const { parser, validators } = (new Types).String;
 
-  test('parser', () => {
-    expect(parser('word')).toBe('word');
-    expect(parser(123)).toBe('123');
-    expect(parser(0)).toBe('0');
-    expect(parser('')).toBe('');
+  test('parser', async () => {
+    expect(await parser('word')).toBe('word');
+    expect(await parser(123)).toBe('123');
+    expect(await parser(0)).toBe('0');
+    expect(await parser('')).toBe('');
   });
 
   test('validators', () => {
@@ -29,10 +29,10 @@ describe('String', () => {
 describe('Number', () => {
   const { parser, validators } = (new Types).Number;
 
-  test('parser', () => {
-    expect(parser('123')).toBe(123);
-    expect(parser('0')).toBe(0);
-    expect(parser('word')).toBeNaN();
+  test('parser', async () => {
+    expect(await parser('123')).toBe(123);
+    expect(await parser('0')).toBe(0);
+    expect(await parser('word')).toBeNaN();
   });
 
   test('validators', () => {
@@ -46,12 +46,12 @@ describe('SingleChoice', () => {
   const { parser, validators } = (new Types).SingleChoice;
 
   describe('parser', () => {
-    test('unknown option', () => {
+    test('unknown option', async () => {
       const rule = mocks.Rule();
-      expect(parser('---', rule)).toBeUndefined();
+      expect(await parser('---', rule)).toBeUndefined();
     });
 
-    test('returning value', () => {
+    test('returning value', async () => {
       const rule = mocks.Rule({
         options: [
           mocks.RuleOption({
@@ -60,10 +60,10 @@ describe('SingleChoice', () => {
           }),
         ],
       });
-      expect(parser('word', rule)).toBe('word');
+      expect(await parser('word', rule)).toBe('word');
     });
 
-    test('returning label', () => {
+    test('returning label', async () => {
       const rule = mocks.Rule({
         options: [
           mocks.RuleOption({
@@ -72,7 +72,7 @@ describe('SingleChoice', () => {
           }),
         ],
       });
-      expect(parser('The Word', rule)).toBe('The Word');
+      expect(await parser('The Word', rule)).toBe('The Word');
     });
   });
 
@@ -109,15 +109,15 @@ describe('MultipleChoice', () => {
   const { parser, validators } = (new Types).MultipleChoice;
 
   describe('parser', () => {
-    test('unknown options', () => {
+    test('unknown options', async () => {
       const rule = mocks.Rule();
       // from string
-      expect(parser('x + y, z', rule)).toHaveLength(0);
+      expect(await parser('x + y, z', rule)).toHaveLength(0);
       // from array
-      expect(parser(['x', 1], rule)).toHaveLength(0);
+      expect(await parser(['x', 1], rule)).toHaveLength(0);
     });
 
-    test('returning value', () => {
+    test('returning value', async () => {
       const rule = mocks.Rule({
         options: [
           mocks.RuleOption({
@@ -131,12 +131,12 @@ describe('MultipleChoice', () => {
         ],
       });
       // from string
-      expect(parser('word dog word 123', rule)).toEqual(['word', 123]);
+      expect(await parser('word dog word 123', rule)).toEqual(['word', 123]);
       // from array
-      expect(parser(['word', 123, '123'], rule)).toEqual(['word', 123]);
+      expect(await parser(['word', 123, '123'], rule)).toEqual(['word', 123]);
     });
 
-    test('returning label', () => {
+    test('returning label', async () => {
       const rule = mocks.Rule({
         options: [
           mocks.RuleOption({
@@ -146,9 +146,9 @@ describe('MultipleChoice', () => {
         ],
       });
       // from string
-      expect(parser('the word is okay', rule)).toEqual(['The Word']);
+      expect(await parser('the word is okay', rule)).toEqual(['The Word']);
       // from array
-      expect(parser(['the word', 'word', 1], rule)).toEqual(['The Word']);
+      expect(await parser(['the word', 'word', 1], rule)).toEqual(['The Word']);
     });
   });
 

@@ -1,4 +1,3 @@
-import moment from 'moment/src/moment';
 import { Answer, Rule, RuleOption, ChatOptions, ChatMessageSource } from '../types';
 import * as utils from './utils';
 
@@ -180,7 +179,8 @@ export class ChatUI {
     conversation.scrollTop = conversation.scrollHeight;
   }
 
-  createTextMessage(answer: Answer | Answer[], senderName?: string, showTimestamp?: boolean) {
+  createTextMessage(answer: Answer | Answer[], senderName?: string) {
+    const { timestampable, timestampFormatter } = this.options;
     let text: string;
 
     if (answer instanceof Array) {
@@ -205,10 +205,10 @@ export class ChatUI {
     message.innerHTML = text;
     bubble.appendChild(message);
 
-    if (showTimestamp) {
+    if (timestampable) {
       const timestamp = document.createElement('div');
       timestamp.className = 'yvebot-timestamp';
-      timestamp.innerHTML = moment().calendar().toString();
+      timestamp.innerHTML = timestampFormatter(new Date());
       bubble.appendChild(timestamp);
     }
 

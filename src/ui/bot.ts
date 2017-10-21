@@ -19,7 +19,8 @@ export class YveBotChat {
       doneMultipleChoiceLabel: 'Done',
       andSeparatorText: 'and',
       submitLabel: 'Send',
-      showTimestamp: true,
+      timestampable: false,
+      timestampFormatter: ts => new Date(ts).toUTCString().slice(-12, -4),
       autoFocus: true,
     };
 
@@ -100,9 +101,8 @@ export class YveBotChat {
 
   newMessage(source: ChatMessageSource, message: Answer | Answer[], rule?: Rule) {
     const { UI } = this;
-    const { showTimestamp } = this.options;
     const sender = source === 'BOT' ? this.options.name : null;
-    const thread = UI.createThread(source, UI.createTextMessage(message, sender, showTimestamp));
+    const thread = UI.createThread(source, UI.createTextMessage(message, sender));
 
     if (source === 'BOT') {
       switch (rule.type) {

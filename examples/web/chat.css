@@ -64,7 +64,7 @@ form button:hover {
 .yvebot-thread-bot .yvebot-typing {
   background-color: #eee;
 }
-.yvebot-thread-user .yvebot-message {
+.yvebot-thread-user .yvebot-bubble {
   background-color: #8ed3ff;
 }
 .yvebot-thread-user {

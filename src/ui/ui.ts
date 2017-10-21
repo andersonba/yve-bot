@@ -204,6 +204,11 @@ export class ChatUI {
     message.innerHTML = text;
     bubble.appendChild(message);
 
+    const timestamp = document.createElement('span');
+    timestamp.className = 'yvebot-timestamp';
+    message.innerText = new Date().toLocaleTimeString();
+    bubble.appendChild(timestamp);
+
     return bubble;
   }
 

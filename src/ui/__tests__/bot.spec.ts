@@ -82,6 +82,24 @@ describe('DOM behaviors', () => {
     expect(target).toMatchSnapshot();
   });
 
+  test('bot with timestamp', async() => {
+    const _now = Date.now;
+    Date.now = jest.fn().mockReturnValue(0);
+
+    const rules = loadYaml(`
+    - message: Hello
+    `);
+    new YveBotChat(rules, Object.assign({ name: 'Yvebot', timestampable: true }, OPTS)).start();
+    const { target, getTimestamp } = getChatElements();
+
+    await sleep();
+
+    expect(getTimestamp()).not.toBeNull();
+    expect(target).toMatchSnapshot();
+
+    Date.now = _now;
+  });
+
   test('user reply', async () => {
     const rules = loadYaml(`
     - message: Your name

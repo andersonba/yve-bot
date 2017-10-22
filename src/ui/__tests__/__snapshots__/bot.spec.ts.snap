@@ -64,6 +64,75 @@ exports[`DOM behaviors bot with name 1`] = `
 </body>
 `;
 
+exports[`DOM behaviors bot with timestamp 1`] = `
+<body>
+  <div
+    class="yvebot-chat"
+  >
+    <ul
+      class="yvebot-conversation"
+    >
+      <li
+        class="yvebot-thread yvebot-thread-bot"
+      >
+        <div
+          class="yvebot-bubble"
+        >
+          <div
+            class="yvebot-sender"
+          >
+            Yvebot
+          </div>
+          <div
+            class="yvebot-message"
+          >
+            Hello
+          </div>
+          <div
+            class="yvebot-timestamp"
+          >
+            00:00:00
+          </div>
+        </div>
+      </li>
+      <li
+        class="yvebot-thread yvebot-thread-bot yvebot-thread-typing"
+      >
+        <div
+          class="yvebot-typing"
+        >
+          <span
+            class="yvebot-typing-dot"
+          />
+          <span
+            class="yvebot-typing-dot"
+          />
+          <span
+            class="yvebot-typing-dot"
+          />
+        </div>
+      </li>
+    </ul>
+    <form
+      class="yvebot-form"
+    >
+      <input
+        autocomplete="off"
+        class="yvebot-form-input"
+        placeholder="Type your message"
+        type="text"
+      />
+      <button
+        class="yvebot-form-submit"
+        type="submit"
+      >
+        Send
+      </button>
+    </form>
+  </div>
+</body>
+`;
+
 exports[`DOM behaviors initial elements 1`] = `
 <body>
   <div

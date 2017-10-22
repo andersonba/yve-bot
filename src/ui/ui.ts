@@ -180,6 +180,7 @@ export class ChatUI {
   }
 
   createTextMessage(answer: Answer | Answer[], senderName?: string) {
+    const { timestampable, timestampFormatter } = this.options;
     let text: string;
 
     if (answer instanceof Array) {
@@ -203,6 +204,13 @@ export class ChatUI {
     message.className = 'yvebot-message';
     message.innerHTML = text;
     bubble.appendChild(message);
+
+    if (timestampable) {
+      const timestamp = document.createElement('div');
+      timestamp.className = 'yvebot-timestamp';
+      timestamp.innerHTML = timestampFormatter(Date.now());
+      bubble.appendChild(timestamp);
+    }
 
     return bubble;
   }

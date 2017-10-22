@@ -49,6 +49,8 @@ export interface ChatOptions {
   doneMultipleChoiceLabel?: string;
   andSeparatorText?: string;
   submitLabel?: string;
+  timestampable?: boolean;
+  timestampFormatter?: (ts: number) => string;
   autoFocus?: boolean;
   yveBotOptions?: YveBotOptions;
 }

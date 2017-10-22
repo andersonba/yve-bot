@@ -83,6 +83,9 @@ describe('DOM behaviors', () => {
   });
 
   test('bot with timestamp', async() => {
+    const _now = Date.now;
+    Date.now = jest.fn().mockReturnValue(0);
+
     const rules = loadYaml(`
     - message: Hello
     `);
@@ -93,6 +96,8 @@ describe('DOM behaviors', () => {
 
     expect(getTimestamp()).not.toBeNull();
     expect(target).toMatchSnapshot();
+
+    Date.now = _now;
   });
 
   test('user reply', async () => {

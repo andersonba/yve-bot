@@ -50,7 +50,7 @@ export interface ChatOptions {
   andSeparatorText?: string;
   submitLabel?: string;
   timestampable?: boolean;
-  timestampFormatter?: (ts: Date) => string;
+  timestampFormatter?: (ts: number) => string;
   autoFocus?: boolean;
   yveBotOptions?: YveBotOptions;
 }

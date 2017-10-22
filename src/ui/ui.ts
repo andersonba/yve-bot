@@ -208,7 +208,7 @@ export class ChatUI {
     if (timestampable) {
       const timestamp = document.createElement('div');
       timestamp.className = 'yvebot-timestamp';
-      timestamp.innerHTML = timestampFormatter(new Date());
+      timestamp.innerHTML = timestampFormatter(Date.now());
       bubble.appendChild(timestamp);
     }
 

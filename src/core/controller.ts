@@ -8,25 +8,24 @@ function validateAnswer(
   rule: Rule,
   answers: Answer | Answer[],
 ) {
-  const validators = [].concat(
-    rule.validators || [],
-    bot.types[rule.type].validators || []
-  );
-  validators.forEach(obj => {
-    Object.keys(obj).forEach(k => {
-      const validator = bot.validators[k];
-      if (!validator || k === 'warning') {
+  const ruleValidators = rule.validators || [];
+  const typeValidators = bot.types[rule.type].validators || [];
+  const validators = [].concat(ruleValidators, typeValidators);
+  const answersList = utils.ensureArray(answers);
+  validators.forEach(validator => {
+    Object.keys(validator).forEach(key => {
+      const botValidator = bot.validators[key];
+      if (!botValidator || key === 'warning') {
         return;
       }
-      const opts = obj[k];
-      const isValid = utils.ensureArray(answers)
-        .map(answer => validator.validate(opts, answer, rule, bot))
-        .every(a => a === true);
+      const opts = validator[key];
+      const isValid = answersList.every(
+        answer => botValidator.validate(opts, answer, rule)
+      );
 
       if (!isValid) {
-        const warning = obj.warning || validator.warning;
-        const message =
-          typeof warning === 'function' ? warning(opts) : warning;
+        const warning = validator.warning || botValidator.warning;
+        const message = typeof warning === 'function' ? warning(opts) : warning;
         throw new ValidatorError(message, rule);
       }
     });

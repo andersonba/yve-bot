@@ -35,7 +35,7 @@ async function validateAnswer(
       }
     });
   });
-  return [answers, rule, bot];
+  return answers;
 }
 
 function compileMessage(bot: YveBot, message: string): string {
@@ -212,9 +212,9 @@ export class Controller {
     const executor = executors[this.getRuleExecutorIndex(rule)] || {};
     const { transform = (...args) => Promise.resolve(args[0]) } = executor;
     try {
-      answer = await validateAnswer(
-        message, rule, bot, this.getRuleExecutorIndex(rule)
-      ).then(args => transform(...args));
+      answer = await transform(message, rule, bot).then(answer => validateAnswer(
+        answer, rule, bot, this.getRuleExecutorIndex(rule)
+      ));
 
       if ( this.getRuleExecutorIndex(rule) < executors.length-1 ) {
         this.setRuleExecutorIndex(rule, this.getRuleExecutorIndex(rule)+1);

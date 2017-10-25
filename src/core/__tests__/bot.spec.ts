@@ -353,6 +353,32 @@ test('running actions', async () => {
   expect(preAct).toBeCalledWith(true, rules[0], bot);
 });
 
+test('ruleTypes with multi executors', async () => {
+  const rules = loadYaml(`
+  - message: Hello
+    name: testStep
+    type: MultiStep
+  `);
+  const bot = new YveBot(rules, OPTS);
+  bot.types.define('MultiStep', {
+    executors: [{
+      transform: (answer, rule, bot) => `${answer} transformed`,
+    }, {
+      transform: (answer, rule, bot) => `${answer} transformed2`,
+    }]
+  });
+
+  bot.start();
+  await sleep();
+  expect(bot.store.get('executors.testStep.index')).toEqual(undefined);
+  bot.hear('first answer');
+  await sleep();
+  expect(bot.store.get('executors.testStep.index')).toEqual(1);
+  bot.hear('second answer');
+  await sleep();
+  expect(bot.store.get('executors.testStep.index')).toEqual(undefined);
+});
+
 test('transform answer', async () => {
   const rules = loadYaml(`
   - message: Enter
@@ -362,7 +388,9 @@ test('transform answer', async () => {
   const onEnd = jest.fn();
   const bot = new YveBot(rules, OPTS);
   bot.types.define('ValidTransform', {
-    transform: () => 'Transformed',
+    executors: [{
+      transform: () => 'Transformed',
+    }]
   });
 
   bot
@@ -386,7 +414,9 @@ test('throw error on transform answer', async (done) => {
   const bot = new YveBot(rules, OPTS);
   const customError = new Error('Transform failed');
   bot.types.define('InvalidTransform', {
-    transform: () => Promise.reject(customError),
+    executors: [{
+      transform: () => Promise.reject(customError),
+    }]
   });
 
   bot

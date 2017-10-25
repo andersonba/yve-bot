@@ -7,10 +7,14 @@ async function validateAnswer(
   answers: Answer | Answer[],
   rule: Rule,
   bot: YveBot,
+  executorIndex: number
 ) {
   const ruleValidators = rule.validators || [];
-  const typeValidators = bot.types[rule.type].validators || [];
-  const validators = [].concat(ruleValidators, typeValidators);
+  const typeExecutor = (bot.types[rule.type].executors || [{}])[executorIndex];
+  const validators = [].concat(
+    executorIndex === 0 ? ruleValidators : [],
+    typeExecutor.validators || []
+  );
   const answersList = utils.ensureArray(answers);
   validators.forEach(validator => {
     Object.keys(validator).forEach(key => {
@@ -20,7 +24,7 @@ async function validateAnswer(
       }
       const opts = validator[key];
       const isValid = answersList.every(
-        answer => botValidator.validate(opts, answer, rule)
+        answer => botValidator.validate(opts, answer, rule, bot)
       );
 
       if (!isValid) {
@@ -30,7 +34,7 @@ async function validateAnswer(
       }
     });
   });
-  return answers;
+  return [answers, rule, bot];
 }
 
 function compileMessage(bot: YveBot, message: string): string {
@@ -181,6 +185,10 @@ export class Controller {
     return this;
   }
 
+  getRuleExecutorIndex(rule: Rule): number {
+    return this.bot.store.get(`executors.${rule.name}.index`) || 0;
+  }
+
   async receiveMessage(message: Answer | Answer[]): Promise<this> {
     const { bot } = this;
     const idx = bot.store.get('currentIdx');
@@ -191,22 +199,21 @@ export class Controller {
     }
 
     let answer;
-    const {
-      parser = (...args) => Promise.resolve(args[0]),
-      transform = (...args) => Promise.resolve(args[0]),
-    } = bot.types[rule.type];
+    const { executors } = bot.types[rule.type];
+    const executor = executors[this.getRuleExecutorIndex(rule)] || {};
+    const { transform = (...args) => Promise.resolve(args[0]) } = executor;
     try {
-      answer = await (
-        parser(message, rule, bot)
-        .then(answer => validateAnswer(answer, rule, bot))
-        .then(answer => transform(answer, message, rule, bot))
-      );
+      answer = await validateAnswer(
+        message, rule, bot, this.getRuleExecutorIndex(rule)
+      ).then(args => transform(...args));
 
-      if (!answer) {
+      if ( this.getRuleExecutorIndex(rule) < executors.length-1 ) {
+        bot.store.set(`executors.${rule.name}.index`, this.getRuleExecutorIndex(rule)+1);
         bot.dispatch('hear');
         return this;
       }
 
+      bot.store.unset(`executors.${rule.name}.index`);
     } catch (e) {
       if (e instanceof ValidatorError) {
         await this.sendMessage(e.message, rule);

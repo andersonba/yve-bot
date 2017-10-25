@@ -362,9 +362,9 @@ test('ruleTypes with multi executors', async () => {
   const bot = new YveBot(rules, OPTS);
   bot.types.define('MultiStep', {
     executors: [{
-      transform: (answer, rule, bot) => `${answer} transformed`,
+      transform: (answer) => `${answer} transformed`,
     }, {
-      transform: (answer, rule, bot) => `${answer} transformed2`,
+      transform: (answer) => `${answer} transformed2`,
     }]
   });
 

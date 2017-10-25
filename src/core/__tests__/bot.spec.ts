@@ -6,6 +6,7 @@ import { sleep, loadYaml } from '@test/utils';
 import { YveBot } from '../bot';
 import { Store } from '../store';
 import { Controller } from '../controller';
+import { WaitForUserInput } from '../types';
 
 const OPTS = {
   enableWaitForSleep: false,
@@ -372,13 +373,46 @@ test('ruleTypes with multi executors', async () => {
   bot.on('end', onEnd).start();
   await sleep();
   expect(bot.store.get('executors.testStep.currentIdx')).toEqual(undefined);
-  bot.hear('first answer');
-  await sleep();
-  expect(bot.store.get('executors.testStep.currentIdx')).toEqual(1);
-  bot.hear('second answer');
+  bot.hear('answer');
   await sleep();
   expect(bot.store.get('executors.testStep.currentIdx')).toEqual(undefined);
-  expect(bot.store.get('output.testStep')).toEqual('second answer transformed2');
+  expect(bot.store.get('output.testStep')).toEqual('answer transformed transformed2');
+  expect(onEnd).toHaveBeenCalledTimes(1);
+});
+
+test('ruleTypes with multi executors and waitForUserInput', async () => {
+  const rules = loadYaml(`
+  - message: Hello
+    name: testStep2
+    type: MultiStep2
+  `);
+  const bot = new YveBot(rules, OPTS);
+  const onEnd = jest.fn();
+  bot.types.define('MultiStep2', {
+    executors: [
+      {
+        transform: async (answer) => 'transformed',
+      },
+      {
+        transform: async (answer) => 'transformed2',
+      },
+      WaitForUserInput,
+      {
+        transform: async (answer) => 'transformed3',
+      }
+    ]
+  });
+
+  bot.on('end', onEnd).start();
+  await sleep();
+  expect(bot.store.get('executors.testStep2.currentIdx')).toEqual(undefined);
+  bot.hear('first answer');
+  await sleep();
+  expect(bot.store.get('executors.testStep2.currentIdx')).toEqual(3);
+  bot.hear('second answer');
+  await sleep();
+  expect(bot.store.get('executors.testStep2.currentIdx')).toEqual(undefined);
+  expect(bot.store.get('output.testStep2')).toEqual('transformed3');
   expect(onEnd).toHaveBeenCalledTimes(1);
 });
 

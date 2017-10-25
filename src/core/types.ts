@@ -1,7 +1,17 @@
 import { uniq } from 'lodash';
 import { DefineModule } from './module';
-import { Rule, Answer, RuleType } from '../types';
+import { PauseRuleTypeExecutors } from './exceptions';
+import { Rule, Answer, RuleType, RuleTypeExecutor } from '../types';
 import * as utils from './utils';
+
+
+export const WaitForUserInput: RuleTypeExecutor = {
+  validators: [{
+    function: (value: Answer, rule: Rule) => {
+      throw new PauseRuleTypeExecutors(rule);
+    }
+  }]
+};
 
 const types: { [name: string]: RuleType } = {
   Any: { executors: [{}] },

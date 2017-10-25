@@ -1,7 +1,14 @@
 import { Rule, RuleNext, Answer } from '../types';
 import { YveBot } from './bot';
-import { ValidatorError, InvalidAttributeError, RuleNotFound } from './exceptions';
+import {
+  InvalidAttributeError,
+  PauseRuleTypeExecutors,
+  RuleNotFound,
+  ValidatorError,
+} from './exceptions';
+import { WaitForUserInput } from './types';
 import * as utils from './utils';
+
 
 async function validateAnswer(
   answers: Answer | Answer[],
@@ -190,12 +197,36 @@ export class Controller {
     return this.bot.store.get(`executors.${rule.name}.currentIdx`) || 0;
   }
 
-  setRuleExecutorIndex(rule: Rule, value?: any): void {
-    if (value !== undefined) {
-      this.bot.store.set(`executors.${rule.name}.currentIdx`, value);
-    } else {
-      this.bot.store.unset(`executors.${rule.name}.currentIdx`);
+  incRuleExecutorIndex(rule: Rule): void {
+    this.bot.store.set(
+      `executors.${rule.name}.currentIdx`, this.getRuleExecutorIndex(rule) + 1
+    );
+  }
+
+  resetRuleExecutorIndex(rule: Rule): void {
+    this.bot.store.unset(`executors.${rule.name}.currentIdx`);
+  }
+
+  async executeRuleTypeExecutors(rule: Rule, lastAnswer: Answer): Answer {
+    const { bot } = this;
+    const executorIdx = this.getRuleExecutorIndex(rule);
+    const executors = bot.types[rule.type].executors;
+
+    const executor = executors.slice(executorIdx)[0] || {};
+    const { transform = (...args) => Promise.resolve(args[0]) } = executor;
+    const answer = await (
+      transform(lastAnswer, rule, bot)
+      .then(answer => validateAnswer(answer, rule, bot, this.getRuleExecutorIndex(rule)))
+    );
+
+    const completed = (this.getRuleExecutorIndex(rule) === executors.length-1);
+    if (!completed) {
+      this.incRuleExecutorIndex(rule);
+      return await this.executeRuleTypeExecutors(rule, answer);
     }
+
+    this.resetRuleExecutorIndex(rule);
+    return answer;
   }
 
   async receiveMessage(message: Answer | Answer[]): Promise<this> {
@@ -208,24 +239,19 @@ export class Controller {
     }
 
     let answer;
-    const { executors } = bot.types[rule.type];
-    const executor = executors[this.getRuleExecutorIndex(rule)] || {};
-    const { transform = (...args) => Promise.resolve(args[0]) } = executor;
     try {
-      answer = await transform(message, rule, bot).then(answer => validateAnswer(
-        answer, rule, bot, this.getRuleExecutorIndex(rule)
-      ));
-
-      if ( this.getRuleExecutorIndex(rule) < executors.length-1 ) {
-        this.setRuleExecutorIndex(rule, this.getRuleExecutorIndex(rule)+1);
-        bot.dispatch('hear');
-        return this;
+      answer = await this.executeRuleTypeExecutors(rule, message);
+    } catch (e) {
+      let expectedError = false;
+      if (e instanceof ValidatorError) {
+        expectedError = true;
+        await this.sendMessage(e.message, rule);
+      } if (e instanceof PauseRuleTypeExecutors) {
+        expectedError = true;
+        this.incRuleExecutorIndex(rule);
       }
 
-      this.setRuleExecutorIndex(rule);
-    } catch (e) {
-      if (e instanceof ValidatorError) {
-        await this.sendMessage(e.message, rule);
+      if (expectedError) {
         bot.dispatch('hear');
         return this;
       }

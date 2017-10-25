@@ -23,5 +23,5 @@ export function RuleNotFound(name: string, indexes: { [k: string]: number }) {
 
 export function PauseRuleTypeExecutors(name: string) {
   this.key = 'pauseRuleTypeExecutors';
-  this.message = `Rule "${name}" should pause exection`;
+  this.message = `Rule "${name}" must pause execution`;
 }

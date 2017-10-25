@@ -391,14 +391,14 @@ test('ruleTypes with multi executors and waitForUserInput', async () => {
   bot.types.define('MultiStep2', {
     executors: [
       {
-        transform: async (answer) => 'transformed',
+        transform: async (answer) => `${answer} transformed`,
       },
       {
-        transform: async (answer) => 'transformed2',
+        transform: async (answer) => `${answer} transformed2`,
       },
       WaitForUserInput,
       {
-        transform: async (answer) => 'transformed3',
+        transform: async (answer) => `${answer} transformed3`,
       }
     ]
   });
@@ -412,7 +412,7 @@ test('ruleTypes with multi executors and waitForUserInput', async () => {
   bot.hear('second answer');
   await sleep();
   expect(bot.store.get('executors.testStep2.currentIdx')).toEqual(undefined);
-  expect(bot.store.get('output.testStep2')).toEqual('transformed3');
+  expect(bot.store.get('output.testStep2')).toEqual('second answer transformed3');
   expect(onEnd).toHaveBeenCalledTimes(1);
 });
 

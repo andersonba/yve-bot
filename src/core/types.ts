@@ -7,8 +7,8 @@ import * as utils from './utils';
 
 export const WaitForUserInput: RuleTypeExecutor = {
   validators: [{
-    function: (value: Answer, rule: Rule) => {
-      throw new PauseRuleTypeExecutors(rule);
+    function: (_: Answer, rule: Rule): void => {
+      throw new PauseRuleTypeExecutors(rule.name);
     }
   }]
 };

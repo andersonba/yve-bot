@@ -6,7 +6,6 @@ import {
   RuleNotFound,
   ValidatorError,
 } from './exceptions';
-import { WaitForUserInput } from './types';
 import * as utils from './utils';
 
 
@@ -207,7 +206,7 @@ export class Controller {
     this.bot.store.unset(`executors.${rule.name}.currentIdx`);
   }
 
-  async executeRuleTypeExecutors(rule: Rule, lastAnswer: Answer): Answer {
+  async executeRuleTypeExecutors(rule: Rule, lastAnswer: Answer | Answer[]): Promise<any> {
     const { bot } = this;
     const executorIdx = this.getRuleExecutorIndex(rule);
     const executors = bot.types[rule.type].executors;

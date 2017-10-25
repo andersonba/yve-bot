@@ -6,7 +6,6 @@ import { sleep, loadYaml } from '@test/utils';
 import { YveBot } from '../bot';
 import { Store } from '../store';
 import { Controller } from '../controller';
-import { WaitForUserInput } from '../types';
 
 const OPTS = {
   enableWaitForSleep: false,
@@ -396,7 +395,7 @@ test('ruleTypes with multi executors and waitForUserInput', async () => {
       {
         transform: async (answer) => `${answer} transformed2`,
       },
-      WaitForUserInput,
+      bot.executors.WaitForUserInput,
       {
         transform: async (answer) => `${answer} transformed3`,
       }

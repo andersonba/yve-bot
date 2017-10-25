@@ -2,7 +2,8 @@ import { YveBotOptions, Rule, Answer } from '../types';
 import { Store, StoreData } from './store';
 import { Controller } from './controller';
 import { Actions } from './actions';
-import { Types, WaitForUserInput } from './types';
+import { Types } from './types';
+import { Executors } from './executors';
 import { Validators } from './validators';
 
 import * as Exceptions from './exceptions';
@@ -25,8 +26,7 @@ function sanitizeRule(rule: Rule): Rule {
 }
 
 export class YveBot {
-  static Exceptions: any;
-  static WaitForUserInputExecutor: typeof WaitForUserInput;
+  static exceptions: any;
 
   private handlers: { [handler: string]: Array<() => any> };
   private _rules?: Rule[];
@@ -39,6 +39,7 @@ export class YveBot {
 
   public types: Types;
   public actions: Actions;
+  public executors: Executors;
   public validators: Validators;
 
   constructor(rules: Rule[], customOpts?: YveBotOptions) {
@@ -125,8 +126,8 @@ export class YveBot {
 
 YveBot.prototype.types = new Types;
 YveBot.prototype.actions = new Actions;
+YveBot.prototype.executors = new Executors;
 YveBot.prototype.validators = new Validators;
 
 
-YveBot.Exceptions = Exceptions;
-YveBot.WaitForUserInputExecutor = WaitForUserInput;
+YveBot.exceptions = Exceptions;

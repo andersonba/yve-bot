@@ -1,4 +1,5 @@
 import { DefineModule } from './module';
+import { YveBot } from './bot';
 import { Rule } from '../types';
 
 const isNumber = v => /^\d+$/.test(v);
@@ -68,10 +69,11 @@ const validators = {
 
   function: {
     validate: (
-      fn: (answer: string, rule: Rule) => boolean,
+      fn: (answer: string, rule: Rule, bot: YveBot) => boolean,
       answer: string,
       rule: Rule,
-    ) => fn(answer, rule),
+      bot: YveBot,
+    ) => fn(answer, rule, bot),
     warning: 'Error on execute a validator function',
   },
 };

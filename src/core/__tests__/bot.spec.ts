@@ -353,6 +353,35 @@ test('running actions', async () => {
   expect(preAct).toBeCalledWith(true, rules[0], bot);
 });
 
+test('ruleTypes with multi executors', async () => {
+  const rules = loadYaml(`
+  - message: Hello
+    name: testStep
+    type: MultiStep
+  `);
+  const bot = new YveBot(rules, OPTS);
+  const onEnd = jest.fn();
+  bot.types.define('MultiStep', {
+    executors: [{
+      transform: (answer) => `${answer} transformed`,
+    }, {
+      transform: (answer) => `${answer} transformed2`,
+    }]
+  });
+
+  bot.on('end', onEnd).start();
+  await sleep();
+  expect(bot.store.get('executors.testStep.currentIdx')).toEqual(undefined);
+  bot.hear('first answer');
+  await sleep();
+  expect(bot.store.get('executors.testStep.currentIdx')).toEqual(1);
+  bot.hear('second answer');
+  await sleep();
+  expect(bot.store.get('executors.testStep.currentIdx')).toEqual(undefined);
+  expect(bot.store.get('output.testStep')).toEqual('second answer transformed2');
+  expect(onEnd).toHaveBeenCalledTimes(1);
+});
+
 test('transform answer', async () => {
   const rules = loadYaml(`
   - message: Enter
@@ -362,7 +391,9 @@ test('transform answer', async () => {
   const onEnd = jest.fn();
   const bot = new YveBot(rules, OPTS);
   bot.types.define('ValidTransform', {
-    transform: () => 'Transformed',
+    executors: [{
+      transform: () => 'Transformed',
+    }]
   });
 
   bot
@@ -376,7 +407,7 @@ test('transform answer', async () => {
   expect(onEnd).toBeCalledWith({ value: 'Transformed' }, 'session');
 });
 
-test('throw error on transform answer', async () => {
+test('throw error on transform answer', async (done) => {
   const rules = loadYaml(`
   - message: Enter
     name: value
@@ -384,19 +415,23 @@ test('throw error on transform answer', async () => {
   `);
   const onHear = jest.fn();
   const bot = new YveBot(rules, OPTS);
+  const customError = new Error('Transform failed');
   bot.types.define('InvalidTransform', {
-    transform: () => Promise.reject(new Error('Transform failed')),
+    executors: [{
+      transform: () => Promise.reject(customError),
+    }]
   });
 
   bot
     .on('hear', onHear)
+    .on('error', err => {
+      expect(err).toEqual(customError);
+      done();
+    })
     .start();
 
   await sleep();
-  expect(onHear).toHaveBeenCalledTimes(1);
   bot.hear('Original');
-  await sleep();
-  expect(onHear).toHaveBeenCalledTimes(2);
 });
 
 test('calculate delay to type', async () => {

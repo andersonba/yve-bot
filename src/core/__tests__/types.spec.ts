@@ -6,11 +6,12 @@ describe('Any', () => {
   test('common', () => {
     expect('parser' in new Types).toBeFalsy();
     expect('validators' in new Types).toBeFalsy();
+    expect('executors' in new Types).toBeFalsy();
   });
 });
 
 describe('String', () => {
-  const { parser, validators } = (new Types).String;
+  const { executors: [{ parser, validators }] } = (new Types).String;
 
   test('parser', async () => {
     expect(await parser('word')).toBe('word');
@@ -27,7 +28,7 @@ describe('String', () => {
 });
 
 describe('Number', () => {
-  const { parser, validators } = (new Types).Number;
+  const { executors: [{ parser, validators }] } = (new Types).Number;
 
   test('parser', async () => {
     expect(await parser('123')).toBe(123);
@@ -43,7 +44,7 @@ describe('Number', () => {
 });
 
 describe('SingleChoice', () => {
-  const { parser, validators } = (new Types).SingleChoice;
+  const { executors: [{ parser, validators }] } = (new Types).SingleChoice;
 
   describe('parser', () => {
     test('unknown option', async () => {
@@ -106,7 +107,7 @@ describe('SingleChoice', () => {
 });
 
 describe('MultipleChoice', () => {
-  const { parser, validators } = (new Types).MultipleChoice;
+  const { executors: [{ parser, validators }] } = (new Types).MultipleChoice;
 
   describe('parser', () => {
     test('unknown options', async () => {

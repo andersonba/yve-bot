@@ -3,34 +3,39 @@ import { YveBot } from './bot';
 import { ValidatorError, InvalidAttributeError, RuleNotFound } from './exceptions';
 import * as utils from './utils';
 
-function validateAnswer(
-  bot: YveBot,
-  rule: Rule,
+async function validateAnswer(
   answers: Answer | Answer[],
+  rule: Rule,
+  bot: YveBot,
+  executorIndex: number
 ) {
+  const ruleValidators = rule.validators || [];
+  const typeExecutors = (bot.types[rule.type].executors || [{}]);
+  const currentTypeExecutor = typeExecutors[executorIndex] || {};
   const validators = [].concat(
-    rule.validators || [],
-    bot.types[rule.type].validators || []
+    executorIndex === 0 ? ruleValidators : [],
+    currentTypeExecutor.validators || []
   );
-  validators.forEach(obj => {
-    Object.keys(obj).forEach(k => {
-      const validator = bot.validators[k];
-      if (!validator || k === 'warning') {
+  const answersList = utils.ensureArray(answers);
+  validators.forEach(validator => {
+    Object.keys(validator).forEach(key => {
+      const botValidator = bot.validators[key];
+      if (!botValidator || key === 'warning') {
         return;
       }
-      const opts = obj[k];
-      const isValid = utils.ensureArray(answers)
-        .map(answer => validator.validate(opts, answer, rule, bot))
-        .every(a => a === true);
+      const opts = validator[key];
+      const isValid = answersList.every(
+        answer => botValidator.validate(opts, answer, rule, bot)
+      );
 
       if (!isValid) {
-        const warning = obj.warning || validator.warning;
-        const message =
-          typeof warning === 'function' ? warning(opts) : warning;
+        const warning = validator.warning || botValidator.warning;
+        const message = typeof warning === 'function' ? warning(opts) : warning;
         throw new ValidatorError(message, rule);
       }
     });
   });
+  return [answers, rule, bot];
 }
 
 function compileMessage(bot: YveBot, message: string): string {
@@ -181,6 +186,18 @@ export class Controller {
     return this;
   }
 
+  getRuleExecutorIndex(rule: Rule): number {
+    return this.bot.store.get(`executors.${rule.name}.currentIdx`) || 0;
+  }
+
+  setRuleExecutorIndex(rule: Rule, value?: any): void {
+    if (value !== undefined) {
+      this.bot.store.set(`executors.${rule.name}.currentIdx`, value);
+    } else {
+      this.bot.store.unset(`executors.${rule.name}.currentIdx`);
+    }
+  }
+
   async receiveMessage(message: Answer | Answer[]): Promise<this> {
     const { bot } = this;
     const idx = bot.store.get('currentIdx');
@@ -190,13 +207,22 @@ export class Controller {
       return this;
     }
 
-    let answer = message;
-    if ('parser' in bot.types[rule.type]) {
-      answer = await bot.types[rule.type].parser(answer, rule, bot);
-    }
-
+    let answer;
+    const { executors } = bot.types[rule.type];
+    const executor = executors[this.getRuleExecutorIndex(rule)] || {};
+    const { transform = (...args) => Promise.resolve(args[0]) } = executor;
     try {
-      validateAnswer(bot, rule, answer);
+      answer = await validateAnswer(
+        message, rule, bot, this.getRuleExecutorIndex(rule)
+      ).then(args => transform(...args));
+
+      if ( this.getRuleExecutorIndex(rule) < executors.length-1 ) {
+        this.setRuleExecutorIndex(rule, this.getRuleExecutorIndex(rule)+1);
+        bot.dispatch('hear');
+        return this;
+      }
+
+      this.setRuleExecutorIndex(rule);
     } catch (e) {
       if (e instanceof ValidatorError) {
         await this.sendMessage(e.message, rule);
@@ -204,15 +230,6 @@ export class Controller {
         return this;
       }
       throw e;
-    }
-
-    if ('transform' in bot.types[rule.type]) {
-      try {
-        answer = await bot.types[rule.type].transform(answer, rule, bot);
-      } catch (e) {
-        bot.dispatch('hear');
-        return this;
-      }
     }
 
     bot.store.set('waitingForAnswer', false);

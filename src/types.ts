@@ -1,5 +1,3 @@
-import { YveBot } from './core/bot';
-
 export interface YveBotOptions {
   enableWaitForSleep?: boolean;
   rule?: Rule;
@@ -12,7 +10,6 @@ export interface Rule {
   message?: string;
   delay?: number;
   sleep?: number;
-  transform?: (value: string, rule: Rule, bot: YveBot) => Promise<any>;
   actions?: RuleAction[];
   preActions?: RuleAction[];
   replyMessage?: string;

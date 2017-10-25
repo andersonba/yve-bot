@@ -20,3 +20,8 @@ export function RuleNotFound(name: string, indexes: { [k: string]: number }) {
   this.message = `Rule "${name}" not found in indexes`;
   this.indexes = indexes;
 }
+
+export function PauseRuleTypeExecutors(name: string) {
+  this.key = 'pauseRuleTypeExecutors';
+  this.message = `Rule "${name}" must pause execution`;
+}

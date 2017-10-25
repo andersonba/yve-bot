@@ -1,7 +1,22 @@
+import { YveBot } from './core/bot';
+
 export interface YveBotOptions {
   enableWaitForSleep?: boolean;
   rule?: Rule;
 }
+
+export interface RuleType {
+  executors: RuleTypeExecutor[];
+}
+
+export interface RuleTypeExecutor {
+  validators?: RuleValidator[];
+  transform?: RuleTypeTransform;
+}
+
+export type RuleTypeTransform = (
+  (value: Answer | Answer[], rule?: Rule, bot?: YveBot) => Promise<Answer | Answer[]>
+);
 
 export interface Rule {
   name?: string;

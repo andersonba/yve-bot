@@ -3,10 +3,10 @@ import { YveBot } from './bot';
 import { ValidatorError, InvalidAttributeError, RuleNotFound } from './exceptions';
 import * as utils from './utils';
 
-function validateAnswer(
-  bot: YveBot,
-  rule: Rule,
+async function validateAnswer(
   answers: Answer | Answer[],
+  rule: Rule,
+  bot: YveBot,
 ) {
   const ruleValidators = rule.validators || [];
   const typeValidators = bot.types[rule.type].validators || [];
@@ -30,6 +30,7 @@ function validateAnswer(
       }
     });
   });
+  return answers;
 }
 
 function compileMessage(bot: YveBot, message: string): string {
@@ -189,13 +190,23 @@ export class Controller {
       return this;
     }
 
-    let answer = message;
-    if ('parser' in bot.types[rule.type]) {
-      answer = await bot.types[rule.type].parser(answer, rule, bot);
-    }
-
+    let answer;
+    const {
+      parser = (...args) => Promise.resolve(args[0]),
+      transform = (...args) => Promise.resolve(args[0]),
+    } = bot.types[rule.type];
     try {
-      validateAnswer(bot, rule, answer);
+      answer = await (
+        parser(message, rule, bot)
+        .then(answer => validateAnswer(answer, rule, bot))
+        .then(answer => transform(answer, message, rule, bot))
+      );
+
+      if (!answer) {
+        bot.dispatch('hear');
+        return this;
+      }
+
     } catch (e) {
       if (e instanceof ValidatorError) {
         await this.sendMessage(e.message, rule);
@@ -203,15 +214,6 @@ export class Controller {
         return this;
       }
       throw e;
-    }
-
-    if ('transform' in bot.types[rule.type]) {
-      try {
-        answer = await bot.types[rule.type].transform(answer, rule, bot);
-      } catch (e) {
-        bot.dispatch('hear');
-        return this;
-      }
     }
 
     bot.store.set('waitingForAnswer', false);

@@ -376,7 +376,7 @@ test('transform answer', async () => {
   expect(onEnd).toBeCalledWith({ value: 'Transformed' }, 'session');
 });
 
-test('throw error on transform answer', async () => {
+test('throw error on transform answer', async (done) => {
   const rules = loadYaml(`
   - message: Enter
     name: value
@@ -384,19 +384,21 @@ test('throw error on transform answer', async () => {
   `);
   const onHear = jest.fn();
   const bot = new YveBot(rules, OPTS);
+  const customError = new Error('Transform failed');
   bot.types.define('InvalidTransform', {
-    transform: () => Promise.reject(new Error('Transform failed')),
+    transform: () => Promise.reject(customError),
   });
 
   bot
     .on('hear', onHear)
+    .on('error', err => {
+      expect(err).toEqual(customError);
+      done();
+    })
     .start();
 
   await sleep();
-  expect(onHear).toHaveBeenCalledTimes(1);
   bot.hear('Original');
-  await sleep();
-  expect(onHear).toHaveBeenCalledTimes(2);
 });
 
 test('calculate delay to type', async () => {

@@ -1,5 +1,27 @@
 # Change Log
 
+## [1.2.0](https://github.com/andersonba/yve-bot/tree/1.2.0) (2017-10-25)
+[Full Changelog](https://github.com/andersonba/yve-bot/compare/1.1.0...1.2.0)
+
+**Implemented enhancements:**
+
+- types: improves transform definition [\#24](https://github.com/andersonba/yve-bot/issues/24)
+- Make rule.parser method an async function [\#20](https://github.com/andersonba/yve-bot/issues/20)
+- show timestamp in conversation messages [\#16](https://github.com/andersonba/yve-bot/issues/16)
+
+**Fixed bugs:**
+
+- Webpack should compile server and client-side files differently [\#18](https://github.com/andersonba/yve-bot/issues/18)
+
+**Merged pull requests:**
+
+- Improve multi-executors RuleTypes flow [\#26](https://github.com/andersonba/yve-bot/pull/26) ([rafaelverger](https://github.com/rafaelverger))
+- Missing changes on PR \#23 [\#25](https://github.com/andersonba/yve-bot/pull/25) ([rafaelverger](https://github.com/rafaelverger))
+- Big improvements in Types and receiveMessage handler [\#23](https://github.com/andersonba/yve-bot/pull/23) ([rafaelverger](https://github.com/rafaelverger))
+- Expect Type.parser method to be an async function [\#22](https://github.com/andersonba/yve-bot/pull/22) ([rafaelverger](https://github.com/rafaelverger))
+- Set webpack to have custom props for node and browser [\#19](https://github.com/andersonba/yve-bot/pull/19) ([rafaelverger](https://github.com/rafaelverger))
+- Add timestamp to the message. Close \#16 [\#17](https://github.com/andersonba/yve-bot/pull/17) ([soueuls](https://github.com/soueuls))
+
 ## [1.1.0](https://github.com/andersonba/yve-bot/tree/1.1.0) (2017-10-20)
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.0.0...1.1.0)
 

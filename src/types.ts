@@ -11,8 +11,12 @@ export interface RuleType {
 
 export interface RuleTypeExecutor {
   validators?: RuleValidator[];
-  transform?: (value: any, rule?: Rule, bot?: YveBot) => Promise<any>;
+  transform?: RuleTypeTransform;
 }
+
+export type RuleTypeTransform = (
+  (value: Answer | Answer[], rule?: Rule, bot?: YveBot) => Promise<Answer | Answer[]>
+);
 
 export interface Rule {
   name?: string;

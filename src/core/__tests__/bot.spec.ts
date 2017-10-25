@@ -360,6 +360,7 @@ test('ruleTypes with multi executors', async () => {
     type: MultiStep
   `);
   const bot = new YveBot(rules, OPTS);
+  const onEnd = jest.fn();
   bot.types.define('MultiStep', {
     executors: [{
       transform: (answer) => `${answer} transformed`,
@@ -368,15 +369,17 @@ test('ruleTypes with multi executors', async () => {
     }]
   });
 
-  bot.start();
+  bot.on('end', onEnd).start();
   await sleep();
-  expect(bot.store.get('executors.testStep.index')).toEqual(undefined);
+  expect(bot.store.get('executors.testStep.currentIdx')).toEqual(undefined);
   bot.hear('first answer');
   await sleep();
-  expect(bot.store.get('executors.testStep.index')).toEqual(1);
+  expect(bot.store.get('executors.testStep.currentIdx')).toEqual(1);
   bot.hear('second answer');
   await sleep();
-  expect(bot.store.get('executors.testStep.index')).toEqual(undefined);
+  expect(bot.store.get('executors.testStep.currentIdx')).toEqual(undefined);
+  expect(bot.store.get('output.testStep')).toEqual('second answer transformed2');
+  expect(onEnd).toHaveBeenCalledTimes(1);
 });
 
 test('transform answer', async () => {

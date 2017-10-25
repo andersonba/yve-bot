@@ -10,10 +10,11 @@ async function validateAnswer(
   executorIndex: number
 ) {
   const ruleValidators = rule.validators || [];
-  const typeExecutor = (bot.types[rule.type].executors || [{}])[executorIndex];
+  const typeExecutors = (bot.types[rule.type].executors || [{}]);
+  const currentTypeExecutor = typeExecutors[executorIndex] || {};
   const validators = [].concat(
     executorIndex === 0 ? ruleValidators : [],
-    typeExecutor.validators || []
+    currentTypeExecutor.validators || []
   );
   const answersList = utils.ensureArray(answers);
   validators.forEach(validator => {
@@ -186,7 +187,15 @@ export class Controller {
   }
 
   getRuleExecutorIndex(rule: Rule): number {
-    return this.bot.store.get(`executors.${rule.name}.index`) || 0;
+    return this.bot.store.get(`executors.${rule.name}.currentIdx`) || 0;
+  }
+
+  setRuleExecutorIndex(rule: Rule, value?: any): void {
+    if (value !== undefined) {
+      this.bot.store.set(`executors.${rule.name}.currentIdx`, value);
+    } else {
+      this.bot.store.unset(`executors.${rule.name}.currentIdx`);
+    }
   }
 
   async receiveMessage(message: Answer | Answer[]): Promise<this> {
@@ -208,12 +217,12 @@ export class Controller {
       ).then(args => transform(...args));
 
       if ( this.getRuleExecutorIndex(rule) < executors.length-1 ) {
-        bot.store.set(`executors.${rule.name}.index`, this.getRuleExecutorIndex(rule)+1);
+        this.setRuleExecutorIndex(rule, this.getRuleExecutorIndex(rule)+1);
         bot.dispatch('hear');
         return this;
       }
 
-      bot.store.unset(`executors.${rule.name}.index`);
+      this.setRuleExecutorIndex(rule);
     } catch (e) {
       if (e instanceof ValidatorError) {
         await this.sendMessage(e.message, rule);

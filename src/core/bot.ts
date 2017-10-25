@@ -5,6 +5,8 @@ import { Actions } from './actions';
 import { Types } from './types';
 import { Validators } from './validators';
 
+import * as Exceptions from './exceptions';
+
 function sanitizeRule(rule: Rule): Rule {
   if (typeof rule === 'string') {
     return { message: rule };
@@ -121,3 +123,6 @@ export class YveBot {
 YveBot.prototype.types = new Types;
 YveBot.prototype.actions = new Actions;
 YveBot.prototype.validators = new Validators;
+
+
+YveBot.Exceptions = Exceptions;

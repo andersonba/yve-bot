@@ -206,7 +206,7 @@ export class Controller {
     this.bot.store.unset(`executors.${rule.name}.currentIdx`);
   }
 
-  async executeRuleTypeExecutors(rule: Rule, lastAnswer: Answer | Answer[]): Promise<any> {
+  async executeRuleTypeExecutors(rule: Rule, lastAnswer: Answer | Answer[]): Promise<Answer | Answer[]> {
     const { bot } = this;
     const executorIdx = this.getRuleExecutorIndex(rule);
     const executors = bot.types[rule.type].executors;

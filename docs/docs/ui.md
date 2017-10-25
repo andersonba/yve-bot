@@ -23,8 +23,10 @@ Create bots without re-implement the chat conversation UI components. This brows
 | Argument | Default | Type | Description |
 |----------|---------|------|-------------|
 | rules | - | array[Rule] | Array of Rule
-| options.name | `null` | string | The bot name. If filled, a label will appear in message bubble
 | options.target | `body` | string | DOM target to create the chat
+| options.name | `null` | string | The bot name. If filled, a label will appear in message bubble
+| options.timestampable | `false` | boolean | Show current time of messages
+| options.timestampFormatter | `HH:mm:ss` | function `(ts) => string` | Change format of timestamp displayed in messages. You can also use moment.js lib, by `ts => moment(ts).fromNow();`
 | options.inputPlaceholder | `Type your message` | string | Message of input placeholder
 | options.inputPlaceholderSingleChoice | `Choose an option above` | string | Message of input placeholder when current rule is a SingleChoice type
 | options.inputPlaceholderMultipleChoice | `Choose the options above` | string | Message of input placeholder when current rule is a MultipleChoice type

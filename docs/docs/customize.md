@@ -25,7 +25,7 @@ bot.types.extend('CustomString', 'String', {
   executors: [{
     transform: (answer, rule, bot) => {},
     validators: [],
-  }]
+  }],
 });
 ```
 
@@ -41,8 +41,8 @@ bot.types.define('Username', {
     }),
     validators: [{
       number: true,
-      warning: 'Invalid user id'
-    }]
+      warning: 'Invalid user id',
+    }],
   }]
 });
 ```

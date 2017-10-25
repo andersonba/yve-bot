@@ -122,6 +122,8 @@ In Single/MultipleChoice cases, you can inject the option label instead of value
 | email | boolean | Assert answer is email
 | function | function | Assert result of function
 
+_** validators are used ONLY in the first executor from rule's type_
+
 
 # RuleAction
 

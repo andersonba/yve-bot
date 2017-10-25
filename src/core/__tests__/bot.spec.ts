@@ -363,9 +363,9 @@ test('ruleTypes with multi executors', async () => {
   const onEnd = jest.fn();
   bot.types.define('MultiStep', {
     executors: [{
-      transform: (answer) => `${answer} transformed`,
+      transform: async (answer) => `${answer} transformed`,
     }, {
-      transform: (answer) => `${answer} transformed2`,
+      transform: async (answer) => `${answer} transformed2`,
     }]
   });
 
@@ -392,7 +392,7 @@ test('transform answer', async () => {
   const bot = new YveBot(rules, OPTS);
   bot.types.define('ValidTransform', {
     executors: [{
-      transform: () => 'Transformed',
+      transform: async () => 'Transformed',
     }]
   });
 
@@ -418,7 +418,7 @@ test('throw error on transform answer', async (done) => {
   const customError = new Error('Transform failed');
   bot.types.define('InvalidTransform', {
     executors: [{
-      transform: () => Promise.reject(customError),
+      transform: async () => Promise.reject(customError),
     }]
   });
 

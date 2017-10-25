@@ -4,20 +4,20 @@ import { Types } from '../types';
 
 describe('Any', () => {
   test('common', () => {
-    expect('parser' in new Types).toBeFalsy();
+    expect('transform' in new Types).toBeFalsy();
     expect('validators' in new Types).toBeFalsy();
     expect('executors' in new Types).toBeFalsy();
   });
 });
 
 describe('String', () => {
-  const { executors: [{ parser, validators }] } = (new Types).String;
+  const { executors: [{ transform, validators }] } = (new Types).String;
 
-  test('parser', async () => {
-    expect(await parser('word')).toBe('word');
-    expect(await parser(123)).toBe('123');
-    expect(await parser(0)).toBe('0');
-    expect(await parser('')).toBe('');
+  test('transform', async () => {
+    expect(await transform('word')).toBe('word');
+    expect(await transform(123)).toBe('123');
+    expect(await transform(0)).toBe('0');
+    expect(await transform('')).toBe('');
   });
 
   test('validators', () => {
@@ -28,12 +28,12 @@ describe('String', () => {
 });
 
 describe('Number', () => {
-  const { executors: [{ parser, validators }] } = (new Types).Number;
+  const { executors: [{ transform, validators }] } = (new Types).Number;
 
-  test('parser', async () => {
-    expect(await parser('123')).toBe(123);
-    expect(await parser('0')).toBe(0);
-    expect(await parser('word')).toBeNaN();
+  test('transform', async () => {
+    expect(await transform('123')).toBe(123);
+    expect(await transform('0')).toBe(0);
+    expect(await transform('word')).toBeNaN();
   });
 
   test('validators', () => {
@@ -44,12 +44,12 @@ describe('Number', () => {
 });
 
 describe('SingleChoice', () => {
-  const { executors: [{ parser, validators }] } = (new Types).SingleChoice;
+  const { executors: [{ transform, validators }] } = (new Types).SingleChoice;
 
-  describe('parser', () => {
+  describe('transform', () => {
     test('unknown option', async () => {
       const rule = mocks.Rule();
-      expect(await parser('---', rule)).toBeUndefined();
+      expect(await transform('---', rule)).toBeUndefined();
     });
 
     test('returning value', async () => {
@@ -61,7 +61,7 @@ describe('SingleChoice', () => {
           }),
         ],
       });
-      expect(await parser('word', rule)).toBe('word');
+      expect(await transform('word', rule)).toBe('word');
     });
 
     test('returning label', async () => {
@@ -73,7 +73,7 @@ describe('SingleChoice', () => {
           }),
         ],
       });
-      expect(await parser('The Word', rule)).toBe('The Word');
+      expect(await transform('The Word', rule)).toBe('The Word');
     });
   });
 
@@ -107,15 +107,15 @@ describe('SingleChoice', () => {
 });
 
 describe('MultipleChoice', () => {
-  const { executors: [{ parser, validators }] } = (new Types).MultipleChoice;
+  const { executors: [{ transform, validators }] } = (new Types).MultipleChoice;
 
-  describe('parser', () => {
+  describe('transform', () => {
     test('unknown options', async () => {
       const rule = mocks.Rule();
       // from string
-      expect(await parser('x + y, z', rule)).toHaveLength(0);
+      expect(await transform('x + y, z', rule)).toHaveLength(0);
       // from array
-      expect(await parser(['x', 1], rule)).toHaveLength(0);
+      expect(await transform(['x', 1], rule)).toHaveLength(0);
     });
 
     test('returning value', async () => {
@@ -132,9 +132,9 @@ describe('MultipleChoice', () => {
         ],
       });
       // from string
-      expect(await parser('word dog word 123', rule)).toEqual(['word', 123]);
+      expect(await transform('word dog word 123', rule)).toEqual(['word', 123]);
       // from array
-      expect(await parser(['word', 123, '123'], rule)).toEqual(['word', 123]);
+      expect(await transform(['word', 123, '123'], rule)).toEqual(['word', 123]);
     });
 
     test('returning label', async () => {
@@ -147,9 +147,9 @@ describe('MultipleChoice', () => {
         ],
       });
       // from string
-      expect(await parser('the word is okay', rule)).toEqual(['The Word']);
+      expect(await transform('the word is okay', rule)).toEqual(['The Word']);
       // from array
-      expect(await parser(['the word', 'word', 1], rule)).toEqual(['The Word']);
+      expect(await transform(['the word', 'word', 1], rule)).toEqual(['The Word']);
     });
   });
 

@@ -12,9 +12,9 @@ Create types of messages that your bot will use. Examples: City and username aut
 
 **Object configuration:**
 
-- **parser** - parses the user's answer
-- **transform** - transforms answer with async function
-- **validators** - configures the validators
+- **executors** - an array of objects with transform and validators;
+  - **transform** - transforms answer with async function
+  - **validators** - configures the validators
 
 #### Extends
 
@@ -22,9 +22,10 @@ Extends from an existing type
 
 ```javascript
 bot.types.extend('CustomString', 'String', {
-  parser: (answer, rule, bot) => {},
-  transform: (answer, rule, bot) => {},
-  validators: [],
+  executors: [{
+    transform: (answer, rule, bot) => {},
+    validators: [],
+  }]
 });
 ```
 
@@ -34,13 +35,14 @@ Create a type from zero
 
 ```javascript
 bot.types.define('Username', {
-  parser: answer => Number(answer),
-  transform: answer => fetch('/find-username-by-id', {
-    body: JSON.stringify({ id: answer }),
-  }),
-  validators: [{
-    number: true,
-    warning: 'Invalid user id'
+  executors: [{
+    transform: answer => fetch('/find-username-by-id', {
+      body: JSON.stringify({ id: answer }),
+    }),
+    validators: [{
+      number: true,
+      warning: 'Invalid user id'
+    }]
   }]
 });
 ```

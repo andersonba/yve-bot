@@ -8,7 +8,7 @@ const types = {
 
   String: {
     executors: [{
-      parser: async (value: Answer) => String(value),
+      transform: async (value: Answer) => String(value),
       validators: [
         {
           string: true,
@@ -20,7 +20,7 @@ const types = {
 
   Number: {
     executors: [{
-      parser: async (value: Answer) => Number(value),
+      transform: async (value: Answer) => Number(value),
       validators: [
         {
           number: true,
@@ -32,7 +32,7 @@ const types = {
 
   SingleChoice: {
     executors: [{
-      parser: async (value: Answer | Answer[], rule: Rule) => {
+      transform: async (value: Answer | Answer[], rule: Rule) => {
         const option = utils.findOptionByAnswer(rule.options, value);
         if (!option) {
           return undefined;
@@ -51,7 +51,7 @@ const types = {
 
   MultipleChoice: {
     executors: [{
-      parser: async (answer: Answer | Answer[], rule: Rule) => {
+      transform: async (answer: Answer | Answer[], rule: Rule) => {
         let values;
         if (answer instanceof Array) {
           values = answer;

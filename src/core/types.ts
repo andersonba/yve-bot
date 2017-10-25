@@ -1,9 +1,9 @@
 import { uniq } from 'lodash';
 import { DefineModule } from './module';
-import { Rule, Answer } from '../types';
+import { Rule, Answer, RuleType } from '../types';
 import * as utils from './utils';
 
-const types = {
+const types: { [name: string]: RuleType } = {
   Any: { executors: [{}] },
 
   String: {

@@ -3,7 +3,6 @@ import * as mocks from '@test/mocks';
 import { sleep } from '@test/utils';
 
 import { Types } from '../../types';
-import { ValidatorError, PauseRuleTypeExecutors } from '../../exceptions';
 import { Executors } from '../../executors';
 
 
@@ -30,7 +29,7 @@ describe('StringSearch', () => {
       const rule = {
         rand: Math.random(),
         config: { messages: { noResults } }
-      }
+      };
       const { function: validator } = validators[0];
       const validate = (result) => validator(result, rule);
 
@@ -53,16 +52,16 @@ describe('StringSearch', () => {
         name: 'testRule',
         rand: Math.random(),
         config: { messages: { wrongResult } }
-      }
+      };
 
       const { function: validator } = validators[0];
       expect(validator('something', rule, bot)).toBeTruthy();
       expect(bot.talk).not.toHaveBeenCalled();
       expect(bot.store.unset).not.toHaveBeenCalled();
 
-      expect(() => validator(null, rule, bot)).toThrow(PauseRuleTypeExecutors);
+      expect(() => validator(null, rule, bot)).toThrowErrorMatchingSnapshot();
       expect(bot.talk).toHaveBeenCalledWith(wrongResult);
       expect(bot.store.unset).toHaveBeenCalledWith(`executors.${rule.name}.currentIdx`);
     });
-  })
+  });
 });

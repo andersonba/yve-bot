@@ -17,11 +17,13 @@
     "watch": "webpack --watch --watch-poll"
   },
   "devDependencies": {
+    "@types/fetch-mock": "^5.12.1",
     "@types/jest": "^20.0.8",
     "@types/lodash": "^4.14.73",
     "@types/node": "^8.0.24",
     "awesome-typescript-loader": "^3.2.3",
     "faker": "^4.1.0",
+    "fetch-mock": "^5.13.1",
     "jest": "^21.0.2",
     "ts-jest": "^21.0.0",
     "ts-node": "^3.3.0",
@@ -32,7 +34,7 @@
     "webpack-node-externals": "^1.6.0"
   },
   "dependencies": {
-    "fetch-everywhere": "^1.0.5",
+    "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.17.4"
   },
   "jest": {

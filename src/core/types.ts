@@ -1,4 +1,4 @@
-import fetch = require('fetch-everywhere');
+require('isomorphic-fetch');
 
 import { uniq } from 'lodash';
 

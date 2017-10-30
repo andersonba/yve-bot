@@ -40,17 +40,17 @@ You can define a rule using two styles
   name: city
   type: StringSearch
   config:
-    - apiURI: https://myserver.citysearch.com/search
-    - apiQueryParam: q
-    - translate:
-        label: title
-        value: tid
-    - messages:
-        wrongResult: Hmm.. okay, tell me your city again
-        noResults: I couldn't find any cities with this input. Try again
-        didYouMean: Did you mean
-        noneOfAbove: None of those
-        multipleResults: I've found those cities for your input
+    apiURI: https://myserver.citysearch.com/search
+    apiQueryParam: q
+    translate:
+      label: title
+      value: tid
+    messages:
+      wrongResult: Hmm.. okay, tell me your city again
+      noResults: I couldn't find any cities with this input. Try again
+      didYouMean: Did you mean
+      noneOfAbove: None of those
+      multipleResults: I've found those cities for your input
   validators:
     - minWords: 1
 ```

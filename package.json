@@ -45,7 +45,7 @@
       "\\.ts$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
     "testMatch": [
-      "**/__tests__/*.(ts|js)"
+      "**/__tests__/**/*.(ts|js)"
     ],
     "moduleNameMapper": {
       "^@test/(.*)": "<rootDir>/test/$1"

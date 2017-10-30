@@ -28,7 +28,8 @@ You can define a rule using two styles
 | sleep | `0` | number | Fake time to simulate the AFK mode (await from keyboard for a defined time)
 | replyMessage | - | string | Auto-reply after user's answer ([formatting message](#formattedmessage))
 | options | `[]` | array[[RuleOption](#ruleoption)] | Configuration of answer options used in `SingleChoice` and `MultipleChoice` types
-| validators | `[]` | array[[RuleValidator](#rulevalidator)] | Configuration to validate the user answer
+| validators | `[]` | array[[RuleValidator](#rulevalidator)] | Configuration to validate the user answer in the first executor
+| config | - | object{[string]: any}| Extra configuration needed by rule
 | actions | `[]` | array[[RuleAction](#ruleaction)] | Executes an action after bot's message. Pre-defined: `timeout`
 | preActions | `[]` | array[[RuleAction](#ruleaction)] | Executes an action before bot's message
 | exit | `false` | boolean | Terminates the conversation on this rule

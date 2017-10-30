@@ -1,6 +1,6 @@
 import { omit } from 'lodash';
 import * as mocks from '@test/mocks';
-import { Types } from '../types';
+import { Types } from '../../types';
 
 describe('Any', () => {
   test('common', () => {

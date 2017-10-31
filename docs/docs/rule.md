@@ -46,6 +46,8 @@ You can define a rule using two styles
       label: title
       value: tid
     messages:
+      yes: Suuuuuuure!
+      no: HELL NO!
       wrongResult: Hmm.. okay, tell me your city again
       noResults: I couldn't find any cities with this input. Try again
       didYouMean: Did you mean
@@ -54,6 +56,8 @@ You can define a rule using two styles
   validators:
     - minWords: 1
 ```
+- yes and no:
+  Messages of yes/no labels to confirm/deny server results based on user's input
 - apiURI and apiQueryParam:
   Those params will be used to send the search request. The final URI will be
   `${apiURI}?${apiQueryParam}=${encodeURIComponent(String(answer))}`

@@ -5,6 +5,7 @@ cache: yarn
 script:
   - yarn run lint
   - yarn run test:coverage
+  - yarn clean
   - yarn build
 deploy:
   provider: npm

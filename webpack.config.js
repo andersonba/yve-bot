@@ -14,7 +14,7 @@ const baseConfig = {
   context: srcPath,
   output: {
     path: libPath,
-    filename: 'yve-bot.[name].js',
+    filename: '[name].js',
     library: 'YveBot',
   },
 

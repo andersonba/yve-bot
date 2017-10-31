@@ -2,7 +2,7 @@
   "name": "yve-bot",
   "version": "1.2.0",
   "description": "Smart rule-based bot",
-  "main": "lib/yve-bot.core.js",
+  "main": "core.js",
   "repository": "https://github.com/andersonba/yve-bot",
   "author": "Anderson de Oliveira <andersonba@me.com>",
   "license": "MIT",

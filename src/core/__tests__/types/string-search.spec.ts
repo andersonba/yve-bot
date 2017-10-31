@@ -121,7 +121,7 @@ describe('StringSearch', () => {
       const serverResponse = { label: 'fake1', value: 'fake2' };
 
       const { transform } = executors[2];
-      const messages = { didYouMean: 'você quis dizer' };
+      const messages = { didYouMean: 'você quis dizer', yes: 'yep', no: 'nope' };
       const rule = {
         rand: Math.random(),
         config: { messages },
@@ -135,8 +135,8 @@ describe('StringSearch', () => {
       expect(bot.talk).toHaveBeenCalledWith(`${messages.didYouMean}: ${serverResponse.label}?`, {
         type: 'SingleChoice',
         options: [
-          { label: 'Sim', value: serverResponse.value },
-          { label: 'Não', value: null },
+          { label: messages.yes, value: serverResponse.value },
+          { label: messages.no, value: null },
         ]
       });
     });

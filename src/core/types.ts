@@ -139,8 +139,8 @@ const types: { [name: string]: RuleType } = {
           if (results.length === 1) {
             message = `${messages.didYouMean}: ${results[0].label}?`;
             options = [
-              { label: 'Sim', value: results[0].value },
-              { label: 'Não', value: null },
+              { label: messages.yes, value: results[0].value },
+              { label: messages.no, value: null },
             ];
           } else {
             message = `${messages.multipleResults}:`;

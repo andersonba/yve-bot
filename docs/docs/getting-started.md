@@ -9,7 +9,7 @@ The simplest way to build a smart and customized rule-based bot conversation. Yv
 To use on **Browser**:
 
 ```html
-<script src="//cdn.jsdelivr.net/npm/yve-bot/lib/ui.js"></script>
+<script src="//cdn.jsdelivr.net/npm/yve-bot/ui.js"></script>
 ```
 
 ```javascript

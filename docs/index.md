@@ -14,5 +14,5 @@ include_index_menu: false
   </div>
 </div>
 
-<script src="//cdn.jsdelivr.net/npm/yve-bot/lib/ui.js"></script>
+<script src="//cdn.jsdelivr.net/npm/yve-bot/ui.js"></script>
 <script src="assets/js/chat.js"></script>

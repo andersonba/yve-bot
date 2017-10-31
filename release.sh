@@ -24,3 +24,4 @@ git push --follow-tags
 
 echo "> Updating Changelog"
 github_changelog_generator --no-unreleased
+git diff

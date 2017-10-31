@@ -28,10 +28,49 @@ You can define a rule using two styles
 | sleep | `0` | number | Fake time to simulate the AFK mode (await from keyboard for a defined time)
 | replyMessage | - | string | Auto-reply after user's answer ([formatting message](#formattedmessage))
 | options | `[]` | array[[RuleOption](#ruleoption)] | Configuration of answer options used in `SingleChoice` and `MultipleChoice` types
-| validators | `[]` | array[[RuleValidator](#rulevalidator)] | Configuration to validate the user answer
+| validators | `[]` | array[[RuleValidator](#rulevalidator)] | Configuration to validate the user answer in the first executor
+| config | - | object{[[string]: any](#stringsearch-rule)} | Extra configuration needed by rule
 | actions | `[]` | array[[RuleAction](#ruleaction)] | Executes an action after bot's message. Pre-defined: `timeout`
 | preActions | `[]` | array[[RuleAction](#ruleaction)] | Executes an action before bot's message
 | exit | `false` | boolean | Terminates the conversation on this rule
+
+# StringSearch Rule
+```yaml
+- message: Insert your city name
+  name: city
+  type: StringSearch
+  config:
+    apiURI: https://myserver.citysearch.com/search
+    apiQueryParam: q
+    translate:
+      label: title
+      value: tid
+    messages:
+      yes: Suuuuuuure!
+      no: HELL NO!
+      wrongResult: Hmm.. okay, tell me your city again
+      noResults: I couldn't find any cities with this input. Try again
+      didYouMean: Did you mean
+      noneOfAbove: None of those
+      multipleResults: I've found those cities for your input
+  validators:
+    - minWords: 1
+```
+- yes and no:
+  Messages of yes/no labels to confirm/deny server results based on user's input
+- apiURI and apiQueryParam:
+  Those params will be used to send the search request. The final URI will be
+  `${apiURI}?${apiQueryParam}=${encodeURIComponent(String(answer))}`
+- translate:
+  Will be used to map your server response to our expected format ({ label, value }).
+  It's necessary to set which of your server's response properties will be our label and which one will be the actual value.
+- messages:
+  This is a map with the messages for all the expected step's behaviors:
+  - wrongResult: when user choose 'noneOfAbove' option
+  - noResults: when your server returns an empty array
+  - didYouMean: when your server returns only 1 result
+  - noneOfAbove: extra options to allow users choose none of server's responses
+  - multipleResults: message that will be prompted to users when server returns more than one response
 
 # FormattedMessage
 

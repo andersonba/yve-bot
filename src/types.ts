@@ -15,7 +15,7 @@ export interface RuleTypeExecutor {
 }
 
 export type RuleTypeTransform = (
-  (value: Answer | Answer[], rule?: Rule, bot?: YveBot) => Promise<Answer | Answer[]>
+  (value: any, rule?: Rule, bot?: YveBot) => Promise<any>
 );
 
 export interface Rule {
@@ -30,6 +30,7 @@ export interface Rule {
   replyMessage?: string;
   options?: RuleOption[];
   validators?: RuleValidator[];
+  config?: { [name: string]: any };
   next?: RuleNext;
   exit?: boolean;
 }

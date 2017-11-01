@@ -1,5 +1,13 @@
 # Change Log
 
+## [1.4.0](https://github.com/andersonba/yve-bot/tree/1.4.0) (2017-11-01)
+[Full Changelog](https://github.com/andersonba/yve-bot/compare/1.3.0...1.4.0)
+
+**Implemented enhancements:**
+
+- String search type [\#29](https://github.com/andersonba/yve-bot/issues/29)
+- Create new field type: StringSearch [\#27](https://github.com/andersonba/yve-bot/pull/27) ([rafaelverger](https://github.com/rafaelverger))
+
 ## [1.3.0](https://github.com/andersonba/yve-bot/tree/1.3.0) (2017-10-31)
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.2.0...1.3.0)
 

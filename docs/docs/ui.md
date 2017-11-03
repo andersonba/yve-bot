@@ -34,6 +34,7 @@ Create bots without re-implement the chat conversation UI components. This brows
 | options.andSeparatorText | `and` | string | Used to join the user's answer in MultipleChoice type
 | options.submitLabel | `Send` | string | Button label of submit message
 | options.autoFocus | `true` | boolean | Autofocus the message input whenever possible
+| options.yveBotOptions | `{}` | object | YveBot Core options
 
 
 ## Methods

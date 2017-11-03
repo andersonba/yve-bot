@@ -1,13 +1,13 @@
 import { RuleOption, Answer } from '../types';
 
 export function compileTemplate(template: string, payload: any): string {
-	return template.replace(/{(.*?)}/g, (_, key) => {
-		let output = payload;
-		for (const prop of key.split('.')) {
+  return template.replace(/{(.*?)}/g, (_, key) => {
+    let output = payload;
+    for (const prop of key.split('.')) {
       output = output[prop];
-		}
-		return output || '';
-	});
+    }
+    return output || '';
+  });
 }
 
 export function calculateDelayToTypeMessage(message: string, time: number): number {

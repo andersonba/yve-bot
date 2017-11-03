@@ -17,13 +17,13 @@ describe('compileTemplate', () => {
 
 describe('calculateDelayToTypeMessage', () => {
   test('common', () => {
-    function testMethod(msg, expected) {
-      expect(utils.calculateDelayToTypeMessage(msg)).toBe(expected);
+    function testMethod(msg, time, expected) {
+      expect(utils.calculateDelayToTypeMessage(msg, time)).toBe(expected);
     }
 
-    testMethod('Long message here', 680);
-    testMethod('Short', 200);
-    testMethod('', 0);
+    testMethod('Long message here', 40, 680);
+    testMethod('Short', 40, 200);
+    testMethod('', 40, 0);
   });
 });
 

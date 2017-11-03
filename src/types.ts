@@ -1,6 +1,7 @@
 import { YveBot } from './core/bot';
 
 export interface YveBotOptions {
+  timePerChar?: number;
   enableWaitForSleep?: boolean;
   rule?: Rule;
 }

@@ -10,9 +10,8 @@ export function compileTemplate(template: string, payload: any): string {
 	});
 }
 
-export function calculateDelayToTypeMessage(message: string): number {
-  const timePerChar = 40;
-  return (message || '').length * timePerChar;
+export function calculateDelayToTypeMessage(message: string, time: number): number {
+  return (message || '').length * time;
 }
 
 export function isMatchAnswer(answer: Answer, option: string | number) {

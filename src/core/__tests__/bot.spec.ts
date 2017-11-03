@@ -14,6 +14,7 @@ const OPTS = {
 test('initial state', () => {
   const opts = {
     enableWaitForSleep: false,
+    timePerChar: 40,
     rule: {
       delay: 1,
       sleep: 1,
@@ -477,10 +478,10 @@ test('calculate delay to type', async () => {
     .on('typed', onTyped)
     .start();
 
-  await sleep(calculateDelayToTypeMessage(rules[0].message) + 10);
+  await sleep(calculateDelayToTypeMessage(rules[0].message, 40) + 10);
   expect(onTyped).toHaveBeenCalledTimes(1);
 
-  await sleep(calculateDelayToTypeMessage(rules[1].message) + 10);
+  await sleep(calculateDelayToTypeMessage(rules[1].message, 40) + 10);
   expect(onTyped).toHaveBeenCalledTimes(2);
 });
 

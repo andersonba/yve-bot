@@ -45,6 +45,7 @@ export class YveBot {
   constructor(rules: Rule[], customOpts?: YveBotOptions) {
     const DEFAULT_OPTS: YveBotOptions = {
       enableWaitForSleep: true,
+      timePerChar: 40,
     };
 
     this.sessionId = 'session';

@@ -179,8 +179,9 @@ export class Controller {
       if ('delay' in rule) {
         await bot.actions.timeout(rule.delay);
       } else {
+        const { timePerChar } = bot.options;
         await bot.actions.timeout(
-          utils.calculateDelayToTypeMessage(message)
+          utils.calculateDelayToTypeMessage(message, timePerChar)
         );
       }
     }

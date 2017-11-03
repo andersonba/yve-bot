@@ -23,6 +23,7 @@ const bot = new YveBot(rules, options);
 |----------|---------|------|-------------|
 | rules | - | array[Rule] | Array of Rule
 | options.enableWaitForSleep | `true` | boolean
+| options.timePerChar | `40` | `number` | Define time per character used in bot typing
 | options.rule | `{}` | Rule | Define default properties of Rule
 
 

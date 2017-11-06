@@ -39,7 +39,7 @@ export interface Rule {
 export interface RuleOption {
   label?: string;
   value?: string | number;
-  synonyms?: string | string[];
+  synonyms?: string[];
   next?: RuleNext;
 }
 

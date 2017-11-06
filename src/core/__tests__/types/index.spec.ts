@@ -168,7 +168,7 @@ describe('MultipleChoice', () => {
       const rule = mocks.Rule({
         options: [
           mocks.RuleOption({
-            value: 'Yes'
+            value: 'Yes',
             synonyms: ['Yep', 'All right'],
           }),
         ],

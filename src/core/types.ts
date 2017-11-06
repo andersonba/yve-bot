@@ -67,7 +67,7 @@ const types: { [name: string]: RuleType } = {
         if (answer instanceof Array) {
           values = answer;
         } else {
-          const options = [];
+          let options = [];
           rule.options.forEach(o => {
             options.push(String(o.value || o.label));
             if (o.synonyms) {

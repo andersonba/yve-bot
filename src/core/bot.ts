@@ -18,6 +18,10 @@ function sanitizeRule(rule: Rule): Rule {
       if (typeof o === 'string') {
         return { value: o };
       }
+      if (typeof o.synonyms === 'string' && !!o.synonyms) {
+        const synonyms: string = o.synonyms;
+        o.synonyms = synonyms.split(',').map(s => s.trim());
+      }
       return o;
     });
   }

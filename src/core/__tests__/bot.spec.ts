@@ -34,11 +34,16 @@ test('sanitize rule', () => {
   - type: MultipleChoice
     options:
       - One
+  - type: SingleChoice
+    options:
+      - value: One
+        synonyms: 1, one, oNe,ONE
   `);
   const bot = new YveBot(rules, OPTS);
   expect(bot.rules[0].message).toBe('Hello');
   expect(bot.rules[1].options).toEqual([]);
   expect(bot.rules[2].options).toEqual([{ value: 'One' }]);
+  expect(bot.rules[3].options[0].synonyms).toEqual([ '1', 'one', 'oNe', 'ONE' ]);
 });
 
 test('event binding', async () => {

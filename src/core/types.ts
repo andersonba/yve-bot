@@ -67,7 +67,13 @@ const types: { [name: string]: RuleType } = {
         if (answer instanceof Array) {
           values = answer;
         } else {
-          const options = rule.options.map(o => String(o.value || o.label));
+          let options = [];
+          rule.options.forEach(o => {
+            options.push(String(o.value || o.label));
+            if (o.synonyms) {
+              options = options.concat(o.synonyms);
+            }
+          });
           values = utils.identifyAnswersInString(String(answer), options);
         }
         return uniq(values

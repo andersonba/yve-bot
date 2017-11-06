@@ -128,6 +128,7 @@ In Single/MultipleChoice cases, you can inject the option label instead of value
       value: red
     - value: blue
     - label: More colors
+      synonyms: more, other, no
       next: more_colors
 ```
 
@@ -135,6 +136,7 @@ In Single/MultipleChoice cases, you can inject the option label instead of value
 |----------|---------|------|-------------|
 | value | - | string | Value of options stored in output. If empty, returns value of `label` property
 | label | - | string | A friendly name shown to user. If empty, returns value of `value` property
+| synonyms | - | string or string[] | A comma-separated or an array of synonyms to be considered in answer
 | next | - | string | Rule name to jump after user's answer
 
 

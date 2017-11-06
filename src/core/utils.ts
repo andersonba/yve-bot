@@ -29,7 +29,8 @@ export function findOptionByAnswer(
     .filter(
       o =>
         answers.some(a => isMatchAnswer(a, o.value)) ||
-        answers.some(a => isMatchAnswer(a, o.label))
+        answers.some(a => isMatchAnswer(a, o.label)) ||
+        answers.some(a => (o.synonyms || []).some(s => isMatchAnswer(a, s)))
     );
   return option;
 }

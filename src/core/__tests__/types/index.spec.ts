@@ -75,6 +75,18 @@ describe('SingleChoice', () => {
       });
       expect(await transform('The Word', rule)).toBe('The Word');
     });
+
+    test('returning synonym', async () => {
+      const rule = mocks.Rule({
+        options: [
+          mocks.RuleOption({
+            value: 'Yes',
+            synonyms: ['Yep', 'All right'],
+          }),
+        ],
+      });
+      expect(await transform('all right', rule)).toBe('Yes');
+    });
   });
 
   describe('validators', () => {
@@ -150,6 +162,21 @@ describe('MultipleChoice', () => {
       expect(await transform('the word is okay', rule)).toEqual(['The Word']);
       // from array
       expect(await transform(['the word', 'word', 1], rule)).toEqual(['The Word']);
+    });
+
+    test('returning synonym', async () => {
+      const rule = mocks.Rule({
+        options: [
+          mocks.RuleOption({
+            value: 'Yes'
+            synonyms: ['Yep', 'All right'],
+          }),
+        ],
+      });
+      // from string
+      expect(await transform('yep', rule)).toEqual(['Yes']);
+      // from array
+      expect(await transform(['all right', 'right', 1], rule)).toEqual(['Yes']);
     });
   });
 

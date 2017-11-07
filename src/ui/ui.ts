@@ -41,7 +41,10 @@ export class ChatUI {
   createBubbleButton(option: RuleOption, onClick: (btn: HTMLButtonElement) => void) {
     const btn = document.createElement('button');
     btn.className = 'yvebot-message-bubbleBtn';
-    btn.onclick = () => onClick(btn);
+    btn.onclick = () => {
+      onClick(btn);
+      this.scrollDown();
+    };
     const { value, label } = option;
     btn.setAttribute('data-value', String((value === undefined ? label : value) || ''));
     btn.setAttribute('data-label', String((label === undefined ? value : label) || ''));
@@ -176,7 +179,11 @@ export class ChatUI {
 
   appendThread(conversation: HTMLUListElement, thread: HTMLLIElement) {
     conversation.insertBefore(thread, this.typing);
-    conversation.scrollTop = conversation.scrollHeight;
+    this.scrollDown();
+  }
+
+  scrollDown() {
+    this.conversation.scrollTop = this.conversation.scrollHeight;
   }
 
   createTextMessage(answer: Answer | Answer[], senderName?: string) {

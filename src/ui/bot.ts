@@ -91,11 +91,13 @@ export class YveBotChat {
 
   typing() {
     this.UI.typing.classList.add('is-typing');
+    this.UI.scrollDown();
     return this;
   }
 
   typed() {
     this.UI.typing.classList.remove('is-typing');
+    this.UI.scrollDown();
     return this;
   }
 

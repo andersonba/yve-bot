@@ -1,5 +1,22 @@
 # Change Log
 
+## [1.5.0](https://github.com/andersonba/yve-bot/tree/1.5.0) (2017-11-07)
+[Full Changelog](https://github.com/andersonba/yve-bot/compare/1.4.0...1.5.0)
+
+**Implemented enhancements:**
+
+- core: improves actions flow [\#35](https://github.com/andersonba/yve-bot/issues/35)
+- synonyms support [\#32](https://github.com/andersonba/yve-bot/issues/32)
+- Customize time in bot typing [\#31](https://github.com/andersonba/yve-bot/issues/31)
+
+**Fixed bugs:**
+
+- ui: scroll down unstable when creating new message [\#34](https://github.com/andersonba/yve-bot/issues/34)
+
+**Merged pull requests:**
+
+- Synonyms [\#33](https://github.com/andersonba/yve-bot/pull/33) ([andersonba](https://github.com/andersonba))
+
 ## [1.4.0](https://github.com/andersonba/yve-bot/tree/1.4.0) (2017-11-01)
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.3.0...1.4.0)
 

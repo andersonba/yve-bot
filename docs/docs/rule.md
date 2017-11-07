@@ -30,8 +30,9 @@ You can define a rule using two styles
 | options | `[]` | array[[RuleOption](#ruleoption)] | Configuration of answer options used in `SingleChoice` and `MultipleChoice` types
 | validators | `[]` | array[[RuleValidator](#rulevalidator)] | Configuration to validate the user answer in the first executor
 | config | - | object{[[string]: any](#stringsearch-rule)} | Extra configuration needed by rule
-| actions | `[]` | array[[RuleAction](#ruleaction)] | Executes an action after bot's message. Pre-defined: `timeout`
+| actions | `[]` | array[[RuleAction](#ruleaction)] | Executes an action after bot's message
 | preActions | `[]` | array[[RuleAction](#ruleaction)] | Executes an action before bot's message
+| postActions | `[]` | array[[RuleAction](#ruleaction)] | Executes an action after user's answer
 | exit | `false` | boolean | Terminates the conversation on this rule
 
 # StringSearch Rule

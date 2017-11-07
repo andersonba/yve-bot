@@ -342,21 +342,32 @@ test('bot sleeping', async () => {
 test('running actions', async () => {
   const act = jest.fn();
   const preAct = jest.fn();
+  const postAct = jest.fn();
   const rules = loadYaml(`
   - message: Hello
+    type: String
     actions:
       - testAction: false
       - unknown: 10
     preActions:
       - testPreAction: true
+    postActions:
+      - testPostAction: true
   `);
   const bot = new YveBot(rules, OPTS);
   bot.actions.define('testAction', act);
   bot.actions.define('testPreAction', preAct);
+  bot.actions.define('testPostAction', postAct);
   bot.start();
+
   await sleep();
   expect(act).toBeCalledWith(false, rules[0], bot);
   expect(preAct).toBeCalledWith(true, rules[0], bot);
+  expect(postAct).not.toBeCalled();
+
+  bot.hear('okay');
+  await sleep();
+  expect(postAct).toBeCalledWith(true, rules[0], bot);
 });
 
 test('ruleTypes with multi executors', async () => {

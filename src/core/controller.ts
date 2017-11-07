@@ -147,13 +147,13 @@ export class Controller {
       await this.sendMessage(rule.message, rule);
     }
 
+    // run actions
+    await runActions(bot, rule, 'actions');
+
     if (rule.exit) {
       bot.end();
       return this;
     }
-
-    // run post-actions
-    await runActions(bot, rule, 'actions');
 
     if (!rule.type) {
       return this.nextRule(rule);
@@ -269,6 +269,9 @@ export class Controller {
       const replyRule = Object.assign({}, bot.options.rule);
       await this.sendMessage(rule.replyMessage, replyRule);
     }
+
+    // run post-actions
+    await runActions(bot, rule, 'postActions');
 
     return this.nextRule(rule, answer);
   }

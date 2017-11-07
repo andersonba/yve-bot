@@ -39,13 +39,13 @@ var rules = [
   {
     name: 'playground',
     message: 'Nice! I will redirect you...',
-    actions: [{ redirect: '/docs/playground' }],
+    actions: [{ redirect: './docs/playground' }],
     exit: true,
   },
   {
     name: 'docs',
     message: 'Nice! I will redirect you...',
-    actions: [{ redirect: '/docs' }],
+    actions: [{ redirect: './docs' }],
     exit: true,
   }
 ];

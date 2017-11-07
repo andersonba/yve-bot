@@ -4,20 +4,23 @@ title: Building Rules
 
 # Building rules
 
-A conversation is defined by an array of Rules. For better readability, it's recommended that you use `yaml` to write these rules (but you will need to compile it to `javascript Object`).
+A conversation is defined by an array of Rules. For better readability, I used the __yaml__ language to write these rules, but you must to use __javascript__ to create rules or compile using __js-yaml__. See bellow:
 
 ```javascript
-// javascript object
+// plain javascript
 const rules = [
-  'Hello!'
+  'Hello!',
+  { message: 'Enter your e-mail', name: 'email', type: 'String' },
 ];
 new YveBot(rules);
 
-// yaml file
+// compile from yaml
 import yaml from 'js-yaml';
 const file = fs.readFileSync('./chat.yaml', 'utf8');
 const rules = yaml.safeLoad(file);
 new YveBot(rules);
 ```
+
+Hint: You can automate compiling the yaml file in your build step, creating a javascript file.
 
 [Next: Rule Specification]({{ site.baseurl }}/docs/rule){:.btn}

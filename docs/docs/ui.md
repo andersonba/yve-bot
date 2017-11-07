@@ -8,7 +8,7 @@ Create bots without re-implement the chat conversation UI components. This brows
 
 ## Initializing
 ```html
-<script src="destination/to/yve-bot/ui.js"></script>
+<script src="//cdn.jsdelivr.net/npm/yve-bot/ui.js"></script>
 
 <script>
   var rules = [...];
@@ -18,6 +18,11 @@ Create bots without re-implement the chat conversation UI components. This brows
   };
   var bot = new YveBot(rules, chatOptions);
 </script>
+```
+
+or using React
+```javascript
+import YveBotUI from 'yve-bot/ui';
 ```
 
 | Argument | Default | Type | Description |

@@ -9,5 +9,5 @@
 1. [Choosing the Bundle]({{ site.baseurl }}/docs/choosing-the-bundle)
 1. [UI API]({{ site.baseurl }}/docs/ui)
 1. [Core API]({{ site.baseurl }}/docs/core)
-1. [Playground]({{ site.baseurl }}/docs/examples#playground)
+1. [Playground]({{ site.baseurl }}/docs/playground)
 1. [Integration examples]({{ site.baseurl }}/docs/examples#integrations)

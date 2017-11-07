@@ -1,34 +1,63 @@
-var rules =
-[ 'Hello! I\'m Yve Bot.',
+var rules = [
+  'Hello! I\'m Yve Bot.',
   { message: 'What\'s your name?',
     name: 'name',
     type: 'String',
     replyMessage: 'Thanks for the answer, {name}!',
-    validators: [ { min: 4 }, { minWords: 1 } ] },
-  { message: 'What city do you live in?',
-    name: 'city',
-    type: 'String' },
-  { message: 'Thanks, wait a moment.' },
-  { sleep: 4000 },
-  { message: 'Make your choice',
+    validators: [ { min: 4 }, { minWords: 1 } ]
+  },
+  { message: 'I can ask you using bubble answers. Choose one:',
     name: 'choice',
     type: 'SingleChoice',
-    options:
-     [ { label: 'Button 1', value: 1 },
-       { label: 'Button 2', value: 2 } ] },
+    sleep: 1000,
+    options: [ { label: 'Button 1', value: 1 }, { label: 'Button 2', value: 2 } ]
+  },
   { message: 'Okay! You chose the button {choice}.' },
-  { message: 'Which colors do you like?',
+  { message: 'And about multiple bubbles? Select them:',
     name: 'colors',
     type: 'MultipleChoice',
-    options: [ 'Blue', 'Red', 'Black', { label: 'Green' }, { value: 'Purple' } ] },
-  { message: 'What you want to do?',
+    options: [ 'Blue', 'Red', 'Black' ]
+  },
+  'I can do everything for you, just configure me ;)',
+  {
+    message: 'What do you see now?',
+    name: 'choose',
     type: 'SingleChoice',
-    options: [ { label: 'Restart', next: 'name' }, 'Quit' ] },
-  { message: 'Bye! :(', exit: true }
+    sleep: 1500,
+    options: [
+      { label: 'Docs', next: 'docs' },
+      { label: 'Playground', next: 'playground' },
+      { label: 'Nothing' }
+    ]
+  },
+  { message: 'Nothing? Why?? :( You will like it!' },
+  { sleep: 3000 },
+  { message: '...and now?',
+    type: 'SingleChoice',
+    options: [{ label: 'YES! I really want this now!', next: 'choose' }]
+  },
+  {
+    name: 'playground',
+    message: 'Nice! I will redirect you...',
+    actions: [{ redirect: '/docs/playground' }],
+    exit: true,
+  },
+  {
+    name: 'docs',
+    message: 'Nice! I will redirect you...',
+    actions: [{ redirect: '/docs' }],
+    exit: true,
+  }
 ];
 
 const chat = new YveBot(rules, {
   target: '.Chat',
+});
+
+chat.bot.actions.define('redirect', (url) => {
+  setTimeout(function() {
+    window.location.href = url;
+  }, 1000);
 });
 
 chat.UI.input.addEventListener('focus', function() {

@@ -2,13 +2,6 @@
 title: Examples
 ---
 
-# Playground
-
-Try YveBot online
-
-[View on JSFiddle](https://jsfiddle.net/andersonba/m9huffrb/){:target="_blank"}
-
-
 # Integrations
 
 Check out some code examples in Github

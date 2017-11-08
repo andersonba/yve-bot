@@ -1,4 +1,4 @@
-import { YveBotOptions, Rule, Answer } from '../types';
+import { YveBotOptions, Rule, Answer, Context } from '../types';
 import { Store, StoreData } from './store';
 import { Controller } from './controller';
 import { Actions } from './actions';
@@ -60,7 +60,15 @@ export class YveBot {
     this.store = new Store(this);
     this.controller = new Controller(this);
 
+    if (this.options.context) {
+      this.store.set('context', this.options.context);
+    }
+
     this.on('error', err => { throw err; });
+  }
+
+  public get context(): Context {
+    return this.store.get('context');
   }
 
   on(evt: string, fn: (...args: any[]) => any): this {
@@ -84,7 +92,7 @@ export class YveBot {
     return this;
   }
 
-  talk(message: string, opts?: Object): this {
+  talk(message: string, opts?: object): this {
     const rule = Object.assign({}, this.options.rule, opts || {});
     this.controller.sendMessage(message, rule);
     return this;
@@ -103,7 +111,7 @@ export class YveBot {
 
   session(
     id: string,
-    opts: { store?: StoreData, rules?: Rule[] } = {},
+    opts: { context?: Context, store?: StoreData, rules?: Rule[] } = {},
   ): this {
     this.sessionId = id;
 
@@ -120,6 +128,11 @@ export class YveBot {
       this.store.reset();
       this.controller.reindex();
     }
+
+    if (opts.context) {
+      this.store.set('context', opts.context);
+    }
+
     return this;
   }
 

@@ -4,6 +4,7 @@ export interface YveBotOptions {
   timePerChar?: number;
   enableWaitForSleep?: boolean;
   rule?: Rule;
+  context?: Context;
 }
 
 export interface RuleType {
@@ -52,6 +53,10 @@ export interface RuleValidator {
 }
 
 export type RuleNext = string;
+
+export type Context = {
+  [key: string]: any;
+};
 
 export type Answer = string | number;
 

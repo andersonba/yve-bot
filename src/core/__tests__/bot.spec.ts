@@ -46,6 +46,12 @@ test('sanitize rule', () => {
   expect(bot.rules[3].options[0].synonyms).toEqual([ '1', 'one', 'oNe', 'ONE' ]);
 });
 
+test('user context', () => {
+  const context = { a: 1, b: { c: 3 }};
+  const bot = new YveBot([], { context });
+  expect(bot.context).toEqual(context);
+});
+
 test('event binding', async () => {
   const rules = loadYaml(`
   - message: Colors?
@@ -114,16 +120,19 @@ test('using session', () => {
   expect(bot.rules).toEqual(rules);
 });
 
-test('using session with custom store/rules', () => {
+test('using session with custom context/store/rules', () => {
   const session = faker.random.number();
   const newRules = [mocks.Rule()];
+  const newContext = { user: 123 };
   const newStore = {
+    context: newContext,
     currentIdx: faker.random.number(),
     output: { color: faker.commerce.color() },
     waitingForAnswer: true,
   };
   const bot = new YveBot([], OPTS);
   bot.session(session, {
+    context: newContext,
     rules: newRules,
     store: newStore,
   });
@@ -131,6 +140,7 @@ test('using session with custom store/rules', () => {
   expect(bot.store.get()).toEqual(newStore);
   expect(bot.rules).toHaveLength(1);
   expect(bot.rules[0].message).toBe(newRules[0].message);
+  expect(bot.context.user).toBe(123);
 });
 
 test('auto reply message', async () => {

@@ -25,6 +25,7 @@ const bot = new YveBot(rules, options);
 | options.timePerChar | `40` | `number` | Define time per character used in bot typing
 | options.enableWaitForSleep | `true` | boolean | Force disable timeout actions (bot typing)
 | options.rule | `{}` | Rule | Define default properties of Rule
+| options.context | - | Object | Stores user context
 
 
 ## Methods
@@ -88,8 +89,18 @@ bot.session(sessionId, { store });
 | Argument | Default | Type | Description |
 |----------|---------|------|-------------|
 | id | - | string | Unique identifier of session
-| options.store | `{}` | Object | Use custom output for this session
-| options.rules | `[]` | [Rule] | Use custom rules for this session
+| options.store | `{}` | Object | Uses custom output for this session
+| options.rules | `[]` | [Rule] | Uses custom rules for this session
+| options.context | - | Object | Uses custom user context for this session
+
+#### Context
+
+Get user context values
+
+```javascript
+const ctx = bot.context;
+const { uid } = ctx.user;
+```
 
 
 ## Binding events

@@ -1,4 +1,4 @@
-import { Rule } from '../types';
+import { Rule, Indexes } from '../types';
 
 export function ValidatorError(message: string, rule: Rule) {
   this.key = 'validator';
@@ -15,7 +15,7 @@ export function RedefineConfigurationError(klass: string, name: string) {
   this.message = `You can't redefine the "${name}" in ${klass}.`;
 }
 
-export function RuleNotFound(name: string, indexes: { [k: string]: number }) {
+export function RuleNotFound(name: string, indexes: Indexes) {
   this.key = 'ruleNotFound';
   this.message = `Rule "${name}" not found in indexes`;
   this.indexes = indexes;

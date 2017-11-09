@@ -1,4 +1,4 @@
-import { YveBotOptions, Rule, Answer, Context } from '../types';
+import { YveBotOptions, Rule, Flow, Answer, Context } from '../types';
 import { Store, StoreData } from './store';
 import { Controller } from './controller';
 import { Actions } from './actions';
@@ -12,7 +12,6 @@ function sanitizeRule(rule: Rule): Rule {
   if (typeof rule === 'string') {
     return { message: rule };
   }
-
   if (['SingleChoice', 'MultipleChoice'].indexOf(rule.type) >= 0) {
     rule.options = (rule.options || []).map(o => {
       if (typeof o === 'string') {
@@ -25,8 +24,27 @@ function sanitizeRule(rule: Rule): Rule {
       return o;
     });
   }
-
   return rule;
+}
+
+function convertToRules(inputs: (Flow|Rule)[]): Rule[] {
+  let rules: Rule[] = [];
+  inputs.forEach(input => {
+    const isFlow = typeof input !== 'string' && 'rules' in input && 'flow' in input;
+    if (isFlow) {
+      const flow = input as Flow;
+      rules = rules.concat(
+        flow.rules.map(
+          rule => Object.assign({}, sanitizeRule(rule), {
+            flow: input.flow,
+          })
+        )
+      );
+    } else {
+      rules.push(sanitizeRule(input as Rule));
+    }
+  });
+  return rules;
 }
 
 export class YveBot {
@@ -46,7 +64,7 @@ export class YveBot {
   public executors: Executors;
   public validators: Validators;
 
-  constructor(rules: Rule[], customOpts?: YveBotOptions) {
+  constructor(rules: (Rule|Flow)[], customOpts?: YveBotOptions) {
     const DEFAULT_OPTS: YveBotOptions = {
       enableWaitForSleep: true,
       timePerChar: 40,
@@ -54,7 +72,7 @@ export class YveBot {
 
     this.sessionId = 'session';
     this.options = Object.assign({}, DEFAULT_OPTS, customOpts);
-    this.rules = rules.map(rule => sanitizeRule(rule));
+    this.rules = convertToRules(rules);
     this.handlers = {};
 
     this.store = new Store(this);

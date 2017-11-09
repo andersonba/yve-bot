@@ -46,6 +46,30 @@ test('sanitize rule', () => {
   expect(bot.rules[3].options[0].synonyms).toEqual([ '1', 'one', 'oNe', 'ONE' ]);
 });
 
+test('convert flows to rules', () => {
+  const rules = loadYaml(`
+  - flow: welcome
+    rules:
+      - Hello!
+      - type: String
+
+  - flow: bye
+    rules:
+      - Bye!
+  `);
+  const bot = new YveBot(rules, OPTS);
+  expect(bot.rules).toHaveLength(3);
+
+  expect(bot.rules[0].message).toBe('Hello!');
+  expect(bot.rules[0].flow).toBe('welcome');
+
+  expect(bot.rules[1].type).toBe('String');
+  expect(bot.rules[1].flow).toBe('welcome');
+
+  expect(bot.rules[2].message).toBe('Bye!');
+  expect(bot.rules[2].flow).toBe('bye');
+});
+
 test('user context', () => {
   const context = { a: 1, b: { c: 3 }};
   const bot = new YveBot([], { context });
@@ -246,9 +270,59 @@ test('jumping to rule', async () => {
     .start();
   await sleep();
 
-  expect(onTalk).not.toBeCalledWith(rules[1].message, rules[1], 'session');
-  expect(onTalk).toBeCalledWith(rules[0].message, rules[0], 'session');
-  expect(onTalk).toBeCalledWith(rules[2].message, rules[2], 'session');
+  expect(onTalk).not.toBeCalledWith('Skipped', rules[1], 'session');
+  expect(onTalk).toBeCalledWith('Step 1', rules[0], 'session');
+  expect(onTalk).toBeCalledWith('Step 3', rules[2], 'session');
+  expect(onTalk).toHaveBeenCalledTimes(2);
+});
+
+test('jumping inside of flow', async () => {
+  const onTalk = jest.fn();
+  const flows = loadYaml(`
+  - flow: welcome
+    rules:
+      - message: Hello
+        next: okay
+      - Skip
+      - message: Okay
+        name: okay
+  `);
+  new YveBot(flows, OPTS)
+    .on('talk', onTalk)
+    .start();
+  await sleep();
+
+  const flow = 'welcome';
+  const { rules } = flows[0];
+  expect(onTalk).not.toBeCalledWith('Skip', { flow, ...rules[1] }, 'session');
+  expect(onTalk).toBeCalledWith('Hello', { flow, ...rules[0] }, 'session');
+  expect(onTalk).toBeCalledWith('Okay', { flow, ...rules[2] }, 'session');
+  expect(onTalk).toHaveBeenCalledTimes(2);
+});
+
+test('jumping between flows', async () => {
+  const onTalk = jest.fn();
+  const flows = loadYaml(`
+  - flow: first
+    rules:
+      - message: Hello
+        next: second.two
+      - Skip 1
+  - flow: second
+    rules:
+      - Skip 2
+      - message: Here
+        name: two
+  `);
+  new YveBot(flows, OPTS)
+    .on('talk', onTalk)
+    .start();
+  await sleep();
+
+  expect(onTalk).not.toBeCalledWith('Skip 1', { flow: 'first', ...flows[0].rules[1] }, 'session');
+  expect(onTalk).not.toBeCalledWith('Skip 2', { flow: 'second', ...flows[1].rules[0] }, 'session');
+  expect(onTalk).toBeCalledWith('Hello', { flow: 'first', ...flows[0].rules[0] }, 'session');
+  expect(onTalk).toBeCalledWith('Here', { flow: 'second', ...flows[1].rules[1] }, 'session');
   expect(onTalk).toHaveBeenCalledTimes(2);
 });
 
@@ -273,9 +347,9 @@ test('jumping to option next', async () => {
   bot.hear('Jump');
   await sleep();
 
-  expect(onTalk).not.toBeCalledWith(rules[1].message, rules[1], 'session');
-  expect(onTalk).toBeCalledWith(rules[0].message, rules[0], 'session');
-  expect(onTalk).toBeCalledWith(rules[2].message, rules[2], 'session');
+  expect(onTalk).not.toBeCalledWith('Skipped', rules[1], 'session');
+  expect(onTalk).toBeCalledWith('Step 1', rules[0], 'session');
+  expect(onTalk).toBeCalledWith('Step 3', rules[2], 'session');
   expect(onTalk).toHaveBeenCalledTimes(2);
 });
 

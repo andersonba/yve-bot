@@ -1,4 +1,4 @@
-import { Rule, RuleNext, Answer } from '../types';
+import { Rule, RuleNext, Answer, Indexes } from '../types';
 import { YveBot } from './bot';
 import {
   InvalidAttributeError,
@@ -46,14 +46,15 @@ async function validateAnswer(
 
 function compileMessage(bot: YveBot, message: string): string {
   const output = bot.store.output();
-  const indexes = bot.controller.getIndexes();
-  const re = /(?!\{)\w+[.]((?:\w+[.])*\w+)(?=\})/g;
-  const matches = (message.match(re) || []).map(s => s.split('.')[0]);
-  Array.from(new Set(matches)).map(key => {
-    const rule = bot.rules[indexes[key]];
+  const { indexes } = bot.controller;
+  const re = /(?!\{)\w+[.]((?:\w+[.])*\w+)(?=\})/g; // extract variable in template: {{ ruleName.X.Y.Z }}
+  const ruleNames = (message.match(re) || []).map(s => s.split('.')[0]);
+  Array.from(new Set(ruleNames)).map(ruleName => {
+
+    const rule = bot.rules[indexes[ruleName]];
     if (!rule || !rule.options) { return; }
-    const answer = output[key];
-    output[key] = (function() {
+    const answer = output[ruleName];
+    output[ruleName] = (function() {
       // multiple choice
       if (answer instanceof Array) {
         return answer
@@ -108,27 +109,27 @@ function getRuleByIndex(bot: YveBot, idx: number): Rule {
 
 export class Controller {
   private bot: YveBot;
-  private indexes: {
-    [ruleName: string]: number,
-  };
+  private _indexes: Indexes;
 
   constructor(bot: YveBot) {
     this.bot = bot;
-    this.indexes = {};
+    this._indexes = {};
     this.reindex();
   }
 
   reindex(): void {
     const { bot } = this;
     bot.rules.forEach((rule, idx) => {
-      if (rule.name) {
-        this.indexes[rule.name] = idx;
+      const { name, flow } = rule;
+      if (name) {
+        const key = flow ? [flow, name].join('.') : name;
+        this._indexes[key] = idx;
       }
     });
   }
 
-  getIndexes() {
-    return this.indexes;
+  public get indexes() {
+    return this._indexes;
   }
 
   async run(idx: number = 0): Promise<this> {
@@ -277,9 +278,9 @@ export class Controller {
   }
 
   jumpByName(ruleName: string): Promise<this> {
-    const idx = this.indexes[ruleName];
+    const idx = this._indexes[ruleName];
     if (typeof idx !== 'number') {
-      throw new RuleNotFound(ruleName, this.indexes);
+      throw new RuleNotFound(ruleName, this._indexes);
     }
     return this.run(idx);
   }
@@ -288,7 +289,11 @@ export class Controller {
     const { bot } = this;
     const nextRuleName = getNextFromRule(currentRule, answer);
     if (nextRuleName) {
-      this.jumpByName(nextRuleName);
+      const isJumpToAnotherFlow = nextRuleName.indexOf('.') > 0;
+      const ruleName = isJumpToAnotherFlow ?
+        nextRuleName :
+        [currentRule.flow, nextRuleName].filter(x => !!x).join('.');
+      this.jumpByName(ruleName);
     } else {
       const nextIdx = bot.store.get('currentIdx') + 1;
       this.run(nextIdx);

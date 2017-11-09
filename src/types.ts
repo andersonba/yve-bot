@@ -7,20 +7,13 @@ export interface YveBotOptions {
   context?: Context;
 }
 
-export interface RuleType {
-  executors: RuleTypeExecutor[];
+export interface Flow {
+  flow: string;
+  rules: Rule[];
 }
-
-export interface RuleTypeExecutor {
-  validators?: RuleValidator[];
-  transform?: RuleTypeTransform;
-}
-
-export type RuleTypeTransform = (
-  (value: any, rule?: Rule, bot?: YveBot) => Promise<any>
-);
 
 export interface Rule {
+  flow?: string;
   name?: string;
   type?: string;
   output?: string;
@@ -52,10 +45,27 @@ export interface RuleValidator {
   [name: string]: any;
 }
 
+export interface RuleType {
+  executors: RuleTypeExecutor[];
+}
+
+export interface RuleTypeExecutor {
+  validators?: RuleValidator[];
+  transform?: RuleTypeTransform;
+}
+
+export type RuleTypeTransform = (
+  (value: any, rule?: Rule, bot?: YveBot) => Promise<any>
+);
+
 export type RuleNext = string;
 
 export type Context = {
   [key: string]: any;
+};
+
+export type Indexes = {
+  [ruleName: string]: number;
 };
 
 export type Answer = string | number;

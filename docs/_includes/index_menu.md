@@ -3,6 +3,7 @@
 1. [Getting started]({{ site.baseurl }}/docs/getting-started)
 1. [Building rules]({{ site.baseurl }}/docs/building-rules)
 1. [Rule specification]({{ site.baseurl }}/docs/rule)
+1. [Flows: Grouping rules]({{ site.baseurl }}/docs/flows)
 1. [Creating custom types]({{ site.baseurl }}/docs/customize#custom-types)
 1. [Creating custom actions]({{ site.baseurl }}/docs/customize#custom-actions)
 1. [Creating custom validators]({{ site.baseurl }}/docs/customize#custom-validators)

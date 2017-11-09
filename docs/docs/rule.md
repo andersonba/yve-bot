@@ -143,4 +143,4 @@ _** validators are used ONLY in the first executor from rule's type_
 | timeout | number | Executes setTimeout
 
 
-[Next: Customize types, validators and actions]({{ site.baseurl }}/docs/customize){:.btn}
+[Next: Flows: Grouping rules]({{ site.baseurl }}/docs/flows){:.btn}

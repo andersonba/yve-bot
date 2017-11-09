@@ -1,5 +1,18 @@
 # Change Log
 
+## [1.6.0](https://github.com/andersonba/yve-bot/tree/1.6.0) (2017-11-09)
+[Full Changelog](https://github.com/andersonba/yve-bot/compare/1.5.0...1.6.0)
+
+**Implemented enhancements:**
+
+- feature: grouping rules into flows [\#40](https://github.com/andersonba/yve-bot/issues/40)
+- user context support [\#37](https://github.com/andersonba/yve-bot/issues/37)
+
+**Closed issues:**
+
+- online IDE to build conversations [\#8](https://github.com/andersonba/yve-bot/issues/8)
+- host the libs on CDN [\#7](https://github.com/andersonba/yve-bot/issues/7)
+
 ## [1.5.0](https://github.com/andersonba/yve-bot/tree/1.5.0) (2017-11-07)
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.4.0...1.5.0)
 

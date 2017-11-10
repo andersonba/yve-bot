@@ -118,16 +118,17 @@ const types: { [name: string]: RuleType } = {
           return fetch(searchURI)
             .then(res => res.json())
             .then(list => {
+              if (list.length === 0) {
+                throw new ValidatorError(messages.noResults, rule);
+              }
+              return list;
+            })
+            .then(list => {
               if (!translate) {
                 return list;
               }
               const { label, value } = translate;
               return list.map(obj => ({ label: obj[label], value: obj[value] }));
-            }).then(list => {
-              if (list.length === 0) {
-                throw new ValidatorError(messages.noResults, rule);
-              }
-              return list;
             });
         },
       },

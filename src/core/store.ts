@@ -1,4 +1,7 @@
-import { get, set, unset, merge } from 'lodash';
+import get from 'lodash-es/get';
+import set from 'lodash-es/set';
+import unset from 'lodash-es/unset';
+import merge from 'lodash-es/merge';
 import { YveBot } from './bot';
 
 export type StoreData = {

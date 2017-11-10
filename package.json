@@ -20,7 +20,7 @@
   "devDependencies": {
     "@types/fetch-mock": "^5.12.1",
     "@types/jest": "^20.0.8",
-    "@types/lodash": "^4.14.73",
+    "@types/lodash-es": "^4.17.0",
     "@types/node": "^8.0.24",
     "awesome-typescript-loader": "^3.2.3",
     "bundlesize": "^0.15.3",
@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
-    "lodash": "^4.17.4"
+    "lodash-es": "^4.17.4"
   },
   "jest": {
     "mapCoverage": true,
@@ -46,8 +46,11 @@
       "js"
     ],
     "transform": {
-      "\\.ts$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+      "\\.(t|j)s$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!lodash-es/.*)"
+    ],
     "testMatch": [
       "**/__tests__/**/*.(ts|js)"
     ],
@@ -68,7 +71,7 @@
     },
     {
       "path": "./lib/ui.js",
-      "maxSize": "35 kB"
+      "maxSize": "16 kB"
     }
   ]
 }

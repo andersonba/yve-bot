@@ -1,6 +1,6 @@
 require('isomorphic-fetch');
 
-import { uniq } from 'lodash';
+import uniq from 'lodash-es/uniq';
 
 import { DefineModule } from './module';
 import { ValidatorError } from './exceptions';

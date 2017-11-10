@@ -7,10 +7,11 @@
   "author": "Anderson de Oliveira <andersonba@me.com>",
   "license": "MIT",
   "scripts": {
-    "test": "yarn lint && yarn test:coverage",
+    "test": "yarn lint && yarn test:coverage && yarn test:bundle",
     "test:strict": "jest",
     "test:coverage": "yarn test:strict -- --coverage",
     "test:watch": "yarn test:strict -- --watch",
+    "test:bundle": "bundlesize",
     "lint": "tslint --project tsconfig.json",
     "clean": "rm -rf lib",
     "build": "webpack --bail",
@@ -22,6 +23,7 @@
     "@types/lodash": "^4.14.73",
     "@types/node": "^8.0.24",
     "awesome-typescript-loader": "^3.2.3",
+    "bundlesize": "^0.15.3",
     "faker": "^4.1.0",
     "fetch-mock": "^5.13.1",
     "jest": "^21.0.2",
@@ -58,5 +60,15 @@
       "!src/core/index.ts",
       "!src/ui/index.ts"
     ]
-  }
+  },
+  "bundlesize": [
+    {
+      "path": "./lib/core.js",
+      "maxSize": "6 kB"
+    },
+    {
+      "path": "./lib/ui.js",
+      "maxSize": "35 kB"
+    }
+  ]
 }

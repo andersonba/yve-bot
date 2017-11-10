@@ -1,5 +1,25 @@
 # Change Log
 
+## [1.7.0](https://github.com/andersonba/yve-bot/tree/1.7.0) (2017-11-10)
+[Full Changelog](https://github.com/andersonba/yve-bot/compare/1.6.0...1.7.0)
+
+**Implemented enhancements:**
+
+- YveBot shouldn't throw an error when trying to re-define an existing action/type [\#39](https://github.com/andersonba/yve-bot/issues/39)
+
+**Fixed bugs:**
+
+- Some properties of bot's instances are statics! [\#38](https://github.com/andersonba/yve-bot/issues/38)
+
+**Closed issues:**
+
+- StringSearch validation fails when server result is 0 [\#44](https://github.com/andersonba/yve-bot/issues/44)
+- Bundle analyzer [\#42](https://github.com/andersonba/yve-bot/issues/42)
+
+**Merged pull requests:**
+
+- Fixing validation flow in StringSerach. Closes \#44 [\#45](https://github.com/andersonba/yve-bot/pull/45) ([rafaelverger](https://github.com/rafaelverger))
+
 ## [1.6.0](https://github.com/andersonba/yve-bot/tree/1.6.0) (2017-11-09)
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.5.0...1.6.0)
 

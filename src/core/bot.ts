@@ -48,6 +48,10 @@ function convertToRules(inputs: (Flow|Rule)[]): Rule[] {
 }
 
 export class YveBot {
+  static types: Types;
+  static actions: Actions;
+  static executors: Executors;
+  static validators: Validators;
   static exceptions: any;
 
   private handlers: { [handler: string]: Array<() => any> };
@@ -58,11 +62,6 @@ export class YveBot {
   public controller: Controller;
   public store: Store;
   public sessionId: string;
-
-  public types: Types;
-  public actions: Actions;
-  public executors: Executors;
-  public validators: Validators;
 
   constructor(rules: (Rule|Flow)[], customOpts?: YveBotOptions) {
     const DEFAULT_OPTS: YveBotOptions = {
@@ -88,6 +87,11 @@ export class YveBot {
   public get context(): Context {
     return this.store.get('context');
   }
+
+  public get types() { return YveBot.types; }
+  public get actions() { return YveBot.actions; }
+  public get executors() { return YveBot.executors; }
+  public get validators() { return YveBot.validators; }
 
   on(evt: string, fn: (...args: any[]) => any): this {
     const isUniqueType = ['error'].indexOf(evt) >= 0;
@@ -160,10 +164,8 @@ export class YveBot {
   }
 }
 
-YveBot.prototype.types = new Types;
-YveBot.prototype.actions = new Actions;
-YveBot.prototype.executors = new Executors;
-YveBot.prototype.validators = new Validators;
-
-
+YveBot.types = new Types;
+YveBot.actions = new Actions;
+YveBot.executors = new Executors;
+YveBot.validators = new Validators;
 YveBot.exceptions = Exceptions;

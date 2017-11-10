@@ -11,6 +11,22 @@ const OPTS = {
   enableWaitForSleep: false,
 };
 
+test('custom define', () => {
+  YveBot.actions.define('test', 1);
+  YveBot.types.define('test', 2);
+  YveBot.executors.define('test', 3);
+  YveBot.validators.define('test', 4);
+
+  const bot = new YveBot([]);
+
+  /* tslint:disable */
+  expect((<any>bot.actions).test).toBe(1);
+  expect((<any>bot.types).test).toBe(2);
+  expect((<any>bot.executors).test).toBe(3);
+  expect((<any>bot.validators).test).toBe(4);
+  /* tslint:enable */
+});
+
 test('initial state', () => {
   const opts = {
     enableWaitForSleep: false,

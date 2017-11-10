@@ -10,11 +10,6 @@ export function InvalidAttributeError(type: string, rule: Rule) {
   this.message = `Invalid ${type} attribute "${rule.type}"`;
 }
 
-export function RedefineConfigurationError(klass: string, name: string) {
-  this.key = 'redefineConfiguration';
-  this.message = `You can't redefine the "${name}" in ${klass}.`;
-}
-
 export function RuleNotFound(name: string, indexes: Indexes) {
   this.key = 'ruleNotFound';
   this.message = `Rule "${name}" not found in indexes`;

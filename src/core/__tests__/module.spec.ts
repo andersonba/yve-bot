@@ -1,5 +1,4 @@
 import { DefineModule } from '../module';
-import { RedefineConfigurationError } from '../exceptions';
 
 describe('define', () => {
   test('using object', () => {
@@ -26,18 +25,24 @@ describe('define', () => {
     expect(mod.a).toBe(123);
   });
 
-  test('fails on overwrite', () => {
+  test('fails on override', () => {
     class A extends DefineModule {
       public a: number;
     }
     const mod = new A;
     mod.define('a', 123);
-    try {
-      mod.define('a', 321);
-    } catch(e) {
-      expect(e).toBeInstanceOf(RedefineConfigurationError);
-    }
+    mod.define('a', 321);
     expect(mod.a).toBe(123);
+  });
+
+  test('force override', () => {
+    class A extends DefineModule {
+      public a: number;
+    }
+    const mod = new A;
+    mod.define('a', 123);
+    mod.define('a', 321, { override: true });
+    expect(mod.a).toBe(321);
   });
 });
 

@@ -1,5 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`StringSearch validators first executor 1`] = `"noResults msg first-executor-validator"`;
-
 exports[`StringSearch validators last executor 1`] = `"Rule \\"testRule\\" must pause execution"`;

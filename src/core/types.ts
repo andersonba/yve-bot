@@ -3,15 +3,11 @@ require('isomorphic-fetch');
 import uniq from 'lodash-es/uniq';
 
 import { DefineModule } from './module';
-import { ValidatorError } from './exceptions';
-import { Executors } from './executors';
+import { ValidatorError, PauseRuleTypeExecutors } from './exceptions';
 import { YveBot } from './bot';
 import * as utils from './utils';
 
 import { Rule, Answer, RuleType } from '../types';
-
-
-const executors = new Executors;
 
 
 const types: { [name: string]: RuleType } = {
@@ -115,12 +111,18 @@ const types: { [name: string]: RuleType } = {
            *   - label: myProperty1
            *   - value: myProperty2
            */
-          const { apiURI, apiQueryParam, translate } = rule.config;
+          const { apiURI, apiQueryParam, translate, messages } = rule.config;
           const searchURI = `${apiURI}?${apiQueryParam}=${encodeURIComponent(String(answer))}`;
 
           bot.dispatch('typing');
           return fetch(searchURI)
             .then(res => res.json())
+            .then(list => {
+              if (list.length === 0) {
+                throw new ValidatorError(messages.noResults, rule);
+              }
+              return list;
+            })
             .then(list => {
               if (!translate) {
                 return list;
@@ -129,14 +131,6 @@ const types: { [name: string]: RuleType } = {
               return list.map(obj => ({ label: obj[label], value: obj[value] }));
             });
         },
-        validators: [{
-          function: (results: any, rule: Rule) => {
-            if (results.length === 0) {
-              throw new ValidatorError(rule.config.messages.noResults, rule);
-            }
-            return true;
-          }
-        }]
       },
       {
         transform: async (results: any, rule: Rule, bot: YveBot) => {
@@ -157,8 +151,8 @@ const types: { [name: string]: RuleType } = {
           }
 
           bot.talk(message, { type: 'SingleChoice', options });
+          throw new PauseRuleTypeExecutors(rule.name);
         },
-        validators: [...executors.WaitForUserInput.validators]
       },
       {
         validators: [{
@@ -167,14 +161,7 @@ const types: { [name: string]: RuleType } = {
             if (!answer) {
               bot.store.unset(`executors.${rule.name}.currentIdx`);
               bot.talk(messages.wrongResult);
-              return (
-                executors.WaitForUserInput.validators
-                  .reduce((list, validator) => list.concat(
-                    Object.keys(validator).map(k => validator[k])
-                  ), [])
-                  .filter(validator => validator instanceof Function)
-                  .every(validator => validator('', rule))
-              );
+              throw new PauseRuleTypeExecutors(rule.name);
             }
             return true;
           }

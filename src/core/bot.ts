@@ -6,55 +6,8 @@ import { Listeners } from './listeners';
 import { Types } from './types';
 import { Executors } from './executors';
 import { Validators } from './validators';
-
+import { sanitizeBotRules, sanitizeRule, sanitizeListener } from './sanitizers';
 import * as Exceptions from './exceptions';
-
-function sanitizeRule(rule: Rule): Rule {
-  if (typeof rule === 'string') {
-    return { message: rule };
-  }
-  if (['SingleChoice', 'MultipleChoice'].indexOf(rule.type) >= 0) {
-    rule.options = (rule.options || []).map(o => {
-      if (typeof o === 'string') {
-        return { value: o };
-      }
-      if (typeof o.synonyms === 'string' && !!o.synonyms) {
-        const synonyms: string = o.synonyms;
-        o.synonyms = synonyms.split(',').map(s => s.trim());
-      }
-      return o;
-    });
-  }
-  return rule;
-}
-
-function sanitizeListener(listener: Listener) {
-  const { passive } = listener;
-  return {
-    ...listener,
-    passive: passive === undefined ? true : passive,
-  };
-}
-
-function convertToRules(inputs: (Flow|Rule)[]): Rule[] {
-  let rules: Rule[] = [];
-  inputs.forEach(input => {
-    const isFlow = typeof input !== 'string' && 'rules' in input && 'flow' in input;
-    if (isFlow) {
-      const flow = input as Flow;
-      rules = rules.concat(
-        flow.rules.map(
-          rule => Object.assign({}, sanitizeRule(rule), {
-            flow: input.flow,
-          })
-        )
-      );
-    } else {
-      rules.push(sanitizeRule(input as Rule));
-    }
-  });
-  return rules;
-}
 
 export class YveBot {
   static types: Types;
@@ -81,7 +34,7 @@ export class YveBot {
 
     this.sessionId = 'session';
     this.options = Object.assign({}, DEFAULT_OPTS, customOpts);
-    this.rules = convertToRules(rules);
+    this.rules = sanitizeBotRules(rules);
     this.handlers = {};
 
     this.store = new Store(this);

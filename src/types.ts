@@ -46,7 +46,7 @@ export interface RuleValidator {
 }
 
 export interface RuleType {
-  executors: RuleTypeExecutor[];
+  executors?: RuleTypeExecutor[];
 }
 
 export interface RuleTypeExecutor {

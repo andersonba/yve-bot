@@ -1,16 +1,18 @@
-import { YveBotOptions, Rule, Flow, Answer, Context } from '../types';
+import { YveBotOptions, Rule, Flow, Answer, Context, Listener, EventName } from '../types';
 import { Store, StoreData } from './store';
 import { Controller } from './controller';
 import { Actions } from './actions';
+import { Listeners } from './listeners';
 import { Types } from './types';
 import { Executors } from './executors';
 import { Validators } from './validators';
-import { sanitizeBotRules, sanitizeRule } from './sanitizers';
+import { sanitizeBotRules, sanitizeRule, sanitizeListener } from './sanitizers';
 import * as Exceptions from './exceptions';
 
 export class YveBot {
   static types: Types;
   static actions: Actions;
+  static listeners: Listeners;
   static executors: Executors;
   static validators: Validators;
   static exceptions: any;
@@ -51,16 +53,42 @@ export class YveBot {
 
   public get types() { return YveBot.types; }
   public get actions() { return YveBot.actions; }
+  public get listeners() { return YveBot.listeners; }
   public get executors() { return YveBot.executors; }
   public get validators() { return YveBot.validators; }
 
-  on(evt: string, fn: (...args: any[]) => any): this {
+  on(evt: EventName, fn: (...args: any[]) => any): this {
     const isUniqueType = ['error'].indexOf(evt) >= 0;
     if (!isUniqueType && evt in this.handlers) {
       this.handlers[evt].push(fn);
     } else {
       this.handlers[evt] = [fn];
     }
+    return this;
+  }
+
+  listen(listeners: Listener[]): this {
+    this.on('listen', (message, rule) => {
+      listeners.every(item => {
+        const listener = sanitizeListener(item);
+        const ignorePassive = !listener.passive && ['Passive', 'PassiveLoop'].indexOf(rule.type) < 0;
+        const ignoreRule = !rule.passive;
+        if (!listener.next || ignorePassive || ignoreRule) {
+          return true;
+        }
+        const [key] = Object.keys(listener)
+          .filter(k => k !== 'next' && k in this.listeners);
+        if (key) {
+          const result = this.listeners[key](listener[key], message);
+          if (result) {
+            this.store.set('waitingForAnswer', false);
+            this.controller.jumpByName(listener.next);
+            return false;
+          }
+        }
+        return true;
+      });
+    });
     return this;
   }
 
@@ -86,7 +114,7 @@ export class YveBot {
     return this;
   }
 
-  dispatch(name: string, ...args) {
+  dispatch(name: EventName, ...args) {
     if (name in this.handlers) {
       this.handlers[name].forEach(fn => fn(...args, this.sessionId));
     }
@@ -127,6 +155,7 @@ export class YveBot {
 
 YveBot.types = new Types;
 YveBot.actions = new Actions;
+YveBot.listeners = new Listeners;
 YveBot.executors = new Executors;
 YveBot.validators = new Validators;
 YveBot.exceptions = Exceptions;

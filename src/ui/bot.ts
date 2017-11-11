@@ -1,5 +1,5 @@
 import { YveBot } from '../core/bot';
-import { Rule, Answer, ChatOptions, ChatMessageSource } from '../types';
+import { Rule, Answer, ChatOptions, ChatMessageSource, Listener } from '../types';
 import { ChatUI } from './ui';
 
 
@@ -80,6 +80,10 @@ export class YveBotChat {
       this.handlers[evt] = [fn];
     }
     return this;
+  }
+
+  listen(listeners: Listener[]) {
+    return this.bot.listen(listeners);
   }
 
   dispatch(name: string, ...args) {

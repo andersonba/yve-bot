@@ -200,6 +200,8 @@ export class Controller {
     const idx = bot.store.get('currentIdx');
     const rule = getRuleByIndex(bot, idx);
 
+    bot.dispatch('listen', message, rule);
+
     if (!bot.store.get('waitingForAnswer')) {
       return this;
     }
@@ -238,6 +240,10 @@ export class Controller {
 
     // run post-actions
     await runActions(bot, rule, 'postActions');
+
+    if (rule.type === 'PassiveLoop') {
+      return this;
+    }
 
     return this.nextRule(rule, answer);
   }

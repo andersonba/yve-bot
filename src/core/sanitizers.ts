@@ -1,4 +1,4 @@
-import { Flow, Rule } from '../types';
+import { Flow, Rule, Listener } from '../types';
 
 export function sanitizeBotRules(inputs: (Flow|Rule)[]): Rule[] {
   let rules: Rule[] = [];
@@ -35,5 +35,14 @@ export function sanitizeRule(input: Rule): Rule {
     }
     return o;
   });
+  rule.passive = rule.passive === undefined ? true : rule.passive;
   return rule;
+}
+
+export function sanitizeListener(listener: Listener) {
+  const { passive } = listener;
+  return {
+    ...listener,
+    passive: passive || false,
+  };
 }

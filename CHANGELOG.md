@@ -1,5 +1,12 @@
 # Change Log
 
+## [1.8.0](https://github.com/andersonba/yve-bot/tree/1.8.0) (2017-11-11)
+[Full Changelog](https://github.com/andersonba/yve-bot/compare/1.7.0...1.8.0)
+
+**Implemented enhancements:**
+
+- Passive mode support [\#46](https://github.com/andersonba/yve-bot/pull/46) ([andersonba](https://github.com/andersonba))
+
 ## [1.7.0](https://github.com/andersonba/yve-bot/tree/1.7.0) (2017-11-10)
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.6.0...1.7.0)
 

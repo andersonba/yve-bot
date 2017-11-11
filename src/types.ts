@@ -70,6 +70,8 @@ export type Indexes = {
 
 export type Answer = string | number;
 
+export type EventName = 'start' | 'end' | 'error' | 'receive' | 'hear' | 'talk' | 'typed' | 'typing' | 'storeChanged';
+
 export interface ChatOptions {
   target?: string;
   name?: string;

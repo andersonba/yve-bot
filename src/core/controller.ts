@@ -239,6 +239,8 @@ export class Controller {
     const idx = bot.store.get('currentIdx');
     const rule = getRuleByIndex(bot, idx);
 
+    bot.dispatch('receive', message, rule);
+
     if (!bot.store.get('waitingForAnswer')) {
       return this;
     }

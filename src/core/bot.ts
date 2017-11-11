@@ -1,4 +1,4 @@
-import { YveBotOptions, Rule, Flow, Answer, Context } from '../types';
+import { YveBotOptions, Rule, Flow, Answer, Context, EventName } from '../types';
 import { Store, StoreData } from './store';
 import { Controller } from './controller';
 import { Actions } from './actions';
@@ -93,7 +93,7 @@ export class YveBot {
   public get executors() { return YveBot.executors; }
   public get validators() { return YveBot.validators; }
 
-  on(evt: string, fn: (...args: any[]) => any): this {
+  on(evt: EventName, fn: (...args: any[]) => any): this {
     const isUniqueType = ['error'].indexOf(evt) >= 0;
     if (!isUniqueType && evt in this.handlers) {
       this.handlers[evt].push(fn);
@@ -125,7 +125,7 @@ export class YveBot {
     return this;
   }
 
-  dispatch(name: string, ...args) {
+  dispatch(name: EventName, ...args) {
     if (name in this.handlers) {
       this.handlers[name].forEach(fn => fn(...args, this.sessionId));
     }

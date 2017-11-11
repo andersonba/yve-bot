@@ -115,11 +115,12 @@ export class YveBot {
   }
 
   listen(listeners: Listener[]): this {
-    this.on('receive', (message, rule) => {
+    this.on('listen', (message, rule) => {
       listeners.every(item => {
         const listener = sanitizeListener(item);
-        const ignorePassive = rule.type !== 'Passive' && !listener.passive;
-        if (!listener.next || ignorePassive) {
+        const ignorePassive = !listener.passive && ['Passive', 'PassiveLoop'].indexOf(rule.type) < 0;
+        const ignoreRule = !rule.passive;
+        if (!listener.next || ignorePassive || ignoreRule) {
           return true;
         }
         const [key] = Object.keys(listener)

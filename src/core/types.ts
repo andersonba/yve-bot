@@ -15,6 +15,8 @@ const types: { [name: string]: RuleType } = {
 
   Passive: {},
 
+  PassiveLoop: {},
+
   String: {
     executors: [{
       transform: async (value: Answer) => String(value),
@@ -176,6 +178,7 @@ const types: { [name: string]: RuleType } = {
 export class Types extends DefineModule {
   public Any: RuleType;
   public Passive: RuleType;
+  public PassiveLoop: RuleType;
   public String: RuleType;
   public Number: RuleType;
   public SingleChoice: RuleType;

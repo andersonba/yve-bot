@@ -26,6 +26,7 @@ export interface Rule {
   options?: RuleOption[];
   validators?: RuleValidator[];
   config?: { [name: string]: any };
+  passive?: boolean;
   next?: RuleNext;
   exit?: boolean;
 }
@@ -79,7 +80,7 @@ export type Listener = {
   next: RuleNext;
 };
 
-export type EventName = 'start' | 'end' | 'error' | 'receive' | 'hear' | 'talk' | 'typed' | 'typing' | 'storeChanged';
+export type EventName = 'start' | 'end' | 'error' | 'listen' | 'hear' | 'talk' | 'typed' | 'typing' | 'storeChanged';
 
 export interface ChatOptions {
   target?: string;

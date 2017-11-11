@@ -209,9 +209,13 @@ export class Controller {
   }
 
   async executeRuleTypeExecutors(rule: Rule, lastAnswer: Answer | Answer[]): Promise<Answer | Answer[]> {
+    if (!rule.type) {
+      return lastAnswer;
+    }
+
     const { bot } = this;
     const executorIdx = this.getRuleExecutorIndex(rule);
-    const executors = bot.types[rule.type].executors;
+    const executors = bot.types[rule.type].executors || [{}];
 
     const executor = executors.slice(executorIdx)[0] || {};
     const { transform = (...args) => Promise.resolve(args[0]) } = executor;

@@ -11,7 +11,7 @@ import { Rule, Answer, RuleType } from '../types';
 
 
 const types: { [name: string]: RuleType } = {
-  Any: { executors: [{}] },
+  Any: {},
 
   String: {
     executors: [{

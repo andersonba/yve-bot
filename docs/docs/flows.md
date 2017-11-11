@@ -64,4 +64,4 @@ This notation is only required if you want to jump to another flow, but you can 
 ```
 
 
-[Next: Customize types, validators and actions]({{ site.baseurl }}/docs/customize){:.btn}
+[Next: Passive mode]({{ site.baseurl }}/docs/passive-mode){:.btn}

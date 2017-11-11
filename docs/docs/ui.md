@@ -87,6 +87,14 @@ bot.newMessage('BOT', message, rule);
 | rule | Rule | Rule configuration
 
 
+#### listen
+
+Configure [Passive mode]({{ site.baseurl }}/docs/passive-mode)
+```javascript
+bot.listen([ listeners ])
+```
+
+
 ## Binding events
 
 Listen to events

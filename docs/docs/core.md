@@ -76,6 +76,13 @@ bot.hear(message);
 |----------|------|-------------|
 | message | string, array[string] | User's answer
 
+#### listen
+
+Configure [Passive mode]({{ site.baseurl }}/docs/passive-mode)
+```javascript
+bot.listen([ listeners ])
+```
+
 #### Session
 
 Set a current session in the instance. It's useful to configure multiple conversations in a node application (eg: socket.io + mongo)

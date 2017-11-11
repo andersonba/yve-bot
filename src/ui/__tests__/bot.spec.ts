@@ -50,6 +50,31 @@ test('event binding', async () => {
   expect(onEndCopy).toBeCalledWith(output, session);
 });
 
+test('passive support', async () => {
+  const rules = loadYaml(`
+  - type: Passive
+  - Welcome to support
+  - message: How can I help you?
+    name: help
+  `);
+  const onListen = jest.fn();
+  new YveBotChat(rules, OPTS)
+    .listen([
+      { includes: 'help', next: 'help' },
+    ])
+    .on('listen', onListen)
+    .start();
+
+  const { target, input, submit, getBotMessages } = getChatElements();
+
+  await sleep();
+  input.value = 'help me';
+  submit.click();
+  await sleep();
+  expect(getBotMessages()).toHaveLength(1);
+  expect(target).toMatchSnapshot();
+});
+
 describe('DOM behaviors', () => {
   test('initial elements', async () => {
     const rules = loadYaml(`

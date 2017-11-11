@@ -637,6 +637,137 @@ test('using default warning message as function', async () => {
   expect(onTalk).toBeCalledWith('Invalid value for "String" type', rules[0], 'session');
 });
 
+test('passive mode: using Passive type', async () => {
+  const listeners = [
+    { includes: 'help', next: 'help' }
+  ];
+  const onTalk = jest.fn();
+  const rules = loadYaml(`
+  - type: Passive
+  - Welcome
+  - message: How can I help you?
+    name: help
+  `);
+  const bot = new YveBot(rules, OPTS);
+  bot.listen(listeners).on('talk', onTalk).start();
+  await sleep();
+  expect(onTalk).not.toHaveBeenCalled();
+  bot.hear('help me');
+  await sleep();
+  expect(onTalk).toBeCalledWith('How can I help you?', rules[2], 'session');
+});
+
+test('passive mode: using unknown listener', async () => {
+  const listeners = [
+    { unknown: 'asd', next: 'help' }
+  ];
+  const onTalk = jest.fn();
+  const rules = loadYaml(`- type: PassiveLoop`);
+  const bot = new YveBot(rules, OPTS);
+  bot.listen(listeners).on('talk', onTalk).start();
+  await sleep();
+  bot.hear('help me');
+  await sleep();
+  expect(onTalk).not.toHaveBeenCalled();
+});
+
+test('passive mode: skip Passive type when no matches', async () => {
+  const listeners = [
+    { includes: 'help', next: 'help' }
+  ];
+  const onTalk = jest.fn();
+  const rules = loadYaml(`
+  - type: Passive
+  - message: Welcome
+  - message: How can I help you?
+    name: help
+  `);
+  const bot = new YveBot(rules, OPTS);
+  bot.listen(listeners).on('talk', onTalk).start();
+  await sleep();
+  expect(onTalk).not.toHaveBeenCalled();
+  bot.hear('Hi');
+  await sleep();
+  expect(onTalk).toBeCalledWith('Welcome', rules[1], 'session');
+});
+
+test('passive mode: enabled to all rules', async () => {
+  const listeners = [
+    { includes: 'help', next: 'help', passive: true }
+  ];
+  const onTalk = jest.fn();
+  const rules = loadYaml(`
+  - message: What's your name?
+    name: name
+    type: String
+  - message: Thank you
+  - message: How can I help you?
+    name: help
+  `);
+  const bot = new YveBot(rules, OPTS);
+  bot.listen(listeners).on('talk', onTalk).start();
+  await sleep();
+  bot.hear('help me');
+  await sleep();
+  expect(onTalk).toBeCalledWith('What\'s your name?', rules[0], 'session');
+  expect(onTalk).toBeCalledWith('How can I help you?', rules[2], 'session');
+  expect(onTalk).toHaveBeenCalledTimes(2);
+  expect(bot.store.get('output.name')).toBeUndefined();
+});
+
+test('passive mode: disable for specific rule', async () => {
+  const listeners = [
+    { includes: 'help', next: 'help', passive: true }
+  ];
+  const onTalk = jest.fn();
+  const rules = loadYaml(`
+  - message: What's your name?
+    name: name
+    type: String
+    passive: false
+  - message: Thank you
+    exit: true
+  - message: How can I help you?
+    name: help
+
+  `);
+  const bot = new YveBot(rules, OPTS);
+  bot.listen(listeners).on('talk', onTalk).start();
+  await sleep();
+  bot.hear('help me');
+  await sleep();
+  expect(onTalk).toBeCalledWith('What\'s your name?', rules[0], 'session');
+  expect(onTalk).toBeCalledWith('Thank you', rules[1], 'session');
+  expect(onTalk).toHaveBeenCalledTimes(2);
+  expect(bot.store.get('output.name')).toBe('help me');
+});
+
+test('passive mode: using PassiveLoop type', async () => {
+  const listeners = [
+    { includes: 'help', next: 'help' }
+  ];
+  const onTalk = jest.fn();
+  const rules = loadYaml(`
+  - type: PassiveLoop
+  - Welcome
+  - message: How can I help you?
+    name: help
+  `);
+  const bot = new YveBot(rules, OPTS);
+  bot.listen(listeners).on('talk', onTalk).start();
+  await sleep();
+  expect(onTalk).not.toHaveBeenCalled();
+  bot.hear('hi');
+  await sleep();
+  expect(onTalk).not.toHaveBeenCalled();
+  bot.hear('hello');
+  await sleep();
+  expect(onTalk).not.toHaveBeenCalled();
+  bot.hear('help me');
+  await sleep();
+  expect(onTalk).toBeCalledWith('How can I help you?', rules[2], 'session');
+});
+
 test('throw error in warning message as function', async (done) => {
   const customError = new Error('Unknown in validator');
   const rules = loadYaml(`

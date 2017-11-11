@@ -1,18 +1,20 @@
 import { DefineModule } from './module';
 
+const isStringOrNumber = inp => ['string', 'number'].indexOf(typeof inp) >= 0;
+
 const listeners = {
   includes: (input: RegExp | string | number, answer: string): boolean => {
     if (input instanceof RegExp) {
       return listeners.regex(input, answer);
-    } else if (input instanceof String || !!input) {
-      return answer.indexOf(String(input)) >= 0;
+    } else if (isStringOrNumber(input)) {
+      return answer.toLowerCase().indexOf(String(input).toLowerCase()) >= 0;
     }
     return false;
   },
 
   equals: (input: string | number, answer: string): boolean => {
-    if (input instanceof String || !!input) {
-      return answer === String(input);
+    if (isStringOrNumber(input)) {
+      return answer.toLowerCase() === String(input).toLowerCase();
     }
     return false;
   },

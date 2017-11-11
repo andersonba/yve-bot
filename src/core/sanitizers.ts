@@ -35,6 +35,7 @@ export function sanitizeRule(input: Rule): Rule {
     }
     return o;
   });
+  rule.passive = rule.passive === undefined ? true : rule.passive;
   return rule;
 }
 
@@ -42,6 +43,6 @@ export function sanitizeListener(listener: Listener) {
   const { passive } = listener;
   return {
     ...listener,
-    passive: passive === undefined ? true : passive,
+    passive: passive || false,
   };
 }

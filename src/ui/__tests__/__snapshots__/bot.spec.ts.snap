@@ -433,3 +433,75 @@ exports[`DOM behaviors user reply with single choice 2`] = `
   </div>
 </body>
 `;
+
+exports[`passive support 1`] = `
+<body>
+  <div
+    class="yvebot-chat"
+  >
+    <ul
+      class="yvebot-conversation"
+    >
+      <li
+        class="yvebot-thread yvebot-thread-user"
+      >
+        <div
+          class="yvebot-bubble"
+        >
+          <div
+            class="yvebot-message"
+          >
+            help me
+          </div>
+        </div>
+      </li>
+      <li
+        class="yvebot-thread yvebot-thread-bot"
+      >
+        <div
+          class="yvebot-bubble"
+        >
+          <div
+            class="yvebot-message"
+          >
+            How can I help you?
+          </div>
+        </div>
+      </li>
+      <li
+        class="yvebot-thread yvebot-thread-bot yvebot-thread-typing"
+      >
+        <div
+          class="yvebot-typing"
+        >
+          <span
+            class="yvebot-typing-dot"
+          />
+          <span
+            class="yvebot-typing-dot"
+          />
+          <span
+            class="yvebot-typing-dot"
+          />
+        </div>
+      </li>
+    </ul>
+    <form
+      class="yvebot-form"
+    >
+      <input
+        autocomplete="off"
+        class="yvebot-form-input"
+        placeholder="Type your message"
+        type="text"
+      />
+      <button
+        class="yvebot-form-submit"
+        type="submit"
+      >
+        Send
+      </button>
+    </form>
+  </div>
+</body>
+`;

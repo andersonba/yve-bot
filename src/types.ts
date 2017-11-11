@@ -70,6 +70,15 @@ export type Indexes = {
 
 export type Answer = string | number;
 
+export type Listener = {
+  includes?: RegExp | string | number;
+  equals?: string | number;
+  regex?: RegExp;
+  function?: (answer: string) => boolean;
+  passive?: boolean;
+  next: RuleNext;
+};
+
 export type EventName = 'start' | 'end' | 'error' | 'receive' | 'hear' | 'talk' | 'typed' | 'typing' | 'storeChanged';
 
 export interface ChatOptions {

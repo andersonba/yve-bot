@@ -13,6 +13,8 @@ import { Rule, Answer, RuleType } from '../types';
 const types: { [name: string]: RuleType } = {
   Any: {},
 
+  Passive: {},
+
   String: {
     executors: [{
       transform: async (value: Answer) => String(value),
@@ -173,6 +175,7 @@ const types: { [name: string]: RuleType } = {
 
 export class Types extends DefineModule {
   public Any: RuleType;
+  public Passive: RuleType;
   public String: RuleType;
   public Number: RuleType;
   public SingleChoice: RuleType;

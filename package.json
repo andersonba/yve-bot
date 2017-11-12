@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@types/fetch-mock": "^5.12.1",
-    "@types/jest": "^20.0.8",
+    "@types/jest": "^21.1.6",
     "@types/lodash-es": "^4.17.0",
     "@types/node": "^8.0.24",
     "bundlesize": "^0.15.3",

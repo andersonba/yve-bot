@@ -1,13 +1,16 @@
 language: node_js
 node_js:
-  - '8'
+- '8'
 cache: yarn
+before_install: yarn global add greenkeeper-lockfile@1
+before_script: greenkeeper-lockfile-update
+after_script: greenkeeper-lockfile-upload
 script:
-  - yarn run lint
-  - yarn run test:coverage
-  - yarn clean
-  - yarn build
-  - yarn run test:bundle
+- yarn run lint
+- yarn run test:coverage
+- yarn clean
+- yarn build
+- yarn run test:bundle
 deploy:
   provider: npm
   email: andersonba@me.com
@@ -17,3 +20,7 @@ deploy:
     tags: true
     repo: andersonba/yve-bot
   skip_cleanup: true
+env:
+  global:
+  - secure: TsD4Ud93yxBeOy7FGpYFuJHw6y+co4CdGHDrWnptVORC19daBbvMgqNS9giMjdKgY1aHKAyQMfADXiHaQfeKmQm20R1LOZiFFQwByHLJuD5vFvWYRfLhvodZHNr4OnSyX4B0TnQltpIU5RAfoHkjzSJQPli9h+hLCoSDwIHUJUW2DXCul5a6zK2EkvFc42yEtkSb2qARrmrPkdk2bMFM9lZMpUJXPeU0AcXuneCPjUoBw3KRU9fueUVvWGKDITS1xzbNRnaoBGRIBXDHPSR9GfNzdMhhzxgJctpFFqJIaYpmi2iDNsZQYj69R1/RZ9DRitxSSM4MZbcVOUlMKxKkKUFjyvHr9/lmJXdgSVycmiRd1yk/FjJZwMPLChzj5Wj4kYS77iiiGcuymFOD4vWT9HVUsz/SS/lo14cb1oUtuv5v/pT59Qq7rAeq/ajndTSvskX9+gPlCkxM3PUH2yicEnqHsNRTJTmyKp7NBPtNBb6RFP9RDjwqObnfrDlR4iOaIR1dcGPFpcNU1am8oUoF4GnHnBliYT5edCAKHjrrvlYB3tDypQAmTgDyMzKrdHnvQo/bpWGNS79SucmbtQlrywFe2/ng8glFCVeOlr+voVz4ZjlyJBYJ9LoGDLW8zoLURKMJ1Y/E7QkXN0PebKzEgdRVTNr/YbPYoJ9aa6TpWQY=
+  - secure: t3Sq6iv/QE0Lo5OCuW1Whwad9Di5HjSvwYWzvn+6sBaejNsge+z8eeSzu4eQVniWxLhh7kwF7AmfA3L/Rpe0Mw6Hv4omnVX+lFbfMpXuwDLIzDMNq9qq6Tl4xqjU3cJjAHS5aU7pipMK0YcN/Wz3zi/h5j3uO/pflYSZ+PBahhRkgN+gp1jpigpb1/MAl7dKR71C6AO75+zmjYA0aX7qEoG7CxSDWRK0qZsDv1zPykwuBiRVAy+zmYjqdw1vnZEIebjgxqHpwRh2YtB+1IzY36qTxmeZ8ICXhzQcKpZuse/EUakZ9q0pqSqZz5wAUrBWhWqOr/WZvHX1m0jNCY0KST6oLWpzfyjgUzjRI0fmeQM1io6a7v23y+lhRLwoJnW1ES2c2RakgsYx28CBKDmSbxDWo5r40P9jSe73rQWP2kgrTv5iw6AuutEV30V9dpuaUg3SH60KhVT5FtFt6WvSTu82QHn2nSKNKtp+Rmma63E05qd9KQkUAwDZhMSQ6FMPFukZQvLvLzTPsZTi5BWkgYl5UzOaaSPCbzxwCtyAh0Whst6aFegOyFuzFgZpalsHv50rcQjUEB9qqu9XE10DDuMkECuPpjJQIptRy7L5jnVXUhHqlfxR0IWhXmOyAxKZ8P2qFc90VW18w5a0nM4hztLcxQ2TJzmWQvHcm8a5UrM=

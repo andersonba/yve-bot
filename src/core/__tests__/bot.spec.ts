@@ -1,11 +1,11 @@
 import * as faker from 'faker';
 import * as mocks from '@test/mocks';
-import { calculateDelayToTypeMessage } from '../utils';
-import { InvalidAttributeError, RuleNotFound } from '../exceptions';
 import { sleep, loadYaml } from '@test/utils';
-import { YveBot } from '../bot';
+import YveBot from '..';
 import { Store } from '../store';
 import { Controller } from '../controller';
+import { calculateDelayToTypeMessage } from '../utils';
+import { InvalidAttributeError, RuleNotFound } from '../exceptions';
 
 const OPTS = {
   enableWaitForSleep: false,

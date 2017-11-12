@@ -1,23 +1,29 @@
 {
   "compilerOptions": {
-    "allowJs": true,
-    "module": "commonjs",
     "target": "es5",
+    "module": "es6",
     "moduleResolution": "node",
     "lib": [
       "es6",
       "dom"
     ],
-    "pretty": true,
     "baseUrl": ".",
+    "outDir": "compiled",
     "paths": {
       "@test/*": ["test/*"]
     },
+    "pretty": true,
+    "allowJs": true,
+    "importHelpers": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "removeComments": true
   },
+  "files": [
+    "src/core/index.ts",
+    "src/ui/index.ts"
+  ],
   "exclude": [
-    "node_modules",
-    "lib"
+    "test"
   ]
 }

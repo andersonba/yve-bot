@@ -1,4 +1,4 @@
-import { YveBot } from '../bot';
+import YveBot from '..';
 
 function getValidate(name) {
   return YveBot.prototype.validators[name];

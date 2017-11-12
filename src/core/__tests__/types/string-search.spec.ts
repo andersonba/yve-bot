@@ -1,5 +1,5 @@
+import YveBot from '../..';
 import { Types } from '../../types';
-import { YveBot } from '../../bot';
 
 import { ValidatorError, PauseRuleTypeExecutors } from '../../exceptions';
 

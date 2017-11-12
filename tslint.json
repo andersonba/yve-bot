@@ -1,4 +1,5 @@
 {
+  "extends": "tslint:recommended",
   "rules": {
     "no-duplicate-variable": true,
     "curly": true,

@@ -1,5 +1,5 @@
 import { loadYaml, sleep, getChatElements } from '@test/utils';
-import { YveBotChat } from '../bot';
+import YveBotUI from '..';
 
 const OPTS = {
   yveBotOptions: {
@@ -22,7 +22,7 @@ test('event binding', async () => {
   const onEndCopy = jest.fn();
   const onReply = jest.fn();
 
-  new YveBotChat(rules, OPTS)
+  new YveBotUI(rules, OPTS)
     .on('start', onStart)
     .on('storeChanged', onStoreChanged)
     .on('end', onEnd)
@@ -58,7 +58,7 @@ test('passive support', async () => {
     name: help
   `);
   const onListen = jest.fn();
-  new YveBotChat(rules, OPTS)
+  new YveBotUI(rules, OPTS)
     .listen([
       { includes: 'help', next: 'help' },
     ])
@@ -81,7 +81,7 @@ describe('DOM behaviors', () => {
     - message: Hello
     `);
 
-    new YveBotChat(rules, OPTS).start();
+    new YveBotUI(rules, OPTS).start();
     const { target, conversation, form, input, submit, getTyping } = getChatElements();
 
     await sleep();
@@ -98,7 +98,7 @@ describe('DOM behaviors', () => {
     const rules = loadYaml(`
     - message: Hello
     `);
-    new YveBotChat(rules, Object.assign({ name: 'YveBot' }, OPTS)).start();
+    new YveBotUI(rules, Object.assign({ name: 'YveBot' }, OPTS)).start();
     const { target, getSenderName } = getChatElements();
 
     await sleep();
@@ -114,7 +114,7 @@ describe('DOM behaviors', () => {
     const rules = loadYaml(`
     - message: Hello
     `);
-    new YveBotChat(rules, Object.assign({ name: 'Yvebot', timestampable: true }, OPTS)).start();
+    new YveBotUI(rules, Object.assign({ name: 'Yvebot', timestampable: true }, OPTS)).start();
     const { target, getTimestamp } = getChatElements();
 
     await sleep();
@@ -130,7 +130,7 @@ describe('DOM behaviors', () => {
     - message: Your name
       type: String
     `);
-    new YveBotChat(rules, OPTS).start();
+    new YveBotUI(rules, OPTS).start();
     const { target, input, submit, getMessages, getUserMessages, getBotMessages } = getChatElements();
 
     await sleep();
@@ -152,7 +152,7 @@ describe('DOM behaviors', () => {
     - message: Your name
       type: String
     `);
-    new YveBotChat(rules, OPTS).start();
+    new YveBotUI(rules, OPTS).start();
     const { input, submit, getUserMessages } = getChatElements();
 
     input.value = '';
@@ -176,7 +176,7 @@ describe('DOM behaviors', () => {
           value: Four
         - Five
     `);
-    new YveBotChat(rules, OPTS).start();
+    new YveBotUI(rules, OPTS).start();
     const { target, input, submit, getBubbleButtons, getUserMessages } = getChatElements();
 
     await sleep();
@@ -207,7 +207,7 @@ describe('DOM behaviors', () => {
     - message: Make your choice
       type: SingleChoice
     `);
-    new YveBotChat(rules, OPTS).start();
+    new YveBotUI(rules, OPTS).start();
     const { getBubbleButtons } = getChatElements();
     await sleep();
     expect(getBubbleButtons()).toHaveLength(0);
@@ -222,7 +222,7 @@ describe('DOM behaviors', () => {
         - value: Two
         - Three
     `);
-    new YveBotChat(rules, OPTS).start();
+    new YveBotUI(rules, OPTS).start();
     const { input, submit, getBubbleButtons, getBubbleDone, getUserMessages } = getChatElements();
 
     await sleep();
@@ -271,7 +271,7 @@ describe('DOM behaviors', () => {
     - message: Make your choice
       type: MultipleChoice
     `);
-    new YveBotChat(rules, OPTS).start();
+    new YveBotUI(rules, OPTS).start();
     const { getBubbleButtons } = getChatElements();
     await sleep();
     expect(getBubbleButtons()).toHaveLength(0);
@@ -282,7 +282,7 @@ describe('DOM behaviors', () => {
     - message: Hello
       delay: 10
     `);
-    new YveBotChat(rules).start();
+    new YveBotUI(rules).start();
 
     await sleep(5);
 
@@ -301,7 +301,7 @@ describe('DOM behaviors', () => {
     - message: Hello
       delay: 1
     `);
-    new YveBotChat(rules).start();
+    new YveBotUI(rules).start();
 
     // sleeping
     const { getTyping, getBotMessages } = getChatElements();
@@ -322,7 +322,7 @@ describe('DOM behaviors', () => {
         - One
         - Two
     `);
-    new YveBotChat(rules, OPTS).start();
+    new YveBotUI(rules, OPTS).start();
     const { input, submit, getBubbleButtons } = getChatElements();
 
     await sleep();
@@ -350,7 +350,7 @@ describe('DOM behaviors', () => {
         - One
         - Two
     `);
-    new YveBotChat(rules, Object.assign({ autoFocus: false }, OPTS)).start();
+    new YveBotUI(rules, Object.assign({ autoFocus: false }, OPTS)).start();
     const { input, submit, getBubbleButtons } = getChatElements();
 
     await sleep();

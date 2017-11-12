@@ -1,37 +1,37 @@
-import { Flow, Rule, Listener } from '../types';
+import { IFlow, IListener, IRule } from '../types';
 
-export function sanitizeBotRules(inputs: (Flow|Rule)[]): Rule[] {
-  let rules: Rule[] = [];
-  inputs.forEach(input => {
+export function sanitizeBotRules(inputs: Array<IFlow|IRule>): IRule[] {
+  let rules: IRule[] = [];
+  inputs.forEach((input) => {
     const isFlow = typeof input !== 'string' && 'rules' in input && 'flow' in input;
     if (isFlow) {
-      const flow = input as Flow;
+      const flow = input as IFlow;
       rules = rules.concat(
         flow.rules.map(
-          rule => Object.assign({}, sanitizeRule(rule), {
+          (rule) => Object.assign({}, sanitizeRule(rule), {
             flow: input.flow,
-          })
-        )
+          }),
+        ),
       );
     } else {
-      rules.push(sanitizeRule(input as Rule));
+      rules.push(sanitizeRule(input as IRule));
     }
   });
   return rules;
 }
 
-export function sanitizeRule(input: Rule): Rule {
+export function sanitizeRule(input: IRule): IRule {
   let rule = input;
   if (typeof rule === 'string') {
     rule = { message: rule };
   }
-  rule.options = (rule.options || []).map(o => {
+  rule.options = (rule.options || []).map((o) => {
     if (typeof o === 'string') {
       return { value: o };
     }
     if (typeof o.synonyms === 'string' && !!o.synonyms) {
       const synonyms: string = o.synonyms;
-      o.synonyms = synonyms.split(',').map(s => s.trim());
+      o.synonyms = synonyms.split(',').map((s) => s.trim());
     }
     return o;
   });
@@ -39,7 +39,7 @@ export function sanitizeRule(input: Rule): Rule {
   return rule;
 }
 
-export function sanitizeListener(listener: Listener) {
+export function sanitizeListener(listener: IListener) {
   const { passive } = listener;
   return {
     ...listener,

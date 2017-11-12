@@ -8,6 +8,7 @@ after_script: greenkeeper-lockfile-upload
 script:
 - yarn run lint
 - yarn run test:coverage
+- coveralls < coverage/lcov.info
 - yarn clean
 - yarn build
 - yarn run test:bundle

@@ -1,4 +1,4 @@
-import { RuleOption, Answer } from '../types';
+import { Answer, IRuleOption } from '../types';
 
 export function compileTemplate(template: string, payload: any): string {
   return template.replace(/{(.*?)}/g, (_, key) => {
@@ -21,16 +21,16 @@ export function isMatchAnswer(answer: Answer, option: string | number) {
 }
 
 export function findOptionByAnswer(
-  options: RuleOption[],
+  options: IRuleOption[],
   answer: Answer | Answer[],
-): RuleOption {
+): IRuleOption {
   const answers: Answer[] = ensureArray(answer);
   const [option] = options
     .filter(
-      o =>
-        answers.some(a => isMatchAnswer(a, o.value)) ||
-        answers.some(a => isMatchAnswer(a, o.label)) ||
-        answers.some(a => (o.synonyms || []).some(s => isMatchAnswer(a, s)))
+      (o) =>
+        answers.some((a) => isMatchAnswer(a, o.value)) ||
+        answers.some((a) => isMatchAnswer(a, o.label)) ||
+        answers.some((a) => (o.synonyms || []).some((s) => isMatchAnswer(a, s))),
     );
   return option;
 }
@@ -46,7 +46,7 @@ export function identifyAnswersInString(
   answer: string,
   options: string[],
 ): string[] {
-  return options.filter(o =>
-    answer.toLowerCase().indexOf(o.toLowerCase()) >= 0
+  return options.filter((o) =>
+    answer.toLowerCase().indexOf(o.toLowerCase()) >= 0,
   );
 }

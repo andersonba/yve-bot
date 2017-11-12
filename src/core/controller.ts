@@ -1,38 +1,32 @@
-import { Rule, RuleNext, Answer, Indexes } from '../types';
-import { YveBot } from './bot';
-import {
-  InvalidAttributeError,
-  PauseRuleTypeExecutors,
-  RuleNotFound,
-  ValidatorError,
-} from './exceptions';
+import YveBot from '.';
+import { Answer, IIndexes, IRule, RuleNext } from '../types';
+import { InvalidAttributeError, PauseRuleTypeExecutors, RuleNotFound, ValidatorError } from './exceptions';
 import { sanitizeRule } from './sanitizers';
 import * as utils from './utils';
 
-
 async function validateAnswer(
   answers: Answer | Answer[],
-  rule: Rule,
+  rule: IRule,
   bot: YveBot,
-  executorIndex: number
+  executorIndex: number,
 ) {
   const ruleValidators = rule.validators || [];
   const typeExecutors = bot.types[rule.type].executors || [];
   const currentTypeExecutor = typeExecutors[executorIndex] || {};
   const validators = [].concat(
     executorIndex === 0 ? ruleValidators : [],
-    currentTypeExecutor.validators || []
+    currentTypeExecutor.validators || [],
   );
   const answersList = utils.ensureArray(answers);
-  validators.forEach(validator => {
-    Object.keys(validator).forEach(key => {
+  validators.forEach((validator) => {
+    Object.keys(validator).forEach((key) => {
       const botValidator = bot.validators[key];
       if (!botValidator || key === 'warning') {
         return;
       }
       const opts = validator[key];
       const isValid = answersList.every(
-        answer => botValidator.validate(opts, answer, rule, bot)
+        (answer) => botValidator.validate(opts, answer, rule, bot),
       );
 
       if (!isValid) {
@@ -49,17 +43,16 @@ function compileMessage(bot: YveBot, message: string): string {
   const output = bot.store.output();
   const { indexes } = bot.controller;
   const re = /(?!\{)\w+[.]((?:\w+[.])*\w+)(?=\})/g; // extract variable in template: {{ ruleName.X.Y.Z }}
-  const ruleNames = (message.match(re) || []).map(s => s.split('.')[0]);
-  Array.from(new Set(ruleNames)).map(ruleName => {
-
+  const ruleNames = (message.match(re) || []).map((s) => s.split('.')[0]);
+  Array.from(new Set(ruleNames)).map((ruleName) => {
     const rule = bot.rules[indexes[ruleName]];
     if (!rule || !rule.options.length) { return; }
     const answer = output[ruleName];
-    output[ruleName] = (function() {
+    output[ruleName] = (function compile() {
       // multiple choice
       if (answer instanceof Array) {
         return answer
-          .map(a => {
+          .map((a) => {
             const opt = utils.findOptionByAnswer(rule.options, a);
             opt.toString = () => a;
             return opt;
@@ -74,23 +67,23 @@ function compileMessage(bot: YveBot, message: string): string {
   return utils.compileTemplate(message, output).trim();
 }
 
-function runActions(bot: YveBot, rule: Rule, prop: string): Promise<any> {
+function runActions(bot: YveBot, rule: IRule, prop: string): Promise<any> {
   const actions = rule[prop] || [];
   return Promise.all(
-    actions.map(async action => {
+    actions.map(async (action) => {
       return Promise.all(
-        Object.keys(action).map(async k => {
+        Object.keys(action).map(async (k) => {
           if (k in bot.actions) {
             return await bot.actions[k](action[k], rule, bot);
           }
           return null;
-        })
+        }),
       );
-    })
+    }),
   );
 }
 
-function getNextFromRule(rule: Rule, answer?: Answer | Answer[]): RuleNext | null {
+function getNextFromIRule(rule: IRule, answer?: Answer | Answer[]): RuleNext | null {
   if (rule.options.length && answer) {
     const option = utils.findOptionByAnswer(rule.options, answer);
     if (option && option.next) {
@@ -103,14 +96,14 @@ function getNextFromRule(rule: Rule, answer?: Answer | Answer[]): RuleNext | nul
   return null;
 }
 
-function getRuleByIndex(bot: YveBot, idx: number): Rule {
+function getIRuleByIndex(bot: YveBot, idx: number): IRule {
   const rule = bot.rules[idx] ? bot.rules[idx] : sanitizeRule({ exit: true });
   return Object.assign({}, bot.options.rule, rule);
 }
 
 export class Controller {
   private bot: YveBot;
-  private _indexes: Indexes;
+  private _indexes: IIndexes; // tslint:disable-line
 
   constructor(bot: YveBot) {
     this.bot = bot;
@@ -118,7 +111,7 @@ export class Controller {
     this.reindex();
   }
 
-  reindex(): void {
+  public reindex(): void {
     const { bot } = this;
     bot.rules.forEach((rule, idx) => {
       const { name, flow } = rule;
@@ -133,9 +126,9 @@ export class Controller {
     return this._indexes;
   }
 
-  async run(idx: number = 0): Promise<this> {
+  public async run(idx: number = 0): Promise<this> {
     const { bot } = this;
-    const rule = getRuleByIndex(bot, idx);
+    const rule = getIRuleByIndex(bot, idx);
 
     bot.store.set('currentIdx', idx);
 
@@ -158,7 +151,7 @@ export class Controller {
     }
 
     if (!rule.type) {
-      return this.nextRule(rule);
+      return this.nextIRule(rule);
     }
 
     if (!bot.types[rule.type]) {
@@ -171,7 +164,7 @@ export class Controller {
     return this;
   }
 
-  async sendMessage(message: string, rule: Rule): Promise<this> {
+  public async sendMessage(message: string, rule: IRule): Promise<this> {
     const { bot } = this;
 
     bot.dispatch('typing');
@@ -183,7 +176,7 @@ export class Controller {
       } else {
         const { timePerChar } = bot.options;
         await bot.actions.timeout(
-          utils.calculateDelayToTypeMessage(message, timePerChar)
+          utils.calculateDelayToTypeMessage(message, timePerChar),
         );
       }
     }
@@ -195,10 +188,10 @@ export class Controller {
     return this;
   }
 
-  async receiveMessage(message: Answer | Answer[]): Promise<this> {
+  public async receiveMessage(message: Answer | Answer[]): Promise<this> {
     const { bot } = this;
     const idx = bot.store.get('currentIdx');
-    const rule = getRuleByIndex(bot, idx);
+    const rule = getIRuleByIndex(bot, idx);
 
     bot.dispatch('listen', message, rule);
 
@@ -208,15 +201,15 @@ export class Controller {
 
     let answer;
     try {
-      answer = await this.executeRuleTypeExecutors(rule, message);
+      answer = await this.executeIRuleTypeExecutors(rule, message);
     } catch (e) {
       let expectedError = false;
       if (e instanceof ValidatorError) {
         expectedError = true;
         await this.sendMessage(e.message, rule);
-      } if (e instanceof PauseRuleTypeExecutors) {
+      } else if (e instanceof PauseRuleTypeExecutors) {
         expectedError = true;
-        this.incRuleExecutorIndex(rule);
+        this.incIRuleExecutorIndex(rule);
       }
 
       if (expectedError) {
@@ -234,8 +227,8 @@ export class Controller {
     }
 
     if (rule.replyMessage) {
-      const replyRule = Object.assign({}, bot.options.rule);
-      await this.sendMessage(rule.replyMessage, replyRule);
+      const replyIRule = Object.assign({}, bot.options.rule);
+      await this.sendMessage(rule.replyMessage, replyIRule);
     }
 
     // run post-actions
@@ -245,50 +238,10 @@ export class Controller {
       return this;
     }
 
-    return this.nextRule(rule, answer);
+    return this.nextIRule(rule, answer);
   }
 
-  getRuleExecutorIndex(rule: Rule): number {
-    return this.bot.store.get(`executors.${rule.name}.currentIdx`) || 0;
-  }
-
-  incRuleExecutorIndex(rule: Rule): void {
-    this.bot.store.set(
-      `executors.${rule.name}.currentIdx`, this.getRuleExecutorIndex(rule) + 1
-    );
-  }
-
-  resetRuleExecutorIndex(rule: Rule): void {
-    this.bot.store.unset(`executors.${rule.name}.currentIdx`);
-  }
-
-  async executeRuleTypeExecutors(rule: Rule, lastAnswer: Answer | Answer[]): Promise<Answer | Answer[]> {
-    if (!rule.type) {
-      return lastAnswer;
-    }
-
-    const { bot } = this;
-    const executorIdx = this.getRuleExecutorIndex(rule);
-    const executors = bot.types[rule.type].executors || [];
-
-    const executor = executors.slice(executorIdx)[0] || {};
-    const { transform = (...args) => Promise.resolve(args[0]) } = executor;
-    const answer = await (
-      transform(lastAnswer, rule, bot)
-      .then(answer => validateAnswer(answer, rule, bot, this.getRuleExecutorIndex(rule)))
-    );
-
-    const completed = (this.getRuleExecutorIndex(rule) === executors.length - 1);
-    if (executors.length && !completed) {
-      this.incRuleExecutorIndex(rule);
-      return await this.executeRuleTypeExecutors(rule, answer);
-    }
-
-    this.resetRuleExecutorIndex(rule);
-    return answer;
-  }
-
-  jumpByName(ruleName: string): Promise<this> {
+  public jumpByName(ruleName: string): Promise<this> {
     const idx = this._indexes[ruleName];
     if (typeof idx !== 'number') {
       throw new RuleNotFound(ruleName, this._indexes);
@@ -296,19 +249,59 @@ export class Controller {
     return this.run(idx);
   }
 
-  nextRule(currentRule: Rule, answer?: Answer | Answer[]): this {
+  public nextIRule(currentIRule: IRule, answer?: Answer | Answer[]): this {
     const { bot } = this;
-    const nextRuleName = getNextFromRule(currentRule, answer);
-    if (nextRuleName) {
-      const isJumpToAnotherFlow = nextRuleName.indexOf('.') > 0;
+    const nextIRuleName = getNextFromIRule(currentIRule, answer);
+    if (nextIRuleName) {
+      const isJumpToAnotherFlow = nextIRuleName.indexOf('.') > 0;
       const ruleName = isJumpToAnotherFlow ?
-        nextRuleName :
-        [currentRule.flow, nextRuleName].filter(x => !!x).join('.');
+        nextIRuleName :
+        [currentIRule.flow, nextIRuleName].filter((x) => !!x).join('.');
       this.jumpByName(ruleName);
     } else {
       const nextIdx = bot.store.get('currentIdx') + 1;
       this.run(nextIdx);
     }
     return this;
+  }
+
+  private getIRuleExecutorIndex(rule: IRule): number {
+    return this.bot.store.get(`executors.${rule.name}.currentIdx`) || 0;
+  }
+
+  private incIRuleExecutorIndex(rule: IRule): void {
+    this.bot.store.set(
+      `executors.${rule.name}.currentIdx`, this.getIRuleExecutorIndex(rule) + 1,
+    );
+  }
+
+  private resetIRuleExecutorIndex(rule: IRule): void {
+    this.bot.store.unset(`executors.${rule.name}.currentIdx`);
+  }
+
+  private async executeIRuleTypeExecutors(rule: IRule, lastAnswer: Answer | Answer[]): Promise<Answer | Answer[]> {
+    if (!rule.type) {
+      return lastAnswer;
+    }
+
+    const { bot } = this;
+    const executorIdx = this.getIRuleExecutorIndex(rule);
+    const executors = bot.types[rule.type].executors || [];
+
+    const executor = executors.slice(executorIdx)[0] || {};
+    const { transform = (...args) => Promise.resolve(args[0]) } = executor;
+    const answer = await (
+      transform(lastAnswer, rule, bot)
+      .then((ans) => validateAnswer(ans, rule, bot, this.getIRuleExecutorIndex(rule)))
+    );
+
+    const completed = (this.getIRuleExecutorIndex(rule) === executors.length - 1);
+    if (executors.length && !completed) {
+      this.incIRuleExecutorIndex(rule);
+      return await this.executeIRuleTypeExecutors(rule, answer);
+    }
+
+    this.resetIRuleExecutorIndex(rule);
+    return answer;
   }
 }

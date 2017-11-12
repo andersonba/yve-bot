@@ -1,16 +1,16 @@
-import { Answer, Rule, RuleOption, ChatOptions, ChatMessageSource } from '../types';
+import { Answer, ChatMessageSource, IChatOptions, IRule, IRuleOption } from '../types';
 import * as utils from './utils';
 
 export class ChatUI {
-  private options: ChatOptions;
   public chat: HTMLDivElement;
   public form: HTMLFormElement;
   public input: HTMLInputElement;
   public submit: HTMLButtonElement;
   public typing: HTMLLIElement;
   public conversation: HTMLUListElement;
+  private options: IChatOptions;
 
-  constructor(options: ChatOptions) {
+  constructor(options: IChatOptions) {
     this.options = options;
     this.chat = this.createChat();
     this.typing = this.createTyping();
@@ -23,8 +23,8 @@ export class ChatUI {
     this.chat.appendChild(this.form);
   }
 
-  createSingleChoiceMessage(
-    rule: Rule,
+  public createSingleChoiceMessage(
+    rule: IRule,
     onSelected: (label: string, value: string) => void,
   ) {
     if (rule.options.length) {
@@ -38,7 +38,7 @@ export class ChatUI {
     return document.createElement('div');
   }
 
-  createBubbleButton(option: RuleOption, onClick: (btn: HTMLButtonElement) => void) {
+  public createBubbleButton(option: IRuleOption, onClick: (btn: HTMLButtonElement) => void) {
     const btn = document.createElement('button');
     btn.className = 'yvebot-message-bubbleBtn';
     btn.onclick = () => {
@@ -52,13 +52,13 @@ export class ChatUI {
     return btn;
   }
 
-  disableForm(placeholder: string) {
+  public disableForm(placeholder: string) {
     this.submit.disabled = true;
     this.input.disabled = true;
     this.input.placeholder = placeholder;
   }
 
-  enableForm() {
+  public enableForm() {
     this.submit.disabled = false;
     this.input.disabled = false;
     this.input.placeholder = this.options.inputPlaceholder;
@@ -68,18 +68,18 @@ export class ChatUI {
     }
   }
 
-  createBubbleMessage(rule: Rule, onClick: (btn: HTMLButtonElement, list: HTMLDivElement) => void) {
+  public createBubbleMessage(rule: IRule, onClick: (btn: HTMLButtonElement, list: HTMLDivElement) => void) {
     const bubbles = document.createElement('div');
     bubbles.className = 'yvebot-message-bubbles';
-    rule.options.forEach(opt => {
+    rule.options.forEach((opt) => {
       const bubble = this.createBubbleButton(opt, (btn) => onClick(btn, bubbles));
       bubbles.appendChild(bubble);
     });
     return bubbles;
   }
 
-  createMultipleChoiceMessage(
-    rule: Rule,
+  public createMultipleChoiceMessage(
+    rule: IRule,
     onDone: (label: string[], value: string[]) => void,
   ) {
     const message = document.createElement('div');
@@ -94,17 +94,17 @@ export class ChatUI {
       done.onclick = function() {
         const bubbles = this.previousElementSibling;
         const selected = bubbles.querySelectorAll('.yvebot-message-bubbleBtn.selected');
-        const label = utils.nodeListToArray(selected).map(b => b.getAttribute('data-label'));
-        const value = utils.nodeListToArray(selected).map(b => b.getAttribute('data-value'));
+        const label = utils.nodeListToArray(selected).map((b) => b.getAttribute('data-label'));
+        const value = utils.nodeListToArray(selected).map((b) => b.getAttribute('data-value'));
         onDone(label, value);
         bubbles.remove();
         done.remove();
         self.enableForm();
       };
 
-      const bubbles = this.createBubbleMessage(rule, (btn) => {
+      const bubbleMsg = this.createBubbleMessage(rule, (btn) => {
         btn.classList.toggle('selected');
-        if (bubbles.querySelectorAll('.yvebot-message-bubbleBtn.selected').length) {
+        if (bubbleMsg.querySelectorAll('.yvebot-message-bubbleBtn.selected').length) {
           done.style.display = 'inline-block';
         } else {
           done.style.display = 'none';
@@ -113,25 +113,25 @@ export class ChatUI {
 
       this.disableForm(this.options.inputPlaceholderMutipleChoice);
 
-      message.appendChild(bubbles);
+      message.appendChild(bubbleMsg);
       message.appendChild(done);
     }
     return message;
   }
 
-  createChat() {
+  public createChat() {
     const chat = document.createElement('div');
     chat.className = 'yvebot-chat';
     return chat;
   }
 
-  createConversation() {
+  public createConversation() {
     const conversation = document.createElement('ul');
     conversation.className = 'yvebot-conversation';
     return conversation;
   }
 
-  createTyping() {
+  public createTyping() {
     const typing = document.createElement('div');
     typing.className = 'yvebot-typing';
     [1, 2, 3].forEach(() => {
@@ -142,7 +142,7 @@ export class ChatUI {
     return this.createThread('BOT', typing, 'yvebot-thread-typing');
   }
 
-  createForm(input: HTMLInputElement, submit: HTMLButtonElement) {
+  public createForm(input: HTMLInputElement, submit: HTMLButtonElement) {
     const form = document.createElement('form');
     form.className = 'yvebot-form';
     form.appendChild(input);
@@ -150,7 +150,7 @@ export class ChatUI {
     return form;
   }
 
-  createSubmit() {
+  public createSubmit() {
     const submit = document.createElement('button');
     submit.className = 'yvebot-form-submit';
     submit.type = 'submit';
@@ -158,7 +158,7 @@ export class ChatUI {
     return submit;
   }
 
-  createInput() {
+  public createInput() {
     const input = document.createElement('input');
     input.className = 'yvebot-form-input';
     input.type = 'text';
@@ -167,7 +167,7 @@ export class ChatUI {
     return input;
   }
 
-  createThread(source: ChatMessageSource, content: HTMLElement, customClass?: string) {
+  public createThread(source: ChatMessageSource, content: HTMLElement, customClass?: string) {
     const thread = document.createElement('li');
     thread.className = `yvebot-thread yvebot-thread-${source.toLowerCase()}`;
     if (customClass) {
@@ -177,21 +177,21 @@ export class ChatUI {
     return thread;
   }
 
-  appendThread(conversation: HTMLUListElement, thread: HTMLLIElement) {
+  public appendThread(conversation: HTMLUListElement, thread: HTMLLIElement) {
     conversation.insertBefore(thread, this.typing);
     this.scrollDown();
   }
 
-  scrollDown() {
+  public scrollDown() {
     this.conversation.scrollTop = this.conversation.scrollHeight;
   }
 
-  createTextMessage(answer: Answer | Answer[], senderName?: string) {
+  public createTextMessage(answer: Answer | Answer[], senderName?: string) {
     const { timestampable, timestampFormatter } = this.options;
     let text: string;
 
     if (answer instanceof Array) {
-      const answers = (answer as string[]).map(a => String(a));
+      const answers = (answer as string[]).map(String);
       text = utils.arrayToString(answers, this.options.andSeparatorText);
     } else {
       text = String(answer);

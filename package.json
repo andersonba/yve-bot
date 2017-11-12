@@ -3,6 +3,7 @@
   "version": "1.8.0",
   "description": "Smart rule-based bot",
   "main": "core.js",
+  "browser": "ui.js",
   "repository": "https://github.com/andersonba/yve-bot",
   "author": "Anderson de Oliveira <andersonba@me.com>",
   "license": "MIT",
@@ -14,30 +15,35 @@
     "test:bundle": "bundlesize",
     "lint": "tslint --project tsconfig.json",
     "clean": "rm -rf lib",
-    "build": "webpack --bail",
-    "watch": "webpack --watch --watch-poll"
+    "prebuild": "rimraf lib",
+    "build": "tsc && rollup -c rollup.config.ts && rimraf compiled",
+    "watch": "tsc -w & rollup -c rollup.config.ts -w"
   },
   "devDependencies": {
     "@types/fetch-mock": "^5.12.1",
     "@types/jest": "^20.0.8",
     "@types/lodash-es": "^4.17.0",
     "@types/node": "^8.0.24",
-    "awesome-typescript-loader": "^3.2.3",
     "bundlesize": "^0.15.3",
     "faker": "^4.1.0",
     "fetch-mock": "^5.13.1",
     "jest": "^21.0.2",
+    "lodash-es": "^4.17.4",
+    "rimraf": "^2.6.2",
+    "rollup": "^0.51.5",
+    "rollup-plugin-commonjs": "^8.2.6",
+    "rollup-plugin-json": "^2.3.0",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-typescript": "^0.8.1",
+    "rollup-plugin-uglify": "^2.0.1",
     "ts-jest": "^21.0.0",
     "ts-node": "^3.3.0",
     "tslint": "^5.6.0",
-    "tslint-loader": "^3.5.3",
-    "typescript": "^2.4.2",
-    "webpack": "^3.4.1",
-    "webpack-node-externals": "^1.6.0"
+    "typescript": "^2.4.2"
   },
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
-    "lodash-es": "^4.17.4"
+    "isomorphic-unfetch": "^2.0.0"
   },
   "jest": {
     "mapCoverage": true,
@@ -67,11 +73,11 @@
   "bundlesize": [
     {
       "path": "./lib/core.js",
-      "maxSize": "6 kB"
+      "maxSize": "10 kB"
     },
     {
       "path": "./lib/ui.js",
-      "maxSize": "16 kB"
+      "maxSize": "12 kB"
     }
   ]
 }

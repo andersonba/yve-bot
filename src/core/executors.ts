@@ -1,20 +1,19 @@
-import { DefineModule } from './module';
+import { Answer, IRule, IRuleTypeExecutor } from '../types';
 import { PauseRuleTypeExecutors } from './exceptions';
-import { Rule, Answer, RuleTypeExecutor } from '../types';
+import { DefineModule } from './module';
 
-
-const executors: { [name: string]: RuleTypeExecutor } = {
+const executors: { [name: string]: IRuleTypeExecutor } = {
   WaitForUserInput: {
     validators: [{
-      function: (_: Answer, rule: Rule): void => {
+      function: (_: Answer, rule: IRule): void => {
         throw new PauseRuleTypeExecutors(rule.name);
-      }
+      },
     }],
-  }
+  },
 };
 
 export class Executors extends DefineModule {
-  public WaitForUserInput: RuleTypeExecutor;
+  public WaitForUserInput: IRuleTypeExecutor;
 
   constructor() {
     super();

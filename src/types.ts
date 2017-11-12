@@ -1,18 +1,18 @@
-import { YveBot } from './core/bot';
+import YveBot from './core';
 
-export interface YveBotOptions {
+export interface IYveBotOptions {
   timePerChar?: number;
   enableWaitForSleep?: boolean;
-  rule?: Rule;
-  context?: Context;
+  rule?: IRule;
+  context?: IContext;
 }
 
-export interface Flow {
+export interface IFlow {
   flow: string;
-  rules: Rule[];
+  rules: IRule[];
 }
 
-export interface Rule {
+export interface IRule {
   flow?: string;
   name?: string;
   type?: string;
@@ -20,69 +20,69 @@ export interface Rule {
   message?: string;
   delay?: number;
   sleep?: number;
-  actions?: RuleAction[];
-  preActions?: RuleAction[];
+  actions?: IRuleAction[];
+  preActions?: IRuleAction[];
   replyMessage?: string;
-  options?: RuleOption[];
-  validators?: RuleValidator[];
+  options?: IRuleOption[];
+  validators?: IRuleValidator[];
   config?: { [name: string]: any };
   passive?: boolean;
   next?: RuleNext;
   exit?: boolean;
 }
 
-export interface RuleOption {
+export interface IRuleOption {
   label?: string;
   value?: string | number;
   synonyms?: string[];
   next?: RuleNext;
 }
 
-export interface RuleAction {
+export interface IRuleAction {
   [name: string]: any;
 }
 
-export interface RuleValidator {
+export interface IRuleValidator {
   [name: string]: any;
 }
 
-export interface RuleType {
-  executors?: RuleTypeExecutor[];
+export interface IRuleType {
+  executors?: IRuleTypeExecutor[];
 }
 
-export interface RuleTypeExecutor {
-  validators?: RuleValidator[];
+export interface IRuleTypeExecutor {
+  validators?: IRuleValidator[];
   transform?: RuleTypeTransform;
 }
 
 export type RuleTypeTransform = (
-  (value: any, rule?: Rule, bot?: YveBot) => Promise<any>
+  (value: any, rule?: IRule, bot?: YveBot) => Promise<any>
 );
 
 export type RuleNext = string;
 
-export type Context = {
+export interface IContext {
   [key: string]: any;
-};
+}
 
-export type Indexes = {
+export interface IIndexes {
   [ruleName: string]: number;
-};
+}
 
 export type Answer = string | number;
 
-export type Listener = {
+export interface IListener {
   includes?: RegExp | string | number;
   equals?: string | number;
   regex?: RegExp;
   function?: (answer: string) => boolean;
   passive?: boolean;
   next: RuleNext;
-};
+}
 
 export type EventName = 'start' | 'end' | 'error' | 'listen' | 'hear' | 'talk' | 'typed' | 'typing' | 'storeChanged';
 
-export interface ChatOptions {
+export interface IChatOptions {
   target?: string;
   name?: string;
   inputPlaceholder?: string;
@@ -94,7 +94,7 @@ export interface ChatOptions {
   timestampable?: boolean;
   timestampFormatter?: (ts: number) => string;
   autoFocus?: boolean;
-  yveBotOptions?: YveBotOptions;
+  yveBotOptions?: IYveBotOptions;
 }
 
 export type ChatMessageSource = 'BOT' | 'USER';

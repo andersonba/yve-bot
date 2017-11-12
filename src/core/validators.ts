@@ -1,10 +1,11 @@
+import YveBot from '.';
+import { IRule } from '../types';
 import { DefineModule } from './module';
-import { YveBot } from './bot';
-import { Rule } from '../types';
 
-const isNumber = v => /^\d+$/.test(v);
-const isEmail = v => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v); // http://emailregex.com
-const sanitizeLength = v => isNumber(v) ? Number(v) : v.length;
+// tslint:disable-next-line
+const isEmail = (v) => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v); // http://emailregex.com
+const isNumber = (v) => /^\d+$/.test(v);
+const sanitizeLength = (v) => isNumber(v) ? Number(v) : v.length;
 
 const validators = {
   required: {
@@ -28,25 +29,25 @@ const validators = {
   minWords: {
     validate: (num: number, answer: string) =>
       answer.split(' ').length >= num,
-    warning: min => `This answer must have at least ${min} words`,
+    warning: (min) => `This answer must have at least ${min} words`,
   },
 
   maxWords: {
     validate: (num: number, answer: string) =>
       answer.split(' ').length <= num,
-    warning: max => `This answer must have a maximum ${max} words`,
+    warning: (max) => `This answer must have a maximum ${max} words`,
   },
 
   min: {
     validate: (num: number, answer: string) =>
       sanitizeLength(answer) >= num,
-    warning: min => `This answer length must be min ${min}`,
+    warning: (min) => `This answer length must be min ${min}`,
   },
 
   max: {
     validate: (num: number, answer: string) =>
       sanitizeLength(answer) <= num,
-    warning: max => `This answer length must be max ${max}`,
+    warning: (max) => `This answer length must be max ${max}`,
   },
 
   lenght: {
@@ -69,9 +70,9 @@ const validators = {
 
   function: {
     validate: (
-      fn: (answer: string, rule: Rule, bot: YveBot) => boolean,
+      fn: (answer: string, rule: IRule, bot: YveBot) => boolean,
       answer: string,
-      rule: Rule,
+      rule: IRule,
       bot: YveBot,
     ) => fn(answer, rule, bot),
     warning: 'Error on execute a validator function',

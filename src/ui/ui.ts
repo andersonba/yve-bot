@@ -70,7 +70,7 @@ export class ChatUI {
 
   public createBubbleMessage(rule: IRule, onClick: (btn: HTMLButtonElement, list: HTMLDivElement) => void) {
     const bubbles = document.createElement('div');
-    bubbles.className = 'yvebot-message-bubbles';
+    bubbles.className = `yvebot-message-bubbles yvebot-ruleType-${rule.type}`;
     rule.options.forEach((opt) => {
       const bubble = this.createBubbleButton(opt, (btn) => onClick(btn, bubbles));
       bubbles.appendChild(bubble);

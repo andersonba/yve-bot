@@ -264,6 +264,100 @@ exports[`DOM behaviors user reply 1`] = `
 </body>
 `;
 
+exports[`DOM behaviors user reply with multiple choice 1`] = `
+<body>
+  <div
+    class="yvebot-chat"
+  >
+    <ul
+      class="yvebot-conversation"
+    >
+      <li
+        class="yvebot-thread yvebot-thread-bot"
+      >
+        <div
+          class="yvebot-bubble"
+        >
+          <div
+            class="yvebot-message"
+          >
+            Make your choice
+          </div>
+        </div>
+        <div>
+          <div
+            class="yvebot-message-bubbles yvebot-ruleType-MultipleChoice"
+          >
+            <button
+              class="yvebot-message-bubbleBtn"
+              data-label="One"
+              data-value="One"
+            >
+              One
+            </button>
+            <button
+              class="yvebot-message-bubbleBtn"
+              data-label="Two"
+              data-value="Two"
+            >
+              Two
+            </button>
+            <button
+              class="yvebot-message-bubbleBtn"
+              data-label="Three"
+              data-value="Three"
+            >
+              Three
+            </button>
+          </div>
+          <button
+            class="yvebot-message-bubbleDone"
+            style="display: none;"
+          >
+            Done
+          </button>
+        </div>
+      </li>
+      <li
+        class="yvebot-thread yvebot-thread-bot yvebot-thread-typing"
+      >
+        <div
+          class="yvebot-typing"
+        >
+          <span
+            class="yvebot-typing-dot"
+          />
+          <span
+            class="yvebot-typing-dot"
+          />
+          <span
+            class="yvebot-typing-dot"
+          />
+        </div>
+      </li>
+    </ul>
+    <form
+      class="yvebot-form"
+    >
+      <input
+        autocomplete="off"
+        class="yvebot-form-input"
+        disabled=""
+        placeholder="Choose the options above"
+        type="text"
+      />
+      <button
+        class="yvebot-form-submit"
+        disabled=""
+        type="submit"
+      >
+        Send
+      </button>
+    </form>
+  </div>
+</body>
+`;
+
 exports[`DOM behaviors user reply with single choice 1`] = `
 <body>
   <div
@@ -285,7 +379,7 @@ exports[`DOM behaviors user reply with single choice 1`] = `
           </div>
         </div>
         <div
-          class="yvebot-message-bubbles"
+          class="yvebot-message-bubbles yvebot-ruleType-SingleChoice"
         >
           <button
             class="yvebot-message-bubbleBtn"

@@ -223,7 +223,7 @@ describe('DOM behaviors', () => {
         - Three
     `);
     new YveBotUI(rules, OPTS).start();
-    const { input, submit, getBubbleButtons, getBubbleDone, getUserMessages } = getChatElements();
+    const { target, input, submit, getBubbleButtons, getBubbleDone, getUserMessages } = getChatElements();
 
     await sleep();
 
@@ -237,6 +237,7 @@ describe('DOM behaviors', () => {
     expect(submit.hasAttribute('disabled')).toBeTruthy();
     expect(bubbles).toHaveLength(3);
     expect(getUserMessages()).toHaveLength(0);
+    expect(target).toMatchSnapshot();
 
     // select one
     bubbles[0].click();

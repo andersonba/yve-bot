@@ -94,13 +94,13 @@ export default class YveBotUI {
 
   public typing() {
     this.UI.typing.classList.add('is-typing');
-    this.UI.scrollDown();
+    this.UI.scrollDown(this.UI.typing.offsetHeight);
     return this;
   }
 
   public typed() {
     this.UI.typing.classList.remove('is-typing');
-    this.UI.scrollDown();
+    this.UI.scrollDown(this.UI.typing.offsetHeight);
     return this;
   }
 
@@ -128,7 +128,7 @@ export default class YveBotUI {
         break;
       }
     }
-    UI.appendThread(this.UI.conversation, thread);
+    UI.appendThread(source, this.UI.conversation, thread);
     return this;
   }
 }

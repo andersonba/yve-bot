@@ -1,4 +1,4 @@
-import { loadYaml, sleep, getChatElements } from '@test/utils';
+import { getChatElements, loadYaml, sleep } from '@test/utils';
 import YveBotUI from '..';
 
 const OPTS = {
@@ -107,8 +107,8 @@ describe('DOM behaviors', () => {
     expect(target).toMatchSnapshot();
   });
 
-  test('bot with timestamp', async() => {
-    const _now = Date.now;
+  test('bot with timestamp', async () => {
+    const _now = Date.now; // tslint:disable-line variable-name
     Date.now = jest.fn().mockReturnValue(0);
 
     const rules = loadYaml(`

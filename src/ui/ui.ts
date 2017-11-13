@@ -177,13 +177,25 @@ export class ChatUI {
     return thread;
   }
 
-  public appendThread(conversation: HTMLUListElement, thread: HTMLLIElement) {
+  public appendThread(source: ChatMessageSource, conversation: HTMLUListElement, thread: HTMLLIElement) {
     conversation.insertBefore(thread, this.typing);
-    this.scrollDown();
+    this.scrollDown(thread.offsetHeight, source === 'USER');
   }
 
-  public scrollDown() {
-    this.conversation.scrollTop = this.conversation.scrollHeight;
+  public scrollDown(offset = 0, force = false) {
+    /*
+    * Avoid breakdown of reading when user changes the scroll and a new thread is appended
+    */
+    const marginOfError = 20; // px
+    const isBottom = (
+      this.conversation.scrollHeight -
+      this.conversation.scrollTop -
+      this.conversation.offsetHeight -
+      marginOfError
+    ) <= offset;
+    if (isBottom || force) {
+      this.conversation.scrollTop = this.conversation.scrollHeight;
+    }
   }
 
   public createTextMessage(answer: Answer | Answer[], senderName?: string) {

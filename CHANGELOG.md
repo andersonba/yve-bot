@@ -1,5 +1,16 @@
 # Change Log
 
+## [1.8.1](https://github.com/andersonba/yve-bot/tree/1.8.1) (2017-11-13)
+[Full Changelog](https://github.com/andersonba/yve-bot/compare/1.8.0...1.8.1)
+
+**Fixed bugs:**
+
+- rollup: fix bug on import UI lib [\#38](https://github.com/andersonba/yve-bot/issues/52)
+
+**Merged pull requests:**
+
+- Update dependencies to enable Greenkeeper 🌴 [\#47](https://github.com/andersonba/yve-bot/pull/47) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
 ## [1.8.0](https://github.com/andersonba/yve-bot/tree/1.8.0) (2017-11-11)
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.7.0...1.8.0)
 

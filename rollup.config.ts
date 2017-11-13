@@ -22,15 +22,6 @@ const server = {
     format: 'umd',
     name: 'YveBot',
   },
-
-  onwarn({ code, message }) {
-    if (
-      // Suppress known error message caused by TypeScript compiled code with Rollup
-      // https://github.com/rollup/rollup/wiki/Troubleshooting#this-is-undefined
-      code === 'THIS_IS_UNDEFINED'
-    ) { return; }
-    console.log(`Rollup warning: ${message}`); // tslint:disable-line
-  },
 };
 
 const client = {
@@ -50,7 +41,7 @@ const client = {
 
   output: {
     file: 'lib/ui.js',
-    format: 'iife',
+    format: 'umd',
     name: 'YveBot',
   },
 };

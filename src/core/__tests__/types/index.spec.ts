@@ -19,12 +19,6 @@ describe('String', () => {
     expect(await transform(0)).toBe('0');
     expect(await transform('')).toBe('');
   });
-
-  test('validators', () => {
-    const values = validators.map(v => omit(v, ['warning']));
-    expect(values).toContainEqual({ string: true });
-    expect(values).toHaveLength(1);
-  });
 });
 
 describe('Number', () => {

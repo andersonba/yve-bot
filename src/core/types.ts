@@ -18,12 +18,6 @@ const types: { [name: string]: IRuleType } = {
   String: {
     executors: [{
       transform: async (value: Answer) => String(value),
-      validators: [
-        {
-          string: true,
-          warning: 'Invalid string',
-        },
-      ],
     }],
   },
 

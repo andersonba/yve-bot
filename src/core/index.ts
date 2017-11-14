@@ -24,7 +24,6 @@ export default class YveBot {
   public sessionId: string;
 
   private handlers: { [handler: string]: Array<() => any> };
-  private _rules?: IRule[]; // tslint:disable-line
 
   constructor(rules: Array<IRule|IFlow>, customOpts?: IYveBotOptions) {
     const DEFAULT_OPTS: IYveBotOptions = {
@@ -127,17 +126,14 @@ export default class YveBot {
     this.sessionId = id;
 
     if (opts.rules) {
-      this._rules = this.rules;
       this.rules = opts.rules.map(sanitizeRule);
-    } else {
-      this.rules = this._rules || this.rules;
+      this.controller.reindex();
     }
 
     if (opts.store) {
       this.store.replace(opts.store);
     } else {
       this.store.reset();
-      this.controller.reindex();
     }
 
     if (opts.context) {

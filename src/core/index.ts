@@ -110,6 +110,7 @@ export default class YveBot {
 
   public hear(answer: Answer | Answer[]): this {
     this.controller.receiveMessage(answer).catch(this.tryCatch.bind(this));
+    this.dispatch('reply', answer);
     return this;
   }
 

@@ -6,7 +6,7 @@ interface IOptions {
 
 export class DefineModule {
   public define(obj: object): this;
-  public define(key: string, value: any, opts: IOptions): this;
+  public define(key: string, value: any, opts?: IOptions): this;
 
   public define(key: string | object, value?: any | IOptions, opts?: IOptions): this {
     const noOverride = !(opts && opts.override);

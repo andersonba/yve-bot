@@ -83,7 +83,7 @@ function runActions(bot: YveBot, rule: IRule, prop: string): Promise<any> {
   );
 }
 
-function getNextFromIRule(rule: IRule, answer?: Answer | Answer[]): RuleNext | null {
+function getNextFromRule(rule: IRule, answer?: Answer | Answer[]): RuleNext | null {
   if (rule.options.length && answer) {
     const option = utils.findOptionByAnswer(rule.options, answer);
     if (option && option.next) {
@@ -96,7 +96,7 @@ function getNextFromIRule(rule: IRule, answer?: Answer | Answer[]): RuleNext | n
   return null;
 }
 
-function getIRuleByIndex(bot: YveBot, idx: number): IRule {
+function getRuleByIndex(bot: YveBot, idx: number): IRule {
   const rule = bot.rules[idx] ? bot.rules[idx] : sanitizeRule({ exit: true });
   return Object.assign({}, bot.options.rule, rule);
 }
@@ -128,7 +128,7 @@ export class Controller {
 
   public async run(idx: number = 0): Promise<this> {
     const { bot } = this;
-    const rule = getIRuleByIndex(bot, idx);
+    const rule = getRuleByIndex(bot, idx);
 
     bot.store.set('currentIdx', idx);
 
@@ -151,7 +151,7 @@ export class Controller {
     }
 
     if (!rule.type) {
-      return this.nextIRule(rule);
+      return this.nextRule(rule);
     }
 
     if (!bot.types[rule.type]) {
@@ -191,7 +191,7 @@ export class Controller {
   public async receiveMessage(message: Answer | Answer[]): Promise<this> {
     const { bot } = this;
     const idx = bot.store.get('currentIdx');
-    const rule = getIRuleByIndex(bot, idx);
+    const rule = getRuleByIndex(bot, idx);
 
     bot.dispatch('listen', message, rule);
 
@@ -201,7 +201,7 @@ export class Controller {
 
     let answer;
     try {
-      answer = await this.executeIRuleTypeExecutors(rule, message);
+      answer = await this.executeRuleTypeExecutors(rule, message);
     } catch (e) {
       let expectedError = false;
       if (e instanceof ValidatorError) {
@@ -209,7 +209,7 @@ export class Controller {
         await this.sendMessage(e.message, rule);
       } else if (e instanceof PauseRuleTypeExecutors) {
         expectedError = true;
-        this.incIRuleExecutorIndex(rule);
+        this.incRuleExecutorIndex(rule);
       }
 
       if (expectedError) {
@@ -227,8 +227,8 @@ export class Controller {
     }
 
     if (rule.replyMessage) {
-      const replyIRule = Object.assign({}, bot.options.rule);
-      await this.sendMessage(rule.replyMessage, replyIRule);
+      const replyRule = Object.assign({}, bot.options.rule);
+      await this.sendMessage(rule.replyMessage, replyRule);
     }
 
     // run post-actions
@@ -238,7 +238,7 @@ export class Controller {
       return this;
     }
 
-    return this.nextIRule(rule, answer);
+    return this.nextRule(rule, answer);
   }
 
   public jumpByName(ruleName: string): Promise<this> {
@@ -249,7 +249,7 @@ export class Controller {
     return this.run(idx);
   }
 
-  public nextIRule(currentIRule: IRule, answer?: Answer | Answer[]): this {
+  public nextRule(currentRule: IRule, answer?: Answer | Answer[]): this {
     const { bot } = this;
     const nextRuleName = getNextFromRule(currentRule, answer);
     if (nextRuleName) {
@@ -272,43 +272,43 @@ export class Controller {
     return this;
   }
 
-  private getIRuleExecutorIndex(rule: IRule): number {
+  private getRuleExecutorIndex(rule: IRule): number {
     return this.bot.store.get(`executors.${rule.name}.currentIdx`) || 0;
   }
 
-  private incIRuleExecutorIndex(rule: IRule): void {
+  private incRuleExecutorIndex(rule: IRule): void {
     this.bot.store.set(
-      `executors.${rule.name}.currentIdx`, this.getIRuleExecutorIndex(rule) + 1,
+      `executors.${rule.name}.currentIdx`, this.getRuleExecutorIndex(rule) + 1,
     );
   }
 
-  private resetIRuleExecutorIndex(rule: IRule): void {
+  private resetRuleExecutorIndex(rule: IRule): void {
     this.bot.store.unset(`executors.${rule.name}.currentIdx`);
   }
 
-  private async executeIRuleTypeExecutors(rule: IRule, lastAnswer: Answer | Answer[]): Promise<Answer | Answer[]> {
+  private async executeRuleTypeExecutors(rule: IRule, lastAnswer: Answer | Answer[]): Promise<Answer | Answer[]> {
     if (!rule.type) {
       return lastAnswer;
     }
 
     const { bot } = this;
-    const executorIdx = this.getIRuleExecutorIndex(rule);
+    const executorIdx = this.getRuleExecutorIndex(rule);
     const executors = bot.types[rule.type].executors || [];
 
     const executor = executors.slice(executorIdx)[0] || {};
     const { transform = (...args) => Promise.resolve(args[0]) } = executor;
     const answer = await (
       transform(lastAnswer, rule, bot)
-      .then((ans) => validateAnswer(ans, rule, bot, this.getIRuleExecutorIndex(rule)))
+      .then((ans) => validateAnswer(ans, rule, bot, this.getRuleExecutorIndex(rule)))
     );
 
-    const completed = (this.getIRuleExecutorIndex(rule) === executors.length - 1);
+    const completed = (this.getRuleExecutorIndex(rule) === executors.length - 1);
     if (executors.length && !completed) {
-      this.incIRuleExecutorIndex(rule);
-      return await this.executeIRuleTypeExecutors(rule, answer);
+      this.incRuleExecutorIndex(rule);
+      return await this.executeRuleTypeExecutors(rule, answer);
     }
 
-    this.resetIRuleExecutorIndex(rule);
+    this.resetRuleExecutorIndex(rule);
     return answer;
   }
 }

@@ -1,5 +1,21 @@
 # Change Log
 
+## [1.9.0](https://github.com/andersonba/yve-bot/tree/1.9.0) (2017-11-14)
+[Full Changelog](https://github.com/andersonba/yve-bot/compare/1.8.1...1.9.0)
+
+**Implemented enhancements:**
+
+- ui: add extra classes to identify rule type in bubble messages [\#53](https://github.com/andersonba/yve-bot/issues/53)
+
+**Fixed bugs:**
+
+- ui: do not scroll down to avoid breakdown of reading [\#54](https://github.com/andersonba/yve-bot/issues/54)
+- Invalid format for validator with regex [\#51](https://github.com/andersonba/yve-bot/issues/51)
+
+**Closed issues:**
+
+- example: using react component [\#5](https://github.com/andersonba/yve-bot/issues/5)
+
 ## [1.8.1](https://github.com/andersonba/yve-bot/tree/1.8.1) (2017-11-13)
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.8.0...1.8.1)
 

@@ -1,3 +1,4 @@
+import fs from 'fs';
 import path from 'path';
 import commonjs from 'rollup-plugin-commonjs';
 import json from 'rollup-plugin-json';
@@ -43,7 +44,11 @@ const client = {
   },
 };
 
-const typeExtensions = ['string-search'].map((eType) => {
+const typeFiles = fs.readdirSync('./src/ext/types')
+  .filter((t) => /\.ts$/.test(t))
+  .map((t) => t.split('.')[0]);
+
+const typeExtensions = typeFiles.map((eType) => {
   const src = path.resolve('./compiled/core/index.js');
   return {
     input: `compiled/ext/types/${eType}.js`,

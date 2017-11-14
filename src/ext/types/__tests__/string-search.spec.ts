@@ -1,18 +1,18 @@
-import YveBot from '../..';
-import { Types } from '../../types';
-
-import { ValidatorError, PauseRuleTypeExecutors } from '../../exceptions';
+import '../string-search';
 
 import * as fetchMock from 'fetch-mock';
 
+import YveBot from '../../../core';
+import { PauseRuleTypeExecutors, ValidatorError } from '../../../core/exceptions';
+
 describe('StringSearch', () => {
-  const { executors } = (new Types).StringSearch;
+  const { executors } = YveBot.types.StringSearch;
 
   test('properties', () => {
     expect(executors).toHaveLength(4);
     expect(executors[0]).toEqual({});
     expect(executors.slice(-1)[0]).toHaveProperty('validators');
-    executors.slice(1, -1).map(exe => {
+    executors.slice(1, -1).map((exe) => {
       expect(exe).toHaveProperty('transform');
       expect(exe).not.toHaveProperty('validators');
     });
@@ -26,9 +26,9 @@ describe('StringSearch', () => {
       const bot = { talk: jest.fn(), store: { unset: jest.fn() } };
       const wrongResult = 'wrongResult msg last-executor-validator';
       const rule = {
+        config: { messages: { wrongResult } },
         name: 'testRule',
         rand: Math.random(),
-        config: { messages: { wrongResult } }
       };
 
       const { function: validator } = validators[0];
@@ -55,15 +55,15 @@ describe('StringSearch', () => {
       const apiURI = 'https://myserver.test/search';
       const apiQueryParam = 'param';
       const rule = {
-        rand: Math.random(),
         config: { apiURI, apiQueryParam },
+        rand: Math.random(),
       };
       const bot = new YveBot([], { rule, enableWaitForSleep: false });
 
       const expectedURI = `${apiURI}?${apiQueryParam}=${encodeURIComponent(input)}`;
       fetchMock.mock(expectedURI, {
+        body: [customResponse],
         status: 200,
-        body: [customResponse]
       });
 
       const result = await transform(input, rule, bot);
@@ -80,19 +80,20 @@ describe('StringSearch', () => {
       const apiQueryParam = 'param';
       const translate = { label: 'test1', value: 'test2' };
       const rule = {
-        rand: Math.random(),
         config: { apiURI, apiQueryParam, translate },
+        rand: Math.random(),
       };
       const bot = new YveBot([], { rule, enableWaitForSleep: false });
 
       fetchMock.mock('*', {
+        body: [customResponse],
         status: 200,
-        body: [customResponse]
       });
 
       const result = await transform(input, rule, bot);
-      expect(result).toEqual([customResponse].map(obj => ({
-        value: obj.test2, label: obj.test1
+      expect(result).toEqual([customResponse].map((obj) => ({
+        label: obj.test1,
+        value: obj.test2,
       })));
     });
 
@@ -104,18 +105,18 @@ describe('StringSearch', () => {
       const translate = { label: 'test1', value: 'test2' };
       const noResults = 'noResults';
       const rule = {
-        rand: Math.random(),
         config: { apiURI, apiQueryParam, translate, messages: { noResults  } },
+        rand: Math.random(),
       };
       const bot = new YveBot([], { rule, enableWaitForSleep: false });
 
       fetchMock.mock('*', {
+        body: [],
         status: 200,
-        body: []
       });
 
       await expect(transform(input, rule, bot)).rejects.toEqual(
-        new ValidatorError(noResults, rule)
+        new ValidatorError(noResults, rule),
       );
     });
 
@@ -125,24 +126,24 @@ describe('StringSearch', () => {
       const { transform } = executors[2];
       const messages = { didYouMean: 'você quis dizer', yes: 'yep', no: 'nope' };
       const rule = {
+        config: { messages },
         name: 'customRuleName',
         rand: Math.random(),
-        config: { messages },
       };
       const bot = new YveBot([], { rule, enableWaitForSleep: false });
       bot.talk = jest.fn();
 
       await expect(transform([serverResponse], rule, bot)).rejects.toEqual(
-        new PauseRuleTypeExecutors(rule.name)
+        new PauseRuleTypeExecutors(rule.name),
       );
 
       expect(bot.talk).toHaveBeenCalled();
       expect(bot.talk).toHaveBeenCalledWith(`${messages.didYouMean}: ${serverResponse.label}?`, {
-        type: 'SingleChoice',
         options: [
           { label: messages.yes, value: serverResponse.value },
           { label: messages.no, value: null },
-        ]
+        ],
+        type: 'SingleChoice',
       });
     });
 
@@ -155,24 +156,24 @@ describe('StringSearch', () => {
       const { transform } = executors[2];
       const messages = { multipleResults: 'multipleResults', noneOfAbove: 'noneOfAbove' };
       const rule = {
+        config: { messages },
         name: 'testRuleName',
         rand: Math.random(),
-        config: { messages },
       };
       const bot = new YveBot([], { rule, enableWaitForSleep: false });
       bot.talk = jest.fn();
 
       await expect(transform(serverResponse, rule, bot)).rejects.toEqual(
-        new PauseRuleTypeExecutors(rule.name)
+        new PauseRuleTypeExecutors(rule.name),
       );
 
       expect(bot.talk).toHaveBeenCalled();
       expect(bot.talk).toHaveBeenCalledWith(`${messages.multipleResults}:`, {
-        type: 'SingleChoice',
         options: serverResponse.concat([{
           label: messages.noneOfAbove,
           value: null,
-        }])
+        }]),
+        type: 'SingleChoice',
       });
     });
   });

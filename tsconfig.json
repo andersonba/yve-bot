@@ -23,6 +23,9 @@
     "src/core/index.ts",
     "src/ui/index.ts"
   ],
+  "include": [
+    "src/ext/types"
+  ],
   "exclude": [
     "test"
   ]

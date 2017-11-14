@@ -80,7 +80,8 @@ export interface IListener {
   next: RuleNext;
 }
 
-export type EventName = 'start' | 'end' | 'error' | 'listen' | 'hear' | 'talk' | 'typed' | 'typing' | 'storeChanged';
+export type EventName = 'start' | 'end' | 'error' | 'listen' |
+  'hear' | 'talk' | 'reply' | 'typed' | 'typing' | 'storeChanged';
 
 export interface IChatOptions {
   target?: string;

@@ -1,13 +1,10 @@
 import YveBot from '../core';
-import { Answer, ChatMessageSource, IChatOptions, IListener, IRule } from '../types';
+import { Answer, ChatMessageSource, IChatOptions, IRule } from '../types';
 import { ChatUI } from './ui';
 
-export default class YveBotUI {
-  public bot: YveBot;
-  public options: IChatOptions;
+export default class YveBotUI extends YveBot {
+  public UIOptions: IChatOptions;
   public UI: ChatUI;
-
-  private handlers: { [handler: string]: Array<() => any> };
 
   constructor(rules: IRule[], opts?: IChatOptions) {
     const DEFAULT_OPTS: IChatOptions = {
@@ -22,33 +19,28 @@ export default class YveBotUI {
       timestampFormatter: (ts) => new Date(ts).toUTCString().slice(-12, -4),
       timestampable: false,
     };
+    const UIOptions = Object.assign({}, DEFAULT_OPTS, opts);
+    super(rules, UIOptions.yveBotOptions);
 
-    this.handlers = {};
-    this.options = Object.assign({}, DEFAULT_OPTS, opts);
+    this.UIOptions = UIOptions;
+    this.UI = new ChatUI(this.UIOptions);
 
-    this.bot = new YveBot(rules, this.options.yveBotOptions);
-    this.UI = new ChatUI(this.options);
-
-    this.bot
-      .on('start', (...args) => {
+    this
+      .on('start', () => {
         document
-          .querySelector(this.options.target)
+          .querySelector(this.UIOptions.target)
           .appendChild(this.UI.chat);
 
-        if (this.options.autoFocus) {
+        if (this.UIOptions.autoFocus) {
           const $input = this.UI.input;
           $input.focus();
         }
-
-        this.dispatch('start', ...args);
       })
       .on('talk', (msg: string, rule: IRule) => {
         this.newMessage('BOT', msg, rule);
       })
       .on('typing', () => this.typing())
-      .on('typed', () => this.typed())
-      .on('storeChanged', (...args) => this.dispatch('storeChanged', ...args))
-      .on('end', (...args) => this.dispatch('end', ...args));
+      .on('typed', () => this.typed());
 
     this.UI.form.addEventListener('submit', (evt) => {
       evt.preventDefault();
@@ -56,40 +48,14 @@ export default class YveBotUI {
       const msg = input.value.trim();
 
       if (msg) {
-        this.dispatch('reply', msg);
-        this.bot.hear(msg);
+        this.hear(msg);
         this.newMessage('USER', msg);
         input.value = '';
       }
-      if (this.options.autoFocus) {
+      if (this.UIOptions.autoFocus) {
         input.focus();
       }
     });
-  }
-
-  public start() {
-    this.bot.start();
-    return this;
-  }
-
-  public on(evt: string, fn: (...args: any[]) => any): this {
-    if (evt in this.handlers) {
-      this.handlers[evt].push(fn);
-    } else {
-      this.handlers[evt] = [fn];
-    }
-    return this;
-  }
-
-  public listen(listeners: IListener[]) {
-    return this.bot.listen(listeners);
-  }
-
-  public dispatch(name: string, ...args) {
-    if (name in this.handlers) {
-      this.handlers[name].forEach((fn) => fn(...args));
-    }
-    return this;
   }
 
   public typing() {
@@ -106,23 +72,21 @@ export default class YveBotUI {
 
   public newMessage(source: ChatMessageSource, message: Answer | Answer[], rule?: IRule) {
     const { UI } = this;
-    const sender = source === 'BOT' ? this.options.name : null;
+    const sender = source === 'BOT' ? this.UIOptions.name : null;
     const thread = UI.createThread(source, UI.createTextMessage(message, sender));
 
     if (source === 'BOT') {
       switch (rule.type) {
         case 'SingleChoice':
         thread.appendChild(UI.createSingleChoiceMessage(rule, (label, value) => {
-          this.bot.hear(value);
-          this.dispatch('reply', value);
+          this.hear(value);
           this.newMessage('USER', label);
         }));
         break;
 
         case 'MultipleChoice':
         thread.appendChild(UI.createMultipleChoiceMessage(rule, (label, value) => {
-          this.bot.hear(value);
-          this.dispatch('reply', value);
+          this.hear(value);
           this.newMessage('USER', label);
         }));
         break;

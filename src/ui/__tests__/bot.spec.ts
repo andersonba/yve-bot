@@ -44,7 +44,7 @@ test('event binding', async () => {
 
   await sleep();
 
-  expect(onReply).toBeCalledWith(msg);
+  expect(onReply).toBeCalledWith(msg, session);
   expect(onStoreChanged).toBeCalledWith({ output, currentIdx: 1, waitingForAnswer: false }, session);
   expect(onEnd).toBeCalledWith(output, session);
   expect(onEndCopy).toBeCalledWith(output, session);

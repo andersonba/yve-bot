@@ -183,6 +183,42 @@ test('using session with custom context/store/rules', () => {
   expect(bot.context.user).toBe(123);
 });
 
+test('addRules', async () => {
+  const rules = loadYaml(`
+  - message: Hello
+  - message: Question
+    type: String
+    name: question
+  - message: Bye
+    name: bye
+  `);
+  const bot = new YveBot(rules, OPTS).start();
+
+  expect(bot.controller.indexes).toEqual({
+    bye: 2,
+    question: 1,
+  });
+  expect(bot.rules).toHaveLength(3);
+  expect(Object.keys(bot.controller.indexes)).toHaveLength(2);
+
+  bot.addRules(loadYaml(`
+  - message: Hello again!
+  - message: Question 2
+    type: String
+    name: question2
+  - message: Tchau!
+    name: bye
+  `));
+
+  expect(bot.controller.indexes).toEqual({
+    bye: 5,
+    question: 1,
+    question2: 4,
+  });
+  expect(bot.rules).toHaveLength(6);
+  expect(Object.keys(bot.controller.indexes)).toHaveLength(3);
+});
+
 test('auto reply message', async () => {
   const onTalk = jest.fn();
   const rules = loadYaml(`

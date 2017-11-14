@@ -143,6 +143,13 @@ export default class YveBot {
     return this;
   }
 
+  public addRules(rules: Array<IRule|IFlow>) {
+    this.rules = this.rules.concat(
+      rules.map(sanitizeRule),
+    );
+    this.controller.reindex();
+  }
+
   private tryCatch(err: Error) {
     this.dispatch('error', err);
     this.end();

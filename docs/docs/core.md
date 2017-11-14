@@ -76,7 +76,7 @@ bot.hear(message);
 |----------|------|-------------|
 | message | string, array[string] | User's answer
 
-#### listen
+#### Listen
 
 Configure [Passive mode]({{ site.baseurl }}/docs/passive-mode)
 ```javascript
@@ -99,6 +99,16 @@ bot.session(sessionId, { store });
 | options.store | `{}` | Object | Uses custom output for this session
 | options.rules | `[]` | [Rule] | Uses custom rules for this session
 | options.context | - | Object | Uses custom user context for this session
+
+
+#### AddRule
+
+Add flows and rules dynamically to current chat instance
+
+```javascript
+const newRules = [...];  // rules or flows
+bot.addRules(newRules);
+```
 
 #### Context
 

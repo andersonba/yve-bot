@@ -422,7 +422,7 @@ test('bot sleeping', async () => {
   const onTyping = jest.fn();
   const onTyped = jest.fn();
   const rules = loadYaml(`
-  - sleep: 2
+  - sleep: 5
   - message: Ok
     delay: 0
   `);
@@ -433,7 +433,7 @@ test('bot sleeping', async () => {
     .start();
   expect(onTalk).not.toBeCalled();
   expect(onTyping).not.toBeCalled();
-  await sleep(5);
+  await sleep(10);
   expect(onTyping).toBeCalledWith('session');
   expect(onTyped).toBeCalledWith('session');
   expect(onTalk).toBeCalledWith('Ok', rules[1], 'session');

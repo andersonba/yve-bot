@@ -60,6 +60,7 @@ const typeExtensions = typeFiles.map((eType) => {
       }),
       json(),
       multiEntry({ exports: false }),
+      uglify(),
     ],
 
     external: [

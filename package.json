@@ -78,6 +78,10 @@
     {
       "path": "./lib/ui.js",
       "maxSize": "12 kB"
+    },
+    {
+      "path": "./lib/ext/types/string-search.js",
+      "maxSize": "1.5 kB"
     }
   ]
 }

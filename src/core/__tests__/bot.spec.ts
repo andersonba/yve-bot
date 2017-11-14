@@ -378,6 +378,29 @@ test('jumping between flows', async () => {
   expect(onTalk).toHaveBeenCalledTimes(2);
 });
 
+test('jumping to first rule of flow', async () => {
+  const onTalk = jest.fn();
+  const flows = loadYaml(`
+  - flow: first
+    rules:
+      - message: Hello
+        next: "flow:second"
+  - flow: second
+    rules:
+      - message: Here
+        name: two
+  `);
+  new YveBot(flows, OPTS)
+    .on('talk', onTalk)
+    .on('error', console.error)
+    .start();
+  await sleep();
+
+  expect(onTalk).toBeCalledWith('Hello', { flow: 'first', ...flows[0].rules[0] }, 'session');
+  expect(onTalk).toBeCalledWith('Here', { flow: 'second', ...flows[1].rules[0] }, 'session');
+  expect(onTalk).toHaveBeenCalledTimes(2);
+});
+
 test('jumping to option next', async () => {
   const onTalk = jest.fn();
   const rules = loadYaml(`

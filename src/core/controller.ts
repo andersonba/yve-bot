@@ -251,12 +251,19 @@ export class Controller {
 
   public nextIRule(currentIRule: IRule, answer?: Answer | Answer[]): this {
     const { bot } = this;
-    const nextIRuleName = getNextFromIRule(currentIRule, answer);
-    if (nextIRuleName) {
-      const isJumpToAnotherFlow = nextIRuleName.indexOf('.') > 0;
-      const ruleName = isJumpToAnotherFlow ?
-        nextIRuleName :
-        [currentIRule.flow, nextIRuleName].filter((x) => !!x).join('.');
+    const nextRuleName = getNextFromRule(currentRule, answer);
+    if (nextRuleName) {
+      let ruleName;
+      if (/flow:/.test(nextRuleName)) { // jump to flow
+        [ruleName] = Object.keys(bot.controller.indexes)
+          .filter((r) => r.startsWith(nextRuleName.split('flow:')[1]));
+      } else if (/\./.test(nextRuleName)) { // jump to rule of flow
+        ruleName = nextRuleName;
+      } else { // jump to rule inside of current flow
+        ruleName = [currentRule.flow, nextRuleName]
+          .filter((x) => !!x)
+          .join('.');
+      }
       this.jumpByName(ruleName);
     } else {
       const nextIdx = bot.store.get('currentIdx') + 1;

@@ -1,10 +1,11 @@
 import 'isomorphic-unfetch';
+
 import YveBot from '../../core';
 import { Answer, IRule } from '../../types';
 
 const { PauseRuleTypeExecutors, ValidatorError } = YveBot.exceptions;
 
-export default YveBot.types.define('StringSearch', {
+export default YveBot.types.defineExtension('StringSearch', {
   executors: [
     {}, // necessary to read user's input and apply Rule's validators to it
     {

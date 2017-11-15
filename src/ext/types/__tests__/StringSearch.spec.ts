@@ -1,4 +1,4 @@
-import '../string-search';
+import '../StringSearch';
 
 import * as fetchMock from 'fetch-mock';
 

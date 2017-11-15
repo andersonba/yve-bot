@@ -5,7 +5,8 @@ function getValidate(name) {
 }
 
 test('validators.length', () => {
-  const validators = Object.keys(YveBot.prototype.validators);
+  const validators = Object.keys(YveBot.prototype.validators)
+    .filter((k) => !k.startsWith('_'));
   expect(validators).toMatchObject([
     'required',
     'email',

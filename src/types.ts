@@ -83,6 +83,8 @@ export interface IListener {
 export type EventName = 'start' | 'end' | 'error' | 'listen' |
   'hear' | 'talk' | 'reply' | 'typed' | 'typing' | 'storeChanged';
 
+export type ModuleType = 'validators' | 'types' | 'actions' | 'executors' | 'listeners';
+
 export interface IChatOptions {
   target?: string;
   name?: string;

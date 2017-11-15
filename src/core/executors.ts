@@ -16,7 +16,7 @@ export class Executors extends DefineModule {
   public WaitForUserInput: IRuleTypeExecutor;
 
   constructor() {
-    super();
+    super('executors');
     this.define(executors);
   }
 }

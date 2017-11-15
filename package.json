@@ -34,7 +34,6 @@
     "rollup": "^0.51.5",
     "rollup-plugin-commonjs": "^8.2.6",
     "rollup-plugin-json": "^2.3.0",
-    "rollup-plugin-multi-entry": "^2.0.2",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-uglify": "^2.0.1",
     "ts-jest": "^21.0.0",
@@ -65,9 +64,8 @@
     },
     "collectCoverageFrom": [
       "src/**/*.ts",
-      "!src/types.ts",
-      "!src/core/index.ts",
-      "!src/ui/index.ts"
+      "src/**/**/*.ts",
+      "!src/types.ts"
     ]
   },
   "bundlesize": [
@@ -80,7 +78,7 @@
       "maxSize": "12 kB"
     },
     {
-      "path": "./lib/ext/types/string-search.js",
+      "path": "./lib/ext/types/StringSearch.js",
       "maxSize": "1.5 kB"
     }
   ]

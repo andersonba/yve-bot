@@ -92,7 +92,7 @@ export class Validators extends DefineModule {
   public function: typeof validators.function;
 
   constructor() {
-    super();
+    super('validators');
     this.define(validators);
   }
 }

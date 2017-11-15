@@ -35,7 +35,7 @@ export class Listeners extends DefineModule {
   public function: typeof listeners.function;
 
   constructor() {
-    super();
+    super('listeners');
     this.define(listeners);
   }
 }

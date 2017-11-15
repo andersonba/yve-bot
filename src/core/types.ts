@@ -99,7 +99,7 @@ export class Types extends DefineModule {
   public StringSearch: IRuleType;
 
   constructor() {
-    super();
+    super('types');
     this.define(types);
   }
 }

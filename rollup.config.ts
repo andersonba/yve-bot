@@ -2,7 +2,6 @@ import fs from 'fs';
 import path from 'path';
 import commonjs from 'rollup-plugin-commonjs';
 import json from 'rollup-plugin-json';
-import multiEntry from 'rollup-plugin-multi-entry';
 import resolve from 'rollup-plugin-node-resolve';
 import uglify from 'rollup-plugin-uglify';
 
@@ -55,11 +54,8 @@ const typeExtensions = typeFiles.map((eType) => {
 
     plugins: [
       commonjs(),
-      resolve({
-        browser: true,
-      }),
+      resolve(),
       json(),
-      multiEntry({ exports: false }),
       uglify(),
     ],
 
@@ -75,6 +71,7 @@ const typeExtensions = typeFiles.map((eType) => {
     output: {
       file: `lib/ext/types/${eType}.js`,
       format: 'umd',
+      name: `YveBotTypes${eType}`,
       paths: {
         [src]: '../../core',
       },

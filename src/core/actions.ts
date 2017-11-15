@@ -9,7 +9,7 @@ export class Actions extends DefineModule {
   public timeout: typeof actions.timeout;
 
   constructor() {
-    super();
+    super('actions');
     this.define(actions);
   }
 }

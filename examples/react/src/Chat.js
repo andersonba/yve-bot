@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import YveBotUI from 'yve-bot/ui';
+import YveBot from 'yve-bot/ui';
 import './Chat.css';
+require('yve-bot/ext/types/StringSearch')(YveBot);
 
 class Chat extends Component {
   constructor(props) {
     super(props);
 
-    this.bot = new YveBotUI(props.rules || [], {
+    this.bot = new YveBot(props.rules || [], {
       target: '.Chat',
     });
+    window.YveBot = YveBot;
   }
 
   componentDidMount() {

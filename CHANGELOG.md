@@ -1,5 +1,27 @@
 # Change Log
 
+## [1.10.0](https://github.com/andersonba/yve-bot/tree/1.10.0) (2017-11-15)
+[Full Changelog](https://github.com/andersonba/yve-bot/compare/1.9.0...1.10.0)
+
+**Implemented enhancements:**
+
+- choose actions/validators using array of string \[yaml\] [\#60](https://github.com/andersonba/yve-bot/issues/60)
+- Option's limitation for Multiple/Single choices fields [\#59](https://github.com/andersonba/yve-bot/issues/59)
+- Extends UI from Core [\#57](https://github.com/andersonba/yve-bot/issues/57)
+- jump to first rule of flow [\#50](https://github.com/andersonba/yve-bot/issues/50)
+- add flows and rules to current chat instance [\#49](https://github.com/andersonba/yve-bot/issues/49)
+- Split types into plugin modules [\#28](https://github.com/andersonba/yve-bot/issues/28)
+
+**Fixed bugs:**
+
+- Errors thrown in Controller.run after first run couldn't be handled [\#61](https://github.com/andersonba/yve-bot/issues/61)
+- core: session doesn't reset and reindex correctly [\#55](https://github.com/andersonba/yve-bot/issues/55)
+
+**Merged pull requests:**
+
+- Extends UI from Core [\#58](https://github.com/andersonba/yve-bot/pull/58) ([andersonba](https://github.com/andersonba))
+- Split types into optional extensions [\#56](https://github.com/andersonba/yve-bot/pull/56) ([andersonba](https://github.com/andersonba))
+
 ## [1.9.0](https://github.com/andersonba/yve-bot/tree/1.9.0) (2017-11-14)
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.8.1...1.9.0)
 

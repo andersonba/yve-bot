@@ -3,6 +3,13 @@ title: Rule Types
 ---
 
 # StringSearch Rule
+
+Autocomplete-like for chat conversation.
+Search the user input in your API and reply with options.
+
+
+### How to use?
+
 ```yaml
 - message: Insert your city name
   name: city
@@ -14,16 +21,16 @@ title: Rule Types
       label: title
       value: tid
     messages:
-      yes: Suuuuuuure!
+      yes: Suuure!
       no: HELL NO!
       wrongResult: Hmm.. okay, tell me your city again
       noResults: I couldn't find any cities with this input. Try again
       didYouMean: Did you mean
       noneOfAbove: None of those
       multipleResults: I've found those cities for your input
-  validators:
-    - minWords: 1
 ```
+
+### Specs
 
 | Property | Description |
 |----------|-------------|
@@ -38,4 +45,4 @@ title: Rule Types
 | config.messages.[yes\|no] | Messages of yes/no labels to confirm/deny server results based on user's input
 
 
-[Back: Rule Specification]({{ site.baseurl }}/docs/rule){:.btn}
+[Back: Extensions]({{ site.baseurl }}/docs/extensions){:.btn}

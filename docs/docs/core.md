@@ -193,4 +193,4 @@ bot.on('end', (output, sessionId) => {
 });
 ```
 
-[Next: Examples]({{ site.baseurl }}/docs/examples){:.btn}
+[Next: Extensions]({{ site.baseurl }}/docs/extensions){:.btn}

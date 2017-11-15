@@ -22,7 +22,7 @@ You can define a rule using two styles
 | name | - | string | Rule name used to jump between rules or to be store in output
 | message | - | string | Message to be talk ([formatting message](#formattedmessage))
 | output | - | string | Custom key to be stored in output (if empty, the property *name* will be used)
-| type | - | string | A pre-defined or user-defined type of user answer. Pre-defined: `String`, `Number`, `SingleChoice`, `MultipleChoice`, [`Passive`]({{ site.baseurl }}/docs/passive-mode#passive-types), [`PassiveLoop`]({{ site.baseurl }}/docs/passive-mode#passive-types), [`StringSearch`]({{ site.baseurl }}/docs/rule-type-string-search) or `Any`. You can also create a custom type
+| type | - | string | A pre-defined or user-defined type of user answer. Pre-defined: `String`, `Number`, `SingleChoice`, `MultipleChoice`, [`Passive`]({{ site.baseurl }}/docs/passive-mode#passive-types), [`PassiveLoop`]({{ site.baseurl }}/docs/passive-mode#passive-types) or `Any`. Check out the [extensions]({{ site.baseurl }}/docs/extensions)
 | next | - | string | Name of next rule
 | delay | `1000` | number | Fake time to simulate a bot typing. By default, the bot calculates this time based on message length and average of typing speed. If entered, the calculation is ignored
 | sleep | `0` | number | Fake time to simulate the AFK mode (await from keyboard for a defined time)

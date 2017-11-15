@@ -93,7 +93,7 @@ export default class YveBot {
 
   public start(): this {
     this.dispatch('start');
-    this.controller.run().catch(this.tryCatch.bind(this));
+    this.controller.run();
     return this;
   }
 
@@ -109,15 +109,16 @@ export default class YveBot {
   }
 
   public hear(answer: Answer | Answer[]): this {
-    this.controller.receiveMessage(answer).catch(this.tryCatch.bind(this));
+    this.controller.receiveMessage(answer);
     this.dispatch('reply', answer);
     return this;
   }
 
-  public dispatch(name: EventName, ...args) {
+  public dispatch(name: EventName, ...args): this {
     if (name in this.handlers) {
       this.handlers[name].forEach((fn) => fn(...args, this.sessionId));
     }
+    return this;
   }
 
   public session(
@@ -149,11 +150,6 @@ export default class YveBot {
       rules.map(sanitizeRule),
     );
     this.controller.reindex();
-  }
-
-  private tryCatch(err: Error) {
-    this.dispatch('error', err);
-    this.end();
   }
 }
 

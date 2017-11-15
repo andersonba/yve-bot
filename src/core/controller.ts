@@ -42,7 +42,8 @@ async function validateAnswer(
 function compileMessage(bot: YveBot, message: string): string {
   const output = bot.store.output();
   const { indexes } = bot.controller;
-  const re = /(?!\{)\w+[.]((?:\w+[.])*\w+)(?=\})/g; // extract variable in template: {{ ruleName.X.Y.Z }}
+  // extract variable in template: {{ ruleName.X.Y.Z }}
+  const re = /(?!\{)\w+[.]((?:\w+[.])*\w+)(?=\})/g;
   const ruleNames = (message.match(re) || []).map((s) => s.split('.')[0]);
   Array.from(new Set(ruleNames)).map((ruleName) => {
     const rule = bot.rules[indexes[ruleName]];
@@ -101,14 +102,30 @@ function getRuleByIndex(bot: YveBot, idx: number): IRule {
   return Object.assign({}, bot.options.rule, rule);
 }
 
+function patchWithTryCatch(ctrl: Controller, cb: (err: Error) => void) {
+  const methodsToPatch = ['run', 'receiveMessage'];
+  methodsToPatch.forEach((method) => {
+    const _method = ctrl[method]; // tslint:disable-line variable-name
+    ctrl[method] = async (...args) => {
+      try {
+        return await _method.call(ctrl, ...args);
+      } catch (err) {
+        cb(err);
+        return ctrl;
+      }
+    };
+  });
+}
+
 export class Controller {
   private bot: YveBot;
-  private _indexes: IIndexes; // tslint:disable-line
+  private _indexes: IIndexes; // tslint:disable-line variable-name
 
   constructor(bot: YveBot) {
     this.bot = bot;
     this._indexes = {};
     this.reindex();
+    patchWithTryCatch(this, (err) => bot.dispatch('error', err));
   }
 
   public reindex(): void {

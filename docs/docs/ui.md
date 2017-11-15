@@ -36,6 +36,7 @@ import YveBotUI from 'yve-bot/ui';
 | options.inputPlaceholderSingleChoice | `Choose an option above` | string | Message of input placeholder when current rule is a SingleChoice type
 | options.inputPlaceholderMultipleChoice | `Choose the options above` | string | Message of input placeholder when current rule is a MultipleChoice type
 | options.doneMultipleChoiceLabel | `Done` | string | Button label of MultipleChoice type
+| options.moreOptionsLabel | `More options` | string | Button label used in options paginator to show more items
 | options.andSeparatorText | `and` | string | Used to join the user's answer in MultipleChoice type
 | options.submitLabel | `Send` | string | Button label of submit message
 | options.autoFocus | `true` | boolean | Autofocus the message input whenever possible

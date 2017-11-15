@@ -1,11 +1,12 @@
-import * as faker from 'faker';
 import * as mocks from '@test/mocks';
-import { sleep, loadYaml } from '@test/utils';
+import { loadYaml, sleep } from '@test/utils';
+import * as faker from 'faker';
+
 import YveBot from '..';
-import { Store } from '../store';
 import { Controller } from '../controller';
-import { calculateDelayToTypeMessage } from '../utils';
 import { InvalidAttributeError, RuleNotFound } from '../exceptions';
+import { Store } from '../store';
+import { calculateDelayToTypeMessage } from '../utils';
 
 const OPTS = {
   enableWaitForSleep: false,
@@ -435,7 +436,7 @@ test('jumping to invalid rule', (done) => {
   - U name?
   `);
   new YveBot(rules, OPTS)
-    .on('error', err => {
+    .on('error', (err) => {
       expect(err).toBeInstanceOf(RuleNotFound);
       done();
     })
@@ -500,6 +501,7 @@ test('bot sleeping', async () => {
 
 test('running actions', async () => {
   const act = jest.fn();
+  const stringAct = jest.fn();
   const preAct = jest.fn();
   const postAct = jest.fn();
   const rules = loadYaml(`
@@ -508,6 +510,7 @@ test('running actions', async () => {
     actions:
       - testAction: false
       - unknown: 10
+      - testStringWay
     preActions:
       - testPreAction: true
     postActions:
@@ -517,10 +520,12 @@ test('running actions', async () => {
   bot.actions.define('testAction', act);
   bot.actions.define('testPreAction', preAct);
   bot.actions.define('testPostAction', postAct);
+  bot.actions.define('testStringWay', stringAct);
   bot.start();
 
   await sleep();
   expect(act).toBeCalledWith(false, rules[0], bot);
+  expect(stringAct).toBeCalledWith(true, rules[0], bot);
   expect(preAct).toBeCalledWith(true, rules[0], bot);
   expect(postAct).not.toBeCalled();
 
@@ -542,7 +547,7 @@ test('ruleTypes with multi executors', async () => {
       transform: async (answer) => `${answer} transformed`,
     }, {
       transform: async (answer) => `${answer} transformed2`,
-    }]
+    }],
   });
 
   bot.on('end', onEnd).start();
@@ -574,8 +579,8 @@ test('ruleTypes with multi executors and waitForUserInput', async () => {
       bot.executors.WaitForUserInput,
       {
         transform: async (answer) => `${answer} transformed3`,
-      }
-    ]
+      },
+    ],
   });
 
   bot.on('end', onEnd).start();
@@ -602,7 +607,7 @@ test('transform answer', async () => {
   bot.types.define('ValidTransform', {
     executors: [{
       transform: async () => 'Transformed',
-    }]
+    }],
   });
 
   bot
@@ -628,12 +633,12 @@ test('throw error on transform answer', async (done) => {
   bot.types.define('InvalidTransform', {
     executors: [{
       transform: async () => Promise.reject(customError),
-    }]
+    }],
   });
 
   bot
     .on('hear', onHear)
-    .on('error', err => {
+    .on('error', (err) => {
       expect(err).toEqual(customError);
       done();
     })
@@ -680,7 +685,7 @@ test('using default warning message as function', async () => {
   - message: Exception on validate
     type: String
     validators:
-      - defaultWarning: true
+      - defaultWarning  # string way
   `);
   const bot = new YveBot(rules, OPTS);
   bot.validators.define('defaultWarning', {
@@ -698,7 +703,7 @@ test('using default warning message as function', async () => {
 
 test('passive mode: using Passive type', async () => {
   const listeners = [
-    { includes: 'help', next: 'help' }
+    { includes: 'help', next: 'help' },
   ];
   const onTalk = jest.fn();
   const rules = loadYaml(`
@@ -718,7 +723,7 @@ test('passive mode: using Passive type', async () => {
 
 test('passive mode: using unknown listener', async () => {
   const listeners = [
-    { unknown: 'asd', next: 'help' }
+    { unknown: 'asd', next: 'help' },
   ];
   const onTalk = jest.fn();
   const rules = loadYaml(`- type: PassiveLoop`);
@@ -732,7 +737,7 @@ test('passive mode: using unknown listener', async () => {
 
 test('passive mode: skip Passive type when no matches', async () => {
   const listeners = [
-    { includes: 'help', next: 'help' }
+    { includes: 'help', next: 'help' },
   ];
   const onTalk = jest.fn();
   const rules = loadYaml(`
@@ -752,7 +757,7 @@ test('passive mode: skip Passive type when no matches', async () => {
 
 test('passive mode: enabled to all rules', async () => {
   const listeners = [
-    { includes: 'help', next: 'help', passive: true }
+    { includes: 'help', next: 'help', passive: true },
   ];
   const onTalk = jest.fn();
   const rules = loadYaml(`
@@ -776,7 +781,7 @@ test('passive mode: enabled to all rules', async () => {
 
 test('passive mode: disable for specific rule', async () => {
   const listeners = [
-    { includes: 'help', next: 'help', passive: true }
+    { includes: 'help', next: 'help', passive: true },
   ];
   const onTalk = jest.fn();
   const rules = loadYaml(`
@@ -803,7 +808,7 @@ test('passive mode: disable for specific rule', async () => {
 
 test('passive mode: using PassiveLoop type', async () => {
   const listeners = [
-    { includes: 'help', next: 'help' }
+    { includes: 'help', next: 'help' },
   ];
   const onTalk = jest.fn();
   const rules = loadYaml(`
@@ -842,7 +847,7 @@ test('throw error in warning message as function', async (done) => {
   });
 
   bot
-    .on('error', err => {
+    .on('error', (err) => {
       expect(err).toEqual(customError);
       done();
     })
@@ -861,7 +866,7 @@ test('throw error', (done) => {
 
   // custom error
   new YveBot([{type: 'Unknown'}], OPTS)
-    .on('error', err => {
+    .on('error', (err) => {
       expect(err).toBeInstanceOf(InvalidAttributeError);
       done();
     })

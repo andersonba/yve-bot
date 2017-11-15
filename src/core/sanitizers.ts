@@ -36,6 +36,14 @@ export function sanitizeRule(input: IRule): IRule {
     return o;
   });
   rule.passive = rule.passive === undefined ? true : rule.passive;
+
+  // string way
+  ['actions', 'validators'].forEach((key) => {
+    if (rule[key] && rule[key].length) {
+      rule[key] = rule[key].map((k) => typeof k === 'string' ? {[k]: true} : k);
+    }
+  });
+
   return rule;
 }
 

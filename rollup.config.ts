@@ -3,12 +3,19 @@ import path from 'path';
 import commonjs from 'rollup-plugin-commonjs';
 import json from 'rollup-plugin-json';
 import resolve from 'rollup-plugin-node-resolve';
+import typescript from 'rollup-plugin-typescript2';
 import uglify from 'rollup-plugin-uglify';
 
+function onwarn(warning, warn) {
+  if (warning.code === 'THIS_IS_UNDEFINED') { return; }
+  warn(warning);
+}
+
 const server = {
-  input: 'compiled/core/index',
+  input: 'src/core/index.ts',
 
   plugins: [
+    typescript(),
     commonjs(),
     resolve(),
     json(),
@@ -20,14 +27,17 @@ const server = {
     format: 'umd',
     name: 'YveBot',
   },
+
+  onwarn,
 };
 
 const client = {
-  input: 'compiled/ui/index',
+  input: 'src/ui/index.ts',
 
   context: 'window',
 
   plugins: [
+    typescript(),
     commonjs(),
     resolve({
       browser: true,
@@ -48,11 +58,12 @@ const typeFiles = fs.readdirSync('./src/ext/types')
   .map((t) => t.split('.')[0]);
 
 const typeExtensions = typeFiles.map((eType) => {
-  const src = path.resolve('./compiled/core/index.js');
+  const src = path.resolve('./src/core/index.ts');
   return {
-    input: `compiled/ext/types/${eType}.js`,
+    input: `src/ext/types/${eType}.ts`,
 
     plugins: [
+      typescript(),
       commonjs(),
       resolve(),
       json(),
@@ -76,6 +87,8 @@ const typeExtensions = typeFiles.map((eType) => {
         [src]: '../../core',
       },
     },
+
+    onwarn,
   };
 });
 

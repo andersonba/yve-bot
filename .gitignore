@@ -1,6 +1,7 @@
 compiled
 lib/package.json
 lib/package-lock.json
+.rpt2_cache/
 
 # Created by https://www.gitignore.io/api/node
 

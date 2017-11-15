@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "es6",
+    "module": "es2015",
     "moduleResolution": "node",
     "lib": [
       "es6",
@@ -12,12 +12,10 @@
     "paths": {
       "@test/*": ["test/*"]
     },
-    "pretty": true,
     "allowJs": true,
+    "noEmitHelpers": true,
     "importHelpers": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "removeComments": true
+    "noResolve": false
   },
   "files": [
     "src/core/index.ts",

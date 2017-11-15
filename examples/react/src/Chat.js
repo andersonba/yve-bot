@@ -10,7 +10,6 @@ class Chat extends Component {
     this.bot = new YveBot(props.rules || [], {
       target: '.Chat',
     });
-    window.YveBot = YveBot;
   }
 
   componentDidMount() {

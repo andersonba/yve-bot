@@ -30,12 +30,15 @@
 - message: Which colors do you like?
   name: colors
   type: MultipleChoice
+  maxOptions: 4
   options:
     - Blue
     - Red
     - Black
     - label: Green
     - value: Purple
+    - Yellow
+    - Gray
   replyMessage: Cool colors!
 
 - message: What you want to do?

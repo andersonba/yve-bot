@@ -12,7 +12,7 @@ export function loadYaml(content: string): any {
 }
 
 export function sleep(time: number = 0): Promise<void> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(resolve, time);
   });
 }
@@ -31,6 +31,7 @@ export function getChatElements(selector: string = 'body') {
   const getTyping = () => target.querySelector('.yvebot-thread-typing') as HTMLLIElement;
   const getSenderName = () => target.querySelector('.yvebot-sender') as HTMLDivElement;
   const getTimestamp = () => target.querySelector('.yvebot-timestamp') as HTMLDivElement;
+  const getBubbleMoreOptions = () => target.querySelector('.yvebot-message-bubbleMoreOptions') as HTMLButtonElement;
   return {
     target,
     form,
@@ -42,6 +43,7 @@ export function getChatElements(selector: string = 'body') {
     getUserMessages,
     getBubbleButtons,
     getBubbleDone,
+    getBubbleMoreOptions,
     getTyping,
     getSenderName,
     getTimestamp,

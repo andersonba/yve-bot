@@ -278,6 +278,41 @@ describe('DOM behaviors', () => {
     expect(getBubbleButtons()).toHaveLength(0);
   });
 
+  test('user click on more options using maxOptions', async () => {
+    const rules = loadYaml(`
+    - message: Make your choice
+      type: SingleChoice
+      maxOptions: 3
+      options:
+        - One
+        - Two
+        - Three
+        - Four
+        - Five
+        - Six
+        - Seven
+    `);
+    new YveBotUI(rules, OPTS).start();
+    const { target, getBubbleButtons, getBubbleMoreOptions } = getChatElements();
+    await sleep();
+    // page 1
+    expect(getBubbleButtons()).toHaveLength(3);
+    expect(getBubbleMoreOptions()).not.toBeNull();
+    expect(target).toMatchSnapshot();
+    getBubbleMoreOptions().click();
+    // page 2
+    expect(getBubbleButtons()).toHaveLength(5);
+    expect(getBubbleMoreOptions()).not.toBeNull();
+    getBubbleMoreOptions().click();
+    // page 3
+    expect(getBubbleButtons()).toHaveLength(7);
+    expect(getBubbleMoreOptions()).not.toBeNull();
+    getBubbleMoreOptions().click();
+    // page 4 - no more button
+    expect(getBubbleButtons()).toHaveLength(7);
+    expect(getBubbleMoreOptions()).toBeNull();
+  });
+
   test('bot typing', async () => {
     const rules = loadYaml(`
     - message: Hello

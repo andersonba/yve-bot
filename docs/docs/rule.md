@@ -28,6 +28,7 @@ You can define a rule using two styles
 | sleep | `0` | number | Fake time to simulate the AFK mode (await from keyboard for a defined time)
 | replyMessage | - | string | Auto-reply after user's answer ([formatting message](#formattedmessage))
 | options | `[]` | array[[RuleOption](#ruleoption)] | Configuration of answer options used in `SingleChoice` and `MultipleChoice` types
+| maxOptions | - | number | Paginate the options above, limiting by max per page. UI bundle only.
 | validators | `[]` | array[[RuleValidator](#rulevalidator)] | Configuration to validate the user answer in the first executor
 | config | - | object{[[string]: any](#stringsearch-rule)} | Extra configuration needed by rule
 | passive | true | boolean | Force disable Passive mode in this rule only

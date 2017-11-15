@@ -38,9 +38,16 @@ export class ChatUI {
     return document.createElement('div');
   }
 
-  public createBubbleButton(option: IRuleOption, onClick: (btn: HTMLButtonElement) => void) {
+  public createBubbleButton(
+    option: IRuleOption,
+    onClick: (btn: HTMLButtonElement) => void,
+    opts?: { class?: string },
+  ) {
     const btn = document.createElement('button');
     btn.className = 'yvebot-message-bubbleBtn';
+    if (opts && opts.class) {
+      btn.classList.add(opts.class);
+    }
     btn.onclick = () => {
       onClick(btn);
       this.scrollDown();
@@ -69,12 +76,27 @@ export class ChatUI {
   }
 
   public createBubbleMessage(rule: IRule, onClick: (btn: HTMLButtonElement, list: HTMLDivElement) => void) {
+    const { maxOptions = 0 } = rule;
+    const { moreOptionsLabel: label } = this.options;
     const bubbles = document.createElement('div');
     bubbles.className = `yvebot-message-bubbles yvebot-ruleType-${rule.type}`;
-    rule.options.forEach((opt) => {
-      const bubble = this.createBubbleButton(opt, (btn) => onClick(btn, bubbles));
-      bubbles.appendChild(bubble);
-    });
+
+    const createButtonsPaginator = (options: IRuleOption[], start = 0) => {
+      const end = !!maxOptions ? start + maxOptions - 1 : options.length;
+      options.slice(start, end).forEach((opt, idx) => {
+        const bubble = this.createBubbleButton(opt, (btn) => onClick(btn, bubbles));
+        bubbles.appendChild(bubble);
+        if (end < options.length && idx === maxOptions - 2) {
+          const moreBtn = this.createBubbleButton({ label }, () => {
+            createButtonsPaginator(options, end);
+            moreBtn.remove();
+          }, { class: 'yvebot-message-bubbleMoreOptions' });
+          bubbles.appendChild(moreBtn);
+        }
+      });
+    };
+
+    createButtonsPaginator(rule.options);
     return bubbles;
   }
 

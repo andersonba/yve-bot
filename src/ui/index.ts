@@ -14,6 +14,7 @@ export default class YveBotUI extends YveBot {
       inputPlaceholder: 'Type your message',
       inputPlaceholderMutipleChoice: 'Choose the options above',
       inputPlaceholderSingleChoice: 'Choose an option above',
+      moreOptionsLabel: 'More options',
       submitLabel: 'Send',
       target: 'body',
       timestampFormatter: (ts) => new Date(ts).toUTCString().slice(-12, -4),

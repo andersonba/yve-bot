@@ -24,6 +24,7 @@ export interface IRule {
   preActions?: IRuleAction[];
   replyMessage?: string;
   options?: IRuleOption[];
+  maxOptions?: number;
   validators?: IRuleValidator[];
   config?: { [name: string]: any };
   passive?: boolean;
@@ -94,6 +95,7 @@ export interface IChatOptions {
   doneMultipleChoiceLabel?: string;
   andSeparatorText?: string;
   submitLabel?: string;
+  moreOptionsLabel?: string;
   timestampable?: boolean;
   timestampFormatter?: (ts: number) => string;
   autoFocus?: boolean;

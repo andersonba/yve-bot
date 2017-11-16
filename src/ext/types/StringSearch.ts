@@ -44,6 +44,12 @@ export default YveBot.types.defineExtension('StringSearch', {
     },
     {
       transform: async (results: any, rule: IRule, bot: YveBot) => {
+        if (bot.store.get(`stringsearch.${rule.name}.wait`) === true) {
+          // skip transform if it was already executed
+          bot.store.unset(`stringsearch.${rule.name}.wait`);
+          return results;
+        }
+
         const { messages } = rule.config;
         let options;
         let message;
@@ -61,6 +67,7 @@ export default YveBot.types.defineExtension('StringSearch', {
           }]);
         }
 
+        bot.store.set(`stringsearch.${rule.name}.wait`, true);
         bot.talk(message, { type: 'SingleChoice', options });
         throw new PauseRuleTypeExecutors(rule.name);
       },

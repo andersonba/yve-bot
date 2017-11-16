@@ -194,9 +194,11 @@ describe('StringSearch', () => {
       bot.talk = jest.fn();
 
       // discard first execution result
+      expect(bot.store.get(`stringsearch.${rule.name}`)).toEqual();
       transform(serverResponse, rule, bot);
 
       const newRand = Math.random();
+      expect(bot.store.get(`stringsearch.${rule.name}`)).toEqual({ wait: true });
       expect(await transform(newRand, rule, bot)).toEqual(newRand);
 
       expect(bot.talk).toHaveBeenCalledTimes(1);

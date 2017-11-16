@@ -1,5 +1,20 @@
 # Change Log
 
+## [1.10.1](https://github.com/andersonba/yve-bot/tree/1.10.1) (2017-11-16)
+[Full Changelog](https://github.com/andersonba/yve-bot/compare/1.10.0...1.10.1)
+
+**Fixed bugs:**
+
+- StringSearch type isn't working after selecting bubble from server's response [\#64](https://github.com/andersonba/yve-bot/issues/64)
+
+**Closed issues:**
+
+- Not firing custom validator? [\#63](https://github.com/andersonba/yve-bot/issues/63)
+
+**Merged pull requests:**
+
+- Fix bug in StringSearch execution after PauseException [\#65](https://github.com/andersonba/yve-bot/pull/65) ([rafaelverger](https://github.com/rafaelverger))
+
 ## [1.10.0](https://github.com/andersonba/yve-bot/tree/1.10.0) (2017-11-15)
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.9.0...1.10.0)
 

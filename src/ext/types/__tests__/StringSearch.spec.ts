@@ -176,5 +176,30 @@ describe('StringSearch', () => {
         type: 'SingleChoice',
       });
     });
+
+    test('skip transform when it is ran by the second time', async () => {
+      const serverResponse = [
+        { label: 'label1', value: 'value1' },
+        { label: 'label2', value: 'value2' },
+      ];
+
+      const { transform } = executors[2];
+      const messages = { multipleResults: 'multipleResults', noneOfAbove: 'noneOfAbove' };
+      const rule = {
+        config: { messages },
+        name: 'testRuleName',
+        rand: Math.random(),
+      };
+      const bot = new YveBot([], { rule, enableWaitForSleep: false });
+      bot.talk = jest.fn();
+
+      // discard first execution result
+      transform(serverResponse, rule, bot);
+
+      const newRand = Math.random();
+      expect(await transform(newRand, rule, bot)).toEqual(newRand);
+
+      expect(bot.talk).toHaveBeenCalledTimes(1);
+    });
   });
 });

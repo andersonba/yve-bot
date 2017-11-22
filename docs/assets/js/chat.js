@@ -54,7 +54,7 @@ const chat = new YveBot(rules, {
   target: '.Chat',
 });
 
-chat.bot.actions.define('redirect', (url) => {
+chat.actions.define('redirect', (url) => {
   setTimeout(function() {
     window.location.href = url;
   }, 1000);

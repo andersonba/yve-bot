@@ -3,7 +3,6 @@ import '../StringSearch';
 import * as fetchMock from 'fetch-mock';
 
 import YveBot from '../../../core';
-import { PauseRuleTypeExecutors, ValidatorError } from '../../../core/exceptions';
 
 describe('StringSearch', () => {
   const { executors } = YveBot.types.StringSearch;
@@ -23,7 +22,11 @@ describe('StringSearch', () => {
       const { validators } = executors[3];
       expect(validators).toHaveLength(1);
 
-      const bot = { talk: jest.fn(), store: { unset: jest.fn() } };
+      const bot = {
+        exceptions: YveBot.exceptions,
+        store: { unset: jest.fn() },
+        talk: jest.fn(),
+      };
       const wrongResult = 'wrongResult msg last-executor-validator';
       const rule = {
         config: { messages: { wrongResult } },
@@ -116,7 +119,7 @@ describe('StringSearch', () => {
       });
 
       await expect(transform(input, rule, bot)).rejects.toEqual(
-        new ValidatorError(noResults, rule),
+        new bot.exceptions.ValidatorError(noResults, rule),
       );
     });
 
@@ -134,7 +137,7 @@ describe('StringSearch', () => {
       bot.talk = jest.fn();
 
       await expect(transform([serverResponse], rule, bot)).rejects.toEqual(
-        new PauseRuleTypeExecutors(rule.name),
+        new bot.exceptions.PauseRuleTypeExecutors(rule.name),
       );
 
       expect(bot.talk).toHaveBeenCalled();
@@ -164,7 +167,7 @@ describe('StringSearch', () => {
       bot.talk = jest.fn();
 
       await expect(transform(serverResponse, rule, bot)).rejects.toEqual(
-        new PauseRuleTypeExecutors(rule.name),
+        new bot.exceptions.PauseRuleTypeExecutors(rule.name),
       );
 
       expect(bot.talk).toHaveBeenCalled();

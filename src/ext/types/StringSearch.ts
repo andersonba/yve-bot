@@ -3,8 +3,6 @@ import 'isomorphic-unfetch';
 import YveBot from '../../core';
 import { Answer, IRule } from '../../types';
 
-const { PauseRuleTypeExecutors, ValidatorError } = YveBot.exceptions;
-
 export default YveBot.types.defineExtension('StringSearch', {
   executors: [
     {}, // necessary to read user's input and apply Rule's validators to it
@@ -29,7 +27,7 @@ export default YveBot.types.defineExtension('StringSearch', {
           .then((res) => res.json())
           .then((list) => {
             if (list.length === 0) {
-              throw new ValidatorError(messages.noResults, rule);
+              throw new bot.exceptions.ValidatorError(messages.noResults, rule);
             }
             return list;
           })
@@ -69,7 +67,7 @@ export default YveBot.types.defineExtension('StringSearch', {
 
         bot.store.set(`stringsearch.${rule.name}.wait`, true);
         bot.talk(message, { type: 'SingleChoice', options });
-        throw new PauseRuleTypeExecutors(rule.name);
+        throw new bot.exceptions.PauseRuleTypeExecutors(rule.name);
       },
     },
     {
@@ -79,7 +77,7 @@ export default YveBot.types.defineExtension('StringSearch', {
           if (!answer) {
             bot.store.unset(`executors.${rule.name}.currentIdx`);
             bot.talk(messages.wrongResult);
-            throw new PauseRuleTypeExecutors(rule.name);
+            throw new bot.exceptions.PauseRuleTypeExecutors(rule.name);
           }
           return true;
         },

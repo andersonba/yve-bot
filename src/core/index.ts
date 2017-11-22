@@ -55,6 +55,7 @@ export default class YveBot {
   public get listeners() { return YveBot.listeners; }
   public get executors() { return YveBot.executors; }
   public get validators() { return YveBot.validators; }
+  public get exceptions() { return YveBot.exceptions; }
 
   public on(evt: EventName, fn: (...args: any[]) => any): this {
     const isUniqueType = ['error'].indexOf(evt) >= 0;

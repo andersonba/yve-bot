@@ -221,10 +221,10 @@ export class Controller {
       answer = await this.executeRuleTypeExecutors(rule, message);
     } catch (e) {
       let expectedError = false;
-      if (e instanceof ValidatorError) {
+      if (e instanceof bot.exceptions.ValidatorError) {
         expectedError = true;
         await this.sendMessage(e.message, rule);
-      } else if (e instanceof PauseRuleTypeExecutors) {
+      } else if (e instanceof bot.exceptions.PauseRuleTypeExecutors) {
         expectedError = true;
         this.incRuleExecutorIndex(rule);
       }

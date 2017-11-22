@@ -1,6 +1,5 @@
 import YveBot from '.';
 import { Answer, IIndexes, IRule, RuleNext } from '../types';
-import { InvalidAttributeError, PauseRuleTypeExecutors, RuleNotFound, ValidatorError } from './exceptions';
 import { sanitizeRule } from './sanitizers';
 import * as utils from './utils';
 
@@ -32,7 +31,7 @@ async function validateAnswer(
       if (!isValid) {
         const warning = validator.warning || botValidator.warning;
         const message = typeof warning === 'function' ? warning(opts) : warning;
-        throw new ValidatorError(message, rule);
+        throw new bot.exceptions.ValidatorError(message, rule);
       }
     });
   });
@@ -172,7 +171,7 @@ export class Controller {
     }
 
     if (!bot.types[rule.type]) {
-      throw new InvalidAttributeError('type', rule);
+      throw new bot.exceptions.InvalidAttributeError('type', rule);
     }
 
     bot.store.set('waitingForAnswer', true);
@@ -261,7 +260,7 @@ export class Controller {
   public jumpByName(ruleName: string): Promise<this> {
     const idx = this._indexes[ruleName];
     if (typeof idx !== 'number') {
-      throw new RuleNotFound(ruleName, this._indexes);
+      throw new this.bot.exceptions.RuleNotFound(ruleName, this._indexes);
     }
     return this.run(idx);
   }

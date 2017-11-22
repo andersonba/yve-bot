@@ -1,5 +1,17 @@
 # Change Log
 
+## [1.10.2](https://github.com/andersonba/yve-bot/tree/1.10.2) (2017-11-22)
+[Full Changelog](https://github.com/andersonba/yve-bot/compare/1.10.1...1.10.2)
+
+**Closed issues:**
+
+- Problems when executors from ext/types threw exceptions [\#67](https://github.com/andersonba/yve-bot/issues/67)
+
+**Merged pull requests:**
+
+- Revert "Fix bug in StringSearch execution after PauseException" [\#69](https://github.com/andersonba/yve-bot/pull/69) ([andersonba](https://github.com/andersonba))
+- Standardize use of throw bot.expections. [\#68](https://github.com/andersonba/yve-bot/pull/68) ([rafaelverger](https://github.com/rafaelverger))
+
 ## [1.10.1](https://github.com/andersonba/yve-bot/tree/1.10.1) (2017-11-16)
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.10.0...1.10.1)
 

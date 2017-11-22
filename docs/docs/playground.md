@@ -18,7 +18,7 @@ title: Playground
     tabSize: 2,
   });
 
-  new YveBot([]).bot.actions.define('highlightPlay', function() {
+  YveBot.actions.define('highlightPlay', function() {
     var icon = document.querySelector('.Playground-play');
     icon.classList.add('highlight');
     setTimeout(function() {

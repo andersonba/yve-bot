@@ -239,6 +239,25 @@ test('auto reply message', async () => {
   expect(onTalk).toBeCalledWith('Thanks', {}, 'session');
 });
 
+test('auto reply message with inherited delay', async () => {
+  const onTalk = jest.fn();
+  const rules = loadYaml(`
+  - message: Color
+    delay: 1234
+    type: String
+    replyMessage: Thanks
+  `);
+  const bot = new YveBot(rules, OPTS)
+    .on('talk', onTalk)
+    .start();
+
+  await sleep();
+  bot.hear('red');
+  await sleep();
+
+  expect(onTalk).toBeCalledWith('Thanks', { delay: 1234 }, 'session');
+});
+
 test('auto reply message for single choice', async () => {
   const onTalk = jest.fn();
   const rules = loadYaml(`

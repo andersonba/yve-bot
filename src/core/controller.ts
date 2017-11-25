@@ -264,7 +264,9 @@ export class Controller {
 
     const replyMessage = getReplyMessage(rule, answer);
     if (replyMessage) {
-      const replyRule = Object.assign({}, bot.options.rule);
+      const replyRule = Object.assign({}, bot.options.rule, {
+        delay: rule.delay,
+      });
       await this.sendMessage(replyMessage, replyRule);
     }
 

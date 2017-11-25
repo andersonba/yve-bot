@@ -318,7 +318,7 @@ describe('DOM behaviors', () => {
     - message: Hello
       delay: 10
     `);
-    new YveBotUI(rules).start();
+    const bot = new YveBotUI(rules).start();
 
     await sleep(5);
 
@@ -329,6 +329,14 @@ describe('DOM behaviors', () => {
     await sleep(20);
 
     // typed
+    expect(getTyping().classList).not.toContain('is-typing');
+
+    // using methods
+    bot.typing();
+    await sleep(5);
+    expect(getTyping().classList).toContain('is-typing');
+    bot.typed();
+    await sleep(5);
     expect(getTyping().classList).not.toContain('is-typing');
   });
 

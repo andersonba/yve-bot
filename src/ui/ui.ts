@@ -50,7 +50,7 @@ export class ChatUI {
     }
     btn.onclick = () => {
       onClick(btn);
-      this.scrollDown();
+      this.scrollDown(0, true);
     };
     const { value, label } = option;
     btn.setAttribute('data-value', String((value === undefined ? label : value) || ''));
@@ -204,7 +204,7 @@ export class ChatUI {
     this.scrollDown(thread.offsetHeight, source === 'USER');
   }
 
-  public scrollDown(offset = 0, force = false) {
+  public scrollDown(offset, force = false) {
     /*
     * Avoid breakdown of reading when user changes the scroll and a new thread is appended
     */

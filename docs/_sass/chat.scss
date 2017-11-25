@@ -1,7 +1,7 @@
 .Chat {
   margin: 0 auto;
   margin-top: 35px;
-  max-width: 365px;
+  max-width: 395px;
   min-height: 282px;
 
   &-loading {
@@ -25,7 +25,8 @@
 }
 
 .yvebot-conversation {
-  height: 230px;
+  height: calc(100vh/2.3);
+  min-height: 230px;
   padding: 15px 20px;
   overflow-y: auto;
 }

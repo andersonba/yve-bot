@@ -8,7 +8,7 @@ async function validateAnswer(
   rule: IRule,
   bot: YveBot,
   executorIndex: number,
-) {
+): Promise<Answer | Answer[]> {
   const ruleValidators = rule.validators || [];
   const typeExecutors = bot.types[rule.type].executors || [];
   const currentTypeExecutor = typeExecutors[executorIndex] || {};
@@ -36,6 +36,26 @@ async function validateAnswer(
     });
   });
   return answers;
+}
+
+function getReplyMessage(rule: IRule, answers: Answer | Answer[]): string | null {
+  const { replyMessage } = rule;
+  if (!rule.options.length) {
+    return replyMessage;
+  }
+  let opt;
+  // multiple
+  if (answers instanceof Array) {
+    [opt = null] = answers
+      .map((a) => utils.findOptionByAnswer(rule.options, a))
+      .filter((o) => o.replyMessage) ;
+  }
+  // single
+  opt = utils.findOptionByAnswer(rule.options, answers);
+  if (opt && opt.replyMessage) {
+    return opt.replyMessage;
+  }
+  return replyMessage;
 }
 
 function compileMessage(bot: YveBot, message: string): string {
@@ -242,9 +262,10 @@ export class Controller {
       bot.store.set(`output.${output}`, answer);
     }
 
-    if (rule.replyMessage) {
+    const replyMessage = getReplyMessage(rule, answer);
+    if (replyMessage) {
       const replyRule = Object.assign({}, bot.options.rule);
-      await this.sendMessage(rule.replyMessage, replyRule);
+      await this.sendMessage(replyMessage, replyRule);
     }
 
     // run post-actions

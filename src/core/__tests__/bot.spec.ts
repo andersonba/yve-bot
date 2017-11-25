@@ -239,6 +239,61 @@ test('auto reply message', async () => {
   expect(onTalk).toBeCalledWith('Thanks', {}, 'session');
 });
 
+test('auto reply message for single choice', async () => {
+  const onTalk = jest.fn();
+  const rules = loadYaml(`
+  - message: Color
+    type: SingleChoice
+    replyMessage: Nice color!
+    options:
+      - label: red
+        replyMessage: Red! Nice!
+      - label: white
+        replyMessage: Really?
+  `);
+  const bot = new YveBot(rules, OPTS)
+    .on('talk', onTalk)
+    .start();
+
+  await sleep();
+  bot.hear('red');
+  await sleep();
+
+  expect(onTalk).toBeCalledWith('Color', rules[0], 'session');
+  expect(onTalk).toBeCalledWith('Red! Nice!', {}, 'session');
+  expect(onTalk).not.toBeCalledWith('Nice color!', {}, 'session');
+  expect(onTalk).not.toBeCalledWith('Really?', {}, 'session');
+});
+
+test('auto reply message for multiple choice', async () => {
+  const onTalk = jest.fn();
+  const rules = loadYaml(`
+  - message: Color
+    type: MultipleChoice
+    replyMessage: Nice color!
+    options:
+      - label: red
+        replyMessage: Red! Nice!
+      - label: white
+        replyMessage: Really?
+      - label: blue
+        replyMessage: Nooo!
+  `);
+  const bot = new YveBot(rules, OPTS)
+    .on('talk', onTalk)
+    .start();
+
+  await sleep();
+  bot.hear('red, white');
+  await sleep();
+
+  expect(onTalk).toBeCalledWith('Color', rules[0], 'session');
+  expect(onTalk).toBeCalledWith('Red! Nice!', {}, 'session');
+  expect(onTalk).not.toBeCalledWith('Nice color!', {}, 'session');
+  expect(onTalk).not.toBeCalledWith('Nooo!', {}, 'session');
+  expect(onTalk).not.toBeCalledWith('Really?', {}, 'session');
+});
+
 test('compiled template', async () => {
   const onTalk = jest.fn();
   const rules = loadYaml(`

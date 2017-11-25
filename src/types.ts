@@ -36,6 +36,7 @@ export interface IRuleOption {
   label?: string;
   value?: string | number;
   synonyms?: string[];
+  replyMessage?: string;
   next?: RuleNext;
 }
 

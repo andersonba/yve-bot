@@ -6,7 +6,7 @@ title: Building Rules
 
 A conversation is defined by an array of Rules. By default, the bot is configured to be rule-based, that is, it will go through all the rules in sequence.
 
-For better readability, I used the __yaml__ language to write these rules, but you must to use __javascript__ to create rules or compile using __js-yaml__. See bellow:
+For better readability, I used the __yaml__ language to write these rules, but you must use __javascript__ to create rules or compile using __js-yaml__. See bellow:
 
 ```javascript
 // plain javascript

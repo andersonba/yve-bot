@@ -70,9 +70,9 @@ const types: { [name: string]: IRuleType } = {
             if (!option) {
               return undefined;
             }
-            return option.value || option.label;
+            return option.value === undefined ? option.label : option.value;
           })
-          .filter((x) => x));
+          .filter((x) => x !== undefined));
       },
       validators: [
         {

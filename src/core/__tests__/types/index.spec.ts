@@ -157,12 +157,32 @@ describe('MultipleChoice', () => {
       expect(await transform(['word', 123, '123'], rule)).toEqual(['word', 123]);
     });
 
-    test('returning label', async () => {
+    test(`returning value even if it is falsy`, async () => {
+      const rule = mocks.Rule({
+        options: [
+          mocks.RuleOption({
+            label: 'null',
+            value: null,
+          }),
+          mocks.RuleOption({
+            label: 'false',
+            value: false,
+          }),
+          mocks.RuleOption({
+            label: 'empty-string',
+            value: '',
+          }),
+        ],
+      });
+      expect(await transform([null, 'dog', false, 123, ''], rule)).toEqual([null, false, '']);
+    });
+
+    test('returning label if value is undefined', async () => {
       const rule = mocks.Rule({
         options: [
           mocks.RuleOption({
             label: 'The Word',
-            value: null,
+            value: undefined,
           }),
         ],
       });

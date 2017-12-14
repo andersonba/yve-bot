@@ -1,5 +1,25 @@
 # Change Log
 
+## [1.11.0](https://github.com/andersonba/yve-bot/tree/1.11.0) (2017-12-14)
+[Full Changelog](https://github.com/andersonba/yve-bot/compare/1.10.2...1.11.0)
+
+**Implemented enhancements:**
+
+- inherited delay in replyMessage [\#71](https://github.com/andersonba/yve-bot/issues/71)
+- Add replyMessage as prop options from SingleChoice field [\#66](https://github.com/andersonba/yve-bot/issues/66)
+
+**Fixed bugs:**
+
+- Values in Single/Multiple Choice types aren't being respected [\#76](https://github.com/andersonba/yve-bot/issues/76)
+- Scroll down in "Continue" link after select an option [\#70](https://github.com/andersonba/yve-bot/issues/70)
+
+**Merged pull requests:**
+
+- Force use of option.value in Single and Multiple Choice types [\#77](https://github.com/andersonba/yve-bot/pull/77) ([rafaelverger](https://github.com/rafaelverger))
+- Greenkeeper/ts node 4.0.1 [\#75](https://github.com/andersonba/yve-bot/pull/75) ([andersonba](https://github.com/andersonba))
+- Fix typo [\#73](https://github.com/andersonba/yve-bot/pull/73) ([amandeepmittal](https://github.com/amandeepmittal))
+- Update rollup to the latest version 🚀 [\#72](https://github.com/andersonba/yve-bot/pull/72) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
 ## [1.10.2](https://github.com/andersonba/yve-bot/tree/1.10.2) (2017-11-22)
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.10.1...1.10.2)
 

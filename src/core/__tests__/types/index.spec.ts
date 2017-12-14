@@ -58,12 +58,26 @@ describe('SingleChoice', () => {
       expect(await transform('word', rule)).toBe('word');
     });
 
-    test('returning label', async () => {
+    [null, false, ''].forEach(value => {
+      test(`returning value even if it is "${value}"`, async () => {
+        const rule = mocks.Rule({
+          options: [
+            mocks.RuleOption({
+              label: 'The Word',
+              value,
+            }),
+          ],
+        });
+        expect(await transform('The Word', rule)).toBe(value);
+      });
+    });
+
+    test('returning label if value is undefined', async () => {
       const rule = mocks.Rule({
         options: [
           mocks.RuleOption({
             label: 'The Word',
-            value: null,
+            value: undefined,
           }),
         ],
       });

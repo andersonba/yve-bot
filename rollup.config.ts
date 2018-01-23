@@ -75,16 +75,15 @@ const typeExtensions = typeFiles.map((eType) => {
       'isomorphic-unfetch',
     ],
 
-    globals: {
-      [src]: 'YveBot',
-    },
-
     output: {
       file: `lib/ext/types/${eType}.js`,
       format: 'umd',
       name: `YveBotTypes${eType}`,
       paths: {
         [src]: '../../core',
+      },
+      globals: {
+        [src]: 'YveBot',
       },
     },
 

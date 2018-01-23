@@ -73,7 +73,7 @@
   "bundlesize": [
     {
       "path": "./lib/core.js",
-      "maxSize": "10 kB"
+      "maxSize": "11 kB"
     },
     {
       "path": "./lib/ui.js",

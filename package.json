@@ -28,7 +28,7 @@
     "bundlesize": "^0.15.3",
     "coveralls": "^3.0.0",
     "faker": "^4.1.0",
-    "fetch-mock": "^5.13.1",
+    "fetch-mock": "^6.0.0",
     "jest": "^22.0.1",
     "lodash-es": "^4.17.4",
     "rimraf": "^2.6.2",

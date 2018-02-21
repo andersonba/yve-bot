@@ -126,8 +126,6 @@ export default class YveBot {
     id: string,
     opts: { context?: IContext, store?: IStoreData, rules?: IRule[] } = {},
   ): this {
-    this.sessionId = id;
-
     if (opts.rules) {
       this.rules = opts.rules.map(sanitizeRule);
       this.controller.reindex();
@@ -135,13 +133,15 @@ export default class YveBot {
 
     if (opts.store) {
       this.store.replace(opts.store);
-    } else {
+    } else if (this.sessionId !== id) {
       this.store.reset();
     }
 
     if (opts.context) {
       this.store.set('context', opts.context);
     }
+
+    this.sessionId = id;
 
     return this;
   }

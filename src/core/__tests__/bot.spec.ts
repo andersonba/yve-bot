@@ -150,14 +150,29 @@ test('send message as bot', () => {
   expect(onTalk).toBeCalledWith('Bye', customRule, 'session');
 });
 
-test('using session', () => {
+test('using session with different sessionId', () => {
   const session = faker.random.number();
   const bot = new YveBot([{ message: 'OK' }], OPTS);
   const rules = bot.rules;
   const store = bot.store.get();
+  bot.store.set('filled', true);
   bot.session(session);
+  expect(bot.store.get('filled')).toBe(undefined);
   expect(bot.sessionId).toBe(session);
   expect(bot.store.get()).toEqual(store);
+  expect(bot.rules).toEqual(rules);
+});
+
+test('using session with current sessionId', () => {
+  const bot = new YveBot([{ message: 'OK' }], OPTS);
+  const rules = bot.rules;
+  const store = bot.store.get();
+  bot.store.set('filled', true);
+  bot.session(bot.sessionId);
+  expect(bot.store.get()).toEqual({
+    ...store,
+    filled: true,
+  });
   expect(bot.rules).toEqual(rules);
 });
 

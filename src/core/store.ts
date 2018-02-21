@@ -28,7 +28,7 @@ export class Store {
   }
 
   public set(key: string, value: any): void {
-    this.data = set(this.data, key, value);
+    this.data = set({ ...this.data }, key, value);
     this.bot.dispatch('storeChanged', this.data);
   }
 
@@ -37,7 +37,7 @@ export class Store {
   }
 
   public unset(key: string): void {
-    const data = this.data;
+    const data = { ...this.data };
     unset(data, key);
     this.data = data;
     this.bot.dispatch('storeChanged', this.data);

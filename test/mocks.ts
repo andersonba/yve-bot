@@ -1,26 +1,26 @@
 import * as faker from 'faker';
 import * as types from '../src/types';
 
-function createMock(obj: Object | Function) {
-  return function(custom) {
+function createMock(obj: object | () => object) {
+  return (custom) => {
     let data = obj;
     if (obj instanceof Function) {
       data = obj();
     }
-    return Object.assign({}, data, custom);
+    return { ...data, ...custom };
   };
 }
 
-export const RuleOption: (custom?: Object) => types.RuleOption = createMock(() => {
+export const RuleOption: (custom?: object) => types.RuleOption = createMock(() => {
   const word: string = faker.random.word();
   return {
     label: word,
-    value: faker.helpers.slugify(word),
     next: faker.database.column(),
+    value: faker.helpers.slugify(word),
   };
 });
 
-export const Rule: (custom?: Object) => types.Rule = createMock(() => {
+export const Rule: (custom?: object) => types.Rule = createMock(() => {
   const options = [];
   options.push(RuleOption());
   options.push(RuleOption());

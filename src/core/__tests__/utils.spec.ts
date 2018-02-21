@@ -10,7 +10,7 @@ describe('compileTemplate', () => {
     testMethod('A {0} {1}', [1, 'w'], 'A 1 w');
     testMethod('{a}{b}{c.d.e}', { a: 1, b: 2, c: { d: { e: 3 } }}, '123');
     testMethod('A{}', {}, 'A');
-    testMethod('{numbers}', { numbers: [1,2,3] }, '1,2,3');
+    testMethod('{numbers}', { numbers: [1, 2, 3] }, '1,2,3');
     testMethod('{a.0.b}', { a: [{ b: '#' }]}, '#');
   });
 });
@@ -84,7 +84,7 @@ describe('identifyAnswersInString', () => {
     }
     testMethod('Unknown', ['Option'], []);
     testMethod('Apple, banana and grAPE', ['Apple', 'Banana', 'Grape'], [
-      'Apple', 'Banana', 'Grape'
+      'Apple', 'Banana', 'Grape',
     ]);
     testMethod('One+tWo+four', ['one', 'two', 'three'], ['one', 'two']);
   });

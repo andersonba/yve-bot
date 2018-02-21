@@ -10,8 +10,8 @@ test('initial state', () => {
   const store = new Store(null);
   expect(store.get()).toEqual({
     currentIdx: 0,
-    waitingForAnswer: false,
     output: {},
+    waitingForAnswer: false,
   });
 });
 
@@ -44,8 +44,8 @@ test('replacing', () => {
   const store = new Store(mockBot());
   const obj = {
     currentIdx: 4,
-    waitingForAnswer: true,
     output: { a: 1 },
+    waitingForAnswer: true,
   };
   store.replace(obj);
   expect(store.get()).toEqual(obj);

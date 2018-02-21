@@ -14,7 +14,7 @@
     "test:coverage": "yarn test:strict -- --coverage",
     "test:watch": "yarn test:strict -- --watch",
     "test:bundle": "bundlesize",
-    "lint": "tslint --project tsconfig.json",
+    "lint": "tslint 'src/**/*.ts'",
     "clean": "rimraf lib && rimraf compiled",
     "prebuild": "yarn clean",
     "build": "rollup -c rollup.config.ts && rimraf compiled",

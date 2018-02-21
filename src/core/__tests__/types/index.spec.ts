@@ -1,17 +1,17 @@
-import { omit } from 'lodash-es';
 import * as mocks from '@test/mocks';
+import { omit } from 'lodash-es';
 import { Types } from '../../types';
 
 describe('Any', () => {
   test('common', () => {
-    expect('transform' in new Types).toBeFalsy();
-    expect('validators' in new Types).toBeFalsy();
-    expect('executors' in new Types).toBeFalsy();
+    expect('transform' in new Types()).toBeFalsy();
+    expect('validators' in new Types()).toBeFalsy();
+    expect('executors' in new Types()).toBeFalsy();
   });
 });
 
 describe('String', () => {
-  const { executors: [{ transform, validators }] } = (new Types).String;
+  const { executors: [{ transform, validators }] } = (new Types()).String;
 
   test('transform', async () => {
     expect(await transform('word')).toBe('word');
@@ -22,7 +22,7 @@ describe('String', () => {
 });
 
 describe('Number', () => {
-  const { executors: [{ transform, validators }] } = (new Types).Number;
+  const { executors: [{ transform, validators }] } = (new Types()).Number;
 
   test('transform', async () => {
     expect(await transform('123')).toBe(123);
@@ -31,14 +31,14 @@ describe('Number', () => {
   });
 
   test('validators', () => {
-    const values = validators.map(v => omit(v, ['warning']));
+    const values = validators.map((v) => omit(v, ['warning']));
     expect(values).toContainEqual({ number: true });
     expect(values).toHaveLength(1);
   });
 });
 
 describe('SingleChoice', () => {
-  const { executors: [{ transform, validators }] } = (new Types).SingleChoice;
+  const { executors: [{ transform, validators }] } = (new Types()).SingleChoice;
 
   describe('transform', () => {
     test('unknown option', async () => {
@@ -58,7 +58,7 @@ describe('SingleChoice', () => {
       expect(await transform('word', rule)).toBe('word');
     });
 
-    [null, false, ''].forEach(value => {
+    [null, false, ''].forEach((value) => {
       test(`returning value even if it is "${value}"`, async () => {
         const rule = mocks.Rule({
           options: [
@@ -88,8 +88,8 @@ describe('SingleChoice', () => {
       const rule = mocks.Rule({
         options: [
           mocks.RuleOption({
-            value: 'Yes',
             synonyms: ['Yep', 'All right'],
+            value: 'Yes',
           }),
         ],
       });
@@ -127,7 +127,7 @@ describe('SingleChoice', () => {
 });
 
 describe('MultipleChoice', () => {
-  const { executors: [{ transform, validators }] } = (new Types).MultipleChoice;
+  const { executors: [{ transform, validators }] } = (new Types()).MultipleChoice;
 
   describe('transform', () => {
     test('unknown options', async () => {
@@ -196,8 +196,8 @@ describe('MultipleChoice', () => {
       const rule = mocks.Rule({
         options: [
           mocks.RuleOption({
-            value: 'Yes',
             synonyms: ['Yep', 'All right'],
+            value: 'Yes',
           }),
         ],
       });

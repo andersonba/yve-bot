@@ -114,6 +114,6 @@ test('number', () => {
 test('function', () => {
   const { validate } = getValidate('function');
   expect(validate(() => true, '')).toBeTruthy();
-  expect(validate(answer => answer === 'ok', 'ok')).toBeTruthy();
+  expect(validate((answer) => answer === 'ok', 'ok')).toBeTruthy();
   expect(validate((a, b) => (a + b) === 5, 2, 3)).toBeTruthy();
 });

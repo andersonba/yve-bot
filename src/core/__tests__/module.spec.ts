@@ -1,3 +1,4 @@
+/* tslint:disable:max-classes-per-file */
 import { DefineModule } from '../module';
 
 describe('define', () => {
@@ -6,7 +7,7 @@ describe('define', () => {
       public a: number;
       public b: number;
     }
-    const mod = new A;
+    const mod = new A();
     mod.define({
       a: 1,
       b: 2,
@@ -20,7 +21,7 @@ describe('define', () => {
     class A extends DefineModule {
       public a: number;
     }
-    const mod = new A;
+    const mod = new A();
     mod.define('a', 123);
     expect(mod.a).toBe(123);
   });
@@ -29,7 +30,7 @@ describe('define', () => {
     class A extends DefineModule {
       public a: number;
     }
-    const mod = new A;
+    const mod = new A();
     mod.define('a', 123);
     mod.define('a', 321);
     expect(mod.a).toBe(123);
@@ -39,7 +40,7 @@ describe('define', () => {
     class A extends DefineModule {
       public a: number;
     }
-    const mod = new A;
+    const mod = new A();
     mod.define('a', 123);
     mod.define('a', 321, { override: true });
     expect(mod.a).toBe(321);
@@ -49,10 +50,10 @@ describe('define', () => {
 describe('extend', () => {
   test('common', () => {
     class A extends DefineModule {
-      public a: Object;
-      public b: Object;
+      public a: object;
+      public b: object;
     }
-    const mod = new A;
+    const mod = new A();
     mod.define('a', { a: 1 });
     mod.extend('b', 'a', {
       b: 2,

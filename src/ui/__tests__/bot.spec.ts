@@ -98,7 +98,7 @@ describe('DOM behaviors', () => {
     const rules = loadYaml(`
     - message: Hello
     `);
-    new YveBotUI(rules, Object.assign({ name: 'YveBot' }, OPTS)).start();
+    new YveBotUI(rules, { name: 'YveBot', ...OPTS }).start();
     const { target, getSenderName } = getChatElements();
 
     await sleep();
@@ -114,7 +114,7 @@ describe('DOM behaviors', () => {
     const rules = loadYaml(`
     - message: Hello
     `);
-    new YveBotUI(rules, Object.assign({ name: 'Yvebot', timestampable: true }, OPTS)).start();
+    new YveBotUI(rules, { name: 'Yvebot', timestampable: true, ...OPTS }).start();
     const { target, getTimestamp } = getChatElements();
 
     await sleep();
@@ -394,7 +394,7 @@ describe('DOM behaviors', () => {
         - One
         - Two
     `);
-    new YveBotUI(rules, Object.assign({ autoFocus: false }, OPTS)).start();
+    new YveBotUI(rules, { autoFocus: false, ...OPTS }).start();
     const { input, submit, getBubbleButtons } = getChatElements();
 
     await sleep();

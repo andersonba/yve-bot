@@ -31,11 +31,11 @@ test('custom define', () => {
 test('initial state', () => {
   const opts = {
     enableWaitForSleep: false,
-    timePerChar: 40,
     rule: {
       delay: 1,
       sleep: 1,
     },
+    timePerChar: 40,
   };
   const bot = new YveBot([], opts);
   expect(bot.sessionId).toBe('session');

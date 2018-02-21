@@ -24,7 +24,7 @@ export class Store {
 
   public output(): any {
     const output = this.get('output');
-    return Object.assign({}, output);
+    return { ...output };
   }
 
   public set(key: string, value: any): void {

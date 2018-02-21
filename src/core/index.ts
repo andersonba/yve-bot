@@ -32,7 +32,7 @@ export default class YveBot {
     };
 
     this.sessionId = 'session';
-    this.options = Object.assign({}, DEFAULT_OPTS, customOpts);
+    this.options = { ...DEFAULT_OPTS, ...customOpts };
     this.rules = sanitizeBotRules(rules);
     this.handlers = {};
 
@@ -104,7 +104,7 @@ export default class YveBot {
   }
 
   public talk(message: string, opts?: object): this {
-    const rule = Object.assign({}, this.options.rule, opts || {});
+    const rule = { ...this.options.rule, ...(opts || {}) };
     this.controller.sendMessage(message, rule);
     return this;
   }

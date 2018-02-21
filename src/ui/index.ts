@@ -20,7 +20,7 @@ export default class YveBotUI extends YveBot {
       timestampFormatter: (ts) => new Date(ts).toUTCString().slice(-12, -4),
       timestampable: false,
     };
-    const UIOptions = Object.assign({}, DEFAULT_OPTS, opts);
+    const UIOptions = { ...DEFAULT_OPTS, ...opts };
     super(rules, UIOptions.yveBotOptions);
 
     this.UIOptions = UIOptions;

@@ -118,7 +118,7 @@ function getNextFromRule(rule: IRule, answer?: Answer | Answer[]): RuleNext | nu
 
 function getRuleByIndex(bot: YveBot, idx: number): IRule {
   const rule = bot.rules[idx] ? bot.rules[idx] : sanitizeRule({ exit: true });
-  return Object.assign({}, bot.options.rule, rule);
+  return { ...bot.options.rule, ...rule };
 }
 
 function patchWithTryCatch(ctrl: Controller, cb: (err: Error) => void) {
@@ -264,9 +264,7 @@ export class Controller {
 
     const replyMessage = getReplyMessage(rule, answer);
     if (replyMessage) {
-      const replyRule = Object.assign({}, bot.options.rule, {
-        delay: rule.delay,
-      });
+      const replyRule = { ...bot.options.rule, delay: rule.delay };
       await this.sendMessage(replyMessage, replyRule);
     }
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import YveBot from 'yve-bot/ui';
+import 'yve-bot/ext/types/StringSearch';
 import './Chat.css';
-require('yve-bot/ext/types/StringSearch')(YveBot);
 
 class Chat extends Component {
   constructor(props) {
@@ -18,7 +18,7 @@ class Chat extends Component {
 
   render() {
     return (
-      <div className="Chat"></div>
+      <div className="Chat" />
     );
   }
 }

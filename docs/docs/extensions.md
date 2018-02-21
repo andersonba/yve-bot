@@ -15,16 +15,10 @@ Autocomplete-like for chat conversation.
 
 ### How to import?
 
-##### Node
+##### Node / React
 ```javascript
 import YveBot from 'yve-bot';
 import 'yve-bot/ext/types/TypeName';
-```
-
-##### React with UI bundle
-```javascript
-import YveBot from 'yve-bot/ui';
-require('yve-bot/ext/types/TypeName')(YveBot);
 ```
 
 ##### Browser with UI bundle

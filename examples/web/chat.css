@@ -137,7 +137,8 @@ form button:hover {
   top: 0;
   background: #d9d9d9;
   border-left: 1px solid #ccc;
-  height: calc(100vh)
+  height: calc(100vh);
+  white-space: pre;
 }
 
 @keyframes wave {

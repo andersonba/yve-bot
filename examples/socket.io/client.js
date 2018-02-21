@@ -22,7 +22,7 @@ socket
 socket
   .on('storeChanged', function(store) {
     window.store = store;
-    document.getElementById('output').innerText = JSON.stringify(store, null, 2);
+    document.getElementById('output').innerText = JSON.stringify(store, null, 4);
   })
   .on('error', function(err) {
     alert('Error! Check the console output');

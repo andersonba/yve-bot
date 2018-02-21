@@ -8,7 +8,7 @@ $(document).ready(function() {
       timestampable: true,
     })
       .on('storeChanged', function(data) {
-        document.getElementById('output').innerText = JSON.stringify(data, null, 2);
+        document.getElementById('output').innerText = JSON.stringify(data, null, 4);
       })
       .on('render', function() {
         document.querySelector('.yvebot-form-input').focus();

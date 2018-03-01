@@ -21,7 +21,7 @@
     "watch": "rollup -c rollup.config.ts -w"
   },
   "devDependencies": {
-    "@types/fetch-mock": "^5.12.1",
+    "@types/fetch-mock": "^6.0.0",
     "@types/jest": "^22.0.0",
     "@types/lodash-es": "^4.17.0",
     "@types/node": "^9.3.0",

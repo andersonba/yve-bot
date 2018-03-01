@@ -10,9 +10,9 @@
     esutils "^2.0.2"
     js-tokens "^3.0.0"
 
-"@types/fetch-mock@^5.12.1":
-  version "5.12.2"
-  resolved "https://registry.yarnpkg.com/@types/fetch-mock/-/fetch-mock-5.12.2.tgz#8c96517ff74303031c65c5da2d99858e34c844d2"
+"@types/fetch-mock@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@types/fetch-mock/-/fetch-mock-6.0.0.tgz#1f1dff22a81f48da944a11dddc12dbc7f52aa18f"
 
 "@types/jest@^22.0.0":
   version "22.0.1"

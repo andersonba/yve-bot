@@ -1,6 +1,6 @@
 import '../StringSearch';
 
-import * as fetchMock from 'fetch-mock';
+import fetchMock from 'fetch-mock';
 
 import YveBot from '../../../core';
 

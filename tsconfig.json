@@ -13,6 +13,7 @@
       "@test/*": ["test/*"]
     },
     "allowJs": true,
+    "allowSyntheticDefaultImports": true,
     "noEmitHelpers": true,
     "importHelpers": true,
     "noResolve": false

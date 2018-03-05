@@ -44,7 +44,8 @@
     "typescript": "^2.4.2"
   },
   "dependencies": {
-    "isomorphic-unfetch": "^2.0.0"
+    "isomorphic-unfetch": "^2.0.0",
+    "p-queue": "^2.3.0"
   },
   "jest": {
     "mapCoverage": true,
@@ -77,7 +78,7 @@
     },
     {
       "path": "./lib/ui.js",
-      "maxSize": "12 kB"
+      "maxSize": "13 kB"
     },
     {
       "path": "./lib/ext/types/StringSearch.js",

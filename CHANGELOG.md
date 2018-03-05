@@ -1,5 +1,12 @@
 # Change Log
 
+## [1.15.0](https://github.com/andersonba/yve-bot/tree/1.15.0) (2018-03-05)
+[Full Changelog](https://github.com/andersonba/yve-bot/compare/1.13.0...1.15.0)
+
+**Fixed bugs:**
+
+- fix broken published files [\#102](https://github.com/andersonba/yve-bot/issues/102)
+
 ## [1.13.0](https://github.com/andersonba/yve-bot/tree/1.13.0) (2018-03-05)
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.12.1...1.13.0)
 

@@ -121,13 +121,17 @@ test('event binding', async () => {
     .on('talk', onTalk)
     .start();
 
+  await sleep();
   expect(onStart).toBeCalledWith(session);
+  await sleep();
   expect(onStartCopy).toBeCalledWith(session);
-
   await sleep();
   expect(onTyping).toBeCalledWith(session);
+  await sleep();
   expect(onTyped).toBeCalledWith(session);
+  await sleep();
   expect(onTalk).toBeCalledWith(rules[0].message, rules[0], session);
+  await sleep();
   expect(onHear).toBeCalledWith(session);
 
   bot.hear(color);
@@ -168,15 +172,18 @@ test('do not auto-run with waitingForAnswer on starting bot', async () => {
   expect(onTalk).toHaveBeenCalledTimes(1);
 });
 
-test('send message as bot', () => {
+test('send message as bot', async () => {
   const customRule = { delay: 1000 };
   const onTalk = jest.fn();
 
   const bot = new YveBot([], OPTS)
     .on('talk', onTalk)
     .start();
+
   bot.talk('Hi');
+  await sleep();
   bot.talk('Bye', customRule);
+  await sleep();
   expect(onTalk).toHaveBeenCalledTimes(2);
   expect(onTalk).toBeCalledWith('Hi', {}, 'session');
   expect(onTalk).toBeCalledWith('Bye', customRule, 'session');
@@ -953,6 +960,30 @@ test('passive mode: using PassiveLoop type', async () => {
   expect(onTalk).toBeCalledWith('How can I help you?', rules[2], 'session');
 });
 
+test('sequential dispatching events using queue', async (done) => {
+  const rules = loadYaml(`
+  - Welcome
+  `);
+
+  let first;
+  let second;
+
+  const bot = new YveBot(rules, OPTS);
+  bot
+    .on('typing', async () => {
+      first = Date.now();
+      await sleep(5);
+    })
+    .on('typed', () => {
+      second = Date.now();
+    })
+    .on('end', () => {
+      expect(first < second).toBe(true);
+      done();
+    })
+    .start();
+});
+
 test('throw error in warning message as function', async (done) => {
   const customError = new Error('Unknown in validator');
   const rules = loadYaml(`
@@ -979,13 +1010,6 @@ test('throw error in warning message as function', async (done) => {
 });
 
 test('throw error', (done) => {
-  // throw as default
-  const bot = new YveBot([]);
-  expect(() => {
-    bot.dispatch('error', new Error('Unknown'));
-  }).toThrow(/Unknown/);
-
-  // custom error
   new YveBot([{type: 'Unknown'}], OPTS)
     .on('error', (err) => {
       expect(err).toBeInstanceOf(InvalidAttributeError);

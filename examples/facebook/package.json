@@ -1,0 +1,15 @@
+{
+  "name": "yvebot-examples-facebook",
+  "version": "1.0.0",
+  "description": "yve-bot examples - facebook",
+  "main": "index.js",
+  "author": "Anderson de Oliveira <andersonba@me.com>",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.2",
+    "dotenv": "^5.0.1",
+    "express": "^4.16.2",
+    "js-yaml": "^3.9.1"
+  }
+}

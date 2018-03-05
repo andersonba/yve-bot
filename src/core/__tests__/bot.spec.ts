@@ -153,6 +153,21 @@ test('prioritize the currentIdx from store when starting bot', () => {
   expect(bot.store.get('currentIdx')).toBe(1);
 });
 
+test('auto-run on starting bot', async () => {
+  const onTalk = jest.fn();
+  const rules = loadYaml(`
+  - message: Message 1
+  `);
+  const bot = new YveBot(rules, OPTS)
+    .on('talk', onTalk);
+
+  bot.session('new', { store: { currentIdx: 0, waitingForAnswer: false } })
+    .start();
+  await sleep();
+  expect(bot.store.get('currentIdx')).toBe(1);
+  expect(onTalk).toHaveBeenCalledTimes(1);
+});
+
 test('do not auto-run with waitingForAnswer on starting bot', async () => {
   const onTalk = jest.fn();
   const rules = loadYaml(`
@@ -164,12 +179,11 @@ test('do not auto-run with waitingForAnswer on starting bot', async () => {
   const bot = new YveBot(rules, OPTS)
     .on('talk', onTalk);
 
-  bot.session('new', { store: { currentIdx: 1 } })
-    .hear(':)')
+  bot.session('new', { store: { currentIdx: 1, waitingForAnswer: true } })
     .start();
   await sleep();
   expect(bot.store.get('currentIdx')).toBe(1);
-  expect(onTalk).toHaveBeenCalledTimes(1);
+  expect(onTalk).not.toBeCalled();
 });
 
 test('send message as bot', async () => {
@@ -984,6 +998,21 @@ test('sequential dispatching events using queue', async (done) => {
     .start();
 });
 
+test('coverage non-promise event', async (done) => {
+  const error = new Error('Unresolved promise');
+  const onError = jest.fn();
+
+  const bot = new YveBot([], OPTS)
+    .on('error', (e) => {
+      expect(e).toBe(error);
+      done();
+    })
+    .on('typing', () => { throw error; })
+    .start();
+
+  bot.dispatch('typing');
+});
+
 test('throw error in warning message as function', async (done) => {
   const customError = new Error('Unknown in validator');
   const rules = loadYaml(`
@@ -1010,6 +1039,15 @@ test('throw error in warning message as function', async (done) => {
 });
 
 test('throw error', (done) => {
+  // failed error listener
+  expect(() => {
+    const bot = new YveBot([])
+      .on('error', () => { throw new Error('Failed to throw error'); })
+      .start();
+    bot.dispatch('error', new Error('First error'));
+  }).toThrow(/Failed to throw/);
+
+  // custom error
   new YveBot([{type: 'Unknown'}], OPTS)
     .on('error', (err) => {
       expect(err).toBeInstanceOf(InvalidAttributeError);

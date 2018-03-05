@@ -123,12 +123,19 @@ export default class YveBot {
 
   public dispatch(name: EventName, ...args): this {
     if (name in this.handlers) {
+      if (name === 'error') {
+        this.handlers.error.map((fn) =>
+          fn(...args, this.sessionId));
+        return;
+      }
+
       this.queue.addAll(
         this.handlers[name].map((fn) => () => {
           try {
             return Promise.resolve(fn(...args, this.sessionId));
           } catch (err) {
-            return Promise.reject(err);
+            this.dispatch('error', err);
+            return Promise.resolve();
           }
         }),
       );

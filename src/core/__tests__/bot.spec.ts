@@ -738,6 +738,14 @@ test('ruleTypes with multi executors and waitForUserInput', async () => {
   expect(onEnd).toHaveBeenCalledTimes(1);
 });
 
+test('invalid rule in executors', async () => {
+  const bot = new YveBot([{ name: 'test' }], OPTS);
+  bot.session('new', { store: { currentIdx: 0, waitingForAnswer: true } });
+  bot.hear('unknown');
+  await sleep();
+  expect(bot.store.get('output.test')).toBe('unknown');
+});
+
 test('transform answer', async () => {
   const rules = loadYaml(`
   - message: Enter

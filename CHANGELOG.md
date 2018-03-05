@@ -1,5 +1,16 @@
 # Change Log
 
+## [1.13.0](https://github.com/andersonba/yve-bot/tree/1.13.0) (2018-03-05)
+[Full Changelog](https://github.com/andersonba/yve-bot/compare/1.12.1...1.13.0)
+
+**Fixed bugs:**
+
+- dispatch events using a serial queue, ensuring the correct order [\#100](https://github.com/andersonba/yve-bot/issues/100)
+
+**Merged pull requests:**
+
+- serial events queue [\#101](https://github.com/andersonba/yve-bot/pull/101) ([andersonba](https://github.com/andersonba))
+
 ## [1.12.1](https://github.com/andersonba/yve-bot/tree/1.12.1) (2018-03-05)
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.12.0...1.12.1)
 

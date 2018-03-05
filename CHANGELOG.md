@@ -1,5 +1,20 @@
 # Change Log
 
+## [1.12.1](https://github.com/andersonba/yve-bot/tree/1.12.1) (2018-03-05)
+[Full Changelog](https://github.com/andersonba/yve-bot/compare/1.12.0...1.12.1)
+
+**Fixed bugs:**
+
+- avoid restart user conversation on call the start method [\#99](https://github.com/andersonba/yve-bot/issues/99)
+
+**Closed issues:**
+
+- example: facebook integration [\#4](https://github.com/andersonba/yve-bot/issues/4)
+
+**Merged pull requests:**
+
+- Update @types/fetch-mock to the latest version 🚀 [\#98](https://github.com/andersonba/yve-bot/pull/98) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
 ## [1.12.0](https://github.com/andersonba/yve-bot/tree/1.12.0) (2018-02-21)
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.11.0...1.12.0)
 

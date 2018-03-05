@@ -136,6 +136,38 @@ test('event binding', async () => {
   expect(onEnd).toBeCalledWith(output, session);
 });
 
+test('prioritize the currentIdx from store when starting bot', () => {
+  const rules = loadYaml(`
+  - message: Question 1
+    type: String
+  - message: Question 2
+    type: String
+  `);
+  const bot = new YveBot(rules, OPTS);
+  bot.session('session', { store: { currentIdx: 1 } })
+    .start();
+  expect(bot.store.get('currentIdx')).toBe(1);
+});
+
+test('do not auto-run with waitingForAnswer on starting bot', async () => {
+  const onTalk = jest.fn();
+  const rules = loadYaml(`
+  - message: Message 1
+  - message: Question 1
+    type: String
+  - message: Message 2
+  `);
+  const bot = new YveBot(rules, OPTS)
+    .on('talk', onTalk);
+
+  bot.session('new', { store: { currentIdx: 1 } })
+    .hear(':)')
+    .start();
+  await sleep();
+  expect(bot.store.get('currentIdx')).toBe(1);
+  expect(onTalk).toHaveBeenCalledTimes(1);
+});
+
 test('send message as bot', () => {
   const customRule = { delay: 1000 };
   const onTalk = jest.fn();

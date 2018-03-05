@@ -94,7 +94,10 @@ export default class YveBot {
 
   public start(): this {
     this.dispatch('start');
-    this.controller.run();
+    if (!this.store.get('waitingForAnswer')) {
+      const idx = this.store.get('currentIdx') || 0;
+      this.controller.run(idx);
+    }
     return this;
   }
 

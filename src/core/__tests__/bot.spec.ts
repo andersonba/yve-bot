@@ -121,13 +121,17 @@ test('event binding', async () => {
     .on('talk', onTalk)
     .start();
 
+  await sleep();
   expect(onStart).toBeCalledWith(session);
+  await sleep();
   expect(onStartCopy).toBeCalledWith(session);
-
   await sleep();
   expect(onTyping).toBeCalledWith(session);
+  await sleep();
   expect(onTyped).toBeCalledWith(session);
+  await sleep();
   expect(onTalk).toBeCalledWith(rules[0].message, rules[0], session);
+  await sleep();
   expect(onHear).toBeCalledWith(session);
 
   bot.hear(color);
@@ -149,6 +153,21 @@ test('prioritize the currentIdx from store when starting bot', () => {
   expect(bot.store.get('currentIdx')).toBe(1);
 });
 
+test('auto-run on starting bot', async () => {
+  const onTalk = jest.fn();
+  const rules = loadYaml(`
+  - message: Message 1
+  `);
+  const bot = new YveBot(rules, OPTS)
+    .on('talk', onTalk);
+
+  bot.session('new', { store: { currentIdx: 0, waitingForAnswer: false } })
+    .start();
+  await sleep();
+  expect(bot.store.get('currentIdx')).toBe(1);
+  expect(onTalk).toHaveBeenCalledTimes(1);
+});
+
 test('do not auto-run with waitingForAnswer on starting bot', async () => {
   const onTalk = jest.fn();
   const rules = loadYaml(`
@@ -160,23 +179,25 @@ test('do not auto-run with waitingForAnswer on starting bot', async () => {
   const bot = new YveBot(rules, OPTS)
     .on('talk', onTalk);
 
-  bot.session('new', { store: { currentIdx: 1 } })
-    .hear(':)')
+  bot.session('new', { store: { currentIdx: 1, waitingForAnswer: true } })
     .start();
   await sleep();
   expect(bot.store.get('currentIdx')).toBe(1);
-  expect(onTalk).toHaveBeenCalledTimes(1);
+  expect(onTalk).not.toBeCalled();
 });
 
-test('send message as bot', () => {
+test('send message as bot', async () => {
   const customRule = { delay: 1000 };
   const onTalk = jest.fn();
 
   const bot = new YveBot([], OPTS)
     .on('talk', onTalk)
     .start();
+
   bot.talk('Hi');
+  await sleep();
   bot.talk('Bye', customRule);
+  await sleep();
   expect(onTalk).toHaveBeenCalledTimes(2);
   expect(onTalk).toBeCalledWith('Hi', {}, 'session');
   expect(onTalk).toBeCalledWith('Bye', customRule, 'session');
@@ -717,6 +738,14 @@ test('ruleTypes with multi executors and waitForUserInput', async () => {
   expect(onEnd).toHaveBeenCalledTimes(1);
 });
 
+test('invalid rule in executors', async () => {
+  const bot = new YveBot([{ name: 'test' }], OPTS);
+  bot.session('new', { store: { currentIdx: 0, waitingForAnswer: true } });
+  bot.hear('unknown');
+  await sleep();
+  expect(bot.store.get('output.test')).toBe('unknown');
+});
+
 test('transform answer', async () => {
   const rules = loadYaml(`
   - message: Enter
@@ -953,6 +982,45 @@ test('passive mode: using PassiveLoop type', async () => {
   expect(onTalk).toBeCalledWith('How can I help you?', rules[2], 'session');
 });
 
+test('sequential dispatching events using queue', async (done) => {
+  const rules = loadYaml(`
+  - Welcome
+  `);
+
+  let first;
+  let second;
+
+  const bot = new YveBot(rules, OPTS);
+  bot
+    .on('typing', async () => {
+      first = Date.now();
+      await sleep(5);
+    })
+    .on('typed', () => {
+      second = Date.now();
+    })
+    .on('end', () => {
+      expect(first < second).toBe(true);
+      done();
+    })
+    .start();
+});
+
+test('coverage non-promise event', async (done) => {
+  const error = new Error('Unresolved promise');
+  const onError = jest.fn();
+
+  const bot = new YveBot([], OPTS)
+    .on('error', (e) => {
+      expect(e).toBe(error);
+      done();
+    })
+    .on('typing', () => { throw error; })
+    .start();
+
+  bot.dispatch('typing');
+});
+
 test('throw error in warning message as function', async (done) => {
   const customError = new Error('Unknown in validator');
   const rules = loadYaml(`
@@ -979,11 +1047,13 @@ test('throw error in warning message as function', async (done) => {
 });
 
 test('throw error', (done) => {
-  // throw as default
-  const bot = new YveBot([]);
+  // failed error listener
   expect(() => {
-    bot.dispatch('error', new Error('Unknown'));
-  }).toThrow(/Unknown/);
+    const bot = new YveBot([])
+      .on('error', () => { throw new Error('Failed to throw error'); })
+      .start();
+    bot.dispatch('error', new Error('First error'));
+  }).toThrow(/Failed to throw/);
 
   // custom error
   new YveBot([{type: 'Unknown'}], OPTS)

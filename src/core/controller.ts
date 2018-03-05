@@ -162,7 +162,7 @@ export class Controller {
     return this._indexes;
   }
 
-  public async run(idx: number = 0): Promise<this> {
+  public async run(idx: number): Promise<this> {
     const { bot } = this;
     const rule = getRuleByIndex(bot, idx);
 

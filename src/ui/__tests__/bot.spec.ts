@@ -35,6 +35,7 @@ test('event binding', async () => {
   const output = {value: msg};
   const session = 'session';
 
+  await sleep();
   expect(onStart).toBeCalledWith(session);
 
   await sleep();
@@ -45,8 +46,11 @@ test('event binding', async () => {
   await sleep();
 
   expect(onReply).toBeCalledWith(msg, session);
+  await sleep();
   expect(onStoreChanged).toBeCalledWith({ output, currentIdx: 1, waitingForAnswer: false }, session);
+  await sleep();
   expect(onEnd).toBeCalledWith(output, session);
+  await sleep();
   expect(onEndCopy).toBeCalledWith(output, session);
 });
 

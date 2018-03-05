@@ -215,6 +215,7 @@ export class ChatUI {
       this.conversation.offsetHeight -
       marginOfError
     ) <= offset;
+    /* istanbul ignore next */
     if (isBottom || force) {
       this.conversation.scrollTop = this.conversation.scrollHeight;
     }

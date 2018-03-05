@@ -1,3 +1,4 @@
+import PQueue from 'p-queue';
 import { Answer, EventName, IContext, IFlow, IListener, IRule, IYveBotOptions } from '../types';
 import { Actions } from './actions';
 import { Controller } from './controller';
@@ -24,6 +25,7 @@ export default class YveBot {
   public sessionId: string;
 
   private handlers: { [handler: string]: Array<() => any> };
+  private queue: { addAll: (fns: Array<() => Promise<any>>) => void };
 
   constructor(rules: Array<IRule|IFlow>, customOpts?: IYveBotOptions) {
     const DEFAULT_OPTS: IYveBotOptions = {
@@ -38,6 +40,7 @@ export default class YveBot {
 
     this.store = new Store(this);
     this.controller = new Controller(this);
+    this.queue = new PQueue({ concurrency: 1 });
 
     if (this.options.context) {
       this.store.set('context', this.options.context);
@@ -120,7 +123,15 @@ export default class YveBot {
 
   public dispatch(name: EventName, ...args): this {
     if (name in this.handlers) {
-      this.handlers[name].forEach((fn) => fn(...args, this.sessionId));
+      this.queue.addAll(
+        this.handlers[name].map((fn) => () => {
+          try {
+            return Promise.resolve(fn(...args, this.sessionId));
+          } catch (err) {
+            return Promise.reject(err);
+          }
+        }),
+      );
     }
     return this;
   }

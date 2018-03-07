@@ -680,9 +680,9 @@ test('end bot shen last message has skip', async () => {
   const toSkip = jest.fn(() => true);
   const onEnd = jest.fn();
   const rules = loadYaml(`
-  - message: Hello
-    skip: toSkip
-    `);
+    - message: Hello
+      skip: toSkip
+  `);
 
   const bot = new YveBot(rules, OPTS);
   bot.actions.define('toSkip', toSkip);

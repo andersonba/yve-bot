@@ -9,9 +9,6 @@ $(document).ready(function() {
     });
 
     chat.actions.define('toSkip', (output, rule, bot) => true);
-
-    console.log(chat.actions);
-
     chat
       .on('storeChanged', function(data) {
         document.getElementById('output').innerText = JSON.stringify(data, null, 4);

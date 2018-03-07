@@ -164,11 +164,12 @@ export class Controller {
 
   public async run(idx: number): Promise<this> {
     const { bot } = this;
+    const output = bot.store.output();
     const rule = getRuleByIndex(bot, idx);
 
     bot.store.set('currentIdx', idx);
 
-    if (rule.skip) {
+    if (rule.skip && bot.actions[rule.skip](output, rule, bot)) {
       return this.nextRule(rule);
     }
 

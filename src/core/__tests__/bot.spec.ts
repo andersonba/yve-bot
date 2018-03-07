@@ -49,7 +49,6 @@ test('sanitize rule', () => {
   - Hello
   - type: SingleChoice
   - type: MultipleChoice
-    skip: true
     options:
       - One
   - type: SingleChoice
@@ -59,10 +58,8 @@ test('sanitize rule', () => {
   `);
   const bot = new YveBot(rules, OPTS);
   expect(bot.rules[0].message).toBe('Hello');
-  expect(bot.rules[0].skip).toBeFalsy();
   expect(bot.rules[1].options).toEqual([]);
   expect(bot.rules[2].options).toEqual([{ value: 'One' }]);
-  expect(bot.rules[2].skip).toBeTruthy();
   expect(bot.rules[3].options[0].synonyms).toEqual([ '1', 'one', 'oNe', 'ONE' ]);
 });
 
@@ -680,15 +677,19 @@ test('running actions', async () => {
 });
 
 test('end bot shen last message has skip', async () => {
+  const toSkip = jest.fn(() => true);
+  const onEnd = jest.fn();
   const rules = loadYaml(`
   - message: Hello
-    skip: true
-  `);
-  const bot = new YveBot(rules, OPTS);
-  const onEnd = jest.fn();
+    skip: toSkip
+    `);
 
+  const bot = new YveBot(rules, OPTS);
+  bot.actions.define('toSkip', toSkip);
   bot.on('end', onEnd).start();
   await sleep();
+
+  expect(toSkip).toHaveBeenCalledTimes(1);
   expect(onEnd).toHaveBeenCalledTimes(1);
 });
 

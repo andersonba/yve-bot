@@ -29,7 +29,7 @@ export interface IRule {
   config?: { [name: string]: any };
   passive?: boolean;
   next?: RuleNext;
-  skip?: boolean;
+  skip?: string;
   exit?: boolean;
 }
 

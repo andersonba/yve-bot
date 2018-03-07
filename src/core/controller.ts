@@ -168,6 +168,10 @@ export class Controller {
 
     bot.store.set('currentIdx', idx);
 
+    if (rule.skip) {
+      return this.nextRule(rule);
+    }
+
     // run pre-actions
     if (bot.options.enableWaitForSleep && 'sleep' in rule) {
       await bot.actions.timeout(rule.sleep);

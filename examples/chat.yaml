@@ -12,6 +12,9 @@
   name: city
   type: String
 
+- message: I'll skip this message
+  skip: true
+
 - message: Thanks, wait a moment.
 
 - sleep: 4000

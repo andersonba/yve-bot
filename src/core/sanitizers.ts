@@ -34,6 +34,7 @@ export function sanitizeRule(input: IRule): IRule {
     return o;
   });
   rule.passive = rule.passive === undefined ? true : rule.passive;
+  rule.skip = rule.skip === undefined ? false : rule.skip;
 
   // string way
   ['actions', 'validators'].forEach((key) => {

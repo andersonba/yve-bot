@@ -49,6 +49,6 @@ git push --follow-tags
 
 dialog --title "Wait a moment" --infobox "Updating CHANGELOG.md..." 0 0
 github_changelog_generator --no-unreleased
-git diff
 
 dialog --title "Congratulations!" --msgbox "Version $next_version released!\n\nNow, check the CHANGELOG.md to commit the changes" 0 0
+git diff

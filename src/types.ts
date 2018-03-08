@@ -63,7 +63,7 @@ export type RuleTypeTransform = (
 );
 
 export type RuleTypeSkip = (
-  (output: any, rule?: IRule, bot?: YveBot) => boolean
+  (output: object, rule?: IRule, bot?: YveBot) => boolean
 );
 
 export type RuleNext = string;

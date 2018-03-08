@@ -13,20 +13,18 @@ Enhance your chat with custom extensions and load just what you're going to use.
 Autocomplete-like for chat conversation.
 
 
-### How to import?
+### How do I use?
 
-##### Node / React
-```javascript
-import YveBot from 'yve-bot';
-import 'yve-bot/ext/types/TypeName';
-```
-
-##### Browser with UI bundle
+##### Using on Browser
 ```html
-<script src="//cdn.jsdelivr.net/npm/yve-bot@latest/ui.js"></script>
+<script src="//cdn.jsdelivr.net/npm/yve-bot@latest/web.js"></script>
 <script src="//cdn.jsdelivr.net/npm/yve-bot@latest/ext/types/TypeName"></script>
 ```
 
-
+##### Node / React
+```javascript
+import YveBot from 'yve-bot/ui';
+import 'yve-bot/ext/types/TypeName';
+```
 
 [Next: Examples]({{ site.baseurl }}/docs/examples){:.btn}

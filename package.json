@@ -1,6 +1,6 @@
 {
   "name": "yve-bot",
-  "version": "1.15.0",
+  "version": "1.16.0",
   "description": "Smart rule-based bot",
   "main": "core.js",
   "module": "core.js",
@@ -16,6 +16,7 @@
     "test:bundle": "bundlesize",
     "lint": "tslint 'src/**/*.ts'",
     "clean": "rimraf lib && rimraf compiled",
+    "bundleAnalyzer": "BUNDLE_ANALYZER=1 rollup -c rollup.config.ts",
     "prebuild": "yarn clean",
     "build": "rollup -c rollup.config.ts && rimraf compiled",
     "watch": "rollup -c rollup.config.ts -w"
@@ -33,6 +34,7 @@
     "lodash-es": "^4.17.4",
     "rimraf": "^2.6.2",
     "rollup": "^0.56.2",
+    "rollup-analyzer": "^1.1.0",
     "rollup-plugin-commonjs": "^8.2.6",
     "rollup-plugin-json": "^2.3.0",
     "rollup-plugin-node-resolve": "^3.0.0",
@@ -78,6 +80,10 @@
     },
     {
       "path": "./lib/ui.js",
+      "maxSize": "2.5 kB"
+    },
+    {
+      "path": "./lib/web.js",
       "maxSize": "13 kB"
     },
     {

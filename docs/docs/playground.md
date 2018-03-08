@@ -10,7 +10,7 @@ title: Playground
 <script src="https://cdn.jsdelivr.net/npm/codemirror@5.31.0/lib/codemirror.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/codemirror@5.31.0/mode/yaml/yaml.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/3.9.1/js-yaml.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/yve-bot/ui.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/yve-bot/web.min.js"></script>
 
 <script>
   var editor = CodeMirror.fromTextArea(document.getElementById('editor'), {

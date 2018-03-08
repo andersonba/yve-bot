@@ -1,17 +1,21 @@
+import { rollup } from 'rollup';
 import fs from 'fs';
 import path from 'path';
+import analyzer from 'rollup-analyzer';
 import commonjs from 'rollup-plugin-commonjs';
 import json from 'rollup-plugin-json';
 import resolve from 'rollup-plugin-node-resolve';
 import typescript from 'rollup-plugin-typescript2';
 import uglify from 'rollup-plugin-uglify';
 
+const corePath = path.resolve('./src/core/index.ts');
+
 function onwarn(warning, warn) {
   if (warning.code === 'THIS_IS_UNDEFINED') { return; }
   warn(warning);
 }
 
-const server = {
+const core = {
   input: 'src/core/index.ts',
 
   plugins: [
@@ -31,7 +35,35 @@ const server = {
   onwarn,
 };
 
-const client = {
+const ui = {
+  input: 'src/ui/index.ts',
+
+  plugins: [
+    typescript(),
+    commonjs(),
+    resolve(),
+    json(),
+    uglify(),
+  ],
+
+  external: [
+    corePath,
+  ],
+
+  output: {
+    file: 'lib/ui.js',
+    format: 'umd',
+    name: 'YveBot',
+    paths: {
+      [corePath]: './core',
+    },
+    globals: {
+      [corePath]: 'YveBot',
+    },
+  },
+};
+
+const web = {
   input: 'src/ui/index.ts',
 
   context: 'window',
@@ -47,7 +79,7 @@ const client = {
   ],
 
   output: {
-    file: 'lib/ui.js',
+    file: 'lib/web.js',
     format: 'umd',
     name: 'YveBot',
   },
@@ -58,7 +90,6 @@ const typeFiles = fs.readdirSync('./src/ext/types')
   .map((t) => t.split('.')[0]);
 
 const typeExtensions = typeFiles.map((eType) => {
-  const src = path.resolve('./src/core/index.ts');
   return {
     input: `src/ext/types/${eType}.ts`,
 
@@ -71,7 +102,7 @@ const typeExtensions = typeFiles.map((eType) => {
     ],
 
     external: [
-      src,
+      corePath,
       'isomorphic-unfetch',
     ],
 
@@ -80,10 +111,10 @@ const typeExtensions = typeFiles.map((eType) => {
       format: 'umd',
       name: `YveBotTypes${eType}`,
       paths: {
-        [src]: '../../core',
+        [corePath]: '../../core',
       },
       globals: {
-        [src]: 'YveBot',
+        [corePath]: 'YveBot',
       },
     },
 
@@ -91,8 +122,16 @@ const typeExtensions = typeFiles.map((eType) => {
   };
 });
 
-export default [
-  client,
-  server,
-  ...typeExtensions,
-];
+const bundles = [core, ui, web, ...typeExtensions];
+
+if (process.env.BUNDLE_ANALYZER) {
+  bundles.forEach((bundle) =>
+    rollup(bundle).then((output) => {
+      console.log(`BUNDLE: ${bundle.input}`);
+      analyzer({ limit: 5 }).formatted(output)
+        .then((out) => console.log(out, '\n\n\n\n'))
+        .catch(console.error);
+    }));
+}
+
+export default bundles;

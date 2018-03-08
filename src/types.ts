@@ -29,7 +29,7 @@ export interface IRule {
   config?: { [name: string]: any };
   passive?: boolean;
   next?: RuleNext;
-  skip?: string;
+  skip?: RuleTypeSkip;
   exit?: boolean;
 }
 
@@ -60,6 +60,10 @@ export interface IRuleTypeExecutor {
 
 export type RuleTypeTransform = (
   (value: any, rule?: IRule, bot?: YveBot) => Promise<any>
+);
+
+export type RuleTypeSkip = (
+  (output: any, rule?: IRule, bot?: YveBot) => boolean
 );
 
 export type RuleNext = string;

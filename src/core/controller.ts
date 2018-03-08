@@ -169,7 +169,7 @@ export class Controller {
 
     bot.store.set('currentIdx', idx);
 
-    if (rule.skip && bot.actions[rule.skip](output, rule, bot)) {
+    if (rule.skip(output, rule, bot)) {
       return this.nextRule(rule);
     }
 

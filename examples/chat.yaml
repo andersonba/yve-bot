@@ -13,7 +13,7 @@
   type: String
 
 - message: I'll skip this message
-  skip: toSkip
+  skip: true
 
 - message: Thanks, wait a moment.
 

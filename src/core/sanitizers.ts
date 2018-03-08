@@ -32,8 +32,15 @@ export function sanitizeRule(input: IRule): IRule {
       o.synonyms = synonyms.split(',').map((s) => s.trim());
     }
     return o;
-  });
+    });
+
   rule.passive = rule.passive === undefined ? true : rule.passive;
+
+  if (typeof rule.skip === 'undefined') {
+    rule.skip = () => false;
+  } else {
+    rule.skip = typeof rule.skip === 'boolean' ? () => !!rule.skip : rule.skip;
+  }
 
   // string way
   ['actions', 'validators'].forEach((key) => {

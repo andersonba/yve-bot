@@ -35,7 +35,7 @@ You can define a rule using two styles
 | actions | `[]` | array[[RuleAction](#ruleaction)] | Executes an action after bot's message
 | preActions | `[]` | array[[RuleAction](#ruleaction)] | Executes an action before bot's message
 | postActions | `[]` | array[[RuleAction](#ruleaction)] | Executes an action after user's answer
-| skip | - | [RuleAction](#ruleaction) | Skip rule based on conditional function
+| skip | - | RuleTypeSkip | Skip rule based on conditional function
 | exit | `false` | boolean | Terminates the conversation on this rule
 
 # FormattedMessage
@@ -144,6 +144,5 @@ _** validators are used ONLY in the first executor from rule's type_
 | Property | Parameter | Description |
 |----------|-----------|-------------|
 | timeout | number | Executes setTimeout
-
 
 [Next: Flows: Grouping rules]({{ site.baseurl }}/docs/flows){:.btn}

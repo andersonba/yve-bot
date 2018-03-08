@@ -676,7 +676,7 @@ test('running actions', async () => {
   expect(postAct).toBeCalledWith(true, rules[0], bot);
 });
 
-test('end bot shen last message has skip', async () => {
+test('end bot when last message has skip', async () => {
   const toSkip = jest.fn(() => true);
   const onEnd = jest.fn();
   const rules = loadYaml(`

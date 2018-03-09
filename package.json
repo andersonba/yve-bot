@@ -76,7 +76,7 @@
   "bundlesize": [
     {
       "path": "./lib/core.js",
-      "maxSize": "11 kB"
+      "maxSize": "9 kB"
     },
     {
       "path": "./lib/ui.js",
@@ -84,7 +84,7 @@
     },
     {
       "path": "./lib/web.js",
-      "maxSize": "13 kB"
+      "maxSize": "11 kB"
     },
     {
       "path": "./lib/ext/types/StringSearch.js",

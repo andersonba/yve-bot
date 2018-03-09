@@ -164,9 +164,14 @@ export class Controller {
 
   public async run(idx: number): Promise<this> {
     const { bot } = this;
+    const output = bot.store.output();
     const rule = getRuleByIndex(bot, idx);
 
     bot.store.set('currentIdx', idx);
+
+    if (rule.skip(output, rule, bot)) {
+      return this.nextRule(rule);
+    }
 
     // run pre-actions
     if (bot.options.enableWaitForSleep && 'sleep' in rule) {

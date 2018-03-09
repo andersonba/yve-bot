@@ -33,7 +33,14 @@ export function sanitizeRule(input: IRule): IRule {
     }
     return o;
   });
+
   rule.passive = rule.passive === undefined ? true : rule.passive;
+
+  if (typeof rule.skip === 'undefined') {
+    rule.skip = () => false;
+  } else {
+    rule.skip = typeof rule.skip === 'function' ? rule.skip : () => !!rule.skip;
+  }
 
   // string way
   ['actions', 'validators'].forEach((key) => {

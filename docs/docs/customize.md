@@ -6,48 +6,40 @@ title: Customize types, validators and actions
 
 Creating custom types, validations and actions for your bot.
 
-## Custom types
+## Custom Types
 
-Create types of messages that your bot will use. Examples: City and username autocomplete acessing a database.
+Create types of messages that your bot will use as user input. Examples: City and username autocomplete acessing a database.
 
 **Object configuration:**
+- **transform** - transforms answer with async function
+- **validators** - configures the validators
 
-- **executors** - an array of objects with transform and validators;
-  - **transform** - transforms answer with async function
-  - **validators** - configures the validators
+#### Define
+
+```javascript
+bot.types.define('Username', {
+  transform: answer => fetch('/find-username-by-id', {
+    body: JSON.stringify({ id: answer }),
+  }),
+  validators: [{
+    number: true,
+    warning: 'Invalid user id',
+  }],
+});
+```
 
 #### Extends
 
 Extends from an existing type
 
 ```javascript
-bot.types.extend('CustomString', 'String', {
-  executors: [{
-    transform: (answer, rule, bot) => {},
-    validators: [],
-  }],
+bot.types.extend('ZipCode', 'Number', {
+  transform: (num) => friendlyZip(num),
+  validators: [],
 });
 ```
 
-#### Define
-
-Create a type from zero
-
-```javascript
-bot.types.define('Username', {
-  executors: [{
-    transform: answer => fetch('/find-username-by-id', {
-      body: JSON.stringify({ id: answer }),
-    }),
-    validators: [{
-      number: true,
-      warning: 'Invalid user id',
-    }],
-  }]
-});
-```
-
-## Custom actions
+## Custom Actions
 
 Create actions that your bot will interact. Examples: Sending email or requesting a hook url.
 
@@ -71,7 +63,7 @@ bot.actions.define('welcomeEmail', async (actionOptions, bot) => {
       - templateName: first-step-done.html
 ```
 
-## Custom validators
+## Custom Validators
 
 Create validators to be used in your messages. Examples: Color picker.
 

@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`define module type with short mode 1`] = `
+Object {
+  "customProp": "123",
+  "executors": Array [
+    Object {
+      "transform": [Function],
+      "validators": Array [
+        Object {
+          "number": true,
+          "warning": "Message 1",
+        },
+        Object {
+          "required": true,
+          "warning": "Message 2",
+        },
+      ],
+    },
+  ],
+}
+`;
+
+exports[`extend module type 1`] = `
+Object {
+  "executors": Array [
+    Object {
+      "transform": [Function],
+      "validators": Array [],
+    },
+    Object {
+      "transform": [Function],
+      "validators": Array [
+        Object {
+          "warning": "validator 2",
+        },
+      ],
+    },
+  ],
+}
+`;

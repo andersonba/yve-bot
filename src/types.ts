@@ -92,6 +92,10 @@ export type EventName = 'start' | 'end' | 'error' | 'listen' |
 
 export type ModuleType = 'validators' | 'types' | 'actions' | 'executors' | 'listeners';
 
+export interface IModuleOptions {
+  override: boolean;
+}
+
 export interface IChatOptions {
   target?: string;
   name?: string;

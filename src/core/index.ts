@@ -3,7 +3,6 @@ import { Answer, EventName, IContext, IFlow, IListener, IRule, IYveBotOptions } 
 import { Actions } from './actions';
 import { Controller } from './controller';
 import * as Exceptions from './exceptions';
-import { Executors } from './executors';
 import { Listeners } from './listeners';
 import { sanitizeBotRules, sanitizeListener, sanitizeRule } from './sanitizers';
 import { IStoreData, Store } from './store';
@@ -14,7 +13,6 @@ export default class YveBot {
   public static types: Types;
   public static actions: Actions;
   public static listeners: Listeners;
-  public static executors: Executors;
   public static validators: Validators;
   public static exceptions: any;
 
@@ -56,7 +54,6 @@ export default class YveBot {
   public get types() { return YveBot.types; }
   public get actions() { return YveBot.actions; }
   public get listeners() { return YveBot.listeners; }
-  public get executors() { return YveBot.executors; }
   public get validators() { return YveBot.validators; }
   public get exceptions() { return YveBot.exceptions; }
 
@@ -178,6 +175,5 @@ export default class YveBot {
 YveBot.types = new Types();
 YveBot.actions = new Actions();
 YveBot.listeners = new Listeners();
-YveBot.executors = new Executors();
 YveBot.validators = new Validators();
 YveBot.exceptions = Exceptions;

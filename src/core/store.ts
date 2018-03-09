@@ -1,5 +1,4 @@
 import get from 'lodash-es/get';
-import merge from 'lodash-es/merge';
 import set from 'lodash-es/set';
 import unset from 'lodash-es/unset';
 
@@ -53,6 +52,9 @@ export class Store {
 
   public replace(data: IStoreData): void {
     this.reset();
-    this.data = merge({}, this.data, data);
+    this.data = {
+      ...this.data,
+      ...data,
+    };
   }
 }

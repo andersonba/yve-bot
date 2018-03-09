@@ -1,4 +1,4 @@
-import { IFlow, IListener, IRule } from '../types';
+import { IFlow, IListener, IRule, IRuleType, IRuleTypeExecutor } from '../types';
 
 export function sanitizeBotRules(inputs: Array<IFlow|IRule>): IRule[] {
   let rules: IRule[] = [];
@@ -58,4 +58,15 @@ export function sanitizeListener(listener: IListener) {
     ...listener,
     passive: passive || false,
   };
+}
+
+export function sanitizeRuleType(ruleType: IRuleType | IRuleTypeExecutor): IRuleType {
+  if (!(ruleType as IRuleType).executors) {
+    const { transform, validators = [], ...params } = (ruleType as IRuleTypeExecutor);
+    return {
+      executors: [{ transform, validators }],
+      ...params,
+    };
+  }
+  return (ruleType as IRuleType);
 }

@@ -30,6 +30,7 @@ export interface IRule {
   passive?: boolean;
   next?: RuleNext;
   skip?: RuleTypeSkip;
+  multiline?: boolean;
   exit?: boolean;
 }
 

@@ -21,12 +21,17 @@ form {
   bottom: 0;
   width: 100%;
 }
-form input {
+form input, form textarea {
   border: 0;
   padding: 10px;
   width: 83%;
   margin-right: .5%;
   font-size: 13px;
+}
+form textarea {
+  resize: none;
+  height: 36px;
+  vertical-align: middle;
 }
 form button {
   width: 15%;

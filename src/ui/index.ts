@@ -40,6 +40,7 @@ export default class YveBotUI extends YveBot {
       .on('talk', (msg: string, rule: IRule) => {
         this.newMessage('BOT', msg, rule);
       })
+      .on('hear', (rule: IRule) => this.hearing(rule))
       .on('typing', () => this.typing())
       .on('typed', () => this.typed());
 
@@ -68,6 +69,13 @@ export default class YveBotUI extends YveBot {
   public typed() {
     this.UI.typing.classList.remove('is-typing');
     this.UI.scrollDown(this.UI.typing.offsetHeight);
+    return this;
+  }
+
+  public hearing(rule: IRule) {
+    if (!rule.multiline) {
+      this.UI.replaceWithInputText();
+    }
     return this;
   }
 

@@ -10,7 +10,7 @@
 
 - message: What city do you live in?
   name: city
-  multiline: false
+  multline: false
   type: String
 
 - message: I'll skip this message

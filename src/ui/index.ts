@@ -73,7 +73,7 @@ export default class YveBotUI extends YveBot {
   }
 
   public hearing(rule: IRule) {
-    if (!rule.multiline) {
+    if (!rule.multline) {
       this.UI.replaceWithInputText();
     }
     return this;

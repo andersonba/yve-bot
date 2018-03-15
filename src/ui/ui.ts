@@ -286,6 +286,7 @@ export class ChatUI {
   public handleKey({ keyCode, type }) {
     this.pressedKeys[keyCode] = type === 'keydown';
 
+    // If is not Shift + ENTER
     if (!this.pressedKeys[16] && this.pressedKeys[13]) {
       const event = new Event('submit');
       this.form.dispatchEvent(event);

@@ -113,4 +113,8 @@ export interface IChatOptions {
   yveBotOptions?: IYveBotOptions;
 }
 
+export interface IPressedKeys {
+  [keyCode: number]: boolean;
+}
+
 export type ChatMessageSource = 'BOT' | 'USER';

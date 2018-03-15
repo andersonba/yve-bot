@@ -41,6 +41,7 @@ export default class YveBotUI extends YveBot {
         this.newMessage('BOT', msg, rule);
       })
       .on('hear', (rule: IRule) => this.hearing(rule))
+      .on('listen', (_, rule: IRule) => this.listening(rule))
       .on('typing', () => this.typing())
       .on('typed', () => this.typed());
 
@@ -75,6 +76,13 @@ export default class YveBotUI extends YveBot {
   public hearing(rule: IRule) {
     if (!rule.multline) {
       this.UI.replaceWithInputText();
+    }
+    return this;
+  }
+
+  public listening(rule: IRule) {
+    if (!rule.multline) {
+      this.UI.replaceWithTextArea();
     }
     return this;
   }

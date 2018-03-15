@@ -113,9 +113,8 @@ export default class YveBot {
   }
 
   public hear(answer: Answer | Answer[]): this {
-    this.controller.receiveMessage(answer).then(() => {
-      this.dispatch('reply', answer)
-    });
+    this.controller.receiveMessage(answer).then(() =>
+      this.dispatch('reply', answer));
     return this;
   }
 

@@ -1,4 +1,4 @@
-import { Answer, ChatMessageSource, IChatOptions, IRule, IRuleOption } from '../types';
+import { Answer, ChatMessageSource, IChatOptions, IRule, IRuleOption, IPressedKeys } from '../types';
 import * as utils from './utils';
 
 export class ChatUI {
@@ -11,6 +11,7 @@ export class ChatUI {
   public typing: HTMLLIElement;
   public conversation: HTMLUListElement;
   private options: IChatOptions;
+  private pressedKeys: IPressedKeys;
 
   constructor(options: IChatOptions) {
     this.options = options;
@@ -25,6 +26,10 @@ export class ChatUI {
     this.conversation.appendChild(this.typing);
     this.chat.appendChild(this.conversation);
     this.chat.appendChild(this.form);
+
+    this.pressedKeys = [];
+    this.chat.addEventListener('keydown', this.handleKey.bind(this), false);
+    this.chat.addEventListener('keyup', this.handleKey.bind(this), false);
   }
 
   public createSingleChoiceMessage(
@@ -191,7 +196,7 @@ export class ChatUI {
     input.placeholder = this.options.inputPlaceholder;
     input.autocomplete = 'off';
     return input;
-    }
+  }
 
   public createTextarea() {
     const textarea = document.createElement('textarea');
@@ -213,6 +218,11 @@ export class ChatUI {
   public replaceWithInputText() {
     this.form.replaceChild(this.inputText, this.input);
     this.input = this.inputText;
+  }
+
+  public replaceWithTextArea() {
+    this.form.replaceChild(this.textArea, this.input);
+    this.input = this.textArea;
   }
 
   public appendThread(source: ChatMessageSource, conversation: HTMLUListElement, thread: HTMLLIElement) {
@@ -273,4 +283,12 @@ export class ChatUI {
     return bubble;
   }
 
+  public handleKey({ keyCode, type }) {
+    this.pressedKeys[keyCode] = type == 'keydown';
+
+    if (!this.pressedKeys[16] && this.pressedKeys[13]) {
+      const event = new Event('submit');
+      this.form.dispatchEvent(event);
+    }
+  }
 }

@@ -30,7 +30,8 @@ form input, form textarea {
 }
 form textarea {
   resize: none;
-  height: 36px;
+  height: auto;
+  min-height: 36px;
   vertical-align: middle;
 }
 form button {

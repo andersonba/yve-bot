@@ -201,6 +201,7 @@ export class ChatUI {
   public createTextarea() {
     const textarea = document.createElement('textarea');
     textarea.className = 'yvebot-form-input';
+    textarea.rows = 1;
     textarea.placeholder = this.options.inputPlaceholder;
     return textarea;
   }
@@ -285,9 +286,16 @@ export class ChatUI {
 
   public handleKey({ keyCode, type }) {
     this.pressedKeys[keyCode] = type === 'keydown';
+    const rows = +(this.input.getAttribute('rows'));
 
-    // If is not Shift + ENTER
-    if (!this.pressedKeys[16] && this.pressedKeys[13]) {
+    if (this.pressedKeys[16] && this.pressedKeys[13] && this.input.type === 'textarea') {
+      this.input.setAttribute('rows', String(rows + 1));
+    } else if (this.pressedKeys[8] && rows !== 1 && this.input.type === 'textarea') {
+      const lines = this.input.value.split('\n');
+      if (!lines[lines.length - 1]) {
+        this.input.setAttribute('rows', String(rows - 1));
+      }
+    } else if (!this.pressedKeys[16] && this.pressedKeys[13]) {
       const event = new Event('submit');
       this.form.dispatchEvent(event);
     }

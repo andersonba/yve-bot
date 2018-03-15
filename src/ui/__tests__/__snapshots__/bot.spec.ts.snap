@@ -50,6 +50,7 @@ exports[`DOM behaviors bot with name 1`] = `
       <textarea
         class="yvebot-form-input"
         placeholder="Type your message"
+        rows="1"
       />
       <button
         class="yvebot-form-submit"
@@ -117,6 +118,7 @@ exports[`DOM behaviors bot with timestamp 1`] = `
       <textarea
         class="yvebot-form-input"
         placeholder="Type your message"
+        rows="1"
       />
       <button
         class="yvebot-form-submit"
@@ -174,6 +176,7 @@ exports[`DOM behaviors initial elements 1`] = `
       <textarea
         class="yvebot-form-input"
         placeholder="Type your message"
+        rows="1"
       />
       <button
         class="yvebot-form-submit"
@@ -257,6 +260,7 @@ exports[`DOM behaviors user click on more options using maxOptions 1`] = `
         class="yvebot-form-input"
         disabled=""
         placeholder="Choose an option above"
+        rows="1"
       />
       <button
         class="yvebot-form-submit"
@@ -328,6 +332,7 @@ exports[`DOM behaviors user reply 1`] = `
       <textarea
         class="yvebot-form-input"
         placeholder="Type your message"
+        rows="1"
       />
       <button
         class="yvebot-form-submit"
@@ -419,6 +424,7 @@ exports[`DOM behaviors user reply with multiple choice 1`] = `
         class="yvebot-form-input"
         disabled=""
         placeholder="Choose the options above"
+        rows="1"
       />
       <button
         class="yvebot-form-submit"
@@ -515,6 +521,7 @@ exports[`DOM behaviors user reply with single choice 1`] = `
         class="yvebot-form-input"
         disabled=""
         placeholder="Choose an option above"
+        rows="1"
       />
       <button
         class="yvebot-form-submit"
@@ -586,6 +593,7 @@ exports[`DOM behaviors user reply with single choice 2`] = `
       <textarea
         class="yvebot-form-input"
         placeholder="Type your message"
+        rows="1"
       />
       <button
         class="yvebot-form-submit"
@@ -656,6 +664,7 @@ exports[`passive support 1`] = `
       <textarea
         class="yvebot-form-input"
         placeholder="Type your message"
+        rows="1"
       />
       <button
         class="yvebot-form-submit"

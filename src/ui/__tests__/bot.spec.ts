@@ -360,13 +360,15 @@ describe('DOM behaviors', () => {
     - message: Nice
     `);
     const inputClass = '.yvebot-form-input';
-    const bot = new YveBotUI(rules, OPTS).start();
+    new YveBotUI(rules, OPTS).start();
     const { input, submit, target } = getChatElements();
+
     await sleep();
 
     expect(input.type).toBe('textarea');
     input.value = 'msg';
     submit.click();
+
     await sleep();
 
     let modifiedInput = target.querySelector(inputClass);
@@ -375,6 +377,7 @@ describe('DOM behaviors', () => {
     submit.click();
 
     await sleep();
+
     modifiedInput = target.querySelector(inputClass);
     expect(modifiedInput.type).toBe('textarea');
   });
@@ -450,5 +453,30 @@ describe('DOM behaviors', () => {
     const bubbles = getBubbleButtons();
     bubbles[0].click();
     expect(document.activeElement).not.toEqual(input);
+  });
+
+  test('submit message when press Enter in textarea', async() => {
+    const rules = loadYaml(`
+    - message: value
+      type: String
+    - message: bye
+      type: String
+      multline: false
+    `);
+
+    new YveBotUI(rules, OPTS).start();
+    const { input, chat } = getChatElements();
+
+    await sleep();
+
+    expect(input.type).toBe('textarea');
+    input.value = 'msg';
+    const event = new KeyboardEvent('keydown', { keyCode: 13 });
+    chat.dispatchEvent(event);
+
+    await sleep();
+
+    let modifiedInput = chat.querySelector('.yvebot-form-input');
+    expect(modifiedInput.type).toBe('text');
   });
 });

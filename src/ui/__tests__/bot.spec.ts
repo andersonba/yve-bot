@@ -479,4 +479,91 @@ describe('DOM behaviors', () => {
     const modifiedInput = chat.querySelector('.yvebot-form-input');
     expect(modifiedInput.type).toBe('text');
   });
+
+  test('should increase textarea rows when press Shift + ENTER', async () => {
+    const rules = loadYaml(`
+    - message: value
+      type: String
+    `);
+
+    new YveBotUI(rules, OPTS).start();
+    const { input, chat } = getChatElements();
+
+    await sleep();
+
+    let rows = input.getAttribute('rows');
+    expect(rows).toBe('1');
+    expect(input.type).toBe('textarea');
+    input.value = 'msg';
+
+    const shiftEvent = new KeyboardEvent('keydown', { keyCode: 16 });
+    const enterEvent = new KeyboardEvent('keydown', { keyCode: 13 });
+    chat.dispatchEvent(shiftEvent);
+    chat.dispatchEvent(enterEvent);
+
+    rows = input.getAttribute('rows');
+    expect(rows).toBe('2');
+  });
+
+  test('should decrease textarea rows when press Shift + ENTER', async () => {
+    const rules = loadYaml(`
+    - message: value
+      type: String
+    `);
+
+    new YveBotUI(rules, OPTS).start();
+    const { input, chat } = getChatElements();
+
+    await sleep();
+
+    let rows = input.getAttribute('rows');
+    expect(rows).toBe('1');
+    input.value = 'msg';
+
+    let shiftEvent = new KeyboardEvent('keydown', { keyCode: 16 });
+    let enterEvent = new KeyboardEvent('keydown', { keyCode: 13 });
+    const backspaceEvent = new KeyboardEvent('keydown', { keyCode: 8 });
+
+    chat.dispatchEvent(shiftEvent);
+    chat.dispatchEvent(enterEvent);
+
+    rows = input.getAttribute('rows');
+    expect(rows).toBe('2');
+
+    chat.dispatchEvent(enterEvent);
+
+    rows = input.getAttribute('rows');
+    expect(rows).toBe('3');
+
+    shiftEvent = new KeyboardEvent('keyup', { keyCode: 16 });
+    enterEvent = new KeyboardEvent('keyup', { keyCode: 13 });
+    chat.dispatchEvent(shiftEvent);
+    chat.dispatchEvent(enterEvent);
+
+    chat.dispatchEvent(backspaceEvent);
+    rows = input.getAttribute('rows');
+    expect(rows).toBe('2');
+  });
+
+  test('should not decrease rows when has one line', async () => {
+    const rules = loadYaml(`
+    - message: value
+      type: String
+    `);
+
+    new YveBotUI(rules, OPTS).start();
+    const { input, chat } = getChatElements();
+
+    await sleep();
+
+    let rows = input.getAttribute('rows');
+    expect(rows).toBe('1');
+    input.value = '';
+
+    const backspaceEvent = new KeyboardEvent('keydown', { keyCode: 8 });
+    chat.dispatchEvent(backspaceEvent);
+
+    rows = input.getAttribute('rows');
+    expect(rows).toBe('1');
+  });
 });

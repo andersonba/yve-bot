@@ -545,7 +545,7 @@ describe('DOM behaviors', () => {
     expect(rows).toBe('2');
   });
 
-  test('should not decrease rows when has one line', async () => {
+  test('should not decrease rows when delete one character', async () => {
     const rules = loadYaml(`
     - message: value
       type: String
@@ -558,12 +558,23 @@ describe('DOM behaviors', () => {
 
     let rows = input.getAttribute('rows');
     expect(rows).toBe('1');
-    input.value = '';
+    input.value = 'asdas\nasdasdas\nasdasdhasdas';
+
+    let shiftEvent = new KeyboardEvent('keydown', { keyCode: 16 });
+    let enterEvent = new KeyboardEvent('keydown', { keyCode: 13 });
+
+    chat.dispatchEvent(shiftEvent);
+    chat.dispatchEvent(enterEvent);
+
+    shiftEvent = new KeyboardEvent('keyup', { keyCode: 16 });
+    enterEvent = new KeyboardEvent('keyup', { keyCode: 13 });
+    chat.dispatchEvent(enterEvent);
+    chat.dispatchEvent(shiftEvent);
 
     const backspaceEvent = new KeyboardEvent('keydown', { keyCode: 8 });
     chat.dispatchEvent(backspaceEvent);
 
     rows = input.getAttribute('rows');
-    expect(rows).toBe('1');
+    expect(rows).toBe('2');
   });
 });

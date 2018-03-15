@@ -1,4 +1,4 @@
-import { Answer, ChatMessageSource, IChatOptions, IRule, IRuleOption, IPressedKeys } from '../types';
+import { Answer, ChatMessageSource, IChatOptions, IPressedKeys, IRule, IRuleOption } from '../types';
 import * as utils from './utils';
 
 export class ChatUI {
@@ -284,7 +284,7 @@ export class ChatUI {
   }
 
   public handleKey({ keyCode, type }) {
-    this.pressedKeys[keyCode] = type == 'keydown';
+    this.pressedKeys[keyCode] = type === 'keydown';
 
     if (!this.pressedKeys[16] && this.pressedKeys[13]) {
       const event = new Event('submit');

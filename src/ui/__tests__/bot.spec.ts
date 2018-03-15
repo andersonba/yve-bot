@@ -350,7 +350,7 @@ describe('DOM behaviors', () => {
     expect(getTyping().classList).not.toContain('is-typing');
   });
 
-  test('bot hearing', async() => {
+  test('bot hearing', async () => {
     const rules = loadYaml(`
     - message: Hello
       type: String
@@ -455,7 +455,7 @@ describe('DOM behaviors', () => {
     expect(document.activeElement).not.toEqual(input);
   });
 
-  test('submit message when press Enter in textarea', async() => {
+  test('submit message when press Enter in textarea', async () => {
     const rules = loadYaml(`
     - message: value
       type: String
@@ -476,7 +476,7 @@ describe('DOM behaviors', () => {
 
     await sleep();
 
-    let modifiedInput = chat.querySelector('.yvebot-form-input');
+    const modifiedInput = chat.querySelector('.yvebot-form-input');
     expect(modifiedInput.type).toBe('text');
   });
 });

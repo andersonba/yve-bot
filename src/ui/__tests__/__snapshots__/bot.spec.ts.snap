@@ -47,11 +47,10 @@ exports[`DOM behaviors bot with name 1`] = `
     <form
       class="yvebot-form"
     >
-      <input
-        autocomplete="off"
+      <textarea
         class="yvebot-form-input"
         placeholder="Type your message"
-        type="text"
+        rows="1"
       />
       <button
         class="yvebot-form-submit"
@@ -116,11 +115,10 @@ exports[`DOM behaviors bot with timestamp 1`] = `
     <form
       class="yvebot-form"
     >
-      <input
-        autocomplete="off"
+      <textarea
         class="yvebot-form-input"
         placeholder="Type your message"
-        type="text"
+        rows="1"
       />
       <button
         class="yvebot-form-submit"
@@ -175,11 +173,10 @@ exports[`DOM behaviors initial elements 1`] = `
     <form
       class="yvebot-form"
     >
-      <input
-        autocomplete="off"
+      <textarea
         class="yvebot-form-input"
         placeholder="Type your message"
-        type="text"
+        rows="1"
       />
       <button
         class="yvebot-form-submit"
@@ -259,12 +256,11 @@ exports[`DOM behaviors user click on more options using maxOptions 1`] = `
     <form
       class="yvebot-form"
     >
-      <input
-        autocomplete="off"
+      <textarea
         class="yvebot-form-input"
         disabled=""
         placeholder="Choose an option above"
-        type="text"
+        rows="1"
       />
       <button
         class="yvebot-form-submit"
@@ -333,11 +329,10 @@ exports[`DOM behaviors user reply 1`] = `
     <form
       class="yvebot-form"
     >
-      <input
-        autocomplete="off"
+      <textarea
         class="yvebot-form-input"
         placeholder="Type your message"
-        type="text"
+        rows="1"
       />
       <button
         class="yvebot-form-submit"
@@ -425,12 +420,11 @@ exports[`DOM behaviors user reply with multiple choice 1`] = `
     <form
       class="yvebot-form"
     >
-      <input
-        autocomplete="off"
+      <textarea
         class="yvebot-form-input"
         disabled=""
         placeholder="Choose the options above"
-        type="text"
+        rows="1"
       />
       <button
         class="yvebot-form-submit"
@@ -523,12 +517,11 @@ exports[`DOM behaviors user reply with single choice 1`] = `
     <form
       class="yvebot-form"
     >
-      <input
-        autocomplete="off"
+      <textarea
         class="yvebot-form-input"
         disabled=""
         placeholder="Choose an option above"
-        type="text"
+        rows="1"
       />
       <button
         class="yvebot-form-submit"
@@ -597,11 +590,10 @@ exports[`DOM behaviors user reply with single choice 2`] = `
     <form
       class="yvebot-form"
     >
-      <input
-        autocomplete="off"
+      <textarea
         class="yvebot-form-input"
         placeholder="Type your message"
-        type="text"
+        rows="1"
       />
       <button
         class="yvebot-form-submit"
@@ -669,11 +661,10 @@ exports[`passive support 1`] = `
     <form
       class="yvebot-form"
     >
-      <input
-        autocomplete="off"
+      <textarea
         class="yvebot-form-input"
         placeholder="Type your message"
-        type="text"
+        rows="1"
       />
       <button
         class="yvebot-form-submit"

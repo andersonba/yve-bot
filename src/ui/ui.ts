@@ -4,7 +4,9 @@ import * as utils from './utils';
 export class ChatUI {
   public chat: HTMLDivElement;
   public form: HTMLFormElement;
-  public input: HTMLInputElement;
+  public textArea: HTMLTextAreaElement;
+  public inputText: HTMLInputElement;
+  public input: HTMLInputElement | HTMLTextAreaElement;
   public submit: HTMLButtonElement;
   public typing: HTMLLIElement;
   public conversation: HTMLUListElement;
@@ -15,12 +17,17 @@ export class ChatUI {
     this.chat = this.createChat();
     this.typing = this.createTyping();
     this.conversation = this.createConversation();
-    this.input = this.createInput();
+    this.textArea = this.createTextarea();
+    this.inputText = this.createInput();
+    this.input = this.textArea;
     this.submit = this.createSubmit();
     this.form = this.createForm(this.input, this.submit);
     this.conversation.appendChild(this.typing);
     this.chat.appendChild(this.conversation);
     this.chat.appendChild(this.form);
+
+    this.textArea.addEventListener('keydown', this.handleTextAreaKeyDown.bind(this), false);
+    this.textArea.addEventListener('input', this.handleTextAreaInput);
   }
 
   public createSingleChoiceMessage(
@@ -164,7 +171,7 @@ export class ChatUI {
     return this.createThread('BOT', typing, 'yvebot-thread-typing');
   }
 
-  public createForm(input: HTMLInputElement, submit: HTMLButtonElement) {
+  public createForm(input: HTMLInputElement | HTMLTextAreaElement, submit: HTMLButtonElement) {
     const form = document.createElement('form');
     form.className = 'yvebot-form';
     form.appendChild(input);
@@ -189,6 +196,14 @@ export class ChatUI {
     return input;
   }
 
+  public createTextarea() {
+    const textarea = document.createElement('textarea');
+    textarea.className = 'yvebot-form-input';
+    textarea.rows = 1;
+    textarea.placeholder = this.options.inputPlaceholder;
+    return textarea;
+  }
+
   public createThread(source: ChatMessageSource, content: HTMLElement, customClass?: string) {
     const thread = document.createElement('li');
     thread.className = `yvebot-thread yvebot-thread-${source.toLowerCase()}`;
@@ -197,6 +212,16 @@ export class ChatUI {
     }
     thread.appendChild(content);
     return thread;
+  }
+
+  public setInputType(inputType: 'inputText' | 'textarea') {
+    const element = {
+      inputText: this.inputText,
+      textarea: this.textArea,
+    }[inputType];
+
+    this.form.replaceChild(element, this.input);
+    this.input = element;
   }
 
   public appendThread(source: ChatMessageSource, conversation: HTMLUListElement, thread: HTMLLIElement) {
@@ -257,4 +282,17 @@ export class ChatUI {
     return bubble;
   }
 
+  public handleTextAreaKeyDown({ keyCode, which, shiftKey }) {
+    const code = keyCode ? keyCode : which;
+
+    if (code === 13 && !shiftKey) {
+      const event = new Event('submit');
+      this.form.dispatchEvent(event);
+    }
+  }
+
+  public handleTextAreaInput({ target }) {
+    target.style.height = 'auto';
+    target.style.height = `${target.scrollHeight}px`;
+  }
 }

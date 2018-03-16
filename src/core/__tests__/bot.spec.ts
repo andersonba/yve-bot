@@ -58,14 +58,18 @@ test('sanitize rule', () => {
     options:
       - value: One
         synonyms: 1, one, oNe,ONE
+  - type: SingleChoice
+    multiline: false
   `);
   const bot = new YveBot(rules, OPTS);
   expect(bot.rules[0].message).toBe('Hello');
   expect(bot.rules[0].skip()).toBeFalsy();
+  expect(bot.rules[0].multiline).toBeTruthy();
   expect(bot.rules[1].options).toEqual([]);
   expect(bot.rules[2].options).toEqual([{ value: 'One' }]);
   expect(bot.rules[2].skip()).toBeTruthy();
   expect(bot.rules[3].options[0].synonyms).toEqual([ '1', 'one', 'oNe', 'ONE' ]);
+  expect(bot.rules[4].multiline).toBeFalsy();
 });
 
 test('convert flows to rules', () => {
@@ -137,7 +141,7 @@ test('event binding', async () => {
   await sleep();
   expect(onTalk).toBeCalledWith(rules[0].message, rules[0], session);
   await sleep();
-  expect(onHear).toBeCalledWith(session);
+  expect(onHear).toBeCalledWith(rules[0], session);
 
   bot.hear(color);
   await sleep();

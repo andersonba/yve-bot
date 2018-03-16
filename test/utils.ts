@@ -19,8 +19,9 @@ export function sleep(time: number = 0): Promise<void> {
 
 export function getChatElements(selector: string = 'body') {
   const target = document.querySelector(selector);
+  const chat = document.querySelector('.yvebot-chat') as HTMLDivElement;
   const form = target.querySelector('.yvebot-form') as HTMLFormElement;
-  const input = target.querySelector('.yvebot-form-input') as HTMLInputElement;
+  const input = target.querySelector('.yvebot-form-input') as HTMLTextAreaElement as HTMLInputElement;
   const submit = target.querySelector('.yvebot-form-submit') as HTMLButtonElement;
   const conversation = target.querySelector('.yvebot-conversation') as HTMLDivElement;
   const getMessages = () => target.querySelectorAll('.yvebot-message') as NodeListOf<HTMLDivElement>;
@@ -34,6 +35,7 @@ export function getChatElements(selector: string = 'body') {
   const getBubbleMoreOptions = () => target.querySelector('.yvebot-message-bubbleMoreOptions') as HTMLButtonElement;
   return {
     target,
+    chat,
     form,
     conversation,
     input,

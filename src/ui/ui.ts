@@ -1,4 +1,4 @@
-import { Answer, ChatMessageSource, IChatOptions, IPressedKeys, IRule, IRuleOption } from '../types';
+import { Answer, ChatMessageSource, IChatOptions, IRule, IRuleOption } from '../types';
 import * as utils from './utils';
 
 export class ChatUI {
@@ -11,7 +11,6 @@ export class ChatUI {
   public typing: HTMLLIElement;
   public conversation: HTMLUListElement;
   private options: IChatOptions;
-  private pressedKeys: IPressedKeys;
 
   constructor(options: IChatOptions) {
     this.options = options;
@@ -27,9 +26,8 @@ export class ChatUI {
     this.chat.appendChild(this.conversation);
     this.chat.appendChild(this.form);
 
-    this.pressedKeys = [];
-    this.chat.addEventListener('keydown', this.handleKey.bind(this), false);
-    this.chat.addEventListener('keyup', this.handleKey.bind(this), false);
+    this.textArea.addEventListener('keydown', this.handleKey.bind(this), false);
+    this.textArea.addEventListener('input', this.handleTextAreaInput);
   }
 
   public createSingleChoiceMessage(
@@ -216,14 +214,14 @@ export class ChatUI {
     return thread;
   }
 
-  public replaceWithInputText() {
-    this.form.replaceChild(this.inputText, this.input);
-    this.input = this.inputText;
-  }
+  public setInputType(inputType: 'inputText' | 'textarea') {
+    const element = {
+      inputText: this.inputText,
+      textarea: this.textArea,
+    }[inputType];
 
-  public replaceWithTextArea() {
-    this.form.replaceChild(this.textArea, this.input);
-    this.input = this.textArea;
+    this.form.replaceChild(element, this.input);
+    this.input = element;
   }
 
   public appendThread(source: ChatMessageSource, conversation: HTMLUListElement, thread: HTMLLIElement) {
@@ -284,20 +282,17 @@ export class ChatUI {
     return bubble;
   }
 
-  public handleKey({ keyCode, type }) {
-    this.pressedKeys[keyCode] = type === 'keydown';
-    const rows = +(this.input.getAttribute('rows'));
+  public handleKey({ keyCode, which, shiftKey }) {
+    const code = keyCode ? keyCode : which;
 
-    if (this.pressedKeys[16] && this.pressedKeys[13] && this.input.type === 'textarea') {
-      this.input.setAttribute('rows', String(rows + 1));
-    } else if (this.pressedKeys[8] && rows !== 1 && this.input.type === 'textarea') {
-      const lines = this.input.value.split('\n');
-      if (!lines[lines.length - 1]) {
-        this.input.setAttribute('rows', String(rows - 1));
-      }
-    } else if (!this.pressedKeys[16] && this.pressedKeys[13]) {
+    if (code === 13 && !shiftKey) {
       const event = new Event('submit');
       this.form.dispatchEvent(event);
     }
+  }
+
+  public handleTextAreaInput({ target }) {
+    target.style.height = 'auto';
+    target.style.height = `${target.scrollHeight}px`;
   }
 }

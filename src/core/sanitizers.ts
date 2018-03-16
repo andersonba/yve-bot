@@ -35,7 +35,7 @@ export function sanitizeRule(input: IRule): IRule {
   });
 
   rule.passive = rule.passive === undefined ? true : rule.passive;
-  rule.multline = rule.multline === undefined ? true : rule.multline;
+  rule.multiline = rule.multiline === undefined ? true : rule.multiline;
 
   if (typeof rule.skip === 'undefined') {
     rule.skip = () => false;

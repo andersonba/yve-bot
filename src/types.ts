@@ -30,7 +30,7 @@ export interface IRule {
   passive?: boolean;
   next?: RuleNext;
   skip?: RuleTypeSkip;
-  multline?: boolean;
+  multiline?: boolean;
   exit?: boolean;
 }
 
@@ -111,10 +111,6 @@ export interface IChatOptions {
   timestampFormatter?: (ts: number) => string;
   autoFocus?: boolean;
   yveBotOptions?: IYveBotOptions;
-}
-
-export interface IPressedKeys {
-  [keyCode: number]: boolean;
 }
 
 export type ChatMessageSource = 'BOT' | 'USER';

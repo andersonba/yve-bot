@@ -356,7 +356,7 @@ describe('DOM behaviors', () => {
       type: String
     - message: name
       type: String
-      multline: false
+      multiline: false
     - message: Nice
     `);
     const inputClass = '.yvebot-form-input';
@@ -461,7 +461,7 @@ describe('DOM behaviors', () => {
       type: String
     - message: bye
       type: String
-      multline: false
+      multiline: false
     `);
 
     new YveBotUI(rules, OPTS).start();
@@ -472,7 +472,7 @@ describe('DOM behaviors', () => {
     expect(input.type).toBe('textarea');
     input.value = 'msg';
     const event = new KeyboardEvent('keydown', { keyCode: 13 });
-    chat.dispatchEvent(event);
+    input.dispatchEvent(event);
 
     await sleep();
 
@@ -480,10 +480,13 @@ describe('DOM behaviors', () => {
     expect(modifiedInput.type).toBe('text');
   });
 
-  test('should increase textarea rows when press Shift + ENTER', async () => {
+  test('should not submit msg if shift key is pressed', async () => {
     const rules = loadYaml(`
     - message: value
       type: String
+    - message: bye
+      type: String
+      multiline: false
     `);
 
     new YveBotUI(rules, OPTS).start();
@@ -491,24 +494,24 @@ describe('DOM behaviors', () => {
 
     await sleep();
 
-    let rows = input.getAttribute('rows');
-    expect(rows).toBe('1');
     expect(input.type).toBe('textarea');
     input.value = 'msg';
+    const event = new KeyboardEvent('keydown', { keyCode: 13, shiftKey: true });
+    input.dispatchEvent(event);
 
-    const shiftEvent = new KeyboardEvent('keydown', { keyCode: 16 });
-    const enterEvent = new KeyboardEvent('keydown', { keyCode: 13 });
-    chat.dispatchEvent(shiftEvent);
-    chat.dispatchEvent(enterEvent);
+    await sleep();
 
-    rows = input.getAttribute('rows');
-    expect(rows).toBe('2');
+    const modifiedInput = chat.querySelector('.yvebot-form-input');
+    expect(modifiedInput.type).toBe('textarea');
   });
 
-  test('should decrease textarea rows when press Shift + ENTER', async () => {
+  test('submit message when press Enter as which prop in textarea', async () => {
     const rules = loadYaml(`
     - message: value
       type: String
+    - message: bye
+      type: String
+      multiline: false
     `);
 
     new YveBotUI(rules, OPTS).start();
@@ -516,36 +519,18 @@ describe('DOM behaviors', () => {
 
     await sleep();
 
-    let rows = input.getAttribute('rows');
-    expect(rows).toBe('1');
+    expect(input.type).toBe('textarea');
     input.value = 'msg';
+    const event = new KeyboardEvent('keydown', { which: 13 });
+    input.dispatchEvent(event);
 
-    let shiftEvent = new KeyboardEvent('keydown', { keyCode: 16 });
-    let enterEvent = new KeyboardEvent('keydown', { keyCode: 13 });
-    const backspaceEvent = new KeyboardEvent('keydown', { keyCode: 8 });
+    await sleep();
 
-    chat.dispatchEvent(shiftEvent);
-    chat.dispatchEvent(enterEvent);
-
-    rows = input.getAttribute('rows');
-    expect(rows).toBe('2');
-
-    chat.dispatchEvent(enterEvent);
-
-    rows = input.getAttribute('rows');
-    expect(rows).toBe('3');
-
-    shiftEvent = new KeyboardEvent('keyup', { keyCode: 16 });
-    enterEvent = new KeyboardEvent('keyup', { keyCode: 13 });
-    chat.dispatchEvent(shiftEvent);
-    chat.dispatchEvent(enterEvent);
-
-    chat.dispatchEvent(backspaceEvent);
-    rows = input.getAttribute('rows');
-    expect(rows).toBe('2');
+    const modifiedInput = chat.querySelector('.yvebot-form-input');
+    expect(modifiedInput.type).toBe('text');
   });
 
-  test('should not decrease rows when delete one character', async () => {
+  test('should set textarea height based on input', async () => {
     const rules = loadYaml(`
     - message: value
       type: String
@@ -554,27 +539,12 @@ describe('DOM behaviors', () => {
     new YveBotUI(rules, OPTS).start();
     const { input, chat } = getChatElements();
 
-    await sleep();
+    const inputEvent = new Event('input');
 
-    let rows = input.getAttribute('rows');
-    expect(rows).toBe('1');
-    input.value = 'asdas\nasdasdas\nasdasdhasdas';
-
-    let shiftEvent = new KeyboardEvent('keydown', { keyCode: 16 });
-    let enterEvent = new KeyboardEvent('keydown', { keyCode: 13 });
-
-    chat.dispatchEvent(shiftEvent);
-    chat.dispatchEvent(enterEvent);
-
-    shiftEvent = new KeyboardEvent('keyup', { keyCode: 16 });
-    enterEvent = new KeyboardEvent('keyup', { keyCode: 13 });
-    chat.dispatchEvent(enterEvent);
-    chat.dispatchEvent(shiftEvent);
-
-    const backspaceEvent = new KeyboardEvent('keydown', { keyCode: 8 });
-    chat.dispatchEvent(backspaceEvent);
-
-    rows = input.getAttribute('rows');
-    expect(rows).toBe('2');
+    expect(input.type).toBe('textarea');
+    input.value = 'msg';
+    const scrollHeight = input.scrollHeight;
+    input.dispatchEvent(inputEvent);
+    expect(input.style.height).toBe(`${scrollHeight}px`);
   });
 });

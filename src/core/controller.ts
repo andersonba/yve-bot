@@ -255,7 +255,7 @@ export class Controller {
       }
 
       if (expectedError) {
-        bot.dispatch('hear');
+        bot.dispatch('hear', rule);
         return this;
       }
       throw e;

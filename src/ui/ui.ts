@@ -26,7 +26,7 @@ export class ChatUI {
     this.chat.appendChild(this.conversation);
     this.chat.appendChild(this.form);
 
-    this.textArea.addEventListener('keydown', this.handleKey.bind(this), false);
+    this.textArea.addEventListener('keydown', this.handleTextAreaKeyDown.bind(this), false);
     this.textArea.addEventListener('input', this.handleTextAreaInput);
   }
 
@@ -282,7 +282,7 @@ export class ChatUI {
     return bubble;
   }
 
-  public handleKey({ keyCode, which, shiftKey }) {
+  public handleTextAreaKeyDown({ keyCode, which, shiftKey }) {
     const code = keyCode ? keyCode : which;
 
     if (code === 13 && !shiftKey) {

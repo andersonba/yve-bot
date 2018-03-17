@@ -21,13 +21,10 @@ export class ChatUI {
     this.inputText = this.createInput();
     this.input = this.textArea;
     this.submit = this.createSubmit();
-    this.form = this.createForm(this.input, this.submit);
+    this.form = this.createForm();
     this.conversation.appendChild(this.typing);
     this.chat.appendChild(this.conversation);
     this.chat.appendChild(this.form);
-
-    this.textArea.addEventListener('keydown', this.handleTextAreaKeyDown.bind(this), false);
-    this.textArea.addEventListener('input', this.handleTextAreaInput);
   }
 
   public createSingleChoiceMessage(
@@ -42,7 +39,7 @@ export class ChatUI {
         onSelected(btn.getAttribute('data-label'), btn.getAttribute('data-value'));
       });
     }
-    return document.createElement('div');
+    return document.createElement('div') as HTMLDivElement;
   }
 
   public createBubbleButton(
@@ -50,7 +47,7 @@ export class ChatUI {
     onClick: (btn: HTMLButtonElement) => void,
     opts?: { class?: string },
   ) {
-    const btn = document.createElement('button');
+    const btn = document.createElement('button') as HTMLButtonElement;
     btn.className = 'yvebot-message-bubbleBtn';
     if (opts && opts.class) {
       btn.classList.add(opts.class);
@@ -85,7 +82,7 @@ export class ChatUI {
   public createBubbleMessage(rule: IRule, onClick: (btn: HTMLButtonElement, list: HTMLDivElement) => void) {
     const { maxOptions = 0 } = rule;
     const { moreOptionsLabel: label } = this.options;
-    const bubbles = document.createElement('div');
+    const bubbles = document.createElement('div') as HTMLDivElement;
     bubbles.className = `yvebot-message-bubbles yvebot-ruleType-${rule.type}`;
 
     const createButtonsPaginator = (options: IRuleOption[], start = 0) => {
@@ -111,10 +108,10 @@ export class ChatUI {
     rule: IRule,
     onDone: (label: string[], value: string[]) => void,
   ) {
-    const message = document.createElement('div');
+    const message = document.createElement('div') as HTMLDivElement;
 
     if (rule.options.length) {
-      const done = document.createElement('button');
+      const done = document.createElement('button') as HTMLButtonElement;
       done.textContent = this.options.doneMultipleChoiceLabel;
       done.className = 'yvebot-message-bubbleDone';
       done.style.display = 'none';
@@ -149,38 +146,38 @@ export class ChatUI {
   }
 
   public createChat() {
-    const chat = document.createElement('div');
+    const chat = document.createElement('div') as HTMLDivElement;
     chat.className = 'yvebot-chat';
     return chat;
   }
 
   public createConversation() {
-    const conversation = document.createElement('ul');
+    const conversation = document.createElement('ul') as HTMLUListElement;
     conversation.className = 'yvebot-conversation';
     return conversation;
   }
 
   public createTyping() {
-    const typing = document.createElement('div');
+    const typing = document.createElement('div') as HTMLDivElement;
     typing.className = 'yvebot-typing';
     [1, 2, 3].forEach(() => {
-      const dot = document.createElement('span');
+      const dot = document.createElement('span') as HTMLSpanElement;
       dot.className = 'yvebot-typing-dot';
       typing.appendChild(dot);
     });
     return this.createThread('BOT', typing, 'yvebot-thread-typing');
   }
 
-  public createForm(input: HTMLInputElement | HTMLTextAreaElement, submit: HTMLButtonElement) {
-    const form = document.createElement('form');
+  public createForm() {
+    const form = document.createElement('form') as HTMLFormElement;
     form.className = 'yvebot-form';
-    form.appendChild(input);
-    form.appendChild(submit);
+    form.appendChild(this.input);
+    form.appendChild(this.submit);
     return form;
   }
 
   public createSubmit() {
-    const submit = document.createElement('button');
+    const submit = document.createElement('button') as HTMLButtonElement;
     submit.className = 'yvebot-form-submit';
     submit.type = 'submit';
     submit.textContent = this.options.submitLabel;
@@ -188,7 +185,7 @@ export class ChatUI {
   }
 
   public createInput() {
-    const input = document.createElement('input');
+    const input = document.createElement('input') as HTMLInputElement;
     input.className = 'yvebot-form-input';
     input.type = 'text';
     input.placeholder = this.options.inputPlaceholder;
@@ -197,15 +194,29 @@ export class ChatUI {
   }
 
   public createTextarea() {
-    const textarea = document.createElement('textarea');
+    const textarea = document.createElement('textarea') as HTMLTextAreaElement;
     textarea.className = 'yvebot-form-input';
-    textarea.rows = 1;
     textarea.placeholder = this.options.inputPlaceholder;
+    textarea.rows = 1;
+    // shift + enter
+    textarea.addEventListener('keydown', (e) => {
+      const code = e.keyCode ? e.keyCode : e.which;
+      if (code === 13 && !e.shiftKey) {
+        e.preventDefault();
+        this.form.dispatchEvent(new Event('submit'));
+      }
+    });
+    // autosize
+    textarea.addEventListener('input', (e) => {
+      const target = e.target as HTMLTextAreaElement;
+      target.style.height = 'auto';
+      target.style.height = `${target.scrollHeight}px`;
+    });
     return textarea;
   }
 
   public createThread(source: ChatMessageSource, content: HTMLElement, customClass?: string) {
-    const thread = document.createElement('li');
+    const thread = document.createElement('li') as HTMLLIElement;
     thread.className = `yvebot-thread yvebot-thread-${source.toLowerCase()}`;
     if (customClass) {
       thread.classList.add(customClass);
@@ -220,8 +231,14 @@ export class ChatUI {
       textarea: this.textArea,
     }[inputType];
 
-    this.form.replaceChild(element, this.input);
-    this.input = element;
+    if (this.input !== element) {
+      this.form.replaceChild(element, this.input);
+      this.input = element;
+    }
+
+    if (this.options.autoFocus) {
+      this.input.focus();
+    }
   }
 
   public appendThread(source: ChatMessageSource, conversation: HTMLUListElement, thread: HTMLLIElement) {
@@ -257,42 +274,28 @@ export class ChatUI {
       text = String(answer);
     }
 
-    const bubble = document.createElement('div');
+    const bubble = document.createElement('div') as HTMLDivElement;
     bubble.className = 'yvebot-bubble';
 
     if (senderName) {
-      const name = document.createElement('div');
+      const name = document.createElement('div') as HTMLDivElement;
       name.className = 'yvebot-sender';
       name.innerHTML = senderName;
       bubble.appendChild(name);
     }
 
-    const message = document.createElement('div');
+    const message = document.createElement('div') as HTMLDivElement;
     message.className = 'yvebot-message';
     message.innerHTML = text;
     bubble.appendChild(message);
 
     if (timestampable) {
-      const timestamp = document.createElement('div');
+      const timestamp = document.createElement('div') as HTMLDivElement;
       timestamp.className = 'yvebot-timestamp';
       timestamp.innerHTML = timestampFormatter(Date.now());
       bubble.appendChild(timestamp);
     }
 
     return bubble;
-  }
-
-  public handleTextAreaKeyDown({ keyCode, which, shiftKey }) {
-    const code = keyCode ? keyCode : which;
-
-    if (code === 13 && !shiftKey) {
-      const event = new Event('submit');
-      this.form.dispatchEvent(event);
-    }
-  }
-
-  public handleTextAreaInput({ target }) {
-    target.style.height = 'auto';
-    target.style.height = `${target.scrollHeight}px`;
   }
 }

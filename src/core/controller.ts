@@ -201,7 +201,7 @@ export class Controller {
     }
 
     bot.store.set('waitingForAnswer', true);
-    bot.dispatch('hear', rule);
+    bot.dispatch('hear');
 
     return this;
   }
@@ -255,7 +255,7 @@ export class Controller {
       }
 
       if (expectedError) {
-        bot.dispatch('hear', rule);
+        bot.dispatch('hear');
         return this;
       }
       throw e;

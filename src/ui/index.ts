@@ -33,30 +33,27 @@ export default class YveBotUI extends YveBot {
           .appendChild(this.UI.chat);
 
         if (this.UIOptions.autoFocus) {
-          const $input = this.UI.input;
-          $input.focus();
+          this.UI.input.focus();
         }
       })
       .on('talk', (msg: string, rule: IRule) => {
         this.newMessage('BOT', msg, rule);
       })
-      .on('hear', (rule: IRule) => this.hearing(rule))
-      .on('listen', (_, rule: IRule) => this.listening(rule))
       .on('typing', () => this.typing())
       .on('typed', () => this.typed());
 
     this.UI.form.addEventListener('submit', (evt) => {
       evt.preventDefault();
-      const input = this.UI.input;
-      const msg = input.value.trim();
+      const msg = this.UI.input.value.trim();
 
       if (msg) {
         this.hear(msg);
         this.newMessage('USER', msg);
-        input.value = '';
+        this.UI.input.value = '';
+        this.UI.input.dispatchEvent(new Event('input'));
       }
       if (this.UIOptions.autoFocus) {
-        input.focus();
+        this.UI.input.focus();
       }
     });
   }
@@ -70,20 +67,6 @@ export default class YveBotUI extends YveBot {
   public typed() {
     this.UI.typing.classList.remove('is-typing');
     this.UI.scrollDown(this.UI.typing.offsetHeight);
-    return this;
-  }
-
-  public hearing(rule: IRule) {
-    if (!rule.multiline) {
-      this.UI.setInputType('inputText');
-    }
-    return this;
-  }
-
-  public listening(rule: IRule) {
-    if (!rule.multiline) {
-      this.UI.setInputType('textarea');
-    }
     return this;
   }
 
@@ -108,6 +91,8 @@ export default class YveBotUI extends YveBot {
         }));
         break;
       }
+
+      this.UI.setInputType(rule.multiline ? 'textarea' : 'inputText');
     }
     UI.appendThread(source, this.UI.conversation, thread);
     return this;

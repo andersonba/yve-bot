@@ -333,6 +333,7 @@ exports[`DOM behaviors user reply 1`] = `
         class="yvebot-form-input"
         placeholder="Type your message"
         rows="1"
+        style="height: 0px;"
       />
       <button
         class="yvebot-form-submit"
@@ -665,6 +666,7 @@ exports[`passive support 1`] = `
         class="yvebot-form-input"
         placeholder="Type your message"
         rows="1"
+        style="height: 0px;"
       />
       <button
         class="yvebot-form-submit"

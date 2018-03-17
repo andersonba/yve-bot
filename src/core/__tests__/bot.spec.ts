@@ -141,7 +141,7 @@ test('event binding', async () => {
   await sleep();
   expect(onTalk).toBeCalledWith(rules[0].message, rules[0], session);
   await sleep();
-  expect(onHear).toBeCalledWith(rules[0], session);
+  expect(onHear).toBeCalledWith(session);
 
   bot.hear(color);
   await sleep();

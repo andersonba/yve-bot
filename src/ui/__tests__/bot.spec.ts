@@ -18,8 +18,6 @@ test('event binding', async () => {
   `);
   const onStart = jest.fn();
   const onStoreChanged = jest.fn();
-  const onListen = jest.fn();
-  const onHear = jest.fn();
   const onEnd = jest.fn();
   const onEndCopy = jest.fn();
   const onReply = jest.fn();
@@ -27,8 +25,6 @@ test('event binding', async () => {
   new YveBotUI(rules, OPTS)
     .on('start', onStart)
     .on('storeChanged', onStoreChanged)
-    .on('listen', onListen)
-    .on('hear', onHear)
     .on('end', onEnd)
     .on('end', onEndCopy)
     .on('reply', onReply)
@@ -42,16 +38,12 @@ test('event binding', async () => {
   await sleep();
   expect(onStart).toBeCalledWith(session);
 
-  await sleep();
-  expect(onHear).toBeCalledWith(rules[0], session);
-
   input.value = msg;
   submit.click();
 
   await sleep();
 
   expect(onReply).toBeCalledWith(msg, session);
-  expect(onListen).toBeCalledWith(msg, rules[0], session);
   await sleep();
   expect(onStoreChanged).toBeCalledWith({ output, currentIdx: 1, waitingForAnswer: false }, session);
   await sleep();

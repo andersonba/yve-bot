@@ -1,5 +1,19 @@
 # Change Log
 
+## [1.17.0](https://github.com/andersonba/yve-bot/tree/1.17.0) (2018-03-17)
+[Full Changelog](https://github.com/andersonba/yve-bot/compare/1.16.0...1.17.0)
+
+**Implemented enhancements:**
+
+- feature: support for textarea using multiline prop [\#111](https://github.com/andersonba/yve-bot/issues/111)
+- create/extend rule types with short mode [\#110](https://github.com/andersonba/yve-bot/issues/110)
+- feature: skip rule based on conditional [\#104](https://github.com/andersonba/yve-bot/issues/104)
+
+**Merged pull requests:**
+
+- Add multline prop to support textarea [\#113](https://github.com/andersonba/yve-bot/pull/113) ([cristianossd](https://github.com/cristianossd))
+- Implementing skip property [\#108](https://github.com/andersonba/yve-bot/pull/108) ([cristianossd](https://github.com/cristianossd))
+
 ## [1.16.0](https://github.com/andersonba/yve-bot/tree/1.16.0) (2018-03-08)
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.15.0...1.16.0)
 

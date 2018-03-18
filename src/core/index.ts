@@ -22,7 +22,7 @@ export default class YveBot {
   public store: Store;
   public sessionId: string;
 
-  private handlers: { [handler: string]: Array<() => any> };
+  private handlers: { [handler: string]: Array<(...args) => any> };
   private queue: { addAll: (fns: Array<() => Promise<any>>) => void };
 
   constructor(rules: Array<IRule|IFlow>, customOpts?: IYveBotOptions) {

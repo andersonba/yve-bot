@@ -12,19 +12,21 @@ const OPTS = {
   enableWaitForSleep: false,
 };
 
-test('custom define', () => {
-  YveBot.actions.define('test', 1);
-  YveBot.types.define('test', 2);
-  YveBot.executors.define('test', 3);
-  YveBot.validators.define('test', 4);
+test('define modules', () => {
+  const action = () => 'action';
+  const typeE = { executors: [{ transform: () => 'type' }] };
+  const validator = { warning: 'validator' };
+
+  YveBot.actions.define('test', action);
+  YveBot.types.define('test', typeE);
+  YveBot.validators.define('test', validator);
 
   const bot = new YveBot([]);
 
   /* tslint:disable */
-  expect((<any>bot.actions).test).toBe(1);
-  expect((<any>bot.types).test).toBe(2);
-  expect((<any>bot.executors).test).toBe(3);
-  expect((<any>bot.validators).test).toBe(4);
+  expect(bot.actions.test).toBe(action);
+  expect(bot.types.test).toBe(typeE);
+  expect(bot.validators.test).toBe(validator);
   /* tslint:enable */
 });
 
@@ -49,18 +51,25 @@ test('sanitize rule', () => {
   - Hello
   - type: SingleChoice
   - type: MultipleChoice
+    skip: true
     options:
       - One
   - type: SingleChoice
     options:
       - value: One
         synonyms: 1, one, oNe,ONE
+  - type: SingleChoice
+    multiline: false
   `);
   const bot = new YveBot(rules, OPTS);
   expect(bot.rules[0].message).toBe('Hello');
+  expect(bot.rules[0].skip()).toBeFalsy();
+  expect(bot.rules[0].multiline).toBeTruthy();
   expect(bot.rules[1].options).toEqual([]);
   expect(bot.rules[2].options).toEqual([{ value: 'One' }]);
+  expect(bot.rules[2].skip()).toBeTruthy();
   expect(bot.rules[3].options[0].synonyms).toEqual([ '1', 'one', 'oNe', 'ONE' ]);
+  expect(bot.rules[4].multiline).toBeFalsy();
 });
 
 test('convert flows to rules', () => {
@@ -676,6 +685,37 @@ test('running actions', async () => {
   expect(postAct).toBeCalledWith(true, rules[0], bot);
 });
 
+test('end bot when last message has skip', async () => {
+  const onEnd = jest.fn();
+  const rules = loadYaml(`
+    - message: Hello
+      skip: true
+  `);
+
+  const bot = new YveBot(rules, OPTS);
+  const onEnd = jest.fn();
+
+  bot.on('end', onEnd).start();
+  await sleep();
+  expect(onEnd).toHaveBeenCalledTimes(1);
+});
+
+test('end bot when last message has skip function', async () => {
+  const onEnd = jest.fn();
+  const rules = [{
+    message: 'Hello',
+    skip: jest.fn(() => true),
+  }];
+
+  const bot = new YveBot(rules, OPTS);
+  const onEnd = jest.fn();
+
+  bot.on('end', onEnd).start();
+  await sleep();
+  expect(rules[0].skip).toHaveBeenCalledTimes(1);
+  expect(onEnd).toHaveBeenCalledTimes(1);
+});
+
 test('ruleTypes with multi executors', async () => {
   const rules = loadYaml(`
   - message: Hello
@@ -689,6 +729,13 @@ test('ruleTypes with multi executors', async () => {
       transform: async (answer) => `${answer} transformed`,
     }, {
       transform: async (answer) => `${answer} transformed2`,
+    }, {
+      transform: async (answer) => {
+        bot.store.set('output.testStepTemp', answer);
+        throw new bot.exceptions.PauseRuleTypeExecutors();
+      },
+    }, {
+      transform: async (answer) => `${answer} transformed3`,
     }],
   });
 
@@ -697,44 +744,11 @@ test('ruleTypes with multi executors', async () => {
   expect(bot.store.get('executors.testStep.currentIdx')).toEqual(undefined);
   bot.hear('answer');
   await sleep();
-  expect(bot.store.get('executors.testStep.currentIdx')).toEqual(undefined);
-  expect(bot.store.get('output.testStep')).toEqual('answer transformed transformed2');
-  expect(onEnd).toHaveBeenCalledTimes(1);
-});
-
-test('ruleTypes with multi executors and waitForUserInput', async () => {
-  const rules = loadYaml(`
-  - message: Hello
-    name: testStep2
-    type: MultiStep2
-  `);
-  const bot = new YveBot(rules, OPTS);
-  const onEnd = jest.fn();
-  bot.types.define('MultiStep2', {
-    executors: [
-      {
-        transform: async (answer) => `${answer} transformed`,
-      },
-      {
-        transform: async (answer) => `${answer} transformed2`,
-      },
-      bot.executors.WaitForUserInput,
-      {
-        transform: async (answer) => `${answer} transformed3`,
-      },
-    ],
-  });
-
-  bot.on('end', onEnd).start();
+  expect(bot.store.get('executors.testStep.currentIdx')).toEqual(3);
+  bot.hear(bot.store.get('output.testStepTemp'));
   await sleep();
-  expect(bot.store.get('executors.testStep2.currentIdx')).toEqual(undefined);
-  bot.hear('first answer');
-  await sleep();
-  expect(bot.store.get('executors.testStep2.currentIdx')).toEqual(3);
-  bot.hear('second answer');
-  await sleep();
-  expect(bot.store.get('executors.testStep2.currentIdx')).toEqual(undefined);
-  expect(bot.store.get('output.testStep2')).toEqual('second answer transformed3');
+  expect(bot.store.get('output.testStep'))
+    .toEqual('answer transformed transformed2 transformed3');
   expect(onEnd).toHaveBeenCalledTimes(1);
 });
 

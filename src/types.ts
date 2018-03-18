@@ -29,6 +29,8 @@ export interface IRule {
   config?: { [name: string]: any };
   passive?: boolean;
   next?: RuleNext;
+  skip?: RuleTypeSkip;
+  multiline?: boolean;
   exit?: boolean;
 }
 
@@ -61,6 +63,10 @@ export type RuleTypeTransform = (
   (value: any, rule?: IRule, bot?: YveBot) => Promise<any>
 );
 
+export type RuleTypeSkip = (
+  (output: object, rule?: IRule, bot?: YveBot) => boolean
+);
+
 export type RuleNext = string;
 
 export interface IContext {
@@ -86,6 +92,10 @@ export type EventName = 'start' | 'end' | 'error' | 'listen' |
   'hear' | 'talk' | 'reply' | 'typed' | 'typing' | 'storeChanged';
 
 export type ModuleType = 'validators' | 'types' | 'actions' | 'executors' | 'listeners';
+
+export interface IModuleOptions {
+  override: boolean;
+}
 
 export interface IChatOptions {
   target?: string;

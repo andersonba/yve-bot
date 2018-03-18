@@ -143,6 +143,8 @@
     display: block;
     width: 100%;
     color: #333;
+    min-height: 53px;
+    resize: none;
 
     &:focus {
       outline: none;
@@ -158,7 +160,7 @@
     font-family: 'Roboto', sans-serif;
     position: absolute;
     right: 10px;
-    top: 16px;
+    top: 17px;
     background: transparent;
     color: #685C79;
     border: 0;

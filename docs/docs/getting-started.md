@@ -8,21 +8,21 @@ The simplest way to build a smart and customized rule-based bot conversation. Yv
 Check the available bundles bellow.
 
 
-### UI - A ready Chat UI
-A simple component to be used in your website. (browser-only)
+### UI - Simple Chat Component
+A extensible component to be used in your website. (browser-only)
 
 ```html
-<script src="//cdn.jsdelivr.net/npm/yve-bot/ui.js"></script>
+<script src="//cdn.jsdelivr.net/npm/yve-bot/web.js"></script>
 <script>
   new YveBot(rules, { target: '.Chat' }).start();
 </script>
 ```
 
 ### Core - Bot engine
-Integrate with server-side (eg: websocket, facebook, etc...) or create your own UI. (node/browser)
+Integrate with server-side (eg: websocket, facebook, etc...) or create your own chat component over the engine.
 
 ```bash
-npm install yve-bot
+yarn add yve-bot
 ```
 
 ```javascript

@@ -1,3 +1,4 @@
+import get from 'lodash-es/get';
 import YveBot from '.';
 import { Answer, IIndexes, IRule, RuleNext } from '../types';
 import { sanitizeRule } from './sanitizers';
@@ -9,9 +10,9 @@ async function validateAnswer(
   bot: YveBot,
   executorIndex: number,
 ): Promise<Answer | Answer[]> {
-  const ruleValidators = rule.validators || [];
-  const typeExecutors = bot.types[rule.type].executors || [];
-  const currentTypeExecutor = typeExecutors[executorIndex] || {};
+  const ruleValidators = utils.ensureArray(rule.validators);
+  const typeExecutors = utils.ensureArray(bot.types[rule.type].executors);
+  const currentTypeExecutor = get(typeExecutors, executorIndex, {});
   const validators = [].concat(
     executorIndex === 0 ? ruleValidators : [],
     currentTypeExecutor.validators || [],
@@ -164,9 +165,14 @@ export class Controller {
 
   public async run(idx: number): Promise<this> {
     const { bot } = this;
+    const output = bot.store.output();
     const rule = getRuleByIndex(bot, idx);
 
     bot.store.set('currentIdx', idx);
+
+    if (rule.skip(output, rule, bot)) {
+      return this.nextRule(rule);
+    }
 
     // run pre-actions
     if (bot.options.enableWaitForSleep && 'sleep' in rule) {
@@ -330,9 +336,9 @@ export class Controller {
 
     const { bot } = this;
     const executorIdx = this.getRuleExecutorIndex(rule);
-    const executors = bot.types[rule.type].executors || [];
+    const executors = utils.ensureArray(bot.types[rule.type].executors);
 
-    const executor = executors.slice(executorIdx)[0] || {};
+    const executor = get(executors.slice(executorIdx), 0, {});
     const { transform = (...args) => Promise.resolve(args[0]) } = executor;
     const answer = await (
       transform(lastAnswer, rule, bot)

@@ -36,6 +36,9 @@ export function findOptionByAnswer(
 }
 
 export function ensureArray(arr) {
+  if (typeof arr === 'undefined') {
+    return [];
+  }
   if (arr instanceof Array) {
     return arr;
   }

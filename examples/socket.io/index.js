@@ -48,7 +48,7 @@ io.on('connection', chat => {
 app.use(bodyParser.json());
 app.use('/', express.static(__dirname));
 app.use('/chat.css', express.static(__dirname + '/../web/chat.css'));
-app.use('/ui.js', express.static(__dirname + '/../../lib/ui.js'));
+app.use('/web.js', express.static(__dirname + '/../../lib/web.js'));
 
 server.listen(3000, () => {
   console.log('Yve server example listening on port 3000');

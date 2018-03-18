@@ -6,9 +6,9 @@ title: UI API
 
 Create bots without re-implement the chat conversation UI components. This browser lib is a wrapper over the Core bundle.
 
-## Initializing
+## Using on Browser
 ```html
-<script src="//cdn.jsdelivr.net/npm/yve-bot/ui.js"></script>
+<script src="//cdn.jsdelivr.net/npm/yve-bot/web.js"></script>
 
 <script>
   var rules = [...];
@@ -20,10 +20,14 @@ Create bots without re-implement the chat conversation UI components. This brows
 </script>
 ```
 
-or using React
+## Using with Bundlers
+(eg: compiling React app with webpack)
+
 ```javascript
 import YveBotUI from 'yve-bot/ui';
 ```
+
+## API
 
 | Argument | Default | Type | Description |
 |----------|---------|------|-------------|

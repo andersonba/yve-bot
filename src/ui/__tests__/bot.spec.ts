@@ -38,8 +38,6 @@ test('event binding', async () => {
   await sleep();
   expect(onStart).toBeCalledWith(session);
 
-  await sleep();
-
   input.value = msg;
   submit.click();
 
@@ -344,6 +342,38 @@ describe('DOM behaviors', () => {
     expect(getTyping().classList).not.toContain('is-typing');
   });
 
+  test('bot hearing', async () => {
+    const rules = loadYaml(`
+    - message: Hello
+      type: String
+    - message: name
+      type: String
+      multiline: false
+    - message: Nice
+    `);
+    const inputClass = '.yvebot-form-input';
+    new YveBotUI(rules, OPTS).start();
+    const { input, submit, target } = getChatElements();
+
+    await sleep();
+
+    expect(input.type).toBe('textarea');
+    input.value = 'msg';
+    submit.click();
+
+    await sleep();
+
+    let modifiedInput = target.querySelector(inputClass);
+    expect(modifiedInput.type).toBe('text');
+    modifiedInput.value = 'another msg';
+    submit.click();
+
+    await sleep();
+
+    modifiedInput = target.querySelector(inputClass);
+    expect(modifiedInput.type).toBe('textarea');
+  });
+
   test('bot sleeping', async () => {
     const rules = loadYaml(`
     - message: Hello
@@ -415,5 +445,98 @@ describe('DOM behaviors', () => {
     const bubbles = getBubbleButtons();
     bubbles[0].click();
     expect(document.activeElement).not.toEqual(input);
+  });
+
+  test('submit message when press Enter in textarea', async () => {
+    const rules = loadYaml(`
+    - message: value
+      type: String
+    - message: bye
+      type: String
+      multiline: false
+    `);
+
+    new YveBotUI(rules, OPTS).start();
+    const { input, chat } = getChatElements();
+
+    await sleep();
+
+    expect(input.type).toBe('textarea');
+    input.value = 'msg';
+    const event = new KeyboardEvent('keydown', { keyCode: 13 });
+    input.dispatchEvent(event);
+
+    await sleep();
+
+    const modifiedInput = chat.querySelector('.yvebot-form-input');
+    expect(modifiedInput.type).toBe('text');
+  });
+
+  test('should not submit msg if shift key is pressed', async () => {
+    const rules = loadYaml(`
+    - message: value
+      type: String
+    - message: bye
+      type: String
+      multiline: false
+    `);
+
+    new YveBotUI(rules, OPTS).start();
+    const { input, chat } = getChatElements();
+
+    await sleep();
+
+    expect(input.type).toBe('textarea');
+    input.value = 'msg';
+    const event = new KeyboardEvent('keydown', { keyCode: 13, shiftKey: true });
+    input.dispatchEvent(event);
+
+    await sleep();
+
+    const modifiedInput = chat.querySelector('.yvebot-form-input');
+    expect(modifiedInput.type).toBe('textarea');
+  });
+
+  test('submit message when press Enter as which prop in textarea', async () => {
+    const rules = loadYaml(`
+    - message: value
+      type: String
+    - message: bye
+      type: String
+      multiline: false
+    `);
+
+    new YveBotUI(rules, OPTS).start();
+    const { input, chat } = getChatElements();
+
+    await sleep();
+
+    expect(input.type).toBe('textarea');
+    input.value = 'msg';
+    const event = new KeyboardEvent('keydown', { which: 13 });
+    input.dispatchEvent(event);
+
+    await sleep();
+
+    const modifiedInput = chat.querySelector('.yvebot-form-input');
+    expect(modifiedInput.type).toBe('text');
+  });
+
+  test('should set textarea height based on input', async () => {
+    const rules = loadYaml(`
+    - message: value
+      type: String
+    `);
+
+    new YveBotUI(rules, OPTS).start();
+    const { input, chat } = getChatElements();
+
+    const inputEvent = new Event('input');
+
+    expect(input.type).toBe('textarea');
+    input.value = 'msg';
+    const scrollHeight = input.scrollHeight;
+    input.dispatchEvent(inputEvent);
+    expect(input.style.height).toBe(`${scrollHeight}px`);
   });
 });

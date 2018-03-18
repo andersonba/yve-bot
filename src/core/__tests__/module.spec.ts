@@ -46,21 +46,3 @@ describe('define', () => {
     expect(mod.a).toBe(321);
   });
 });
-
-describe('extend', () => {
-  test('common', () => {
-    class A extends DefineModule {
-      public a: object;
-      public b: object;
-    }
-    const mod = new A();
-    mod.define('a', { a: 1 });
-    mod.extend('b', 'a', {
-      b: 2,
-    });
-    expect(mod.b).toMatchObject({
-      a: 1,
-      b: 2,
-    });
-  });
-});

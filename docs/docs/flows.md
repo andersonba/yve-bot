@@ -1,5 +1,5 @@
 ---
-title: Flows: Grouping rules
+title: "Flows: Grouping rules"
 ---
 
 # Flows: Grouping rules

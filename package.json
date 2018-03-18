@@ -50,7 +50,6 @@
     "p-queue": "^2.3.0"
   },
   "jest": {
-    "mapCoverage": true,
     "moduleFileExtensions": [
       "ts",
       "js"

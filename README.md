@@ -2,9 +2,7 @@
 
 The simplest way to build a smart and customized rule-based bot conversation. For Browser & Node environment.
 
-![Chat example](docs/assets/images/screen.gif) ![Yaml example](docs/assets/images/yaml-screen.png)
-
-![Graph example](docs/assets/images/graph-screen.png)
+![Chat example](website/static/img/screen.gif) ![Yaml example](website/static/img/yaml-screen.png)
 
 [Live demo](https://andersonba.github.io/yve-bot) / [Playground](https://andersonba.github.io/yve-bot/docs/playground)
 

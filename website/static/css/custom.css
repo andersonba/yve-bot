@@ -1,0 +1,41 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+.button--primary {
+  background-color: #645D75;
+  color: #fff;
+}
+
+.Logo {
+  max-width: 360px;
+}
+
+footer.nav-footer {
+  background: #645D75;
+}
+
+.copyright a {
+  color: #ffbc67bd;
+  text-decoration: underline;
+}
+
+.homeSplashFade {
+  background-color: #665D77;
+  padding-bottom: 20px;
+}
+
+.ProjectTitle {
+  color: rgba(255,255,255,0.8);
+}
+
+.mainContainer .blockImage img {
+  border-radius: 10px;
+}
+
+.imageAlignSide .blockContent {
+  text-align: left;
+}

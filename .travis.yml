@@ -1,26 +1,22 @@
 language: node_js
 node_js:
-- '8'
+  - '8'
 cache: yarn
 before_install: yarn global add greenkeeper-lockfile@1
 before_script: greenkeeper-lockfile-update
 after_script: greenkeeper-lockfile-upload
 script:
-- yarn run lint
-- yarn run test:coverage
-- coveralls < coverage/lcov.info
-- yarn clean
-- yarn build
-- yarn run test:bundle
+  - yarn run lint
+  - yarn run test:coverage
+  - coveralls < coverage/lcov.info
+  - yarn clean
+  - yarn build
+  - yarn run test:bundle
 deploy:
-  provider: npm
-  email: andersonba@me.com
-  api_key:
-    secure: Z5guSSTS1OXfTDCs1nh8Xi6GiraPXQ03fMyO6mPsRqB0Vd9jw9H+lQwt7hYIjJ1h0Bo+cMEDQ1Wl27cnMd/575UXam84nsli0bOKh4SHDSirlZW05DRs73bf7tJdYthVDTEZH3kOt0MUKyGBH3ZrLmbgMbcCh6GHpImMbA9ufSL1TBzvzyM/hQO+hWgQrqXG5PlS61+iPabOlPfjoHWVjhXdILZIVFRBwQHp9H/nVDQLBNn+3XR5vIFCaJZ1ixbrEHJ5MD9G+bCNFdpRc+KSHlYdbZsGw0TbNJ88zq+mlgGdXesq6reR3iFxRwNW1zgGt66dvKeBuOVIGSriyYChKaPKC9tVHJTUIg+096MIhnAJMoDHJ8gbNeKamxVdVnNZYGV3XSLaXseIXBzsGChk1l1pT/DPQgDb1KK/1wsOjZIJ4X0AyDyoBBifBLcajDkqIV/3q41F2Fab4zH7o+mJD6JeGbxggq+CeCgE9BBxzK6sxzaJhLF510+scd4u7mK4vXgeddaETp0dxdnQfudTFphaiKjBVV/eiuhvhtGqrA+k0GVB5yOqbsadPz6/2QUBAngoavTJHoruY/TsZXLdjsAIdzodftorEZtipX3W47VtvQk0L7FoxfwLrQSJGCkiTf1GL7Od6DxyTs75A9DGQt0RWCGE4CZOWgyS1n1jCRg=
+  provider: script
+  script: bash website/deploy.sh
   on:
-    tags: true
-    repo: andersonba/yve-bot
-  skip_cleanup: true
+    branch: master
 env:
   global:
   - secure: TsD4Ud93yxBeOy7FGpYFuJHw6y+co4CdGHDrWnptVORC19daBbvMgqNS9giMjdKgY1aHKAyQMfADXiHaQfeKmQm20R1LOZiFFQwByHLJuD5vFvWYRfLhvodZHNr4OnSyX4B0TnQltpIU5RAfoHkjzSJQPli9h+hLCoSDwIHUJUW2DXCul5a6zK2EkvFc42yEtkSb2qARrmrPkdk2bMFM9lZMpUJXPeU0AcXuneCPjUoBw3KRU9fueUVvWGKDITS1xzbNRnaoBGRIBXDHPSR9GfNzdMhhzxgJctpFFqJIaYpmi2iDNsZQYj69R1/RZ9DRitxSSM4MZbcVOUlMKxKkKUFjyvHr9/lmJXdgSVycmiRd1yk/FjJZwMPLChzj5Wj4kYS77iiiGcuymFOD4vWT9HVUsz/SS/lo14cb1oUtuv5v/pT59Qq7rAeq/ajndTSvskX9+gPlCkxM3PUH2yicEnqHsNRTJTmyKp7NBPtNBb6RFP9RDjwqObnfrDlR4iOaIR1dcGPFpcNU1am8oUoF4GnHnBliYT5edCAKHjrrvlYB3tDypQAmTgDyMzKrdHnvQo/bpWGNS79SucmbtQlrywFe2/ng8glFCVeOlr+voVz4ZjlyJBYJ9LoGDLW8zoLURKMJ1Y/E7QkXN0PebKzEgdRVTNr/YbPYoJ9aa6TpWQY=

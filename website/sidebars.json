@@ -1,0 +1,8 @@
+{
+  "docs": {
+    "Introduction": ["getting-started", "ui-bundle", "core-bundle"],
+    "Guides": ["building-rules", "passive-mode", "flows", "custom-types", "custom-actions", "custom-validators", "extensions", "playground"],
+    "Integration Guides": [],
+    "API Reference": ["api-rule", "api-core", "api-ui"]
+  }
+}

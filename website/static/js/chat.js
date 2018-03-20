@@ -59,22 +59,24 @@ ready(function() {
     }
   ];
 
-  const chat = new YveBot(rules, {
-    target: '.Chat',
-  });
+  if (document.querySelector('.Chat')) {
+    const chat = new YveBot(rules, {
+      target: '.Chat',
+    });
 
-  chat.actions.define('redirect', (url) => {
-    setTimeout(function() {
-      window.location.href = url;
-    }, 1000);
-  });
+    chat.actions.define('redirect', (url) => {
+      setTimeout(function() {
+        window.location.href = url;
+      }, 1000);
+    });
 
-  chat
-    .on('start', function() {
-      document.querySelector('.Chat-loading').remove();
-    })
-    .on('end', function(output) {
-      console.log(output);
-    })
-    .start();
+    chat
+      .on('start', function() {
+        document.querySelector('.Chat-loading').remove();
+      })
+      .on('end', function(output) {
+        console.log(output);
+      })
+      .start();
+  }
 });

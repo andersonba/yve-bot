@@ -28,6 +28,7 @@ Edit the rules in left box and click on Play button to reload the chat.
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.31.0/lib/codemirror.css">
 <script src="https://cdn.jsdelivr.net/npm/codemirror@5.31.0/lib/codemirror.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/codemirror@5.31.0/mode/yaml/yaml.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/esprima/2.7.3/esprima.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/3.9.1/js-yaml.min.js"></script>
 <script>
   var editor = CodeMirror.fromTextArea(document.getElementById('editor'), {

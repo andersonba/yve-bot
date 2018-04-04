@@ -29,12 +29,12 @@ bot.listen([
 You can define whether you want the bot to stay listening messages during the entire conversation, including questions or not.
 
 - Sets `passive: true` in the listener properties to listen and react at any time in all rules.
-- Sets `passive: false` (default) property to listen only in rules of type Passive, see bellow.
+- Sets `passive: false` (default) property to listen only to rules of type Passive, see below.
 
 Two types are available to configure Passive mode in your rules:
 
 - **Passive** - Bot waits for user input, If it doesn't match anything, jump to next rule.
-- **PassiveLoop** - Bot waits in loop until a match.
+- **PassiveLoop** - Bot waits in a loop until a match.
 
 
 ## Examples

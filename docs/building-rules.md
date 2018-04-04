@@ -13,7 +13,7 @@ const rules = [
 new YveBot(rules);
 ```
 
-For better readability, you can use the yaml language to write the rules. See bellow how to use with `js-yaml`:
+For better readability, you can use the yaml language to write the rules. See below how to use with `js-yaml`:
 
 ```yaml
 - message: Hello!

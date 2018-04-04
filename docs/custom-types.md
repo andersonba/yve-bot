@@ -3,7 +3,9 @@ id: custom-types
 title: Custom types
 ---
 
-Create types of messages that your bot will use as user input. Examples: City and username autocomplete acessing a database.
+Create types of messages that your bot will use as user input.
+
+Examples: City and username autocomplete accessing a database.
 
 ## How to define
 

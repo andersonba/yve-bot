@@ -3,7 +3,9 @@ id: custom-actions
 title: Custom actions
 ---
 
-Create actions that your bot will interact. Examples: Sending email or requesting a hook url.
+Create actions that your bot will interact.
+
+Examples: Sending e-mail or requesting a hook URL.
 
 
 ## How to define

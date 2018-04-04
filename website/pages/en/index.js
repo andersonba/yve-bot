@@ -82,7 +82,7 @@ const FeatureCallout = props => (
     <img alt="Extensions" src={imgUrl('icons/extensible.png')} style={{ width: 80 }} />
     <h2>Extensible</h2>
     <MarkdownBlock>
-      Enhance your bot with user interactions, data validations and custom input types.
+      Enhance your bot with user interactions, data validations, and custom input types.
       Available ready extensions set.
     </MarkdownBlock>
   </div>
@@ -93,7 +93,7 @@ const LearnHow = props => (
     {[
       {
         title: 'Ready UI',
-        content: 'Build custom Chat interfaces with YveBot UI.<br />Avatars, textarea autosize, quick replies buttons, typing animation and more.',
+        content: 'Build your own Chat interface with YveBot UI.<br />Avatars, textarea autosize, quick replies buttons, typing animation and more.',
         image: imgUrl('gifs/ui.gif'),
         imageAlign: 'right',
       },
@@ -106,7 +106,7 @@ const Integrations = props => (
     {[
       {
         title: 'Integrations',
-        content: 'Plug your bot with any messanger platform.<br />Facebook, Telegram, Slack and others.',
+        content: 'Plug your bot with any messenger platform.<br />Facebook, Telegram, Slack and others.',
         image: imgUrl('gifs/facebook.gif'),
         imageAlign: 'left',
       },

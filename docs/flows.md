@@ -45,7 +45,7 @@ bot> Thanks
 bot> How can I help you?
 ```
 
-This notation is only required if you want to jump to another flow, but you can use just the rule name to jump inside the current flow.
+This notation is only required if you want to jump to another flow, but you can use just the rule name to jump into the current flow.
 
 ```yaml
 - flow: identify

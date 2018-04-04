@@ -3,7 +3,7 @@ id: ui-bundle
 title: UI Bundle
 ---
 
-Create chatbots without reimplement the chat components. You can also customize it.
+Create chatbots without reimplementing the chat components. You can also customize it.
 
 ### Using in browser
 Use directly on your website.

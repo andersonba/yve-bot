@@ -1,5 +1,19 @@
 # Change Log
 
+## [1.18.0](https://github.com/andersonba/yve-bot/tree/1.18.0) (2018-04-09)
+[Full Changelog](https://github.com/andersonba/yve-bot/compare/1.17.0...1.18.0)
+
+**Closed issues:**
+
+- SyntaxError in old Firefox versions [\#115](https://github.com/andersonba/yve-bot/issues/115)
+
+**Merged pull requests:**
+
+- Replace use of class by className [\#116](https://github.com/andersonba/yve-bot/pull/116) ([rafaelverger](https://github.com/rafaelverger))
+- Update rollup to the latest version 🚀 [\#112](https://github.com/andersonba/yve-bot/pull/112) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update rollup-plugin-typescript2 to the latest version 🚀 [\#107](https://github.com/andersonba/yve-bot/pull/107) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update rollup-plugin-commonjs to the latest version 🚀 [\#103](https://github.com/andersonba/yve-bot/pull/103) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
 ## [1.17.0](https://github.com/andersonba/yve-bot/tree/1.17.0) (2018-03-17)
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.16.0...1.17.0)
 

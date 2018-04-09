@@ -45,12 +45,12 @@ export class ChatUI {
   public createBubbleButton(
     option: IRuleOption,
     onClick: (btn: HTMLButtonElement) => void,
-    opts?: { class?: string },
+    opts?: { className?: string },
   ) {
     const btn = document.createElement('button') as HTMLButtonElement;
     btn.className = 'yvebot-message-bubbleBtn';
-    if (opts && opts.class) {
-      btn.classList.add(opts.class);
+    if (opts && opts.className) {
+      btn.classList.add(opts.className);
     }
     btn.onclick = () => {
       onClick(btn);
@@ -94,7 +94,7 @@ export class ChatUI {
           const moreBtn = this.createBubbleButton({ label }, () => {
             createButtonsPaginator(options, end);
             moreBtn.remove();
-          }, { class: 'yvebot-message-bubbleMoreOptions' });
+          }, { className: 'yvebot-message-bubbleMoreOptions' });
           bubbles.appendChild(moreBtn);
         }
       });

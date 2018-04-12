@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "isomorphic-unfetch": "^2.0.0",
-    "p-queue": "^2.3.0"
+    "promise-queue": "^2.2.5"
   },
   "jest": {
     "moduleFileExtensions": [

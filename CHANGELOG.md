@@ -1,5 +1,13 @@
 # Change Log
 
+## [1.18.1](https://github.com/andersonba/yve-bot/tree/1.18.1) (2018-04-12)
+[Full Changelog](https://github.com/andersonba/yve-bot/compare/1.18.0...1.18.1)
+
+**Fixed bugs:**
+
+- replyMessage without delay [\#118](https://github.com/andersonba/yve-bot/issues/118)
+- p-queue causing parser error due to "class" keyword [\#117](https://github.com/andersonba/yve-bot/issues/117)
+
 ## [1.18.0](https://github.com/andersonba/yve-bot/tree/1.18.0) (2018-04-09)
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.17.0...1.18.0)
 

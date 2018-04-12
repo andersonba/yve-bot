@@ -270,7 +270,10 @@ export class Controller {
 
     const replyMessage = getReplyMessage(rule, answer);
     if (replyMessage) {
-      const replyRule = { ...bot.options.rule, delay: rule.delay };
+      const replyRule = { ...bot.options.rule };
+      if ('delay' in rule) {
+        replyRule.delay = rule.delay;
+      }
       await this.sendMessage(replyMessage, replyRule);
     }
 

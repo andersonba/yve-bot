@@ -1,6 +1,6 @@
 {
   "name": "yve-bot",
-  "version": "1.18.0",
+  "version": "1.18.1",
   "description": "Smart rule-based bot",
   "main": "core.js",
   "module": "core.js",

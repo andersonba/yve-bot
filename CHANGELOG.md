@@ -1,5 +1,12 @@
 # Change Log
 
+## [1.18.2](https://github.com/andersonba/yve-bot/tree/1.18.2) (2018-04-13)
+[Full Changelog](https://github.com/andersonba/yve-bot/compare/1.18.1...1.18.2)
+
+**Fixed bugs:**
+
+- polyfill "Set" collections [\#119](https://github.com/andersonba/yve-bot/issues/119)
+
 ## [1.18.1](https://github.com/andersonba/yve-bot/tree/1.18.1) (2018-04-12)
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.18.0...1.18.1)
 

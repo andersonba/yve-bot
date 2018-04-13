@@ -1,4 +1,5 @@
 import get from 'lodash-es/get';
+import uniq from 'lodash-es/uniq';
 import YveBot from '.';
 import { Answer, IIndexes, IRule, RuleNext } from '../types';
 import { sanitizeRule } from './sanitizers';
@@ -65,7 +66,7 @@ function compileMessage(bot: YveBot, message: string): string {
   // extract variable in template: {{ ruleName.X.Y.Z }}
   const re = /(?!\{)\w+[.]((?:\w+[.])*\w+)(?=\})/g;
   const ruleNames = (message.match(re) || []).map((s) => s.split('.')[0]);
-  Array.from(new Set(ruleNames)).map((ruleName) => {
+  uniq(ruleNames).map((ruleName) => {
     const rule = bot.rules[indexes[ruleName]];
     if (!rule || !rule.options.length) { return; }
     const answer = output[ruleName];

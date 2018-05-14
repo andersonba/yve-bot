@@ -26,7 +26,7 @@
     "@types/jest": "^22.0.0",
     "@types/lodash-es": "^4.17.0",
     "@types/node": "^9.3.0",
-    "bundlesize": "^0.16.0",
+    "bundlesize": "^0.17.0",
     "coveralls": "^3.0.0",
     "faker": "^4.1.0",
     "fetch-mock": "^6.0.0",

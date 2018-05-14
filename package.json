@@ -1,6 +1,6 @@
 {
   "name": "yve-bot",
-  "version": "1.17.0",
+  "version": "1.18.2",
   "description": "Smart rule-based bot",
   "main": "core.js",
   "module": "core.js",
@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "isomorphic-unfetch": "^2.0.0",
-    "p-queue": "^2.3.0"
+    "promise-queue": "^2.2.5"
   },
   "jest": {
     "moduleFileExtensions": [

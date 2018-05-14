@@ -13,4 +13,4 @@ Create chat interface using UI toolkit.
 
 [Core Bundle](core-bundle.md)\
 Bot engine.
-Integrate the bot your with server-side and database.
+Integrate the bot yours with server-side and database.

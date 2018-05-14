@@ -3,7 +3,7 @@ lib/package.json
 lib/package-lock.json
 .rpt2_cache/
 .sass-cache/
-website/build
+website/build/
 
 # Created by https://www.gitignore.io/api/node
 

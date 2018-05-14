@@ -3,7 +3,7 @@ id: core-bundle
 title: Core Bundle
 ---
 
-Integrate the bot engine your with server-side (eg: websocket, facebook, etc…)
+Integrate the bot engine with server-side (eg: websocket, facebook, etc…)
 
 Install using `yarn`:
 ```

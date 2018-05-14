@@ -3,7 +3,9 @@ id: custom-validators
 title: Custom validators
 ---
 
-Create validators to be used in your messages. Examples: E-mail, color picker, etc.
+Create validators to be used in your messages.
+
+Examples: E-mail, color picker, etc.
 
 ## Define
 

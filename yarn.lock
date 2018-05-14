@@ -997,6 +997,10 @@ estree-walker@^0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/estree-walker/-/estree-walker-0.5.1.tgz#64fc375053abc6f57d73e9bd2f004644ad3c5854"
 
+estree-walker@^0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/estree-walker/-/estree-walker-0.5.2.tgz#d3850be7529c9580d815600b53126515e146dd39"
+
 esutils@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/esutils/-/esutils-2.0.2.tgz#0abf4f1caa5bcb1f7a9d8acc6dea4faaa04bac9b"
@@ -3167,11 +3171,11 @@ rollup-plugin-commonjs@^9.0.0:
     resolve "^1.5.0"
     rollup-pluginutils "^2.0.1"
 
-rollup-plugin-json@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-json/-/rollup-plugin-json-2.3.0.tgz#3c07a452c1b5391be28006fbfff3644056ce0add"
+rollup-plugin-json@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-json/-/rollup-plugin-json-3.0.0.tgz#aeed2ff36e6c4fd0c60c4a8fc3d0884479e9dfce"
   dependencies:
-    rollup-pluginutils "^2.0.1"
+    rollup-pluginutils "^2.2.0"
 
 rollup-plugin-node-resolve@^3.0.0:
   version "3.3.0"
@@ -3202,10 +3206,38 @@ rollup-pluginutils@^2.0.1:
   dependencies:
     estree-walker "^0.3.0"
     micromatch "^2.3.11"
+    
+rollup-pluginutils@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/rollup-pluginutils/-/rollup-pluginutils-2.2.0.tgz#64ba3f29988b84322bafa188a9f99ca731c95354"
+  dependencies:
+    estree-walker "^0.5.2"
+    micromatch "^2.3.11"
 
+rollup@^0.57.0:
+  version "0.57.1"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-0.57.1.tgz#0bb28be6151d253f67cf4a00fea48fb823c74027"
+  dependencies:
+    "@types/acorn" "^4.0.3"
+    acorn "^5.5.3"
+    acorn-dynamic-import "^3.0.0"
+    date-time "^2.1.0"
+    is-reference "^1.1.0"
+    locate-character "^2.0.5"
+    pretty-ms "^3.1.0"
+    require-relative "^0.8.7"
+    rollup-pluginutils "^2.0.1"
+    signal-exit "^3.0.2"
+    sourcemap-codec "^1.4.1"
+
+run-async@^2.2.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/run-async/-/run-async-2.3.0.tgz#0371ab4ae0bdd720d4166d7dfda64ff7a445a6c0"
+  
 rollup@^0.58.0:
   version "0.58.0"
   resolved "https://registry.yarnpkg.com/rollup/-/rollup-0.58.0.tgz#6a3a51f90916ae703d0dc807a5652799ca0ccfc2"
+  
   dependencies:
     "@types/estree" "0.0.38"
     "@types/node" "*"

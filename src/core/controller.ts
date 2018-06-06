@@ -290,7 +290,6 @@ export class Controller {
 
   public jumpByName(ruleName: string): Promise<this> {
     const idx = this._indexes[ruleName];
-    console.log(idx);
     if (typeof idx !== 'number') {
       throw new this.bot.exceptions.RuleNotFound(ruleName, this._indexes);
     }
@@ -300,7 +299,6 @@ export class Controller {
   public nextRule(currentRule: IRule, answer?: Answer | Answer[]): this {
     const { bot } = this;
     const nextRuleName = getNextFromRule(currentRule, answer);
-    console.log(nextRuleName);
     if (nextRuleName) {
       let ruleName;
       if (/flow:/.test(nextRuleName)) { // jump to flow

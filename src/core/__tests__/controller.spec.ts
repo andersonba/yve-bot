@@ -1,6 +1,4 @@
-
 import YveBot from '..';
-
 
 describe('getNextFromRule', () => {
   let bot;
@@ -81,5 +79,5 @@ describe('getNextFromRule', () => {
       bot.on('hear', (a) => bot.hear(answer));
       bot.controller.run(ruleIdx);
     });
-  })
+  });
 });

@@ -1,5 +1,25 @@
 # Change Log
 
+## [1.18.3](https://github.com/andersonba/yve-bot/tree/1.18.3) (2018-06-07)
+[Full Changelog](https://github.com/andersonba/yve-bot/compare/1.18.2...1.18.3)
+
+**Closed issues:**
+
+- Error on getNextFromRule when answer is defined but falsy [\#131](https://github.com/andersonba/yve-bot/issues/131)
+- Version 10 of node.js has been released [\#123](https://github.com/andersonba/yve-bot/issues/123)
+
+**Merged pull requests:**
+
+- Only skip option's answer if is undefined. FIX \#131 [\#132](https://github.com/andersonba/yve-bot/pull/132) ([rafaelverger](https://github.com/rafaelverger))
+- Update rollup to the latest version 🚀 [\#127](https://github.com/andersonba/yve-bot/pull/127) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update to node 10 in .travis.yml [\#126](https://github.com/andersonba/yve-bot/pull/126) ([andersonba](https://github.com/andersonba))
+- Update rollup-plugin-json to the latest version 🚀 [\#125](https://github.com/andersonba/yve-bot/pull/125) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update @types/node to the latest version 🚀 [\#124](https://github.com/andersonba/yve-bot/pull/124) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update ts-node to the latest version 🚀 [\#122](https://github.com/andersonba/yve-bot/pull/122) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update rollup to the latest version 🚀 [\#121](https://github.com/andersonba/yve-bot/pull/121) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update rollup-plugin-typescript2 to the latest version 🚀 [\#120](https://github.com/andersonba/yve-bot/pull/120) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update bundlesize to the latest version 🚀 [\#114](https://github.com/andersonba/yve-bot/pull/114) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
 ## [1.18.2](https://github.com/andersonba/yve-bot/tree/1.18.2) (2018-04-13)
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.18.1...1.18.2)
 

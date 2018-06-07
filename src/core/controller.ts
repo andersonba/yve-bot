@@ -106,7 +106,7 @@ function runActions(bot: YveBot, rule: IRule, prop: string): Promise<any> {
 }
 
 function getNextFromRule(rule: IRule, answer?: Answer | Answer[]): RuleNext | null {
-  if (rule.options.length && answer) {
+  if (rule.options.length && answer !== undefined) {
     const option = utils.findOptionByAnswer(rule.options, answer);
     if (option && option.next) {
       return option.next;

@@ -22,28 +22,28 @@
     "watch": "rollup -c rollup.config.ts -w"
   },
   "devDependencies": {
-    "@types/fetch-mock": "^6.0.1",
-    "@types/jest": "^22.2.3",
+    "@types/fetch-mock": "^6.0.3",
+    "@types/jest": "^23.1.4",
     "@types/lodash-es": "^4.17.0",
-    "@types/node": "^10.0.9",
+    "@types/node": "^10.5.2",
     "bundlesize": "^0.17.0",
-    "coveralls": "^3.0.1",
+    "coveralls": "^3.0.2",
     "faker": "^4.1.0",
-    "fetch-mock": "^6.4.2",
-    "jest": "^22.4.3",
+    "fetch-mock": "^6.5.0",
+    "jest": "^23.3.0",
     "lodash-es": "^4.17.10",
     "rimraf": "^2.6.2",
-    "rollup": "^0.59.0",
+    "rollup": "^0.62.0",
     "rollup-analyzer": "^1.1.0",
     "rollup-plugin-commonjs": "^9.1.3",
     "rollup-plugin-json": "^3.0.0",
     "rollup-plugin-node-resolve": "^3.3.0",
-    "rollup-plugin-typescript2": "^0.14.0",
-    "rollup-plugin-uglify": "^3.0.0",
-    "ts-jest": "^22.4.6",
-    "ts-node": "^6.0.3",
+    "rollup-plugin-typescript2": "^0.15.1",
+    "rollup-plugin-uglify": "^4.0.0",
+    "ts-jest": "^23.0.0",
+    "ts-node": "^7.0.0",
     "tslint": "^5.10.0",
-    "typescript": "^2.8.3"
+    "typescript": "^2.9.2"
   },
   "dependencies": {
     "isomorphic-unfetch": "^2.0.0",
@@ -55,7 +55,7 @@
       "js"
     ],
     "transform": {
-      "\\.(t|j)s$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+      "\\.(t|j)s$": "ts-jest"
     },
     "transformIgnorePatterns": [
       "<rootDir>/node_modules/(?!lodash-es/.*)"

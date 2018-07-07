@@ -1,7 +1,7 @@
 import * as faker from 'faker';
 import * as types from '../src/types';
 
-function createMock(obj: object | () => object) {
+function createMock(obj) {
   return (custom) => {
     let data = obj;
     if (obj instanceof Function) {

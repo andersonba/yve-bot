@@ -13,7 +13,7 @@ test('define module type with short mode', () => {
 
   YveBot.types.define('compact', {
     customProp: '123',
-    transform: () => 'value';
+    transform: () => 'value',
     validators: [
       { number: true, warning: 'Message 1' },
       { required: true, warning: 'Message 2' },

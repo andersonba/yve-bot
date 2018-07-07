@@ -5,7 +5,7 @@ describe('getNextFromRule', () => {
   const rules = [
     {
       name: 'ruleWithNext',
-      next: 'external-next'
+      next: 'external-next',
       options: [
         {
           label: 'Null value',

@@ -1,7 +1,5 @@
 .Chat {
+  margin: 0;
+  width: 100%;
   max-width: 450px;
-}
-
-.yvebot-conversation {
-  height: calc(100vh - 120px);
 }

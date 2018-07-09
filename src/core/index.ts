@@ -106,15 +106,15 @@ export default class YveBot {
     return this;
   }
 
-  public talk(message: string, opts?: object): this {
+  public async talk(message: string, opts?: object): Promise<this> {
     const rule = { ...this.options.rule, ...(opts || {}) };
-    this.controller.sendMessage(message, rule);
+    await this.controller.sendMessage(message, rule);
     return this;
   }
 
-  public hear(answer: Answer | Answer[]): this {
-    this.controller.receiveMessage(answer).then(() =>
-      this.dispatch('reply', answer));
+  public async hear(answer: Answer | Answer[]): Promise<this> {
+    await this.controller.receiveMessage(answer);
+    this.dispatch('reply', answer);
     return this;
   }
 
@@ -126,17 +126,20 @@ export default class YveBot {
         return;
       }
 
-      this.handlers[name].forEach((fn) => {
-        this.queue.add(() => {
-          try {
-            return Promise.resolve(fn(...args, this.sessionId));
-          } catch (err) {
-            this.dispatch('error', err);
-            return Promise.resolve();
-          }
-        });
-      });
+      Promise.all(
+        this.handlers[name].map((fn) =>
+          this.queue.add(() => {
+            try {
+              return Promise.resolve(fn(...args, this.sessionId));
+            } catch (err) {
+              this.dispatch('error', err);
+              return Promise.resolve();
+            }
+          }),
+        ),
+      );
     }
+
     return this;
   }
 

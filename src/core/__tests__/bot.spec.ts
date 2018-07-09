@@ -1060,14 +1060,18 @@ test('throw error in warning message as function', async (done) => {
   bot.hear('Ok');
 });
 
-test('throw error', (done) => {
+test('throw error', async (done) => {
   // failed error listener
-  expect(() => {
-    const bot = new YveBot([])
-      .on('error', () => { throw new Error('Failed to throw error'); })
-      .start();
-    bot.dispatch('error', new Error('First error'));
-  }).toThrow(/Failed to throw/);
+  const expectedError = new Error('First error');
+  const bot = new YveBot([])
+    .on('error', (err) => { throw err; })
+    .start();
+  try {
+    await bot.dispatch('error', expectedError);
+    expect().toBe('Should throw an error');
+  } catch (err) {
+    expect(err).toBe(expectedError);
+  }
 
   // custom error
   new YveBot([{type: 'Unknown'}], OPTS)

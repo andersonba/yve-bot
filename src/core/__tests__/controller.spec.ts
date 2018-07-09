@@ -70,14 +70,14 @@ describe('getNextFromRule', () => {
     [1, undefined, 'next-untracked'],
     [1, 'no next', 'next-untracked'],
   ].forEach(([ruleIdx, answer, nextRuleName]) => {
-    test(`${rules[ruleIdx].name} + answer as '${answer}'`, (done) => {
-      bot.on('reply', (a) => {
+    test(`${rules[ruleIdx].name} + answer as '${answer}'`, async (done) => {
+      bot.on('reply', () => {
         const rule = bot.rules[bot.store.get('currentIdx')];
         expect(rule.name).toBe(nextRuleName);
         done();
       });
-      bot.on('hear', (a) => bot.hear(answer));
-      bot.controller.run(ruleIdx);
+      bot.on('hear', () => bot.hear(answer));
+      await bot.controller.run(ruleIdx);
     });
   });
 });

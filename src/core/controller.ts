@@ -153,6 +153,9 @@ export class Controller {
     const { bot } = this;
     bot.rules.forEach((rule, idx) => {
       const { name, flow } = rule;
+      if (flow) {
+        this._indexes[[flow, rule.flowIdx].join('.')] = idx;
+      }
       if (name) {
         const key = flow ? [flow, name].join('.') : name;
         this._indexes[key] = idx;

@@ -5,6 +5,7 @@ import * as faker from 'faker';
 import YveBot from '..';
 import { Controller } from '../controller';
 import { InvalidAttributeError, RuleNotFound } from '../exceptions';
+import { sanitizeRule } from '../sanitizers';
 import { Store } from '../store';
 import { calculateDelayToTypeMessage } from '../utils';
 
@@ -498,9 +499,10 @@ test('jumping inside of flow', async () => {
 
   const flow = 'welcome';
   const { rules } = flows[0];
-  expect(onTalk).not.toBeCalledWith('Skip', { flow, ...rules[1] }, 'session');
-  expect(onTalk).toBeCalledWith('Hello', { flow, ...rules[0] }, 'session');
-  expect(onTalk).toBeCalledWith('Okay', { flow, ...rules[2] }, 'session');
+
+  expect(onTalk).not.toBeCalledWith('Skip', { flow, flowIdx: 1, ...rules[1] }, 'session');
+  expect(onTalk).toBeCalledWith('Hello', { flow, flowIdx: 0, ...rules[0] }, 'session');
+  expect(onTalk).toBeCalledWith('Okay', { flow, flowIdx: 2, ...rules[2] }, 'session');
   expect(onTalk).toHaveBeenCalledTimes(2);
 });
 
@@ -517,17 +519,27 @@ test('jumping between flows', async () => {
       - Skip 2
       - message: Here
         name: two
+        next: three.0
+      - Skip 3
+  - flow: three
+    rules:
+      - Skip 4
+      - message: Final
+        name: three
   `);
-  new YveBot(flows, OPTS)
+  const bot = new YveBot(flows, OPTS)
     .on('talk', onTalk)
     .start();
   await sleep();
 
-  expect(onTalk).not.toBeCalledWith('Skip 1', { flow: 'first', ...flows[0].rules[1] }, 'session');
-  expect(onTalk).not.toBeCalledWith('Skip 2', { flow: 'second', ...flows[1].rules[0] }, 'session');
-  expect(onTalk).toBeCalledWith('Hello', { flow: 'first', ...flows[0].rules[0] }, 'session');
-  expect(onTalk).toBeCalledWith('Here', { flow: 'second', ...flows[1].rules[1] }, 'session');
-  expect(onTalk).toHaveBeenCalledTimes(2);
+  expect(onTalk).not.toBeCalledWith('Skip 1', { flow: 'first', flowIdx: 1, ...flows[0].rules[1] }, 'session');
+  expect(onTalk).not.toBeCalledWith('Skip 2', { flow: 'second', flowIdx: 0, ...flows[1].rules[0] }, 'session');
+  expect(onTalk).not.toBeCalledWith('Skip 3', { flow: 'second', flowIdx: 0, ...flows[1].rules[0] }, 'session');
+  expect(onTalk).not.toBeCalledWith('Skip 4', { flow: 'four', flowIdx: 0, ...flows[2].rules[0] }, 'session');
+  expect(onTalk).toBeCalledWith('Hello', { flow: 'first', flowIdx: 0, ...flows[0].rules[0] }, 'session');
+  expect(onTalk).toBeCalledWith('Here', { flow: 'second', flowIdx: 1, ...flows[1].rules[1] }, 'session');
+  expect(onTalk).toBeCalledWith('Final', { flow: 'three', flowIdx: 1, ...flows[2].rules[1] }, 'session');
+  expect(onTalk).toHaveBeenCalledTimes(4);
 });
 
 test('jumping to first rule of flow', async () => {
@@ -539,8 +551,8 @@ test('jumping to first rule of flow', async () => {
         next: "flow:second"
   - flow: second
     rules:
-      - message: Here
-        name: two
+      - Here
+      - message: Here2
   `);
   new YveBot(flows, OPTS)
     .on('talk', onTalk)
@@ -548,9 +560,15 @@ test('jumping to first rule of flow', async () => {
     .start();
   await sleep();
 
-  expect(onTalk).toBeCalledWith('Hello', { flow: 'first', ...flows[0].rules[0] }, 'session');
-  expect(onTalk).toBeCalledWith('Here', { flow: 'second', ...flows[1].rules[0] }, 'session');
-  expect(onTalk).toHaveBeenCalledTimes(2);
+  expect(onTalk).toBeCalledWith('Hello', { flow: 'first', flowIdx: 0, ...flows[0].rules[0] }, 'session');
+  expect(onTalk).toBeCalledWith('Here', {
+    flow: 'second',
+    flowIdx: 0,
+    ...sanitizeRule(flows[1].rules[0]),
+    skip: expect.any(Function),
+  }, 'session');
+  expect(onTalk).toBeCalledWith('Here2', { flow: 'second', flowIdx: 1, ...flows[1].rules[1] }, 'session');
+  expect(onTalk).toHaveBeenCalledTimes(3);
 });
 
 test('jumping to option next', async () => {

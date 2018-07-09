@@ -14,6 +14,7 @@ export interface IFlow {
 
 export interface IRule {
   flow?: string;
+  flowIdx?: number;
   name?: string;
   type?: string;
   output?: string;

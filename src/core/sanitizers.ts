@@ -8,7 +8,7 @@ export function sanitizeBotRules(inputs: Array<IFlow|IRule>): IRule[] {
       const flow = input as IFlow;
       rules = rules.concat(
         flow.rules.map(
-          (rule) => ({ ...sanitizeRule(rule), flow: input.flow }),
+          (rule, idx) => ({ ...sanitizeRule(rule), flow: input.flow, flowIdx: idx }),
         ),
       );
     } else {

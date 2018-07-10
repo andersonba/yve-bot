@@ -1,3 +1,4 @@
+import { isMobile } from 'is-mobile';
 import YveBot from '../core';
 import { Answer, ChatMessageSource, IChatOptions, IRule } from '../types';
 import { ChatUI } from './ui';
@@ -5,6 +6,7 @@ import { ChatUI } from './ui';
 export default class YveBotUI extends YveBot {
   public UIOptions: IChatOptions;
   public UI: ChatUI;
+  public isMobile: boolean;
 
   constructor(rules: IRule[], opts?: IChatOptions) {
     const DEFAULT_OPTS: IChatOptions = {
@@ -23,8 +25,9 @@ export default class YveBotUI extends YveBot {
     const UIOptions = { ...DEFAULT_OPTS, ...opts };
     super(rules, UIOptions.yveBotOptions);
 
+    this.isMobile = isMobile();
     this.UIOptions = UIOptions;
-    this.UI = new ChatUI(this.UIOptions);
+    this.UI = new ChatUI(this.isMobile, this.UIOptions);
 
     this
       .on('start', () => {

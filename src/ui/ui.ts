@@ -2,6 +2,7 @@ import { Answer, ChatMessageSource, IChatOptions, IRule, IRuleOption } from '../
 import * as utils from './utils';
 
 export class ChatUI {
+  public isMobile: boolean;
   public chat: HTMLDivElement;
   public form: HTMLFormElement;
   public textArea: HTMLTextAreaElement;
@@ -13,7 +14,8 @@ export class ChatUI {
   private options: IChatOptions;
   private inputValue: string;
 
-  constructor(options: IChatOptions) {
+  constructor(isMobile: boolean, options: IChatOptions) {
+    this.isMobile = isMobile;
     this.options = options;
     this.chat = this.createChat();
     this.typing = this.createTyping();
@@ -79,6 +81,11 @@ export class ChatUI {
 
     if (this.options.autoFocus) {
       this.input.focus();
+
+      if (this.isMobile) {
+        // avoid losing scroll position on toggle form
+        setTimeout(() => this.scrollDown(0, null, true), 500);
+      }
     }
   }
 

@@ -1,5 +1,8 @@
+import { isMobile } from 'is-mobile';
 import { getChatElements, loadYaml, sleep } from '@test/utils';
 import YveBotUI from '..';
+
+jest.mock('is-mobile');
 
 const OPTS = {
   yveBotOptions: {
@@ -94,6 +97,52 @@ describe('DOM behaviors', () => {
     expect(input).not.toBeNull();
     expect(submit).not.toBeNull();
     expect(target).toMatchSnapshot();
+  });
+
+  test('desktop: avoid losing scroll position on toggle input focused', async () => {
+    isMobile.mockImplementation(() => false);
+    const rules = loadYaml(`
+    - message: Hello
+      type: SingleChoice
+      options:
+        - A
+    - message: Hi
+      type: String
+    `);
+
+    new YveBotUI(rules, OPTS).start();
+    const { input, getBubbleButtons, getBotMessages } = getChatElements();
+
+    await sleep();
+
+    getBubbleButtons()[0].click();
+
+    await sleep();
+
+    expect(document.activeElement).toEqual(input);
+  });
+
+  test('mobile: avoid losing scroll position on toggle input focused', async () => {
+    isMobile.mockImplementation(() => true);
+    const rules = loadYaml(`
+    - message: Hello
+      type: SingleChoice
+      options:
+        - A
+    - message: Hi
+      type: String
+    `);
+
+    new YveBotUI(rules, OPTS).start();
+    const { input, getBubbleButtons, getBotMessages } = getChatElements();
+
+    await sleep();
+
+    getBubbleButtons()[0].click();
+
+    await sleep();
+
+    expect(document.activeElement).toEqual(input);
   });
 
   test('bot with name', async () => {

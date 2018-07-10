@@ -1,5 +1,25 @@
 # Change Log
 
+## [1.19.0](https://github.com/andersonba/yve-bot/tree/1.19.0) (2018-07-10)
+[Full Changelog](https://github.com/andersonba/yve-bot/compare/1.18.3...1.19.0)
+
+**Implemented enhancements:**
+
+- get specific value from output [\#141](https://github.com/andersonba/yve-bot/issues/141)
+- compiled messages in \(pre/post\)actions value [\#140](https://github.com/andersonba/yve-bot/issues/140)
+- support for rules without messages [\#138](https://github.com/andersonba/yve-bot/issues/138)
+- async hear/talk methods [\#136](https://github.com/andersonba/yve-bot/issues/136)
+
+**Fixed bugs:**
+
+- fix unstable auto scroll down in conversation [\#146](https://github.com/andersonba/yve-bot/issues/146)
+- fix unstable lock input [\#145](https://github.com/andersonba/yve-bot/issues/145)
+- fix locked input in Single/MultipleChoice mode [\#144](https://github.com/andersonba/yve-bot/issues/144)
+- fix scroll down on click options buttons [\#143](https://github.com/andersonba/yve-bot/issues/143)
+- fix typo in MultipleChoice placeholder option [\#142](https://github.com/andersonba/yve-bot/issues/142)
+- missing "string way" of preActions and postActions [\#139](https://github.com/andersonba/yve-bot/issues/139)
+- fix jumping using "flow:name" [\#137](https://github.com/andersonba/yve-bot/issues/137)
+
 ## [1.18.3](https://github.com/andersonba/yve-bot/tree/1.18.3) (2018-06-07)
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.18.2...1.18.3)
 

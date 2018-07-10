@@ -16,7 +16,7 @@ export interface IRule {
   flow?: string;
   flowIdx?: number;
   name?: string;
-  type?: string;
+  type?: RuleType;
   output?: string;
   message?: string;
   delay?: number;
@@ -69,6 +69,9 @@ export type RuleTypeSkip = (
 );
 
 export type RuleNext = string;
+
+export type RuleType = 'Any' | 'Passive' | 'PassiveLoop' | 'String' | 'Number' |
+  'SingleChoice' | 'MultipleChoice' | 'StringSearch';
 
 export interface IContext {
   [key: string]: any;

@@ -1,142 +1,7 @@
 import get from 'lodash-es/get';
-import uniq from 'lodash-es/uniq';
 import YveBot from '.';
 import { Answer, IIndexes, IRule, RuleNext } from '../types';
-import { sanitizeRule } from './sanitizers';
 import * as utils from './utils';
-
-async function validateAnswer(
-  answers: Answer | Answer[],
-  rule: IRule,
-  bot: YveBot,
-  executorIndex: number,
-): Promise<Answer | Answer[]> {
-  const ruleValidators = utils.ensureArray(rule.validators);
-  const typeExecutors = utils.ensureArray(bot.types[rule.type].executors);
-  const currentTypeExecutor = get(typeExecutors, executorIndex, {});
-  const validators = [].concat(
-    executorIndex === 0 ? ruleValidators : [],
-    currentTypeExecutor.validators || [],
-  );
-  const answersList = utils.ensureArray(answers);
-  validators.forEach((validator) => {
-    Object.keys(validator).forEach((key) => {
-      const botValidator = bot.validators[key];
-      if (!botValidator || key === 'warning') {
-        return;
-      }
-      const opts = validator[key];
-      const isValid = answersList.every(
-        (answer) => botValidator.validate(opts, answer, rule, bot),
-      );
-
-      if (!isValid) {
-        const warning = validator.warning || botValidator.warning;
-        const message = typeof warning === 'function' ? warning(opts) : warning;
-        throw new bot.exceptions.ValidatorError(message, rule);
-      }
-    });
-  });
-  return answers;
-}
-
-function getReplyMessage(rule: IRule, answers: Answer | Answer[]): string | null {
-  const { replyMessage } = rule;
-  if (!rule.options.length) {
-    return replyMessage;
-  }
-  let opt;
-  // multiple
-  if (answers instanceof Array) {
-    [opt = null] = answers
-      .map((a) => utils.findOptionByAnswer(rule.options, a))
-      .filter((o) => o.replyMessage) ;
-  }
-  // single
-  opt = utils.findOptionByAnswer(rule.options, answers);
-  if (opt && opt.replyMessage) {
-    return opt.replyMessage;
-  }
-  return replyMessage;
-}
-
-function compileMessage(bot: YveBot, message: string): string {
-  const output = bot.store.output();
-  const { indexes } = bot.controller;
-  // extract variable in template: {{ ruleName.X.Y.Z }}
-  const re = /(?!\{)\w+[.]((?:\w+[.])*\w+)(?=\})/g;
-  const ruleNames = (message.match(re) || []).map((s) => s.split('.')[0]);
-  uniq(ruleNames).map((ruleName) => {
-    const rule = bot.rules[indexes[ruleName]];
-    if (!rule || !rule.options.length) { return; }
-    const answer = output[ruleName];
-    output[ruleName] = (function compile() {
-      // multiple choice
-      if (answer instanceof Array) {
-        return answer
-          .map((a) => {
-            const opt = utils.findOptionByAnswer(rule.options, a);
-            opt.toString = () => a;
-            return opt;
-          });
-      }
-      // single choice
-      const option = utils.findOptionByAnswer(rule.options, answer);
-      option.toString = () => answer;
-      return option;
-    }());
-  });
-  return utils.compileTemplate(message, output).trim();
-}
-
-function runActions(bot: YveBot, rule: IRule, prop: string): Promise<any> {
-  const actions = rule[prop] || [];
-  return Promise.all(
-    actions.map(async (action) => {
-      return Promise.all(
-        Object.keys(action).map(async (k) => {
-          if (k in bot.actions) {
-            return await bot.actions[k](action[k], rule, bot);
-          }
-          return null;
-        }),
-      );
-    }),
-  );
-}
-
-function getNextFromRule(rule: IRule, answer?: Answer | Answer[]): RuleNext | null {
-  if (rule.options.length && answer !== undefined) {
-    const option = utils.findOptionByAnswer(rule.options, answer);
-    if (option && option.next) {
-      return option.next;
-    }
-  }
-  if (rule.next) {
-    return rule.next;
-  }
-  return null;
-}
-
-function getRuleByIndex(bot: YveBot, idx: number): IRule {
-  const rule = bot.rules[idx] ? bot.rules[idx] : sanitizeRule({ exit: true });
-  return { ...bot.options.rule, ...rule };
-}
-
-function patchWithTryCatch(ctrl: Controller, cb: (err: Error) => void) {
-  const methodsToPatch = ['run', 'receiveMessage'];
-  methodsToPatch.forEach((method) => {
-    const _method = ctrl[method]; // tslint:disable-line variable-name
-    ctrl[method] = async (...args) => {
-      try {
-        return await _method.call(ctrl, ...args);
-      } catch (err) {
-        cb(err);
-        return ctrl;
-      }
-    };
-  });
-}
 
 export class Controller {
   private bot: YveBot;
@@ -145,8 +10,10 @@ export class Controller {
   constructor(bot: YveBot) {
     this.bot = bot;
     this._indexes = {};
+
     this.reindex();
-    patchWithTryCatch(this, (err) => bot.dispatch('error', err));
+    patchTryCatch(this, (err) =>
+      bot.dispatch('error', err));
   }
 
   public reindex(): void {
@@ -170,7 +37,7 @@ export class Controller {
   public async run(idx: number): Promise<this> {
     const { bot } = this;
     const output = bot.store.output();
-    const rule = getRuleByIndex(bot, idx);
+    const rule = utils.getRuleByIndex(bot, idx);
 
     bot.store.set('currentIdx', idx);
 
@@ -182,14 +49,14 @@ export class Controller {
     if (bot.options.enableWaitForSleep && 'sleep' in rule) {
       await bot.actions.timeout(rule.sleep);
     }
-    await runActions(bot, rule, 'preActions');
+    await utils.runActions(bot, rule, 'preActions');
 
     if (rule.message) {
       await this.sendMessage(rule.message, rule);
     }
 
     // run actions
-    await runActions(bot, rule, 'actions');
+    await utils.runActions(bot, rule, 'actions');
 
     if (rule.exit) {
       bot.end();
@@ -227,7 +94,7 @@ export class Controller {
       }
     }
 
-    const text = compileMessage(bot, message);
+    const text = utils.compileMessage(bot, message);
     bot.dispatch('talk', text, rule);
     bot.dispatch('typed');
 
@@ -237,7 +104,7 @@ export class Controller {
   public async receiveMessage(message: Answer | Answer[]): Promise<this> {
     const { bot } = this;
     const idx = bot.store.get('currentIdx');
-    const rule = getRuleByIndex(bot, idx);
+    const rule = utils.getRuleByIndex(bot, idx);
 
     bot.dispatch('listen', message, rule);
 
@@ -272,7 +139,7 @@ export class Controller {
       bot.store.set(`output.${output}`, answer);
     }
 
-    const replyMessage = getReplyMessage(rule, answer);
+    const replyMessage = utils.getReplyMessage(rule, answer);
     if (replyMessage) {
       const replyRule = { ...bot.options.rule };
       if ('delay' in rule) {
@@ -282,7 +149,7 @@ export class Controller {
     }
 
     // run post-actions
-    await runActions(bot, rule, 'postActions');
+    await utils.runActions(bot, rule, 'postActions');
 
     if (rule.type === 'PassiveLoop') {
       return this;
@@ -301,7 +168,7 @@ export class Controller {
 
   public nextRule(currentRule: IRule, answer?: Answer | Answer[]): this {
     const { bot } = this;
-    const nextRuleName = getNextFromRule(currentRule, answer);
+    const nextRuleName = utils.getNextFromRule(currentRule, answer);
     if (nextRuleName) {
       let ruleName;
       if (/flow:/.test(nextRuleName)) { // jump to flow
@@ -349,7 +216,7 @@ export class Controller {
     const { transform = (...args) => Promise.resolve(args[0]) } = executor;
     const answer = await (
       transform(lastAnswer, rule, bot)
-      .then((ans) => validateAnswer(ans, rule, bot, this.getRuleExecutorIndex(rule)))
+      .then((ans) => utils.validateAnswer(ans, rule, bot, this.getRuleExecutorIndex(rule)))
     );
 
     const completed = (this.getRuleExecutorIndex(rule) === executors.length - 1);
@@ -361,4 +228,19 @@ export class Controller {
     this.resetRuleExecutorIndex(rule);
     return answer;
   }
+}
+
+function patchTryCatch(ctrl: Controller, cb: (err: Error) => void) {
+  const methodsToPatch = ['run', 'receiveMessage'];
+  methodsToPatch.forEach((method) => {
+    const methodCopy = ctrl[method];
+    ctrl[method] = async (...args) => {
+      try {
+        return await methodCopy.call(ctrl, ...args);
+      } catch (err) {
+        cb(err);
+        return ctrl;
+      }
+    };
+  });
 }

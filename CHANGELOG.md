@@ -1,5 +1,12 @@
 # Change Log
 
+## [1.19.1](https://github.com/andersonba/yve-bot/tree/1.19.1) (2018-07-10)
+[Full Changelog](https://github.com/andersonba/yve-bot/compare/1.19.0...1.19.1)
+
+**Fixed bugs:**
+
+- mobile: chat losing scroll position on re-enable form [\#147](https://github.com/andersonba/yve-bot/issues/147)
+
 ## [1.19.0](https://github.com/andersonba/yve-bot/tree/1.19.0) (2018-07-10)
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.18.3...1.19.0)
 

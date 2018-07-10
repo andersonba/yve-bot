@@ -79,7 +79,7 @@
     },
     {
       "path": "./lib/ui.js",
-      "maxSize": "2.5 kB"
+      "maxSize": "2.6 kB"
     },
     {
       "path": "./lib/web.js",

@@ -11,6 +11,7 @@ export class ChatUI {
   public typing: HTMLLIElement;
   public conversation: HTMLUListElement;
   private options: IChatOptions;
+  private inputValue: string;
 
   constructor(options: IChatOptions) {
     this.options = options;
@@ -25,6 +26,7 @@ export class ChatUI {
     this.conversation.appendChild(this.typing);
     this.chat.appendChild(this.conversation);
     this.chat.appendChild(this.form);
+    this.inputValue = '';
   }
 
   public createSingleChoiceMessage(
@@ -64,12 +66,16 @@ export class ChatUI {
     this.submit.disabled = true;
     this.input.disabled = true;
     this.input.placeholder = placeholder;
+    this.inputValue = this.input.value;
+    this.input.value = '';
   }
 
   public enableForm() {
     this.submit.disabled = false;
     this.input.disabled = false;
     this.input.placeholder = this.options.inputPlaceholder;
+    this.input.value = this.inputValue;
+    this.inputValue = '';
 
     if (this.options.autoFocus) {
       this.input.focus();

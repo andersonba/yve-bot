@@ -185,6 +185,7 @@ export function getRuleByIndex(bot: YveBot, idx: number): IRule {
 
 export function isRuleMessageRequired(bot: YveBot, rule: IRule): boolean {
   if (
+    rule.message ||
     !rule.type ||
     !bot.types[rule.type] ||
     typeof bot.types[rule.type].requiredMessage !== 'function'

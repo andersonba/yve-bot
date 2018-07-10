@@ -44,7 +44,7 @@ export function sanitizeRule(input: IRule): IRule {
   }
 
   // string way
-  ['actions', 'validators'].forEach((key) => {
+  ['actions', 'preActions', 'postActions', 'validators'].forEach((key) => {
     if (rule[key] && rule[key].length) {
       rule[key] = rule[key].map((k) => typeof k === 'string' ? {[k]: true} : k);
     }

@@ -23,6 +23,7 @@ export interface IRule {
   sleep?: number;
   actions?: IRuleAction[];
   preActions?: IRuleAction[];
+  postActions?: IRuleAction[];
   replyMessage?: string;
   options?: IRuleOption[];
   maxOptions?: number;

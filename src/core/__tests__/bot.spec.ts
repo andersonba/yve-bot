@@ -696,7 +696,9 @@ test('running actions', async () => {
   const act = jest.fn();
   const stringAct = jest.fn();
   const preAct = jest.fn();
+  const preStringAct = jest.fn();
   const postAct = jest.fn();
+  const postStringAct = jest.fn();
   const rules = loadYaml(`
   - message: Hello
     type: String
@@ -706,13 +708,17 @@ test('running actions', async () => {
       - testStringWay
     preActions:
       - testPreAction: true
+      - testPreStringWay
     postActions:
       - testPostAction: true
+      - testPostStringWay
   `);
   const bot = new YveBot(rules, OPTS);
   bot.actions.define('testAction', act);
   bot.actions.define('testPreAction', preAct);
+  bot.actions.define('testPreStringWay', preStringAct);
   bot.actions.define('testPostAction', postAct);
+  bot.actions.define('testPostStringWay', postStringAct);
   bot.actions.define('testStringWay', stringAct);
   bot.start();
 
@@ -720,11 +726,14 @@ test('running actions', async () => {
   expect(act).toBeCalledWith(false, rules[0], bot);
   expect(stringAct).toBeCalledWith(true, rules[0], bot);
   expect(preAct).toBeCalledWith(true, rules[0], bot);
+  expect(preStringAct).toBeCalledWith(true, rules[0], bot);
   expect(postAct).not.toBeCalled();
+  expect(postStringAct).not.toBeCalled();
 
   bot.hear('okay');
   await sleep();
   expect(postAct).toBeCalledWith(true, rules[0], bot);
+  expect(postStringAct).toBeCalledWith(true, rules[0], bot);
 });
 
 test('end bot when last message has skip', async () => {

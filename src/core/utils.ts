@@ -143,13 +143,20 @@ export function compileMessage(bot: YveBot, message: string): string {
 }
 
 export function runActions(bot: YveBot, rule: IRule, prop: string): Promise<any> {
+  const output = bot.store.output();
   const actions = rule[prop] || [];
   return Promise.all(
     actions.map(async (action) => {
       return Promise.all(
         Object.keys(action).map(async (k) => {
           if (k in bot.actions) {
-            return await bot.actions[k](action[k], rule, bot);
+            const value = action[k];
+
+            return await bot.actions[k](
+              typeof value === 'string' ? compileTemplate(value, output) : value,
+              rule,
+              bot,
+            );
           }
           return null;
         }),

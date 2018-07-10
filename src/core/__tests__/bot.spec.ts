@@ -434,6 +434,38 @@ test('compiled template', async () => {
   expect(onTalk).toBeCalledWith('Your color: red', {}, 'session');
 });
 
+test('compiled template in actions value', async () => {
+  const preAct = jest.fn();
+  const act = jest.fn();
+  const postAct = jest.fn();
+
+  const rules = loadYaml(`
+  - preActions:
+    - testPreCompiledMessage: '{color}'
+  - actions:
+    - testCompiledMessage: '{color}'
+  - message: Msg
+    type: String
+    postActions:
+    - testPostCompiledMessage: '{color}'
+  `);
+  const bot = new YveBot(rules, OPTS);
+  bot.store.set('output.color', 'red');
+
+  bot.actions.define('testCompiledMessage', (v) => act(v));
+  bot.actions.define('testPreCompiledMessage', (v) => preAct(v));
+  bot.actions.define('testPostCompiledMessage', (v) => postAct(v));
+  bot.start();
+
+  await sleep();
+  bot.hear('okay');
+  await sleep();
+
+  expect(preAct).toBeCalledWith('red');
+  expect(act).toBeCalledWith('red');
+  expect(postAct).toBeCalledWith('red');
+});
+
 test('compiled template with dot notation using single choice', async () => {
   const onTalk = jest.fn();
   const rules = loadYaml(`

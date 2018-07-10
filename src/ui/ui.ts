@@ -52,10 +52,7 @@ export class ChatUI {
     if (opts && opts.className) {
       btn.classList.add(opts.className);
     }
-    btn.onclick = () => {
-      onClick(btn);
-      this.scrollDown(0, true);
-    };
+    btn.onclick = () => onClick(btn);
     const { value, label } = option;
     btn.setAttribute('data-value', String((value === undefined ? label : value) || ''));
     btn.setAttribute('data-label', String((label === undefined ? value : label) || ''));
@@ -88,8 +85,14 @@ export class ChatUI {
     const createButtonsPaginator = (options: IRuleOption[], start = 0) => {
       const end = !!maxOptions ? start + maxOptions - 1 : options.length;
       options.slice(start, end).forEach((opt, idx) => {
-        const bubble = this.createBubbleButton(opt, (btn) => onClick(btn, bubbles));
+        const bubble = this.createBubbleButton(opt, (btn) => {
+          onClick(btn, bubbles);
+          if (rule.type !== 'MultipleChoice') {
+            this.scrollDown(0, true);
+          }
+        });
         bubbles.appendChild(bubble);
+
         if (end < options.length && idx === maxOptions - 2) {
           const moreBtn = this.createBubbleButton({ label }, () => {
             createButtonsPaginator(options, end);
@@ -126,6 +129,7 @@ export class ChatUI {
         bubbles.remove();
         done.remove();
         self.enableForm();
+        self.scrollDown(0, true);
       };
 
       const bubbleMsg = this.createBubbleMessage(rule, (btn) => {
@@ -246,7 +250,7 @@ export class ChatUI {
     this.scrollDown(thread.offsetHeight, source === 'USER');
   }
 
-  public scrollDown(offset, force = false) {
+  public scrollDown(offset: number, force = false) {
     /*
     * Avoid breakdown of reading when user changes the scroll and a new thread is appended
     */

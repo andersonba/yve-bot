@@ -137,7 +137,7 @@ export class ChatUI {
         }
       });
 
-      this.disableForm(this.options.inputPlaceholderMutipleChoice);
+      this.disableForm(this.options.inputPlaceholderMultipleChoice);
 
       message.appendChild(bubbleMsg);
       message.appendChild(done);

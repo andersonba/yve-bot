@@ -109,7 +109,7 @@ export interface IChatOptions {
   name?: string;
   inputPlaceholder?: string;
   inputPlaceholderSingleChoice?: string;
-  inputPlaceholderMutipleChoice?: string;
+  inputPlaceholderMultipleChoice?: string;
   doneMultipleChoiceLabel?: string;
   andSeparatorText?: string;
   submitLabel?: string;

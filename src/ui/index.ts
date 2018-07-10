@@ -12,7 +12,7 @@ export default class YveBotUI extends YveBot {
       autoFocus: true,
       doneMultipleChoiceLabel: 'Done',
       inputPlaceholder: 'Type your message',
-      inputPlaceholderMutipleChoice: 'Choose the options above',
+      inputPlaceholderMultipleChoice: 'Choose the options above',
       inputPlaceholderSingleChoice: 'Choose an option above',
       moreOptionsLabel: 'More options',
       submitLabel: 'Send',

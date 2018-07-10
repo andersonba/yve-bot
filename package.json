@@ -80,11 +80,11 @@
     },
     {
       "path": "./lib/ui.js",
-      "maxSize": "2.6 kB"
+      "maxSize": "4 kB"
     },
     {
       "path": "./lib/web.js",
-      "maxSize": "11 kB"
+      "maxSize": "13 kB"
     },
     {
       "path": "./lib/ext/types/StringSearch.js",

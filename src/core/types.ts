@@ -41,6 +41,7 @@ const types: { [name: string]: IRuleTypeExecutor } = {
         warning: 'Unknown option',
       },
     ],
+    requiredMessage: (rule: IRule) => !rule.options.length,
   },
 
   MultipleChoice: {
@@ -78,6 +79,7 @@ const types: { [name: string]: IRuleTypeExecutor } = {
         warning: 'Unknown options',
       },
     ],
+    requiredMessage: (rule: IRule) => !rule.options.length,
   },
 };
 

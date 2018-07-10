@@ -52,10 +52,12 @@ export interface IRuleValidator {
 }
 
 export interface IRuleType {
+  requiredMessage?: (IRule) => boolean;
   executors?: IRuleTypeExecutor[];
 }
 
 export interface IRuleTypeExecutor {
+  requiredMessage?: (IRule) => boolean;
   validators?: IRuleValidator[];
   transform?: RuleTypeTransform;
 }

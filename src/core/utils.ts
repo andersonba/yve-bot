@@ -15,7 +15,7 @@ export function compileTemplate(template: string, payload: any): string {
 }
 
 export function calculateDelayToTypeMessage(message: string, time: number): number {
-  return (message || '').length * time;
+  return message.length * time;
 }
 
 export function isMatchAnswer(answer: Answer, option: string | number) {
@@ -174,4 +174,15 @@ export function getNextFromRule(rule: IRule, answer?: Answer | Answer[]): RuleNe
 export function getRuleByIndex(bot: YveBot, idx: number): IRule {
   const rule = bot.rules[idx] ? bot.rules[idx] : sanitizeRule({ exit: true });
   return { ...bot.options.rule, ...rule };
+}
+
+export function isRuleMessageRequired(bot: YveBot, rule: IRule): boolean {
+  if (
+    !rule.type ||
+    !bot.types[rule.type] ||
+    typeof bot.types[rule.type].requiredMessage !== 'function'
+  ) {
+    return !!rule.message;
+  }
+  return !bot.types[rule.type].requiredMessage(rule);
 }

@@ -51,7 +51,7 @@ export class Controller {
     }
     await utils.runActions(bot, rule, 'preActions');
 
-    if (rule.message) {
+    if (utils.isRuleMessageRequired(bot, rule)) {
       await this.sendMessage(rule.message, rule);
     }
 
@@ -77,8 +77,9 @@ export class Controller {
     return this;
   }
 
-  public async sendMessage(message: string, rule: IRule): Promise<this> {
+  public async sendMessage(input: string | null, rule: IRule): Promise<this> {
     const { bot } = this;
+    const message = input || '';
 
     bot.dispatch('typing');
 

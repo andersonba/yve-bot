@@ -362,6 +362,30 @@ test('auto reply message for single choice', async () => {
   expect(onTalk).not.toBeCalledWith('Really?', {}, 'session');
 });
 
+['SingleChoice', 'MultipleChoice'].forEach((ruleType) => {
+  test(`send options without message in ${ruleType}`, async () => {
+    const onTalk = jest.fn();
+    const rules = loadYaml(`
+    - type: ${ruleType}
+      options:
+        - Red
+        - White
+    - type: ${ruleType}
+    `);
+    const bot = new YveBot(rules, OPTS)
+      .on('talk', onTalk)
+      .start();
+
+    await sleep();
+    bot.hear('red');
+    await sleep();
+
+    expect(onTalk).toHaveBeenCalledTimes(1);
+    expect(onTalk).toBeCalledWith('', rules[0], 'session');
+    expect(onTalk).not.toBeCalledWith('', rules[1], 'session');
+  });
+});
+
 test('auto reply message for multiple choice', async () => {
   const onTalk = jest.fn();
   const rules = loadYaml(`

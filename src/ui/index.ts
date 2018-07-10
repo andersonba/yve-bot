@@ -59,14 +59,14 @@ export default class YveBotUI extends YveBot {
   }
 
   public typing() {
-    this.UI.typing.classList.add('is-typing');
-    this.UI.scrollDown(this.UI.typing.offsetHeight);
+    this.UI.scrollDown(this.UI.typing.offsetHeight, () =>
+      this.UI.typing.classList.add('is-typing'));
     return this;
   }
 
   public typed() {
-    this.UI.typing.classList.remove('is-typing');
-    this.UI.scrollDown(this.UI.typing.offsetHeight);
+    this.UI.scrollDown(this.UI.typing.offsetHeight, () =>
+      this.UI.typing.classList.remove('is-typing'));
     return this;
   }
 

@@ -94,7 +94,7 @@ export class ChatUI {
         const bubble = this.createBubbleButton(opt, (btn) => {
           onClick(btn, bubbles);
           if (rule.type !== 'MultipleChoice') {
-            this.scrollDown(0, true);
+            this.scrollDown(0, null, true);
           }
         });
         bubbles.appendChild(bubble);
@@ -135,7 +135,7 @@ export class ChatUI {
         bubbles.remove();
         done.remove();
         self.enableForm();
-        self.scrollDown(0, true);
+        self.scrollDown(0, null, true);
       };
 
       const bubbleMsg = this.createBubbleMessage(rule, (btn) => {
@@ -252,21 +252,28 @@ export class ChatUI {
   }
 
   public appendThread(source: ChatMessageSource, conversation: HTMLUListElement, thread: HTMLLIElement) {
-    conversation.insertBefore(thread, this.typing);
-    this.scrollDown(thread.offsetHeight, source === 'USER');
+    this.scrollDown(
+      thread.offsetHeight,
+      () => conversation.insertBefore(thread, this.typing),
+      source === 'USER',
+    );
   }
 
-  public scrollDown(offset: number, force = false) {
+  public scrollDown(offset: number, callback: () => void | null, force = false) {
     /*
     * Avoid breakdown of reading when user changes the scroll and a new thread is appended
     */
-    const marginOfError = 20; // px
     const isBottom = (
       this.conversation.scrollHeight -
       this.conversation.scrollTop -
       this.conversation.offsetHeight -
-      marginOfError
-    ) <= offset;
+      offset
+    ) <= 0;
+
+    if (callback) {
+      callback();
+    }
+
     /* istanbul ignore next */
     if (isBottom || force) {
       this.conversation.scrollTop = this.conversation.scrollHeight;

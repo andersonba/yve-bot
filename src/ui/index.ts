@@ -76,6 +76,8 @@ export default class YveBotUI extends YveBot {
     const thread = UI.createThread(source, UI.createTextMessage(message, sender));
 
     if (source === 'BOT') {
+      this.UI.setInputType(rule.multiline ? 'textarea' : 'inputText');
+
       switch (rule.type) {
         case 'SingleChoice':
         thread.appendChild(UI.createSingleChoiceMessage(rule, (label, value) => {
@@ -91,8 +93,6 @@ export default class YveBotUI extends YveBot {
         }));
         break;
       }
-
-      this.UI.setInputType(rule.multiline ? 'textarea' : 'inputText');
     }
     UI.appendThread(source, this.UI.conversation, thread);
     return this;

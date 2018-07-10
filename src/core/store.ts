@@ -21,7 +21,10 @@ export class Store {
     this.reset();
   }
 
-  public output(): any {
+  public output(key?: string): any {
+    if (key) {
+      return this.get(`output.${key}`);
+    }
     const output = this.get('output');
     return { ...output };
   }

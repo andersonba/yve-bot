@@ -58,3 +58,12 @@ test('replacing keeping default value', () => {
   expect(store.get('currentIdx')).toEqual(0);
   expect(store.get('output')).toEqual({});
 });
+
+test('get output', () => {
+  const store = new Store(mockBot());
+  store.set('output.word', 'ok');
+  expect(store.output()).toEqual({
+    word: 'ok',
+  });
+  expect(store.output('word')).toBe('ok');
+});

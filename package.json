@@ -40,7 +40,7 @@
     "rollup-plugin-json": "^3.0.0",
     "rollup-plugin-node-resolve": "^3.3.0",
     "rollup-plugin-typescript2": "^0.15.1",
-    "rollup-plugin-uglify": "^4.0.0",
+    "rollup-plugin-uglify": "^5.0.0",
     "ts-jest": "^23.0.0",
     "ts-node": "^7.0.0",
     "tslint": "^5.10.0",

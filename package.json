@@ -47,7 +47,7 @@
     "typescript": "^2.9.2"
   },
   "dependencies": {
-    "isomorphic-unfetch": "^2.0.0",
+    "isomorphic-unfetch": "^3.0.0",
     "promise-queue": "^2.2.5"
   },
   "jest": {

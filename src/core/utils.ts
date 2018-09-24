@@ -71,25 +71,30 @@ export async function validateAnswer(
     executorIndex === 0 ? ruleValidators : [],
     currentTypeExecutor.validators || [],
   );
-  const answersList = ensureArray(answers);
-  validators.forEach((validator) => {
-    Object.keys(validator).forEach((key) => {
-      const botValidator = bot.validators[key];
-      if (!botValidator || key === 'warning') {
-        return;
-      }
-      const opts = validator[key];
-      const isValid = answersList.every(
-        (answer) => botValidator.validate(opts, answer, rule, bot),
-      );
 
-      if (!isValid) {
-        const warning = validator.warning || botValidator.warning;
-        const message = typeof warning === 'function' ? warning(opts) : warning;
-        throw new bot.exceptions.ValidatorError(message, rule);
-      }
-    });
-  });
+  const answersList = ensureArray(answers);
+  const validationsFlows = validators
+    .map((v) => [v, Object.keys(v)])
+    .map(([validator, keys]) => {
+      return keys
+        .filter((key) => (bot.validators[key] && key !== 'warning'))
+        .map((key) => [ validator, bot.validators[key], validator[key] ]);
+    })
+    .reduce((acc, val) => acc.concat(val), []);
+
+  await Promise.all(validationsFlows.map(async ([validator, botValidator, opts]) => {
+    const validations = await Promise.all(answersList.map((answer) => {
+      return botValidator.validate(opts, answer, rule, bot);
+    }));
+    const isValid = validations.every((val) => val);
+
+    if (!isValid) {
+      const warning = validator.warning || botValidator.warning;
+      const message = typeof warning === 'function' ? warning(opts) : warning;
+      throw new bot.exceptions.ValidatorError(message, rule);
+    }
+  }));
+
   return answers;
 }
 

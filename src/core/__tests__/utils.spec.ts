@@ -107,8 +107,10 @@ describe('validateAnswer', () => {
     const bot = new YveBot(rules);
     bot.validators.define('custom', {
       validate: async (validAnswer, ans) => new Promise((res) => {
-        const valid = ans === validAnswer;
-        res(valid);
+        setTimeout(() => {
+          const valid = ans === validAnswer;
+          res(valid);
+        }, 500);
       }),
     });
 

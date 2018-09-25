@@ -71,25 +71,28 @@ export async function validateAnswer(
     executorIndex === 0 ? ruleValidators : [],
     currentTypeExecutor.validators || [],
   );
+
   const answersList = ensureArray(answers);
-  validators.forEach((validator) => {
-    Object.keys(validator).forEach((key) => {
+  await Promise.all(validators.map((validator) => {
+    return Promise.all(Object.keys(validator).map(async (key) => {
       const botValidator = bot.validators[key];
       if (!botValidator || key === 'warning') {
         return;
       }
-      const opts = validator[key];
-      const isValid = answersList.every(
-        (answer) => botValidator.validate(opts, answer, rule, bot),
-      );
 
+      const opts = validator[key];
+      const validations = await Promise.all(answersList.map((answer) => {
+        return botValidator.validate(opts, answer, rule, bot);
+      }));
+      const isValid = validations.every((val) => val);
       if (!isValid) {
         const warning = validator.warning || botValidator.warning;
         const message = typeof warning === 'function' ? warning(opts) : warning;
         throw new bot.exceptions.ValidatorError(message, rule);
       }
-    });
-  });
+    }));
+  }));
+
   return answers;
 }
 

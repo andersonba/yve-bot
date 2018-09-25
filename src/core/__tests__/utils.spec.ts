@@ -1,3 +1,4 @@
+import YveBot from '..';
 import * as mocks from '@test/mocks';
 import * as utils from '../utils';
 
@@ -87,5 +88,65 @@ describe('identifyAnswersInString', () => {
       'Apple', 'Banana', 'Grape',
     ]);
     testMethod('One+tWo+four', ['one', 'two', 'three'], ['one', 'two']);
+  });
+});
+
+describe('validateAnswer', () => {
+  const VALID_ANSWER = Math.random();
+  const INVALID_ANSWER = VALID_ANSWER + 1;
+  const rules = [{
+    name: 'rule',
+    type: 'String',
+    validators: [{
+      custom: VALID_ANSWER,
+      warning: 'custom valdiator failed',
+    }],
+  }];
+
+  describe('async validation', () => {
+    const bot = new YveBot(rules);
+    bot.validators.define('custom', {
+      validate: async (validAnswer, ans) => new Promise((res) => {
+        setTimeout(() => {
+          const valid = ans === validAnswer;
+          res(valid);
+        }, 500);
+      }),
+    });
+
+    test('valid answer', async () => {
+      const result = await utils.validateAnswer(VALID_ANSWER, rules[0], bot, 0);
+      expect(result).toEqual(VALID_ANSWER);
+    });
+
+    test('invalid answer', async () => {
+      try {
+        await utils.validateAnswer(INVALID_ANSWER, rules[0], bot, 0);
+        throw new Error(`Validation should fail with invalid answer: ${INVALID_ANSWER}`);
+      } catch (err) {
+        expect(err).toBeInstanceOf(bot.exceptions.ValidatorError);
+      }
+    });
+  });
+
+  describe('sync validation', () => {
+    const bot = new YveBot(rules);
+    bot.validators.define('customSync', {
+      validate: (validAnswer, ans) => ans === validAnswer,
+    });
+
+    test('valid answer', async () => {
+      const result = await utils.validateAnswer(VALID_ANSWER, rules[0], bot, 0);
+      expect(result).toEqual(VALID_ANSWER);
+    });
+
+    test('invalid answer', async () => {
+      try {
+        await utils.validateAnswer(INVALID_ANSWER, rules[0], bot, 0);
+        throw new Error(`Validation should fail with invalid answer: ${INVALID_ANSWER}`);
+      } catch (err) {
+        expect(err).toBeInstanceOf(bot.exceptions.ValidatorError);
+      }
+    });
   });
 });

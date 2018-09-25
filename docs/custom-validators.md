@@ -19,6 +19,17 @@ bot.validators.define('email', {
 });
 ```
 
+You can also define an asynchronous validation
+```javascript
+bot.validators.define('external-dep', {
+  validate: async (externalAPI, answer) => {
+    return fetch(externalAPI).then(result => (answer === result));
+  },
+  warning: 'A friendly error message',
+});
+```
+
+## Usage
 ```yaml
 - message: Your e-mail
   validators:

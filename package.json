@@ -30,7 +30,7 @@
     "coveralls": "^3.0.2",
     "faker": "^4.1.0",
     "fetch-mock": "^6.5.0",
-    "is-mobile": "^1.0.0",
+    "is-mobile": "^2.0.0",
     "jest": "^23.3.0",
     "lodash-es": "^4.17.10",
     "rimraf": "^2.6.2",

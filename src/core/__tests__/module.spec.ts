@@ -1,5 +1,6 @@
 /* tslint:disable:max-classes-per-file */
 import { DefineModule } from '../module';
+import { ModuleType } from '../../types';
 
 describe('define', () => {
   test('using object', () => {
@@ -7,7 +8,7 @@ describe('define', () => {
       public a: number;
       public b: number;
     }
-    const mod = new A();
+    const mod = new A('test' as ModuleType);
     mod.define({
       a: 1,
       b: 2,
@@ -21,7 +22,7 @@ describe('define', () => {
     class A extends DefineModule {
       public a: number;
     }
-    const mod = new A();
+    const mod = new A('test' as ModuleType);
     mod.define('a', 123);
     expect(mod.a).toBe(123);
   });
@@ -30,7 +31,7 @@ describe('define', () => {
     class A extends DefineModule {
       public a: number;
     }
-    const mod = new A();
+    const mod = new A('test' as ModuleType);
     mod.define('a', 123);
     mod.define('a', 321);
     expect(mod.a).toBe(123);
@@ -40,7 +41,7 @@ describe('define', () => {
     class A extends DefineModule {
       public a: number;
     }
-    const mod = new A();
+    const mod = new A('test' as ModuleType);
     mod.define('a', 123);
     mod.define('a', 321, { override: true });
     expect(mod.a).toBe(321);

@@ -20,23 +20,25 @@ export default YveBot.types.defineExtension('StringSearch', {
          *   - value: myProperty2
          */
         const { apiURI, apiQueryParam, translate, messages } = rule.config;
-        const searchURI = `${apiURI}?${apiQueryParam}=${encodeURIComponent(String(answer))}`;
+        const searchURI = `${apiURI}?${apiQueryParam}=${encodeURIComponent(
+          String(answer)
+        )}`;
 
         bot.dispatch('typing');
         return fetch(searchURI)
-          .then((res) => res.json())
-          .then((list) => {
+          .then(res => res.json())
+          .then(list => {
             if (list.length === 0) {
               throw new bot.exceptions.ValidatorError(messages.noResults, rule);
             }
             return list;
           })
-          .then((list) => {
+          .then(list => {
             if (!translate) {
               return list;
             }
             const { label, value } = translate;
-            return list.map((obj) => ({ label: obj[label], value: obj[value] }));
+            return list.map(obj => ({ label: obj[label], value: obj[value] }));
           });
       },
     },
@@ -53,10 +55,12 @@ export default YveBot.types.defineExtension('StringSearch', {
           ];
         } else {
           message = `${messages.multipleResults}:`;
-          options = results.concat([{
-            label: messages.noneOfAbove,
-            value: null,
-          }]);
+          options = results.concat([
+            {
+              label: messages.noneOfAbove,
+              value: null,
+            },
+          ]);
         }
 
         bot.talk(message, { type: 'SingleChoice', options });
@@ -64,17 +68,19 @@ export default YveBot.types.defineExtension('StringSearch', {
       },
     },
     {
-      validators: [{
-        function: (answer: any, rule: IRule, bot: YveBot) => {
-          const { messages } = rule.config;
-          if (!answer) {
-            bot.store.unset(`executors.${rule.name}.currentIdx`);
-            bot.talk(messages.wrongResult);
-            throw new bot.exceptions.PauseRuleTypeExecutors(rule.name);
-          }
-          return true;
+      validators: [
+        {
+          function: (answer: any, rule: IRule, bot: YveBot) => {
+            const { messages } = rule.config;
+            if (!answer) {
+              bot.store.unset(`executors.${rule.name}.currentIdx`);
+              bot.talk(messages.wrongResult);
+              throw new bot.exceptions.PauseRuleTypeExecutors(rule.name);
+            }
+            return true;
+          },
         },
-      }],
+      ],
     },
   ],
 });

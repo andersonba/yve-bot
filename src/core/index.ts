@@ -1,5 +1,13 @@
 import PQueue from 'promise-queue/lib';
-import { Answer, EventName, IContext, IFlow, IListener, IRule, IYveBotOptions } from '../types';
+import {
+  Answer,
+  EventName,
+  IContext,
+  IFlow,
+  IListener,
+  IRule,
+  IYveBotOptions,
+} from '../types';
 import { Actions } from './actions';
 import { Controller } from './controller';
 import * as Exceptions from './exceptions';
@@ -25,7 +33,7 @@ export default class YveBot {
   private handlers: { [handler: string]: Array<(...args) => any> };
   private queue: { add: (fn: () => Promise<any>) => void };
 
-  constructor(rules: Array<IRule|IFlow>, customOpts?: IYveBotOptions) {
+  constructor(rules: Array<IRule | IFlow>, customOpts?: IYveBotOptions) {
     const DEFAULT_OPTS: IYveBotOptions = {
       enableWaitForSleep: true,
       timePerChar: 40,
@@ -44,18 +52,31 @@ export default class YveBot {
       this.store.set('context', this.options.context);
     }
 
-    this.on('error', (err) => { throw err; });
+    this.on('error', err => {
+      /* istanbul ignore next */
+      throw err;
+    });
   }
 
   public get context(): IContext {
     return this.store.get('context');
   }
 
-  public get types() { return YveBot.types; }
-  public get actions() { return YveBot.actions; }
-  public get listeners() { return YveBot.listeners; }
-  public get validators() { return YveBot.validators; }
-  public get exceptions() { return YveBot.exceptions; }
+  public get types() {
+    return YveBot.types;
+  }
+  public get actions() {
+    return YveBot.actions;
+  }
+  public get listeners() {
+    return YveBot.listeners;
+  }
+  public get validators() {
+    return YveBot.validators;
+  }
+  public get exceptions() {
+    return YveBot.exceptions;
+  }
 
   public on(evt: EventName, fn: (...args: any[]) => any): this {
     const isUniqueType = ['error'].indexOf(evt) >= 0;
@@ -69,15 +90,18 @@ export default class YveBot {
 
   public listen(listeners: IListener[]): this {
     this.on('listen', (message, rule) => {
-      listeners.every((item) => {
+      listeners.every(item => {
         const listener = sanitizeListener(item);
-        const ignorePassive = !listener.passive && ['Passive', 'PassiveLoop'].indexOf(rule.type) < 0;
+        const ignorePassive =
+          !listener.passive &&
+          ['Passive', 'PassiveLoop'].indexOf(rule.type) < 0;
         const ignoreRule = !rule.passive;
         if (!listener.next || ignorePassive || ignoreRule) {
           return true;
         }
-        const [key] = Object.keys(listener)
-          .filter((k) => k !== 'next' && k in this.listeners);
+        const [key] = Object.keys(listener).filter(
+          k => k !== 'next' && k in this.listeners
+        );
         if (key) {
           const result = this.listeners[key](listener[key], message);
           if (result) {
@@ -121,13 +145,12 @@ export default class YveBot {
   public dispatch(name: EventName, ...args): this {
     if (name in this.handlers) {
       if (name === 'error') {
-        this.handlers.error.map((fn) =>
-          fn(...args, this.sessionId));
+        this.handlers.error.map(fn => fn(...args, this.sessionId));
         return;
       }
 
       Promise.all(
-        this.handlers[name].map((fn) =>
+        this.handlers[name].map(fn =>
           this.queue.add(() => {
             try {
               return Promise.resolve(fn(...args, this.sessionId));
@@ -135,8 +158,8 @@ export default class YveBot {
               this.dispatch('error', err);
               return Promise.resolve();
             }
-          }),
-        ),
+          })
+        )
       );
     }
 
@@ -145,7 +168,7 @@ export default class YveBot {
 
   public session(
     id: string,
-    opts: { context?: IContext, store?: IStoreData, rules?: IRule[] } = {},
+    opts: { context?: IContext; store?: IStoreData; rules?: IRule[] } = {}
   ): this {
     if (opts.rules) {
       this.rules = opts.rules.map(sanitizeRule);
@@ -167,10 +190,8 @@ export default class YveBot {
     return this;
   }
 
-  public addRules(rules: Array<IRule|IFlow>) {
-    this.rules = this.rules.concat(
-      rules.map(sanitizeRule),
-    );
+  public addRules(rules: Array<IRule | IFlow>) {
+    this.rules = this.rules.concat(rules.map(sanitizeRule));
     this.controller.reindex();
   }
 }

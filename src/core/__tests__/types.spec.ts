@@ -2,15 +2,14 @@ import YveBot from '..';
 
 test('extend module type', () => {
   YveBot.types.extend('CustomString', 'String', {
-    transform: () => 'transform2',
+    transform: async () => 'transform2',
     validators: [{ warning: 'validator 2' }],
   });
 
-  expect(YveBot.types.CustomString).toMatchSnapshot();
+  expect((YveBot.types as any).CustomString).toMatchSnapshot();
 });
 
 test('define module type with short mode', () => {
-
   YveBot.types.define('compact', {
     customProp: '123',
     transform: () => 'value',
@@ -20,5 +19,5 @@ test('define module type with short mode', () => {
     ],
   });
 
-  expect(YveBot.types.compact).toMatchSnapshot();
+  expect((YveBot.types as any).compact).toMatchSnapshot();
 });

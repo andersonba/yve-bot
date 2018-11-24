@@ -8,7 +8,7 @@ export interface IStoreData {
   currentIdx: number;
   waitingForAnswer: boolean;
   output: {
-    [key: string]: any,
+    [key: string]: any;
   };
 }
 

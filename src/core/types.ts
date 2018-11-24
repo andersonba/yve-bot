@@ -1,6 +1,12 @@
 import uniq from 'lodash-es/uniq';
 
-import { Answer, IModuleOptions, IRule, IRuleType, IRuleTypeExecutor } from '../types';
+import {
+  Answer,
+  IModuleOptions,
+  IRule,
+  IRuleType,
+  IRuleTypeExecutor,
+} from '../types';
 import { DefineModule } from './module';
 import { sanitizeRuleType } from './sanitizers';
 import * as utils from './utils';
@@ -51,7 +57,7 @@ const types: { [name: string]: IRuleTypeExecutor } = {
         values = answer;
       } else {
         let options = [];
-        rule.options.forEach((o) => {
+        rule.options.forEach(o => {
           options.push(String(o.value || o.label));
           if (o.synonyms) {
             options = options.concat(o.synonyms);
@@ -59,22 +65,26 @@ const types: { [name: string]: IRuleTypeExecutor } = {
         });
         values = utils.identifyAnswersInString(String(answer), options);
       }
-      return uniq(values
-        .map((value) => {
-          const option = utils.findOptionByAnswer(rule.options, value);
-          if (!option) {
-            return undefined;
-          }
-          return option.value === undefined ? option.label : option.value;
-        })
-        .filter((x) => x !== undefined));
+      return uniq(
+        values
+          .map(value => {
+            const option = utils.findOptionByAnswer(rule.options, value);
+            if (!option) {
+              return undefined;
+            }
+            return option.value === undefined ? option.label : option.value;
+          })
+          .filter(x => x !== undefined)
+      );
     },
     validators: [
       {
         function: (answer: Answer | Answer[], rule: IRule) => {
           const answers = utils.ensureArray(answer);
-          const options = rule.options.map((o) => String(o.value || o.label));
-          return answers.every((a) => options.some((o) => utils.isMatchAnswer(a, o)));
+          const options = rule.options.map(o => String(o.value || o.label));
+          return answers.every(a =>
+            options.some(o => utils.isMatchAnswer(a, o))
+          );
         },
         warning: 'Unknown options',
       },
@@ -107,20 +117,22 @@ export class Types extends DefineModule {
     this.define(sanitized);
   }
 
-  public extend(name: string, typeName: string, value: IRuleType | IRuleTypeExecutor, opts?: IModuleOptions): this {
+  public extend(
+    name: string,
+    typeName: string,
+    value: IRuleType | IRuleTypeExecutor,
+    opts?: IModuleOptions
+  ): this {
     const { executors: existingExecutors, ...existing } = this[typeName];
     const { executors, ...custom } = sanitizeRuleType(value);
     return this.define(
       name,
       {
-        executors: [
-          ...existingExecutors,
-          ...executors,
-        ],
+        executors: [...existingExecutors, ...executors],
         ...existing,
         ...custom,
       },
-      opts,
+      opts
     );
   }
 

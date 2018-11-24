@@ -1,6 +1,6 @@
 import { DefineModule } from './module';
 
-const isStringOrNumber = (inp) => ['string', 'number'].indexOf(typeof inp) >= 0;
+const isStringOrNumber = inp => ['string', 'number'].indexOf(typeof inp) >= 0;
 
 const listeners = {
   includes: (input: RegExp | string | number, answer: string): boolean => {

@@ -1,5 +1,5 @@
 import { isMobile } from 'is-mobile';
-import { getChatElements, loadYaml, sleep } from '@test/utils';
+import { getChatElements, loadYaml, sleep } from '~test/utils';
 import YveBotUI from '..';
 
 jest.mock('is-mobile');
@@ -35,7 +35,7 @@ test('event binding', async () => {
   const { input, submit } = getChatElements();
 
   const msg = 'ok';
-  const output = {value: msg};
+  const output = { value: msg };
   const session = 'session';
 
   await sleep();
@@ -48,7 +48,10 @@ test('event binding', async () => {
 
   expect(onReply).toBeCalledWith(msg, session);
   await sleep();
-  expect(onStoreChanged).toBeCalledWith({ output, currentIdx: 1, waitingForAnswer: false }, session);
+  expect(onStoreChanged).toBeCalledWith(
+    { output, currentIdx: 1, waitingForAnswer: false },
+    session
+  );
   await sleep();
   expect(onEnd).toBeCalledWith(output, session);
   await sleep();
@@ -64,9 +67,7 @@ test('passive support', async () => {
   `);
   const onListen = jest.fn();
   new YveBotUI(rules, OPTS)
-    .listen([
-      { includes: 'help', next: 'help' },
-    ])
+    .listen([{ includes: 'help', next: 'help' }])
     .on('listen', onListen)
     .start();
 
@@ -87,7 +88,14 @@ describe('DOM behaviors', () => {
     `);
 
     new YveBotUI(rules, OPTS).start();
-    const { target, conversation, form, input, submit, getTyping } = getChatElements();
+    const {
+      target,
+      conversation,
+      form,
+      input,
+      submit,
+      getTyping,
+    } = getChatElements();
 
     await sleep();
 
@@ -100,7 +108,7 @@ describe('DOM behaviors', () => {
   });
 
   test('desktop: avoid losing scroll position on toggle input focused', async () => {
-    isMobile.mockImplementation(() => false);
+    (isMobile as any).mockImplementation(() => false);
     const rules = loadYaml(`
     - message: Hello
       type: SingleChoice
@@ -123,7 +131,7 @@ describe('DOM behaviors', () => {
   });
 
   test('mobile: avoid losing scroll position on toggle input focused', async () => {
-    isMobile.mockImplementation(() => true);
+    (isMobile as any).mockImplementation(() => true);
     const rules = loadYaml(`
     - message: Hello
       type: SingleChoice
@@ -165,7 +173,11 @@ describe('DOM behaviors', () => {
     const rules = loadYaml(`
     - message: Hello
     `);
-    new YveBotUI(rules, { name: 'Yvebot', timestampable: true, ...OPTS }).start();
+    new YveBotUI(rules, {
+      name: 'Yvebot',
+      timestampable: true,
+      ...OPTS,
+    }).start();
     const { target, getTimestamp } = getChatElements();
 
     await sleep();
@@ -182,7 +194,14 @@ describe('DOM behaviors', () => {
       type: String
     `);
     new YveBotUI(rules, OPTS).start();
-    const { target, input, submit, getMessages, getUserMessages, getBotMessages } = getChatElements();
+    const {
+      target,
+      input,
+      submit,
+      getMessages,
+      getUserMessages,
+      getBotMessages,
+    } = getChatElements();
 
     await sleep();
 
@@ -228,7 +247,13 @@ describe('DOM behaviors', () => {
         - Five
     `);
     new YveBotUI(rules, OPTS).start();
-    const { target, input, submit, getBubbleButtons, getUserMessages } = getChatElements();
+    const {
+      target,
+      input,
+      submit,
+      getBubbleButtons,
+      getUserMessages,
+    } = getChatElements();
 
     await sleep();
 
@@ -274,7 +299,14 @@ describe('DOM behaviors', () => {
         - Three
     `);
     new YveBotUI(rules, OPTS).start();
-    const { target, input, submit, getBubbleButtons, getBubbleDone, getUserMessages } = getChatElements();
+    const {
+      target,
+      input,
+      submit,
+      getBubbleButtons,
+      getBubbleDone,
+      getUserMessages,
+    } = getChatElements();
 
     await sleep();
 
@@ -344,7 +376,11 @@ describe('DOM behaviors', () => {
         - Seven
     `);
     new YveBotUI(rules, OPTS).start();
-    const { target, getBubbleButtons, getBubbleMoreOptions } = getChatElements();
+    const {
+      target,
+      getBubbleButtons,
+      getBubbleMoreOptions,
+    } = getChatElements();
     await sleep();
     // page 1
     expect(getBubbleButtons()).toHaveLength(3);
@@ -412,14 +448,14 @@ describe('DOM behaviors', () => {
 
     await sleep();
 
-    let modifiedInput = target.querySelector(inputClass);
+    let modifiedInput = target.querySelector(inputClass) as HTMLInputElement;
     expect(modifiedInput.type).toBe('text');
     modifiedInput.value = 'another msg';
     submit.click();
 
     await sleep();
 
-    modifiedInput = target.querySelector(inputClass);
+    modifiedInput = target.querySelector(inputClass) as HTMLInputElement;
     expect(modifiedInput.type).toBe('textarea');
   });
 
@@ -512,12 +548,14 @@ describe('DOM behaviors', () => {
 
     expect(input.type).toBe('textarea');
     input.value = 'msg';
-    const event = new KeyboardEvent('keydown', { keyCode: 13 });
+    const event = new KeyboardEvent('keydown', { code: 'Enter' });
     input.dispatchEvent(event);
 
     await sleep();
 
-    const modifiedInput = chat.querySelector('.yvebot-form-input');
+    const modifiedInput = chat.querySelector(
+      '.yvebot-form-input'
+    ) as HTMLInputElement;
     expect(modifiedInput.type).toBe('text');
   });
 
@@ -537,12 +575,17 @@ describe('DOM behaviors', () => {
 
     expect(input.type).toBe('textarea');
     input.value = 'msg';
-    const event = new KeyboardEvent('keydown', { keyCode: 13, shiftKey: true });
+    const event = new KeyboardEvent('keydown', {
+      code: 'Enter',
+      shiftKey: true,
+    });
     input.dispatchEvent(event);
 
     await sleep();
 
-    const modifiedInput = chat.querySelector('.yvebot-form-input');
+    const modifiedInput = chat.querySelector(
+      '.yvebot-form-input'
+    ) as HTMLInputElement;
     expect(modifiedInput.type).toBe('textarea');
   });
 
@@ -562,12 +605,14 @@ describe('DOM behaviors', () => {
 
     expect(input.type).toBe('textarea');
     input.value = 'msg';
-    const event = new KeyboardEvent('keydown', { which: 13 });
+    const event = new KeyboardEvent('keydown', { code: 'Enter' });
     input.dispatchEvent(event);
 
     await sleep();
 
-    const modifiedInput = chat.querySelector('.yvebot-form-input');
+    const modifiedInput = chat.querySelector(
+      '.yvebot-form-input'
+    ) as HTMLInputElement;
     expect(modifiedInput.type).toBe('text');
   });
 

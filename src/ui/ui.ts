@@ -1,4 +1,10 @@
-import { Answer, ChatMessageSource, IChatOptions, IRule, IRuleOption } from '../types';
+import {
+  Answer,
+  ChatMessageSource,
+  IChatOptions,
+  IRule,
+  IRuleOption,
+} from '../types';
 import * as utils from './utils';
 
 export class ChatUI {
@@ -33,14 +39,17 @@ export class ChatUI {
 
   public createSingleChoiceMessage(
     rule: IRule,
-    onSelected: (label: string, value: string) => void,
+    onSelected: (label: string, value: string) => void
   ) {
     if (rule.options.length) {
       this.disableForm(this.options.inputPlaceholderSingleChoice);
       return this.createBubbleMessage(rule, (btn, list) => {
         list.remove();
         this.enableForm();
-        onSelected(btn.getAttribute('data-label'), btn.getAttribute('data-value'));
+        onSelected(
+          btn.getAttribute('data-label'),
+          btn.getAttribute('data-value')
+        );
       });
     }
     return document.createElement('div') as HTMLDivElement;
@@ -49,7 +58,7 @@ export class ChatUI {
   public createBubbleButton(
     option: IRuleOption,
     onClick: (btn: HTMLButtonElement) => void,
-    opts?: { className?: string },
+    opts?: { className?: string }
   ) {
     const btn = document.createElement('button') as HTMLButtonElement;
     btn.className = 'yvebot-message-bubbleBtn';
@@ -58,8 +67,14 @@ export class ChatUI {
     }
     btn.onclick = () => onClick(btn);
     const { value, label } = option;
-    btn.setAttribute('data-value', String((value === undefined ? label : value) || ''));
-    btn.setAttribute('data-label', String((label === undefined ? value : label) || ''));
+    btn.setAttribute(
+      'data-value',
+      String((value === undefined ? label : value) || '')
+    );
+    btn.setAttribute(
+      'data-label',
+      String((label === undefined ? value : label) || '')
+    );
     btn.textContent = btn.getAttribute('data-label');
     return btn;
   }
@@ -89,7 +104,10 @@ export class ChatUI {
     }
   }
 
-  public createBubbleMessage(rule: IRule, onClick: (btn: HTMLButtonElement, list: HTMLDivElement) => void) {
+  public createBubbleMessage(
+    rule: IRule,
+    onClick: (btn: HTMLButtonElement, list: HTMLDivElement) => void
+  ) {
     const { maxOptions = 0 } = rule;
     const { moreOptionsLabel: label } = this.options;
     const bubbles = document.createElement('div') as HTMLDivElement;
@@ -98,7 +116,7 @@ export class ChatUI {
     const createButtonsPaginator = (options: IRuleOption[], start = 0) => {
       const end = !!maxOptions ? start + maxOptions - 1 : options.length;
       options.slice(start, end).forEach((opt, idx) => {
-        const bubble = this.createBubbleButton(opt, (btn) => {
+        const bubble = this.createBubbleButton(opt, btn => {
           onClick(btn, bubbles);
           if (rule.type !== 'MultipleChoice') {
             this.scrollDown(0, null, true);
@@ -107,10 +125,14 @@ export class ChatUI {
         bubbles.appendChild(bubble);
 
         if (end < options.length && idx === maxOptions - 2) {
-          const moreBtn = this.createBubbleButton({ label }, () => {
-            createButtonsPaginator(options, end);
-            moreBtn.remove();
-          }, { className: 'yvebot-message-bubbleMoreOptions' });
+          const moreBtn = this.createBubbleButton(
+            { label },
+            () => {
+              createButtonsPaginator(options, end);
+              moreBtn.remove();
+            },
+            { className: 'yvebot-message-bubbleMoreOptions' }
+          );
           bubbles.appendChild(moreBtn);
         }
       });
@@ -122,7 +144,7 @@ export class ChatUI {
 
   public createMultipleChoiceMessage(
     rule: IRule,
-    onDone: (label: string[], value: string[]) => void,
+    onDone: (label: string[], value: string[]) => void
   ) {
     const message = document.createElement('div') as HTMLDivElement;
 
@@ -133,11 +155,17 @@ export class ChatUI {
       done.style.display = 'none';
 
       const self = this;
-      done.onclick = function() {
-        const bubbles = this.previousElementSibling;
-        const selected = bubbles.querySelectorAll('.yvebot-message-bubbleBtn.selected');
-        const label = utils.nodeListToArray(selected).map((b) => b.getAttribute('data-label'));
-        const value = utils.nodeListToArray(selected).map((b) => b.getAttribute('data-value'));
+      done.onclick = () => {
+        const bubbles = done.previousElementSibling;
+        const selected = bubbles.querySelectorAll(
+          '.yvebot-message-bubbleBtn.selected'
+        );
+        const label = utils
+          .nodeListToArray(selected)
+          .map(b => b.getAttribute('data-label'));
+        const value = utils
+          .nodeListToArray(selected)
+          .map(b => b.getAttribute('data-value'));
         onDone(label, value);
         bubbles.remove();
         done.remove();
@@ -145,9 +173,12 @@ export class ChatUI {
         self.scrollDown(0, null, true);
       };
 
-      const bubbleMsg = this.createBubbleMessage(rule, (btn) => {
+      const bubbleMsg = this.createBubbleMessage(rule, btn => {
         btn.classList.toggle('selected');
-        if (bubbleMsg.querySelectorAll('.yvebot-message-bubbleBtn.selected').length) {
+        if (
+          bubbleMsg.querySelectorAll('.yvebot-message-bubbleBtn.selected')
+            .length
+        ) {
           done.style.display = 'inline-block';
         } else {
           done.style.display = 'none';
@@ -216,15 +247,16 @@ export class ChatUI {
     textarea.placeholder = this.options.inputPlaceholder;
     textarea.rows = 1;
     // shift + enter
-    textarea.addEventListener('keydown', (e) => {
-      const code = e.keyCode ? e.keyCode : e.which;
-      if (code === 13 && !e.shiftKey) {
+    textarea.addEventListener('keydown', e => {
+      const code = e.key || e.keyCode || e.code;
+      const isEnter = ['Enter', 13].indexOf(code) >= 0;
+      if (isEnter && !e.shiftKey) {
         e.preventDefault();
         this.form.dispatchEvent(new Event('submit'));
       }
     });
     // autosize
-    textarea.addEventListener('input', (e) => {
+    textarea.addEventListener('input', e => {
       const target = e.target as HTMLTextAreaElement;
       target.style.height = 'auto';
       target.style.height = `${target.scrollHeight}px`;
@@ -232,7 +264,11 @@ export class ChatUI {
     return textarea;
   }
 
-  public createThread(source: ChatMessageSource, content: HTMLElement, customClass?: string) {
+  public createThread(
+    source: ChatMessageSource,
+    content: HTMLElement,
+    customClass?: string
+  ) {
     const thread = document.createElement('li') as HTMLLIElement;
     thread.className = `yvebot-thread yvebot-thread-${source.toLowerCase()}`;
     if (customClass) {
@@ -258,24 +294,32 @@ export class ChatUI {
     }
   }
 
-  public appendThread(source: ChatMessageSource, conversation: HTMLUListElement, thread: HTMLLIElement) {
+  public appendThread(
+    source: ChatMessageSource,
+    conversation: HTMLUListElement,
+    thread: HTMLLIElement
+  ) {
     this.scrollDown(
       thread.offsetHeight,
       () => conversation.insertBefore(thread, this.typing),
-      source === 'USER',
+      source === 'USER'
     );
   }
 
-  public scrollDown(offset: number, callback: () => void | null, force = false) {
+  public scrollDown(
+    offset: number,
+    callback: () => void | null,
+    force = false
+  ) {
     /*
     * Avoid breakdown of reading when user changes the scroll and a new thread is appended
     */
-    const isBottom = (
+    const isBottom =
       this.conversation.scrollHeight -
-      this.conversation.scrollTop -
-      this.conversation.offsetHeight -
-      offset
-    ) <= 0;
+        this.conversation.scrollTop -
+        this.conversation.offsetHeight -
+        offset <=
+      0;
 
     if (callback) {
       callback();

@@ -1,15 +1,24 @@
-import { IFlow, IListener, IRule, IRuleType, IRuleTypeExecutor } from '../types';
+import {
+  IFlow,
+  IListener,
+  IRule,
+  IRuleType,
+  IRuleTypeExecutor,
+} from '../types';
 
-export function sanitizeBotRules(inputs: Array<IFlow|IRule>): IRule[] {
+export function sanitizeBotRules(inputs: Array<IFlow | IRule>): IRule[] {
   let rules: IRule[] = [];
-  inputs.forEach((input) => {
-    const isFlow = typeof input !== 'string' && 'rules' in input && 'flow' in input;
+  inputs.forEach(input => {
+    const isFlow =
+      typeof input !== 'string' && 'rules' in input && 'flow' in input;
     if (isFlow) {
       const flow = input as IFlow;
       rules = rules.concat(
-        flow.rules.map(
-          (rule, idx) => ({ ...sanitizeRule(rule), flow: input.flow, flowIdx: idx }),
-        ),
+        flow.rules.map((rule, idx) => ({
+          ...sanitizeRule(rule),
+          flow: input.flow,
+          flowIdx: idx,
+        }))
       );
     } else {
       rules.push(sanitizeRule(input as IRule));
@@ -23,13 +32,13 @@ export function sanitizeRule(input: IRule): IRule {
   if (typeof rule === 'string') {
     rule = { message: rule };
   }
-  rule.options = (rule.options || []).map((o) => {
+  rule.options = (rule.options || []).map(o => {
     if (typeof o === 'string') {
       return { value: o };
     }
     if (typeof o.synonyms === 'string' && !!o.synonyms) {
       const synonyms: string = o.synonyms;
-      o.synonyms = synonyms.split(',').map((s) => s.trim());
+      o.synonyms = synonyms.split(',').map(s => s.trim());
     }
     return o;
   });
@@ -44,9 +53,11 @@ export function sanitizeRule(input: IRule): IRule {
   }
 
   // string way
-  ['actions', 'preActions', 'postActions', 'validators'].forEach((key) => {
+  ['actions', 'preActions', 'postActions', 'validators'].forEach(key => {
     if (rule[key] && rule[key].length) {
-      rule[key] = rule[key].map((k) => typeof k === 'string' ? {[k]: true} : k);
+      rule[key] = rule[key].map(
+        k => (typeof k === 'string' ? { [k]: true } : k)
+      );
     }
   });
 
@@ -61,13 +72,19 @@ export function sanitizeListener(listener: IListener) {
   };
 }
 
-export function sanitizeRuleType(ruleType: IRuleType | IRuleTypeExecutor): IRuleType {
+export function sanitizeRuleType(
+  ruleType: IRuleType | IRuleTypeExecutor
+): IRuleType {
   if (!(ruleType as IRuleType).executors) {
-    const { transform, validators = [], ...params } = (ruleType as IRuleTypeExecutor);
+    const {
+      transform,
+      validators = [],
+      ...params
+    } = ruleType as IRuleTypeExecutor;
     return {
       executors: [{ transform, validators }],
       ...params,
     };
   }
-  return (ruleType as IRuleType);
+  return ruleType as IRuleType;
 }

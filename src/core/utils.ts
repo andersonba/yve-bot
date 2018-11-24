@@ -1,7 +1,14 @@
 import get from 'lodash-es/get';
 import uniq from 'lodash-es/uniq';
 import YveBot from '.';
-import { Answer, IIndexes, IRule, IRuleOption, RuleNext, IRuleType } from '../types';
+import {
+  Answer,
+  IIndexes,
+  IRule,
+  IRuleOption,
+  RuleNext,
+  IRuleType,
+} from '../types';
 import { sanitizeRule } from './sanitizers';
 
 export function compileTemplate(template: string, payload: any): string {
@@ -14,7 +21,10 @@ export function compileTemplate(template: string, payload: any): string {
   });
 }
 
-export function calculateDelayToTypeMessage(message: string, time: number): number {
+export function calculateDelayToTypeMessage(
+  message: string,
+  time: number
+): number {
   return message.length * time;
 }
 
@@ -26,16 +36,15 @@ export function isMatchAnswer(answer: Answer, option: string | number) {
 
 export function findOptionByAnswer(
   options: IRuleOption[],
-  answer: Answer | Answer[],
+  answer: Answer | Answer[]
 ): IRuleOption {
   const answers: Answer[] = ensureArray(answer);
-  const [option] = options
-    .filter(
-      (o) =>
-        answers.some((a) => isMatchAnswer(a, o.value)) ||
-        answers.some((a) => isMatchAnswer(a, o.label)) ||
-        answers.some((a) => (o.synonyms || []).some((s) => isMatchAnswer(a, s))),
-    );
+  const [option] = options.filter(
+    o =>
+      answers.some(a => isMatchAnswer(a, o.value)) ||
+      answers.some(a => isMatchAnswer(a, o.label)) ||
+      answers.some(a => (o.synonyms || []).some(s => isMatchAnswer(a, s)))
+  );
   return option;
 }
 
@@ -51,10 +60,10 @@ export function ensureArray(arr) {
 
 export function identifyAnswersInString(
   answer: string,
-  options: string[],
+  options: string[]
 ): string[] {
-  return options.filter((o) =>
-    answer.toLowerCase().indexOf(o.toLowerCase()) >= 0,
+  return options.filter(
+    o => answer.toLowerCase().indexOf(o.toLowerCase()) >= 0
   );
 }
 
@@ -62,41 +71,51 @@ export async function validateAnswer(
   answers: Answer | Answer[],
   rule: IRule,
   bot: YveBot,
-  executorIndex: number,
+  executorIndex: number
 ): Promise<Answer | Answer[]> {
   const ruleValidators = ensureArray(rule.validators);
   const typeExecutors = ensureArray(bot.types[rule.type].executors);
   const currentTypeExecutor = get(typeExecutors, executorIndex, {});
   const validators = [].concat(
     executorIndex === 0 ? ruleValidators : [],
-    currentTypeExecutor.validators || [],
+    currentTypeExecutor.validators || []
   );
 
   const answersList = ensureArray(answers);
-  await Promise.all(validators.map((validator) => {
-    return Promise.all(Object.keys(validator).map(async (key) => {
-      const botValidator = bot.validators[key];
-      if (!botValidator || key === 'warning') {
-        return;
-      }
+  await Promise.all(
+    validators.map(validator => {
+      return Promise.all(
+        Object.keys(validator).map(async key => {
+          const botValidator = bot.validators[key];
+          if (!botValidator || key === 'warning') {
+            return;
+          }
 
-      const opts = validator[key];
-      const validations = await Promise.all(answersList.map((answer) => {
-        return botValidator.validate(opts, answer, rule, bot);
-      }));
-      const isValid = validations.every((val) => val);
-      if (!isValid) {
-        const warning = validator.warning || botValidator.warning;
-        const message = typeof warning === 'function' ? warning(opts) : warning;
-        throw new bot.exceptions.ValidatorError(message, rule);
-      }
-    }));
-  }));
+          const opts = validator[key];
+          const validations = await Promise.all(
+            answersList.map(answer => {
+              return botValidator.validate(opts, answer, rule, bot);
+            })
+          );
+          const isValid = validations.every(val => val);
+          if (!isValid) {
+            const warning = validator.warning || botValidator.warning;
+            const message =
+              typeof warning === 'function' ? warning(opts) : warning;
+            throw new bot.exceptions.ValidatorError(message, rule);
+          }
+        })
+      );
+    })
+  );
 
   return answers;
 }
 
-export function getReplyMessage(rule: IRule, answers: Answer | Answer[]): string | null {
+export function getReplyMessage(
+  rule: IRule,
+  answers: Answer | Answer[]
+): string | null {
   const { replyMessage } = rule;
   if (!rule.options.length) {
     return replyMessage;
@@ -105,8 +124,8 @@ export function getReplyMessage(rule: IRule, answers: Answer | Answer[]): string
   // multiple
   if (answers instanceof Array) {
     [opt = null] = answers
-      .map((a) => findOptionByAnswer(rule.options, a))
-      .filter((o) => o.replyMessage) ;
+      .map(a => findOptionByAnswer(rule.options, a))
+      .filter(o => o.replyMessage);
   }
   // single
   opt = findOptionByAnswer(rule.options, answers);
@@ -121,54 +140,64 @@ export function compileMessage(bot: YveBot, message: string): string {
   const { indexes } = bot.controller;
   // extract variable in template: {{ ruleName.X.Y.Z }}
   const re = /(?!\{)\w+[.]((?:\w+[.])*\w+)(?=\})/g;
-  const ruleNames = (message.match(re) || []).map((s) => s.split('.')[0]);
-  uniq(ruleNames).map((ruleName) => {
+  const ruleNames = (message.match(re) || []).map(s => s.split('.')[0]);
+  uniq(ruleNames).map(ruleName => {
     const rule = bot.rules[indexes[ruleName]];
-    if (!rule || !rule.options.length) { return; }
+    if (!rule || !rule.options.length) {
+      return;
+    }
     const answer = output[ruleName];
     output[ruleName] = (function compile() {
       // multiple choice
       if (answer instanceof Array) {
-        return answer
-          .map((a) => {
-            const opt = findOptionByAnswer(rule.options, a);
-            opt.toString = () => a;
-            return opt;
-          });
+        return answer.map(a => {
+          const opt = findOptionByAnswer(rule.options, a);
+          opt.toString = () => a;
+          return opt;
+        });
       }
       // single choice
       const option = findOptionByAnswer(rule.options, answer);
       option.toString = () => answer;
       return option;
-    }());
+    })();
   });
   return compileTemplate(message, output).trim();
 }
 
-export function runActions(bot: YveBot, rule: IRule, prop: string): Promise<any> {
+export function runActions(
+  bot: YveBot,
+  rule: IRule,
+  prop: string
+): Promise<any> {
   const output = bot.store.output();
   const actions = rule[prop] || [];
   return Promise.all(
-    actions.map(async (action) => {
+    actions.map(async action => {
       return Promise.all(
-        Object.keys(action).map(async (k) => {
+        Object.keys(action).map(async k => {
           if (k in bot.actions) {
             const value = action[k];
 
             return await bot.actions[k](
-              typeof value === 'string' ? compileTemplate(value, output) : value,
+              typeof value === 'string'
+                ? compileTemplate(value, output)
+                : value,
               rule,
-              bot,
+              bot
             );
           }
           return null;
-        }),
+        })
       );
-    }),
+    })
   );
 }
 
-export function getNextFromRule(rule: IRule, answer?: Answer | Answer[]): RuleNext | null {
+export function getNextFromRule(
+  rule: IRule,
+  answer?: Answer | Answer[]
+): RuleNext | null {
   if (rule.options.length && answer !== undefined) {
     const option = findOptionByAnswer(rule.options, answer);
     if (option && option.next) {

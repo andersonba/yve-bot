@@ -38,7 +38,7 @@ export interface IRule {
 
 export interface IRuleOption {
   label?: string;
-  value?: string | number;
+  value?: any;
   synonyms?: string[];
   replyMessage?: string;
   next?: RuleNext;
@@ -63,18 +63,29 @@ export interface IRuleTypeExecutor {
   transform?: RuleTypeTransform;
 }
 
-export type RuleTypeTransform = (
-  (value: any, rule?: IRule, bot?: YveBot) => Promise<any>
-);
+export type RuleTypeTransform = ((
+  value: any,
+  rule?: IRule,
+  bot?: YveBot
+) => Promise<any>);
 
-export type RuleTypeSkip = (
-  (output: object, rule?: IRule, bot?: YveBot) => boolean
-);
+export type RuleTypeSkip = ((
+  output: object,
+  rule?: IRule,
+  bot?: YveBot
+) => boolean);
 
 export type RuleNext = string;
 
-export type RuleType = 'Any' | 'Passive' | 'PassiveLoop' | 'String' | 'Number' |
-  'SingleChoice' | 'MultipleChoice' | 'StringSearch';
+export type RuleType =
+  | 'Any'
+  | 'Passive'
+  | 'PassiveLoop'
+  | 'String'
+  | 'Number'
+  | 'SingleChoice'
+  | 'MultipleChoice'
+  | 'StringSearch';
 
 export interface IContext {
   [key: string]: any;
@@ -95,10 +106,24 @@ export interface IListener {
   next: RuleNext;
 }
 
-export type EventName = 'start' | 'end' | 'error' | 'listen' |
-  'hear' | 'talk' | 'reply' | 'typed' | 'typing' | 'storeChanged';
+export type EventName =
+  | 'start'
+  | 'end'
+  | 'error'
+  | 'listen'
+  | 'hear'
+  | 'talk'
+  | 'reply'
+  | 'typed'
+  | 'typing'
+  | 'storeChanged';
 
-export type ModuleType = 'validators' | 'types' | 'actions' | 'executors' | 'listeners';
+export type ModuleType =
+  | 'validators'
+  | 'types'
+  | 'actions'
+  | 'executors'
+  | 'listeners';
 
 export interface IModuleOptions {
   override: boolean;

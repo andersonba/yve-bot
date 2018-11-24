@@ -3,29 +3,19 @@
     "target": "es5",
     "module": "es2015",
     "moduleResolution": "node",
-    "lib": [
-      "es6",
-      "dom"
-    ],
+    "lib": ["es6", "dom"],
     "baseUrl": ".",
     "outDir": "compiled",
-    "paths": {
-      "@test/*": ["test/*"]
-    },
     "allowJs": true,
     "esModuleInterop": true,
     "noEmitHelpers": true,
     "importHelpers": true,
-    "noResolve": false
+    "noResolve": false,
+    "paths": {
+      "~test/*": ["test/*"]
+    }
   },
-  "files": [
-    "src/core/index.ts",
-    "src/ui/index.ts"
-  ],
-  "include": [
-    "src/ext/types"
-  ],
-  "exclude": [
-    "test"
-  ]
+  "files": ["src/core/index.ts", "src/ui/index.ts"],
+  "include": ["src/ext/types"],
+  "exclude": ["test"]
 }

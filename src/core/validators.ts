@@ -3,9 +3,12 @@ import { IRule } from '../types';
 import { DefineModule } from './module';
 
 // tslint:disable-next-line
-const isEmail = (v) => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v); // http://emailregex.com
-const isNumber = (v) => /^\d+$/.test(v);
-const sanitizeLength = (v) => isNumber(v) ? Number(v) : v.length;
+const isEmail = v =>
+  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+    v
+  ); // http://emailregex.com
+const isNumber = v => /^\d+$/.test(v);
+const sanitizeLength = v => (isNumber(v) ? Number(v) : v.length);
 
 const validators = {
   required: {
@@ -21,39 +24,33 @@ const validators = {
   },
 
   regex: {
-    validate: (reg: string, answer: string) =>
-      new RegExp(reg).test(answer),
+    validate: (reg: string, answer: string) => new RegExp(reg).test(answer),
     warning: 'Invalid answer format',
   },
 
   minWords: {
-    validate: (num: number, answer: string) =>
-      answer.split(' ').length >= num,
-    warning: (min) => `This answer must have at least ${min} words`,
+    validate: (num: number, answer: string) => answer.split(' ').length >= num,
+    warning: min => `This answer must have at least ${min} words`,
   },
 
   maxWords: {
-    validate: (num: number, answer: string) =>
-      answer.split(' ').length <= num,
-    warning: (max) => `This answer must have a maximum ${max} words`,
+    validate: (num: number, answer: string) => answer.split(' ').length <= num,
+    warning: max => `This answer must have a maximum ${max} words`,
   },
 
   min: {
-    validate: (num: number, answer: string) =>
-      sanitizeLength(answer) >= num,
-    warning: (min) => `This answer length must be min ${min}`,
+    validate: (num: number, answer: string) => sanitizeLength(answer) >= num,
+    warning: min => `This answer length must be min ${min}`,
   },
 
   max: {
-    validate: (num: number, answer: string) =>
-      sanitizeLength(answer) <= num,
-    warning: (max) => `This answer length must be max ${max}`,
+    validate: (num: number, answer: string) => sanitizeLength(answer) <= num,
+    warning: max => `This answer length must be max ${max}`,
   },
 
   lenght: {
-    validate: (num: number, answer: string) =>
-      sanitizeLength(answer) === num,
-    warning: (num) => `It must have lenght ${num}`,
+    validate: (num: number, answer: string) => sanitizeLength(answer) === num,
+    warning: num => `It must have lenght ${num}`,
   },
 
   string: {
@@ -73,7 +70,7 @@ const validators = {
       fn: (answer: string, rule: IRule, bot: YveBot) => boolean,
       answer: string,
       rule: IRule,
-      bot: YveBot,
+      bot: YveBot
     ) => fn(answer, rule, bot),
     warning: 'Error on execute a validator function',
   },

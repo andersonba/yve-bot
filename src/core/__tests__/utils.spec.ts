@@ -1,6 +1,7 @@
 import YveBot from '..';
-import * as mocks from '@test/mocks';
+import * as mocks from '~test/mocks';
 import * as utils from '../utils';
+import { RuleType } from '../../types';
 
 describe('compileTemplate', () => {
   test('common', () => {
@@ -9,10 +10,10 @@ describe('compileTemplate', () => {
     }
 
     testMethod('A {0} {1}', [1, 'w'], 'A 1 w');
-    testMethod('{a}{b}{c.d.e}', { a: 1, b: 2, c: { d: { e: 3 } }}, '123');
+    testMethod('{a}{b}{c.d.e}', { a: 1, b: 2, c: { d: { e: 3 } } }, '123');
     testMethod('A{}', {}, 'A');
     testMethod('{numbers}', { numbers: [1, 2, 3] }, '1,2,3');
-    testMethod('{a.0.b}', { a: [{ b: '#' }]}, '#');
+    testMethod('{a.0.b}', { a: [{ b: '#' }] }, '#');
   });
 });
 
@@ -84,9 +85,11 @@ describe('identifyAnswersInString', () => {
       expect(utils.identifyAnswersInString(answer, options)).toEqual(expected);
     }
     testMethod('Unknown', ['Option'], []);
-    testMethod('Apple, banana and grAPE', ['Apple', 'Banana', 'Grape'], [
-      'Apple', 'Banana', 'Grape',
-    ]);
+    testMethod(
+      'Apple, banana and grAPE',
+      ['Apple', 'Banana', 'Grape'],
+      ['Apple', 'Banana', 'Grape']
+    );
     testMethod('One+tWo+four', ['one', 'two', 'three'], ['one', 'two']);
   });
 });
@@ -94,24 +97,29 @@ describe('identifyAnswersInString', () => {
 describe('validateAnswer', () => {
   const VALID_ANSWER = Math.random();
   const INVALID_ANSWER = VALID_ANSWER + 1;
-  const rules = [{
-    name: 'rule',
-    type: 'String',
-    validators: [{
-      custom: VALID_ANSWER,
-      warning: 'custom valdiator failed',
-    }],
-  }];
+  const rules = [
+    {
+      name: 'rule',
+      type: 'String' as RuleType,
+      validators: [
+        {
+          custom: VALID_ANSWER,
+          warning: 'custom valdiator failed',
+        },
+      ],
+    },
+  ];
 
   describe('async validation', () => {
     const bot = new YveBot(rules);
     bot.validators.define('custom', {
-      validate: async (validAnswer, ans) => new Promise((res) => {
-        setTimeout(() => {
-          const valid = ans === validAnswer;
-          res(valid);
-        }, 500);
-      }),
+      validate: async (validAnswer, ans) =>
+        new Promise(res => {
+          setTimeout(() => {
+            const valid = ans === validAnswer;
+            res(valid);
+          }, 500);
+        }),
     });
 
     test('valid answer', async () => {
@@ -122,7 +130,9 @@ describe('validateAnswer', () => {
     test('invalid answer', async () => {
       try {
         await utils.validateAnswer(INVALID_ANSWER, rules[0], bot, 0);
-        throw new Error(`Validation should fail with invalid answer: ${INVALID_ANSWER}`);
+        throw new Error(
+          `Validation should fail with invalid answer: ${INVALID_ANSWER}`
+        );
       } catch (err) {
         expect(err).toBeInstanceOf(bot.exceptions.ValidatorError);
       }
@@ -143,7 +153,9 @@ describe('validateAnswer', () => {
     test('invalid answer', async () => {
       try {
         await utils.validateAnswer(INVALID_ANSWER, rules[0], bot, 0);
-        throw new Error(`Validation should fail with invalid answer: ${INVALID_ANSWER}`);
+        throw new Error(
+          `Validation should fail with invalid answer: ${INVALID_ANSWER}`
+        );
       } catch (err) {
         expect(err).toBeInstanceOf(bot.exceptions.ValidatorError);
       }

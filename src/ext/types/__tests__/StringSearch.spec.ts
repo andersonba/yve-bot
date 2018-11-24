@@ -11,7 +11,7 @@ describe('StringSearch', () => {
     expect(executors).toHaveLength(4);
     expect(executors[0]).toEqual({});
     expect(executors.slice(-1)[0]).toHaveProperty('validators');
-    executors.slice(1, -1).map((exe) => {
+    executors.slice(1, -1).map(exe => {
       expect(exe).toHaveProperty('transform');
       expect(exe).not.toHaveProperty('validators');
     });
@@ -41,7 +41,9 @@ describe('StringSearch', () => {
 
       expect(() => validator(null, rule, bot)).toThrowErrorMatchingSnapshot();
       expect(bot.talk).toHaveBeenCalledWith(wrongResult);
-      expect(bot.store.unset).toHaveBeenCalledWith(`executors.${rule.name}.currentIdx`);
+      expect(bot.store.unset).toHaveBeenCalledWith(
+        `executors.${rule.name}.currentIdx`
+      );
     });
   });
 
@@ -63,7 +65,9 @@ describe('StringSearch', () => {
       };
       const bot = new YveBot([], { rule, enableWaitForSleep: false });
 
-      const expectedURI = `${apiURI}?${apiQueryParam}=${encodeURIComponent(input)}`;
+      const expectedURI = `${apiURI}?${apiQueryParam}=${encodeURIComponent(
+        input
+      )}`;
       fetchMock.mock(expectedURI, {
         body: [customResponse],
         status: 200,
@@ -94,10 +98,12 @@ describe('StringSearch', () => {
       });
 
       const result = await transform(input, rule, bot);
-      expect(result).toEqual([customResponse].map((obj) => ({
-        label: obj.test1,
-        value: obj.test2,
-      })));
+      expect(result).toEqual(
+        [customResponse].map(obj => ({
+          label: obj.test1,
+          value: obj.test2,
+        }))
+      );
     });
 
     test('throw pause executor if response is []', async () => {
@@ -108,7 +114,7 @@ describe('StringSearch', () => {
       const translate = { label: 'test1', value: 'test2' };
       const noResults = 'noResults';
       const rule = {
-        config: { apiURI, apiQueryParam, translate, messages: { noResults  } },
+        config: { apiURI, apiQueryParam, translate, messages: { noResults } },
         rand: Math.random(),
       };
       const bot = new YveBot([], { rule, enableWaitForSleep: false });
@@ -119,7 +125,7 @@ describe('StringSearch', () => {
       });
 
       await expect(transform(input, rule, bot)).rejects.toEqual(
-        new bot.exceptions.ValidatorError(noResults, rule),
+        new bot.exceptions.ValidatorError(noResults, rule)
       );
     });
 
@@ -127,7 +133,11 @@ describe('StringSearch', () => {
       const serverResponse = { label: 'fake1', value: 'fake2' };
 
       const { transform } = executors[2];
-      const messages = { didYouMean: 'você quis dizer', yes: 'yep', no: 'nope' };
+      const messages = {
+        didYouMean: 'você quis dizer',
+        yes: 'yep',
+        no: 'nope',
+      };
       const rule = {
         config: { messages },
         name: 'customRuleName',
@@ -137,17 +147,20 @@ describe('StringSearch', () => {
       bot.talk = jest.fn();
 
       await expect(transform([serverResponse], rule, bot)).rejects.toEqual(
-        new bot.exceptions.PauseRuleTypeExecutors(rule.name),
+        new bot.exceptions.PauseRuleTypeExecutors(rule.name)
       );
 
       expect(bot.talk).toHaveBeenCalled();
-      expect(bot.talk).toHaveBeenCalledWith(`${messages.didYouMean}: ${serverResponse.label}?`, {
-        options: [
-          { label: messages.yes, value: serverResponse.value },
-          { label: messages.no, value: null },
-        ],
-        type: 'SingleChoice',
-      });
+      expect(bot.talk).toHaveBeenCalledWith(
+        `${messages.didYouMean}: ${serverResponse.label}?`,
+        {
+          options: [
+            { label: messages.yes, value: serverResponse.value },
+            { label: messages.no, value: null },
+          ],
+          type: 'SingleChoice',
+        }
+      );
     });
 
     test('organize server response with multiple results', async () => {
@@ -157,7 +170,10 @@ describe('StringSearch', () => {
       ];
 
       const { transform } = executors[2];
-      const messages = { multipleResults: 'multipleResults', noneOfAbove: 'noneOfAbove' };
+      const messages = {
+        multipleResults: 'multipleResults',
+        noneOfAbove: 'noneOfAbove',
+      };
       const rule = {
         config: { messages },
         name: 'testRuleName',
@@ -167,15 +183,17 @@ describe('StringSearch', () => {
       bot.talk = jest.fn();
 
       await expect(transform(serverResponse, rule, bot)).rejects.toEqual(
-        new bot.exceptions.PauseRuleTypeExecutors(rule.name),
+        new bot.exceptions.PauseRuleTypeExecutors(rule.name)
       );
 
       expect(bot.talk).toHaveBeenCalled();
       expect(bot.talk).toHaveBeenCalledWith(`${messages.multipleResults}:`, {
-        options: serverResponse.concat([{
-          label: messages.noneOfAbove,
-          value: null,
-        }]),
+        options: serverResponse.concat([
+          {
+            label: messages.noneOfAbove,
+            value: null,
+          },
+        ]),
         type: 'SingleChoice',
       });
     });

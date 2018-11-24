@@ -25,7 +25,7 @@ describe('includes', () => {
   });
 
   test('unknown type', () => {
-    expect(listeners.includes(() => null, '9')).toBeFalsy();
+    expect(listeners.includes((() => null) as any, '9')).toBeFalsy();
   });
 });
 
@@ -45,7 +45,7 @@ describe('equals', () => {
   });
 
   test('unknown type', () => {
-    expect(listeners.equals(() => null, '9')).toBeFalsy();
+    expect(listeners.equals((() => null) as any, '9')).toBeFalsy();
   });
 });
 
@@ -57,8 +57,8 @@ test('regex', () => {
 
 test('function', () => {
   const msg = 'Hi';
-  const fn = (m) => m === 'Hi';
-  const fn2 = (m) => m.indexOf('999') >= 0;
+  const fn = m => m === 'Hi';
+  const fn2 = m => m.indexOf('999') >= 0;
   expect(listeners.function(fn, msg)).toBeTruthy();
   expect(listeners.function(fn2, msg)).toBeFalsy();
 });

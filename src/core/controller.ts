@@ -12,8 +12,7 @@ export class Controller {
     this._indexes = {};
 
     this.reindex();
-    patchTryCatch(this, (err) =>
-      bot.dispatch('error', err));
+    patchTryCatch(this, err => bot.dispatch('error', err));
   }
 
   public reindex(): void {
@@ -90,7 +89,7 @@ export class Controller {
       } else {
         const { timePerChar } = bot.options;
         await bot.actions.timeout(
-          utils.calculateDelayToTypeMessage(message, timePerChar),
+          utils.calculateDelayToTypeMessage(message, timePerChar)
         );
       }
     }
@@ -172,15 +171,17 @@ export class Controller {
     const nextRuleName = utils.getNextFromRule(currentRule, answer);
     if (nextRuleName) {
       let ruleName;
-      if (/flow:/.test(nextRuleName)) { // jump to flow
-        [ruleName] = Object.keys(bot.controller.indexes)
-          .filter((r) => r.startsWith(nextRuleName.split('flow:')[1]));
-      } else if (/\./.test(nextRuleName)) { // jump to rule of flow
+      if (/flow:/.test(nextRuleName)) {
+        // jump to flow
+        [ruleName] = Object.keys(bot.controller.indexes).filter(r =>
+          r.startsWith(nextRuleName.split('flow:')[1])
+        );
+      } else if (/\./.test(nextRuleName)) {
+        // jump to rule of flow
         ruleName = nextRuleName;
-      } else { // jump to rule inside of current flow
-        ruleName = [currentRule.flow, nextRuleName]
-          .filter((x) => !!x)
-          .join('.');
+      } else {
+        // jump to rule inside of current flow
+        ruleName = [currentRule.flow, nextRuleName].filter(x => !!x).join('.');
       }
       this.jumpByName(ruleName);
     } else {
@@ -196,7 +197,8 @@ export class Controller {
 
   private incRuleExecutorIndex(rule: IRule): void {
     this.bot.store.set(
-      `executors.${rule.name}.currentIdx`, this.getRuleExecutorIndex(rule) + 1,
+      `executors.${rule.name}.currentIdx`,
+      this.getRuleExecutorIndex(rule) + 1
     );
   }
 
@@ -204,7 +206,10 @@ export class Controller {
     this.bot.store.unset(`executors.${rule.name}.currentIdx`);
   }
 
-  private async executeRuleTypeExecutors(rule: IRule, lastAnswer: Answer | Answer[]): Promise<Answer | Answer[]> {
+  private async executeRuleTypeExecutors(
+    rule: IRule,
+    lastAnswer: Answer | Answer[]
+  ): Promise<Answer | Answer[]> {
     if (!rule.type) {
       return lastAnswer;
     }
@@ -215,12 +220,11 @@ export class Controller {
 
     const executor = get(executors.slice(executorIdx), 0, {});
     const { transform = (...args) => Promise.resolve(args[0]) } = executor;
-    const answer = await (
-      transform(lastAnswer, rule, bot)
-      .then((ans) => utils.validateAnswer(ans, rule, bot, this.getRuleExecutorIndex(rule)))
+    const answer = await transform(lastAnswer, rule, bot).then(ans =>
+      utils.validateAnswer(ans, rule, bot, this.getRuleExecutorIndex(rule))
     );
 
-    const completed = (this.getRuleExecutorIndex(rule) === executors.length - 1);
+    const completed = this.getRuleExecutorIndex(rule) === executors.length - 1;
     if (executors.length && !completed) {
       this.incRuleExecutorIndex(rule);
       return await this.executeRuleTypeExecutors(rule, answer);
@@ -233,7 +237,7 @@ export class Controller {
 
 function patchTryCatch(ctrl: Controller, cb: (err: Error) => void) {
   const methodsToPatch = ['run', 'receiveMessage'];
-  methodsToPatch.forEach((method) => {
+  methodsToPatch.forEach(method => {
     const methodCopy = ctrl[method];
     ctrl[method] = async (...args) => {
       try {

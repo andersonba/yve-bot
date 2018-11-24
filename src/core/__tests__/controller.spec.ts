@@ -1,3 +1,4 @@
+import { RuleType } from '../../types';
 import YveBot from '..';
 
 describe('getNextFromRule', () => {
@@ -5,6 +6,7 @@ describe('getNextFromRule', () => {
   const rules = [
     {
       name: 'ruleWithNext',
+      type: 'SingleChoice' as RuleType,
       next: 'external-next',
       options: [
         {
@@ -37,12 +39,11 @@ describe('getNextFromRule', () => {
         },
         { value: 'No next' },
       ],
-      type: 'SingleChoice',
     },
     {
       name: 'ruleWithoutNext',
       options: [{ value: 'No next' }],
-      type: 'SingleChoice',
+      type: 'SingleChoice' as RuleType,
     },
     { name: 'next-untracked' },
     { name: 'external-next' },
@@ -70,7 +71,9 @@ describe('getNextFromRule', () => {
     [1, undefined, 'next-untracked'],
     [1, 'no next', 'next-untracked'],
   ].forEach(([ruleIdx, answer, nextRuleName]) => {
-    test(`${rules[ruleIdx].name} + answer as '${answer}'`, async (done) => {
+    test(`${
+      rules[ruleIdx as any].name
+    } + answer as '${answer}'`, async done => {
       bot.on('reply', () => {
         const rule = bot.rules[bot.store.get('currentIdx')];
         expect(rule.name).toBe(nextRuleName);

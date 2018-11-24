@@ -5,8 +5,9 @@ function getValidate(name) {
 }
 
 test('validators.length', () => {
-  const validators = Object.keys(YveBot.prototype.validators)
-    .filter((k) => !k.startsWith('_'));
+  const validators = Object.keys(YveBot.prototype.validators).filter(
+    k => !k.startsWith('_')
+  );
   expect(validators).toMatchObject([
     'required',
     'email',
@@ -114,6 +115,6 @@ test('number', () => {
 test('function', () => {
   const { validate } = getValidate('function');
   expect(validate(() => true, '')).toBeTruthy();
-  expect(validate((answer) => answer === 'ok', 'ok')).toBeTruthy();
-  expect(validate((a, b) => (a + b) === 5, 2, 3)).toBeTruthy();
+  expect(validate(answer => answer === 'ok', 'ok')).toBeTruthy();
+  expect(validate((a, b) => a + b === 5, 2, 3)).toBeTruthy();
 });

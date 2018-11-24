@@ -12,7 +12,7 @@ export function loadYaml(content: string): any {
 }
 
 export function sleep(time: number = 0): Promise<void> {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     setTimeout(resolve, time);
   });
 }
@@ -21,18 +21,41 @@ export function getChatElements(selector: string = 'body') {
   const target = document.querySelector(selector);
   const chat = document.querySelector('.yvebot-chat') as HTMLDivElement;
   const form = target.querySelector('.yvebot-form') as HTMLFormElement;
-  const input = target.querySelector('.yvebot-form-input') as HTMLTextAreaElement as HTMLInputElement;
-  const submit = target.querySelector('.yvebot-form-submit') as HTMLButtonElement;
-  const conversation = target.querySelector('.yvebot-conversation') as HTMLDivElement;
-  const getMessages = () => target.querySelectorAll('.yvebot-message') as NodeListOf<HTMLDivElement>;
-  const getBotMessages = () => target.querySelectorAll('.yvebot-thread-bot .yvebot-message') as NodeListOf<HTMLDivElement>;
-  const getUserMessages = () => target.querySelectorAll('.yvebot-thread-user .yvebot-message') as NodeListOf<HTMLDivElement>;
-  const getBubbleButtons = () => target.querySelectorAll('.yvebot-message-bubbleBtn') as NodeListOf<HTMLButtonElement>;
-  const getBubbleDone = () => target.querySelector('.yvebot-message-bubbleDone') as HTMLButtonElement;
-  const getTyping = () => target.querySelector('.yvebot-thread-typing') as HTMLLIElement;
-  const getSenderName = () => target.querySelector('.yvebot-sender') as HTMLDivElement;
-  const getTimestamp = () => target.querySelector('.yvebot-timestamp') as HTMLDivElement;
-  const getBubbleMoreOptions = () => target.querySelector('.yvebot-message-bubbleMoreOptions') as HTMLButtonElement;
+  const input = ((target.querySelector(
+    '.yvebot-form-input'
+  ) as HTMLTextAreaElement) as unknown) as HTMLInputElement;
+  const submit = target.querySelector(
+    '.yvebot-form-submit'
+  ) as HTMLButtonElement;
+  const conversation = target.querySelector(
+    '.yvebot-conversation'
+  ) as HTMLDivElement;
+  const getMessages = () =>
+    target.querySelectorAll('.yvebot-message') as NodeListOf<HTMLDivElement>;
+  const getBotMessages = () =>
+    target.querySelectorAll('.yvebot-thread-bot .yvebot-message') as NodeListOf<
+      HTMLDivElement
+    >;
+  const getUserMessages = () =>
+    target.querySelectorAll(
+      '.yvebot-thread-user .yvebot-message'
+    ) as NodeListOf<HTMLDivElement>;
+  const getBubbleButtons = () =>
+    target.querySelectorAll('.yvebot-message-bubbleBtn') as NodeListOf<
+      HTMLButtonElement
+    >;
+  const getBubbleDone = () =>
+    target.querySelector('.yvebot-message-bubbleDone') as HTMLButtonElement;
+  const getTyping = () =>
+    target.querySelector('.yvebot-thread-typing') as HTMLLIElement;
+  const getSenderName = () =>
+    target.querySelector('.yvebot-sender') as HTMLDivElement;
+  const getTimestamp = () =>
+    target.querySelector('.yvebot-timestamp') as HTMLDivElement;
+  const getBubbleMoreOptions = () =>
+    target.querySelector(
+      '.yvebot-message-bubbleMoreOptions'
+    ) as HTMLButtonElement;
   return {
     target,
     chat,

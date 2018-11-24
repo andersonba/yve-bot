@@ -2,7 +2,7 @@ import * as faker from 'faker';
 import * as types from '../src/types';
 
 function createMock(obj) {
-  return (custom) => {
+  return custom => {
     let data = obj;
     if (obj instanceof Function) {
       data = obj();
@@ -11,16 +11,18 @@ function createMock(obj) {
   };
 }
 
-export const RuleOption: (custom?: object) => types.RuleOption = createMock(() => {
-  const word: string = faker.random.word();
-  return {
-    label: word,
-    next: faker.database.column(),
-    value: faker.helpers.slugify(word),
-  };
-});
+export const RuleOption: (custom?: object) => types.IRuleOption = createMock(
+  () => {
+    const word: string = faker.random.word();
+    return {
+      label: word,
+      next: faker.database.column(),
+      value: faker.helpers.slugify(word),
+    };
+  }
+);
 
-export const Rule: (custom?: object) => types.Rule = createMock(() => {
+export const Rule: (custom?: object) => types.IRule = createMock(() => {
   const options = [];
   options.push(RuleOption());
   options.push(RuleOption());

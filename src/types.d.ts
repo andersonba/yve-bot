@@ -77,6 +77,8 @@ export type RuleTypeSkip = ((
 
 export type RuleNext = string;
 
+export type RuleActionProp = 'actions' | 'preActions' | 'postActions';
+
 export type RuleType =
   | 'Any'
   | 'Passive'

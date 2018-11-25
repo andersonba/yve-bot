@@ -1,14 +1,7 @@
 import get from 'lodash-es/get';
 import uniq from 'lodash-es/uniq';
 import YveBot from '.';
-import {
-  Answer,
-  IIndexes,
-  IRule,
-  IRuleOption,
-  RuleNext,
-  IRuleType,
-} from '../types';
+import { Answer, IRule, IRuleOption, RuleNext, RuleActionProp } from '../types';
 import { sanitizeRule } from './sanitizers';
 
 export function compileTemplate(template: string, payload: any): string {
@@ -168,7 +161,7 @@ export function compileMessage(bot: YveBot, message: string): string {
 export function runActions(
   bot: YveBot,
   rule: IRule,
-  prop: string
+  prop: RuleActionProp
 ): Promise<any> {
   const output = bot.store.output();
   const actions = rule[prop] || [];

@@ -2,6 +2,7 @@ import get from 'lodash-es/get';
 import YveBot from '.';
 import { Answer, IIndexes, IRule, RuleNext } from '../types';
 import * as utils from './utils';
+import { sanitizeRule } from './sanitizers';
 
 export class Controller {
   private bot: YveBot;
@@ -141,10 +142,7 @@ export class Controller {
 
     const replyMessage = utils.getReplyMessage(rule, answer);
     if (replyMessage) {
-      const replyRule = { ...bot.options.rule };
-      if ('delay' in rule) {
-        replyRule.delay = rule.delay;
-      }
+      const replyRule = sanitizeRule({ ...bot.options.rule });
       await this.sendMessage(replyMessage, replyRule);
     }
 

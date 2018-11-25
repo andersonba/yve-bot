@@ -13,6 +13,11 @@ const OPTS = {
   enableWaitForSleep: false,
 };
 
+const emptyRule = {
+  ...sanitizeRule({}),
+  skip: expect.any(Function),
+};
+
 test('define modules', () => {
   const action = () => 'action';
   const typeE = { executors: [{ transform: () => 'type' }] };
@@ -317,24 +322,7 @@ test('auto reply message', async () => {
   await sleep();
 
   expect(onTalk).toBeCalledWith('Color', rules[0], 'session');
-  expect(onTalk).toBeCalledWith('Thanks', {}, 'session');
-});
-
-test('auto reply message with inherited delay', async () => {
-  const onTalk = jest.fn();
-  const rules = loadYaml(`
-  - message: Color
-    delay: 1234
-    type: String
-    replyMessage: Thanks
-  `);
-  const bot = new YveBot(rules, OPTS).on('talk', onTalk).start();
-
-  await sleep();
-  bot.hear('red');
-  await sleep();
-
-  expect(onTalk).toBeCalledWith('Thanks', { delay: 1234 }, 'session');
+  expect(onTalk).toBeCalledWith('Thanks', emptyRule, 'session');
 });
 
 test('auto reply message for single choice', async () => {
@@ -356,9 +344,9 @@ test('auto reply message for single choice', async () => {
   await sleep();
 
   expect(onTalk).toBeCalledWith('Color', rules[0], 'session');
-  expect(onTalk).toBeCalledWith('Red! Nice!', {}, 'session');
-  expect(onTalk).not.toBeCalledWith('Nice color!', {}, 'session');
-  expect(onTalk).not.toBeCalledWith('Really?', {}, 'session');
+  expect(onTalk).toBeCalledWith('Red! Nice!', emptyRule, 'session');
+  expect(onTalk).not.toBeCalledWith('Nice color!', emptyRule, 'session');
+  expect(onTalk).not.toBeCalledWith('Really?', emptyRule, 'session');
 });
 
 ['SingleChoice', 'MultipleChoice'].forEach(ruleType => {
@@ -404,10 +392,10 @@ test('auto reply message for multiple choice', async () => {
   await sleep();
 
   expect(onTalk).toBeCalledWith('Color', rules[0], 'session');
-  expect(onTalk).toBeCalledWith('Red! Nice!', {}, 'session');
-  expect(onTalk).not.toBeCalledWith('Nice color!', {}, 'session');
-  expect(onTalk).not.toBeCalledWith('Nooo!', {}, 'session');
-  expect(onTalk).not.toBeCalledWith('Really?', {}, 'session');
+  expect(onTalk).toBeCalledWith('Red! Nice!', emptyRule, 'session');
+  expect(onTalk).not.toBeCalledWith('Nice color!', emptyRule, 'session');
+  expect(onTalk).not.toBeCalledWith('Nooo!', emptyRule, 'session');
+  expect(onTalk).not.toBeCalledWith('Really?', emptyRule, 'session');
 });
 
 test('compiled template', async () => {
@@ -424,7 +412,7 @@ test('compiled template', async () => {
   bot.hear('red');
   await sleep();
 
-  expect(onTalk).toBeCalledWith('Your color: red', {}, 'session');
+  expect(onTalk).toBeCalledWith('Your color: red', emptyRule, 'session');
 });
 
 test('compiled template in actions value', async () => {
@@ -478,7 +466,7 @@ test('compiled template with dot notation using single choice', async () => {
   bot.hear(1);
   await sleep();
 
-  expect(onTalk).toBeCalledWith('Your number: 1 (One)', {}, 'session');
+  expect(onTalk).toBeCalledWith('Your number: 1 (One)', emptyRule, 'session');
 });
 
 test('compiled template with dot notation using multiple choice', async () => {
@@ -502,7 +490,11 @@ test('compiled template with dot notation using multiple choice', async () => {
   bot.hear([1, 2, 3]);
   await sleep();
 
-  expect(onTalk).toBeCalledWith('Your numbers: One, 2 and 3', {}, 'session');
+  expect(onTalk).toBeCalledWith(
+    'Your numbers: One, 2 and 3',
+    emptyRule,
+    'session'
+  );
 });
 
 test('jumping to rule', async () => {

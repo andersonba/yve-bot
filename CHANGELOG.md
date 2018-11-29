@@ -1,5 +1,23 @@
 # Change Log
 
+## [1.20.0](https://github.com/andersonba/yve-bot/tree/1.20.0) (2018-11-29)
+[Full Changelog](https://github.com/andersonba/yve-bot/compare/1.19.2...1.20.0)
+
+**Implemented enhancements:**
+
+- feature: run actions defined in options [\#165](https://github.com/andersonba/yve-bot/issues/165)
+
+**Fixed bugs:**
+
+- replyMessage doesn't respect the delay property [\#164](https://github.com/andersonba/yve-bot/issues/164)
+
+**Closed issues:**
+
+- Can i use this in an angular 5 app? [\#160](https://github.com/andersonba/yve-bot/issues/160)
+- An in-range update of ts-jest is breaking the build 🚨 [\#155](https://github.com/andersonba/yve-bot/issues/155)
+- An in-range update of rollup-plugin-commonjs is breaking the build 🚨 [\#154](https://github.com/andersonba/yve-bot/issues/154)
+- An in-range update of @types/node is breaking the build 🚨 [\#152](https://github.com/andersonba/yve-bot/issues/152)
+
 ## [1.19.2](https://github.com/andersonba/yve-bot/tree/1.19.2) (2018-09-25)
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.19.1...1.19.2)
 
@@ -50,14 +68,14 @@
 **Merged pull requests:**
 
 - Only skip option's answer if is undefined. FIX \#131 [\#132](https://github.com/andersonba/yve-bot/pull/132) ([rafaelverger](https://github.com/rafaelverger))
-- Update rollup to the latest version 🚀 [\#127](https://github.com/andersonba/yve-bot/pull/127) ([greenkeeper[bot]](https://github.com/marketplace/greenkeeper))
+- Update rollup to the latest version 🚀 [\#127](https://github.com/andersonba/yve-bot/pull/127) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update to node 10 in .travis.yml [\#126](https://github.com/andersonba/yve-bot/pull/126) ([andersonba](https://github.com/andersonba))
-- Update rollup-plugin-json to the latest version 🚀 [\#125](https://github.com/andersonba/yve-bot/pull/125) ([greenkeeper[bot]](https://github.com/marketplace/greenkeeper))
-- Update @types/node to the latest version 🚀 [\#124](https://github.com/andersonba/yve-bot/pull/124) ([greenkeeper[bot]](https://github.com/marketplace/greenkeeper))
-- Update ts-node to the latest version 🚀 [\#122](https://github.com/andersonba/yve-bot/pull/122) ([greenkeeper[bot]](https://github.com/marketplace/greenkeeper))
-- Update rollup to the latest version 🚀 [\#121](https://github.com/andersonba/yve-bot/pull/121) ([greenkeeper[bot]](https://github.com/marketplace/greenkeeper))
-- Update rollup-plugin-typescript2 to the latest version 🚀 [\#120](https://github.com/andersonba/yve-bot/pull/120) ([greenkeeper[bot]](https://github.com/marketplace/greenkeeper))
-- Update bundlesize to the latest version 🚀 [\#114](https://github.com/andersonba/yve-bot/pull/114) ([greenkeeper[bot]](https://github.com/marketplace/greenkeeper))
+- Update rollup-plugin-json to the latest version 🚀 [\#125](https://github.com/andersonba/yve-bot/pull/125) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update @types/node to the latest version 🚀 [\#124](https://github.com/andersonba/yve-bot/pull/124) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update ts-node to the latest version 🚀 [\#122](https://github.com/andersonba/yve-bot/pull/122) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update rollup to the latest version 🚀 [\#121](https://github.com/andersonba/yve-bot/pull/121) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update rollup-plugin-typescript2 to the latest version 🚀 [\#120](https://github.com/andersonba/yve-bot/pull/120) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update bundlesize to the latest version 🚀 [\#114](https://github.com/andersonba/yve-bot/pull/114) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [1.18.2](https://github.com/andersonba/yve-bot/tree/1.18.2) (2018-04-13)
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.18.1...1.18.2)
@@ -84,9 +102,9 @@
 **Merged pull requests:**
 
 - Replace use of class by className [\#116](https://github.com/andersonba/yve-bot/pull/116) ([rafaelverger](https://github.com/rafaelverger))
-- Update rollup to the latest version 🚀 [\#112](https://github.com/andersonba/yve-bot/pull/112) ([greenkeeper[bot]](https://github.com/marketplace/greenkeeper))
-- Update rollup-plugin-typescript2 to the latest version 🚀 [\#107](https://github.com/andersonba/yve-bot/pull/107) ([greenkeeper[bot]](https://github.com/marketplace/greenkeeper))
-- Update rollup-plugin-commonjs to the latest version 🚀 [\#103](https://github.com/andersonba/yve-bot/pull/103) ([greenkeeper[bot]](https://github.com/marketplace/greenkeeper))
+- Update rollup to the latest version 🚀 [\#112](https://github.com/andersonba/yve-bot/pull/112) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update rollup-plugin-typescript2 to the latest version 🚀 [\#107](https://github.com/andersonba/yve-bot/pull/107) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update rollup-plugin-commonjs to the latest version 🚀 [\#103](https://github.com/andersonba/yve-bot/pull/103) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [1.17.0](https://github.com/andersonba/yve-bot/tree/1.17.0) (2018-03-17)
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.16.0...1.17.0)
@@ -140,7 +158,7 @@
 
 **Merged pull requests:**
 
-- Update @types/fetch-mock to the latest version 🚀 [\#98](https://github.com/andersonba/yve-bot/pull/98) ([greenkeeper[bot]](https://github.com/marketplace/greenkeeper))
+- Update @types/fetch-mock to the latest version 🚀 [\#98](https://github.com/andersonba/yve-bot/pull/98) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [1.12.0](https://github.com/andersonba/yve-bot/tree/1.12.0) (2018-02-21)
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.11.0...1.12.0)
@@ -154,19 +172,19 @@
 
 - Greenkeeper/rollup plugin typescript2 0.11.1 [\#95](https://github.com/andersonba/yve-bot/pull/95) ([andersonba](https://github.com/andersonba))
 - Greenkeeper/rollup 0.56.2 [\#94](https://github.com/andersonba/yve-bot/pull/94) ([andersonba](https://github.com/andersonba))
-- Update ts-node to the latest version 🚀 [\#93](https://github.com/andersonba/yve-bot/pull/93) ([greenkeeper[bot]](https://github.com/marketplace/greenkeeper))
-- Update bundlesize to the latest version 🚀 [\#90](https://github.com/andersonba/yve-bot/pull/90) ([greenkeeper[bot]](https://github.com/marketplace/greenkeeper))
-- Update rollup to the latest version 🚀 [\#89](https://github.com/andersonba/yve-bot/pull/89) ([greenkeeper[bot]](https://github.com/marketplace/greenkeeper))
-- Update fetch-mock to the latest version 🚀 [\#88](https://github.com/andersonba/yve-bot/pull/88) ([greenkeeper[bot]](https://github.com/marketplace/greenkeeper))
-- Update rollup-plugin-uglify to the latest version 🚀 [\#87](https://github.com/andersonba/yve-bot/pull/87) ([greenkeeper[bot]](https://github.com/marketplace/greenkeeper))
-- Update rollup-plugin-typescript2 to the latest version 🚀 [\#86](https://github.com/andersonba/yve-bot/pull/86) ([greenkeeper[bot]](https://github.com/marketplace/greenkeeper))
-- Update rollup to the latest version 🚀 [\#85](https://github.com/andersonba/yve-bot/pull/85) ([greenkeeper[bot]](https://github.com/marketplace/greenkeeper))
-- Update @types/node to the latest version 🚀 [\#84](https://github.com/andersonba/yve-bot/pull/84) ([greenkeeper[bot]](https://github.com/marketplace/greenkeeper))
-- Update @types/jest to the latest version 🚀 [\#83](https://github.com/andersonba/yve-bot/pull/83) ([greenkeeper[bot]](https://github.com/marketplace/greenkeeper))
-- Update rollup to the latest version 🚀 [\#82](https://github.com/andersonba/yve-bot/pull/82) ([greenkeeper[bot]](https://github.com/marketplace/greenkeeper))
-- Update ts-jest to the latest version 🚀 [\#81](https://github.com/andersonba/yve-bot/pull/81) ([greenkeeper[bot]](https://github.com/marketplace/greenkeeper))
+- Update ts-node to the latest version 🚀 [\#93](https://github.com/andersonba/yve-bot/pull/93) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update bundlesize to the latest version 🚀 [\#90](https://github.com/andersonba/yve-bot/pull/90) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update rollup to the latest version 🚀 [\#89](https://github.com/andersonba/yve-bot/pull/89) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update fetch-mock to the latest version 🚀 [\#88](https://github.com/andersonba/yve-bot/pull/88) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update rollup-plugin-uglify to the latest version 🚀 [\#87](https://github.com/andersonba/yve-bot/pull/87) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update rollup-plugin-typescript2 to the latest version 🚀 [\#86](https://github.com/andersonba/yve-bot/pull/86) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update rollup to the latest version 🚀 [\#85](https://github.com/andersonba/yve-bot/pull/85) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update @types/node to the latest version 🚀 [\#84](https://github.com/andersonba/yve-bot/pull/84) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update @types/jest to the latest version 🚀 [\#83](https://github.com/andersonba/yve-bot/pull/83) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update rollup to the latest version 🚀 [\#82](https://github.com/andersonba/yve-bot/pull/82) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update ts-jest to the latest version 🚀 [\#81](https://github.com/andersonba/yve-bot/pull/81) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Greenkeeper/jest 22.0.1 [\#80](https://github.com/andersonba/yve-bot/pull/80) ([andersonba](https://github.com/andersonba))
-- Update rollup-plugin-typescript2 to the latest version 🚀 [\#78](https://github.com/andersonba/yve-bot/pull/78) ([greenkeeper[bot]](https://github.com/marketplace/greenkeeper))
+- Update rollup-plugin-typescript2 to the latest version 🚀 [\#78](https://github.com/andersonba/yve-bot/pull/78) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [1.11.0](https://github.com/andersonba/yve-bot/tree/1.11.0) (2017-12-14)
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.10.2...1.11.0)
@@ -186,7 +204,7 @@
 - Force use of option.value in Single and Multiple Choice types [\#77](https://github.com/andersonba/yve-bot/pull/77) ([rafaelverger](https://github.com/rafaelverger))
 - Greenkeeper/ts node 4.0.1 [\#75](https://github.com/andersonba/yve-bot/pull/75) ([andersonba](https://github.com/andersonba))
 - Fix typo [\#73](https://github.com/andersonba/yve-bot/pull/73) ([amandeepmittal](https://github.com/amandeepmittal))
-- Update rollup to the latest version 🚀 [\#72](https://github.com/andersonba/yve-bot/pull/72) ([greenkeeper[bot]](https://github.com/marketplace/greenkeeper))
+- Update rollup to the latest version 🚀 [\#72](https://github.com/andersonba/yve-bot/pull/72) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [1.10.2](https://github.com/andersonba/yve-bot/tree/1.10.2) (2017-11-22)
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.10.1...1.10.2)
@@ -259,7 +277,7 @@
 
 **Merged pull requests:**
 
-- Update dependencies to enable Greenkeeper 🌴 [\#47](https://github.com/andersonba/yve-bot/pull/47) ([greenkeeper[bot]](https://github.com/marketplace/greenkeeper))
+- Update dependencies to enable Greenkeeper 🌴 [\#47](https://github.com/andersonba/yve-bot/pull/47) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [1.8.0](https://github.com/andersonba/yve-bot/tree/1.8.0) (2017-11-11)
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.7.0...1.8.0)

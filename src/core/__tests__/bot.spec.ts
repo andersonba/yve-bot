@@ -18,14 +18,16 @@ const emptyRule = {
   skip: expect.any(Function),
 };
 
+const overrideModule = { override: true };
+
 test('define modules', () => {
   const action = () => 'action';
   const typeE = { executors: [{ transform: () => 'type' }] };
   const validator = { warning: 'validator' };
 
-  YveBot.actions.define('test', action);
-  YveBot.types.define('test', typeE);
-  YveBot.validators.define('test', validator);
+  YveBot.actions.define('test', action, overrideModule);
+  YveBot.types.define('test', typeE, overrideModule);
+  YveBot.validators.define('test', validator, overrideModule);
 
   const bot = new YveBot([]);
 
@@ -433,9 +435,9 @@ test('compiled template in actions value', async () => {
   const bot = new YveBot(rules, OPTS);
   bot.store.set('output.color', 'red');
 
-  bot.actions.define('testCompiledMessage', v => act(v));
-  bot.actions.define('testPreCompiledMessage', v => preAct(v));
-  bot.actions.define('testPostCompiledMessage', v => postAct(v));
+  bot.actions.define('testCompiledMessage', v => act(v), overrideModule);
+  bot.actions.define('testPreCompiledMessage', v => preAct(v), overrideModule);
+  bot.actions.define('testPostCompiledMessage', v => postAct(v), overrideModule);
   bot.start();
 
   await sleep();
@@ -771,12 +773,12 @@ test('running actions', async () => {
       - testPostStringWay
   `);
   const bot = new YveBot(rules, OPTS);
-  bot.actions.define('testAction', act);
-  bot.actions.define('testPreAction', preAct);
-  bot.actions.define('testPreStringWay', preStringAct);
-  bot.actions.define('testPostAction', postAct);
-  bot.actions.define('testPostStringWay', postStringAct);
-  bot.actions.define('testStringWay', stringAct);
+  bot.actions.define('testAction', act, overrideModule);
+  bot.actions.define('testPreAction', preAct, overrideModule);
+  bot.actions.define('testPreStringWay', preStringAct, overrideModule);
+  bot.actions.define('testPostAction', postAct, overrideModule);
+  bot.actions.define('testPostStringWay', postStringAct, overrideModule);
+  bot.actions.define('testStringWay', stringAct, overrideModule);
   bot.start();
 
   await sleep();
@@ -818,12 +820,12 @@ test('running actions in option', async () => {
           - testPostStringWay
   `);
   const bot = new YveBot(rules, OPTS);
-  bot.actions.define('testAction', act);
-  bot.actions.define('testStringWay', stringAct);
-  bot.actions.define('testPreAction', preAct);
-  bot.actions.define('testPreStringWay', preStringAct);
-  bot.actions.define('testPostAction', postAct);
-  bot.actions.define('testPostStringWay', postStringAct);
+  bot.actions.define('testAction', act, overrideModule);
+  bot.actions.define('testStringWay', stringAct, overrideModule);
+  bot.actions.define('testPreAction', preAct, overrideModule);
+  bot.actions.define('testPreStringWay', preStringAct, overrideModule);
+  bot.actions.define('testPostAction', postAct, overrideModule);
+  bot.actions.define('testPostStringWay', postStringAct, overrideModule);
   bot.start();
 
   await sleep();
@@ -898,7 +900,7 @@ test('ruleTypes with multi executors', async () => {
         transform: async answer => `${answer} transformed3`,
       },
     ],
-  });
+  }, overrideModule);
 
   bot.on('end', onEnd).start();
   await sleep();
@@ -938,7 +940,7 @@ test('transform answer', async () => {
         transform: async () => 'Transformed',
       },
     ],
-  });
+  }, overrideModule);
 
   bot.on('end', onEnd).start();
 
@@ -964,7 +966,7 @@ test('throw error on transform answer', async done => {
         transform: async () => Promise.reject(customError),
       },
     ],
-  });
+  }, overrideModule);
 
   bot
     .on('hear', onHear)
@@ -1019,7 +1021,7 @@ test('using default warning message as function', async () => {
   bot.validators.define('defaultWarning', {
     validate: () => false,
     warning: () => null,
-  });
+  }, overrideModule);
   bot.on('talk', onTalk).start();
   await sleep();
   bot.hear('ok');
@@ -1223,7 +1225,7 @@ test('throw error in warning message as function', async done => {
     warning: () => {
       throw customError;
     },
-  });
+  }, overrideModule);
 
   bot
     .on('error', err => {

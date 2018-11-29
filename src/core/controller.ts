@@ -147,7 +147,7 @@ export class Controller {
     }
 
     // run post-actions
-    await utils.runActions(bot, rule, 'postActions');
+    await utils.runActions(bot, rule, 'postActions', answer);
 
     if (rule.type === 'PassiveLoop') {
       return this;

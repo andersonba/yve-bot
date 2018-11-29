@@ -27,3 +27,21 @@ bot.actions.define('welcomeEmail', async (actionOptions, bot) => {
       - title: Welcome to our site!
         templateName: first-step-done.html
 ```
+
+## Define actions in options
+
+You can run `postActions` after user chooses any option in types `SingleChoice` and `MultipleChoice`.
+
+```yaml
+- message: How do you want receive news?
+  type: MultipleChoice
+  options:
+    - label: E-mail
+      postActions:
+        - setNewsletterMethod: email
+    - label: SMS
+      postActions:
+        - setNewsletterMethod: sms
+```
+
+_If the user select all options, it will perform all actions._

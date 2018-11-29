@@ -54,10 +54,18 @@ export function sanitizeRule(input: IRule): IRule {
 
   // string way
   ['actions', 'preActions', 'postActions', 'validators'].forEach(key => {
-    if (rule[key] && rule[key].length) {
-      rule[key] = rule[key].map(
-        k => (typeof k === 'string' ? { [k]: true } : k)
-      );
+    function sanitizeInObject(obj) {
+      if (obj[key] && obj[key].length) {
+        obj[key] = obj[key].map(
+          k => (typeof k === 'string' ? { [k]: true } : k)
+        );
+      }
+    }
+
+    sanitizeInObject(rule);
+
+    if (rule.options && rule.options.length) {
+      rule.options.forEach(opt => sanitizeInObject(opt));
     }
   });
 

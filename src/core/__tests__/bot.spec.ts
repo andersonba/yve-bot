@@ -793,6 +793,54 @@ test('running actions', async () => {
   expect(postStringAct).toBeCalledWith(true, rules[0], bot);
 });
 
+test('running actions in option', async () => {
+  const act = jest.fn();
+  const stringAct = jest.fn();
+  const preAct = jest.fn();
+  const preStringAct = jest.fn();
+  const postAct = jest.fn();
+  const postStringAct = jest.fn();
+  const rules = loadYaml(`
+  - message: Hello
+    type: SingleChoice
+    options:
+      - label: Option
+        value: okay
+        actions:
+          - testAction: false
+          - unknown: 10
+          - testStringWay
+        preActions:
+          - testPreAction: true
+          - testPreStringWay
+        postActions:
+          - testPostAction: true
+          - testPostStringWay
+  `);
+  const bot = new YveBot(rules, OPTS);
+  bot.actions.define('testAction', act);
+  bot.actions.define('testStringWay', stringAct);
+  bot.actions.define('testPreAction', preAct);
+  bot.actions.define('testPreStringWay', preStringAct);
+  bot.actions.define('testPostAction', postAct);
+  bot.actions.define('testPostStringWay', postStringAct);
+  bot.start();
+
+  await sleep();
+  expect(act).not.toHaveBeenCalled();
+  expect(preAct).not.toHaveBeenCalled();
+  expect(stringAct).not.toHaveBeenCalled();
+  expect(preAct).not.toHaveBeenCalled();
+  expect(preStringAct).not.toHaveBeenCalled();
+  expect(postAct).not.toBeCalled();
+  expect(postStringAct).not.toBeCalled();
+
+  bot.hear('okay');
+  await sleep();
+  expect(postAct).toBeCalledWith(true, rules[0], bot);
+  expect(postStringAct).toBeCalledWith(true, rules[0], bot);
+});
+
 test('end bot when last message has skip', async () => {
   const rules = loadYaml(`
     - message: Hello

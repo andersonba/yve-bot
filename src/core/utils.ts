@@ -109,23 +109,26 @@ export function getReplyMessage(
   rule: IRule,
   answers: Answer | Answer[]
 ): string | null {
-  const { replyMessage } = rule;
   if (!rule.options.length) {
-    return replyMessage;
+    return rule.replyMessage;
   }
-  let opt;
-  // multiple
-  if (answers instanceof Array) {
-    [opt = null] = answers
-      .map(a => findOptionByAnswer(rule.options, a))
-      .filter(o => o.replyMessage);
+  const [option = null] = getOptionsFromAnswer(rule, answers).filter(
+    opt => opt && opt.replyMessage
+  );
+  if (option && option.replyMessage) {
+    return option.replyMessage;
   }
-  // single
-  opt = findOptionByAnswer(rule.options, answers);
-  if (opt && opt.replyMessage) {
-    return opt.replyMessage;
+  return rule.replyMessage;
+}
+
+export function getOptionsFromAnswer(
+  rule: IRule,
+  answer: Answer | Answer[]
+): IRuleOption[] {
+  if (answer instanceof Array) {
+    return answer.map(ans => findOptionByAnswer(rule.options, ans));
   }
-  return replyMessage;
+  return [findOptionByAnswer(rule.options, answer)];
 }
 
 export function compileMessage(bot: YveBot, message: string): string {
@@ -161,10 +164,21 @@ export function compileMessage(bot: YveBot, message: string): string {
 export function runActions(
   bot: YveBot,
   rule: IRule,
-  prop: RuleActionProp
+  prop: RuleActionProp,
+  answer?: Answer | Answer[]
 ): Promise<any> {
+  let actions = rule[prop] || [];
+
+  // find actions inside of option
+  const options = (answer !== undefined
+    ? getOptionsFromAnswer(rule, answer)
+    : []
+  ).filter(opt => opt && opt[prop] && opt[prop].length > 0);
+  if (options.length) {
+    actions = [].concat.apply([], options.map(opt => opt[prop]));
+  }
+
   const output = bot.store.output();
-  const actions = rule[prop] || [];
   return Promise.all(
     actions.map(async action => {
       return Promise.all(

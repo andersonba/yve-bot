@@ -36,10 +36,10 @@
   version "0.0.39"
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.39.tgz#e177e699ee1b8c22d23174caaa7422644389509f"
 
-"@types/fetch-mock@^6.0.4":
-  version "6.0.4"
-  resolved "https://registry.yarnpkg.com/@types/fetch-mock/-/fetch-mock-6.0.4.tgz#fbe20ab0cc151fe67b2e1b71e7ef29a986a90f1f"
-  integrity sha512-vp98XcO7wVv2Ky7/2wW9WpGyhlMCNCxGay5fVuvimiTq3aB/bfxclsAHc2z6uIajNeFeUXX1aQmSlrWdTDCouw==
+"@types/fetch-mock@^7.2.0":
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/@types/fetch-mock/-/fetch-mock-7.2.0.tgz#5f0310e03177d452eeebe9b07975c1fed2a41dba"
+  integrity sha512-p73N4iZbQSEToxVY86R9CHVI4THKM+I9UsFxN10c2EuguSygzDdXXNkicRL/45oIF80u2XE6XDKuCo2NNikDqA==
 
 "@types/jest@^23.3.9":
   version "23.3.9"

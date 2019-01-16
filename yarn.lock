@@ -1210,10 +1210,10 @@ fragment-cache@^0.2.1:
   dependencies:
     map-cache "^0.2.2"
 
-fs-extra@7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-7.0.0.tgz#8cc3f47ce07ef7b3593a11b9fb245f7e34c041d6"
-  integrity sha512-EglNDLRpmaTWiD/qraZn6HREAEAHJcJOmxNEYwq6xeMKnVMAy3GUcFB+wXt2C6k4CNvB/mP1y/U3dzvKKj5OtQ==
+fs-extra@7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-7.0.1.tgz#4f189c44aa123b895f722804f55ea23eadc348e9"
+  integrity sha512-YJDaCJZEnBmcbw13fvdAM9AwNOJwOzrE4pqMqBq5nFiEqXUqHwlK4B+3pUw6JNvfSPtX05xFHtYy/1ni01eGCw==
   dependencies:
     graceful-fs "^4.1.2"
     jsonfile "^4.0.0"
@@ -3229,12 +3229,12 @@ rollup-plugin-node-resolve@^3.4.0:
     is-module "^1.0.0"
     resolve "^1.1.6"
 
-rollup-plugin-typescript2@^0.18.0:
-  version "0.18.0"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-typescript2/-/rollup-plugin-typescript2-0.18.0.tgz#ab3f7003f47c3858810d516e4d3fada546bfb1df"
-  integrity sha512-AL7LJl31bYO/x8zO1fuE7ACn/2nDs9DVYL3qjiWSYg5LC4EV/iKuCL4Fm6pjzEqCB4fFIMXoUuGUf5R+BLNKSg==
+rollup-plugin-typescript2@^0.19.0:
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-typescript2/-/rollup-plugin-typescript2-0.19.0.tgz#4b360f96d6932b0cf13f8e25fe1351387c530122"
+  integrity sha512-1U6UUfk1c0RwUhTvxDaEpNiAe3Wmz2es4hVXDN3FDJ1VVN2an9QG7sPL2/ZoLrFkLvZ1SJBi0rRtkmVmZrNFZA==
   dependencies:
-    fs-extra "7.0.0"
+    fs-extra "7.0.1"
     resolve "1.8.1"
     rollup-pluginutils "2.3.3"
     tslib "1.9.3"

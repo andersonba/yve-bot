@@ -66,6 +66,7 @@ test('sanitize rule', () => {
         synonyms: 1, one, oNe,ONE
   - type: SingleChoice
     multiline: false
+  - skip: false
   `);
   const bot = new YveBot(rules, OPTS);
   expect(bot.rules[0].message).toBe('Hello');
@@ -76,6 +77,7 @@ test('sanitize rule', () => {
   expect(bot.rules[2].skip({})).toBeTruthy();
   expect(bot.rules[3].options[0].synonyms).toEqual(['1', 'one', 'oNe', 'ONE']);
   expect(bot.rules[4].multiline).toBeFalsy();
+  expect(bot.rules[5].skip({})).toBeFalsy();
 });
 
 test('convert flows to rules', () => {

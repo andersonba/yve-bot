@@ -1,5 +1,20 @@
 # Change Log
 
+## [1.20.1](https://github.com/andersonba/yve-bot/tree/1.20.1) (2019-08-04)
+[Full Changelog](https://github.com/andersonba/yve-bot/compare/1.20.0...1.20.1)
+
+**Fixed bugs:**
+
+- Skip doesn't accept boolean type [\#176](https://github.com/andersonba/yve-bot/issues/176)
+
+**Closed issues:**
+
+- An in-range update of fetch-mock is breaking the build 🚨 [\#169](https://github.com/andersonba/yve-bot/issues/169)
+
+**Merged pull requests:**
+
+- fix falsy skip [\#177](https://github.com/andersonba/yve-bot/pull/177) ([andersonba](https://github.com/andersonba))
+
 ## [1.20.0](https://github.com/andersonba/yve-bot/tree/1.20.0) (2018-11-29)
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.19.2...1.20.0)
 

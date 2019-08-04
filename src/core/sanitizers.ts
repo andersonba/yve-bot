@@ -48,8 +48,9 @@ export function sanitizeRule(input: IRule): IRule {
 
   if (typeof rule.skip === 'undefined') {
     rule.skip = () => false;
-  } else {
-    rule.skip = typeof rule.skip === 'function' ? rule.skip : () => !!rule.skip;
+  } else if (typeof rule.skip !== 'function') {
+    const value = !!rule.skip;
+    rule.skip = () => value;
   }
 
   // string way

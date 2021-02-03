@@ -252,7 +252,7 @@ export class ChatUI {
       const isEnter = ['Enter', 13].indexOf(code) >= 0;
       if (isEnter && !e.shiftKey) {
         e.preventDefault();
-        this.form.dispatchEvent(new Event('submit'));
+        this.form.dispatchEvent(new Event('submit', { cancelable: true }));
       }
     });
     // autosize

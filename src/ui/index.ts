@@ -44,6 +44,7 @@ export default class YveBotUI extends YveBot {
 
     this.UI.form.addEventListener('submit', evt => {
       evt.preventDefault();
+      evt.stopPropagation();
       const msg = this.UI.input.value.trim();
 
       if (msg) {
@@ -55,6 +56,7 @@ export default class YveBotUI extends YveBot {
       if (this.UIOptions.autoFocus) {
         this.UI.input.focus();
       }
+      return false;
     });
   }
 

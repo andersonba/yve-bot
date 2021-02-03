@@ -1,6 +1,19 @@
-# Change Log
+# Changelog
+
+## [1.20.2](https://github.com/andersonba/yve-bot/tree/1.20.2) (2021-02-03)
+
+[Full Changelog](https://github.com/andersonba/yve-bot/compare/1.20.1...1.20.2)
+
+**Closed issues:**
+
+- Enter button at firefox [\#195](https://github.com/andersonba/yve-bot/issues/195)
+
+**Merged pull requests:**
+
+- Bump mixin-deep from 1.3.1 to 1.3.2 [\#178](https://github.com/andersonba/yve-bot/pull/178) ([dependabot[bot]](https://github.com/apps/dependabot))
 
 ## [1.20.1](https://github.com/andersonba/yve-bot/tree/1.20.1) (2019-08-04)
+
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.20.0...1.20.1)
 
 **Fixed bugs:**
@@ -16,6 +29,7 @@
 - fix falsy skip [\#177](https://github.com/andersonba/yve-bot/pull/177) ([andersonba](https://github.com/andersonba))
 
 ## [1.20.0](https://github.com/andersonba/yve-bot/tree/1.20.0) (2018-11-29)
+
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.19.2...1.20.0)
 
 **Implemented enhancements:**
@@ -34,6 +48,7 @@
 - An in-range update of @types/node is breaking the build 🚨 [\#152](https://github.com/andersonba/yve-bot/issues/152)
 
 ## [1.19.2](https://github.com/andersonba/yve-bot/tree/1.19.2) (2018-09-25)
+
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.19.1...1.19.2)
 
 **Closed issues:**
@@ -46,6 +61,7 @@
 - Allow validation functions to be asynchronous [\#158](https://github.com/andersonba/yve-bot/pull/158) ([rafaelverger](https://github.com/rafaelverger))
 
 ## [1.19.1](https://github.com/andersonba/yve-bot/tree/1.19.1) (2018-07-10)
+
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.19.0...1.19.1)
 
 **Fixed bugs:**
@@ -53,6 +69,7 @@
 - mobile: chat losing scroll position on re-enable form [\#147](https://github.com/andersonba/yve-bot/issues/147)
 
 ## [1.19.0](https://github.com/andersonba/yve-bot/tree/1.19.0) (2018-07-10)
+
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.18.3...1.19.0)
 
 **Implemented enhancements:**
@@ -73,6 +90,7 @@
 - fix jumping using "flow:name" [\#137](https://github.com/andersonba/yve-bot/issues/137)
 
 ## [1.18.3](https://github.com/andersonba/yve-bot/tree/1.18.3) (2018-06-07)
+
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.18.2...1.18.3)
 
 **Closed issues:**
@@ -93,6 +111,7 @@
 - Update bundlesize to the latest version 🚀 [\#114](https://github.com/andersonba/yve-bot/pull/114) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [1.18.2](https://github.com/andersonba/yve-bot/tree/1.18.2) (2018-04-13)
+
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.18.1...1.18.2)
 
 **Fixed bugs:**
@@ -100,6 +119,7 @@
 - polyfill "Set" collections [\#119](https://github.com/andersonba/yve-bot/issues/119)
 
 ## [1.18.1](https://github.com/andersonba/yve-bot/tree/1.18.1) (2018-04-12)
+
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.18.0...1.18.1)
 
 **Fixed bugs:**
@@ -108,6 +128,7 @@
 - p-queue causing parser error due to "class" keyword [\#117](https://github.com/andersonba/yve-bot/issues/117)
 
 ## [1.18.0](https://github.com/andersonba/yve-bot/tree/1.18.0) (2018-04-09)
+
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.17.0...1.18.0)
 
 **Closed issues:**
@@ -122,6 +143,7 @@
 - Update rollup-plugin-commonjs to the latest version 🚀 [\#103](https://github.com/andersonba/yve-bot/pull/103) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [1.17.0](https://github.com/andersonba/yve-bot/tree/1.17.0) (2018-03-17)
+
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.16.0...1.17.0)
 
 **Implemented enhancements:**
@@ -136,6 +158,7 @@
 - Implementing skip property [\#108](https://github.com/andersonba/yve-bot/pull/108) ([cristianossd](https://github.com/cristianossd))
 
 ## [1.16.0](https://github.com/andersonba/yve-bot/tree/1.16.0) (2018-03-08)
+
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.15.0...1.16.0)
 
 **Fixed bugs:**
@@ -143,6 +166,7 @@
 - fix rollup to build UI bundle without core [\#109](https://github.com/andersonba/yve-bot/issues/109)
 
 ## [1.15.0](https://github.com/andersonba/yve-bot/tree/1.15.0) (2018-03-05)
+
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.13.0...1.15.0)
 
 **Fixed bugs:**
@@ -150,6 +174,7 @@
 - fix broken published files [\#102](https://github.com/andersonba/yve-bot/issues/102)
 
 ## [1.13.0](https://github.com/andersonba/yve-bot/tree/1.13.0) (2018-03-05)
+
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.12.1...1.13.0)
 
 **Fixed bugs:**
@@ -161,6 +186,7 @@
 - serial events queue [\#101](https://github.com/andersonba/yve-bot/pull/101) ([andersonba](https://github.com/andersonba))
 
 ## [1.12.1](https://github.com/andersonba/yve-bot/tree/1.12.1) (2018-03-05)
+
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.12.0...1.12.1)
 
 **Fixed bugs:**
@@ -176,6 +202,7 @@
 - Update @types/fetch-mock to the latest version 🚀 [\#98](https://github.com/andersonba/yve-bot/pull/98) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [1.12.0](https://github.com/andersonba/yve-bot/tree/1.12.0) (2018-02-21)
+
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.11.0...1.12.0)
 
 **Fixed bugs:**
@@ -202,6 +229,7 @@
 - Update rollup-plugin-typescript2 to the latest version 🚀 [\#78](https://github.com/andersonba/yve-bot/pull/78) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [1.11.0](https://github.com/andersonba/yve-bot/tree/1.11.0) (2017-12-14)
+
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.10.2...1.11.0)
 
 **Implemented enhancements:**
@@ -222,6 +250,7 @@
 - Update rollup to the latest version 🚀 [\#72](https://github.com/andersonba/yve-bot/pull/72) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [1.10.2](https://github.com/andersonba/yve-bot/tree/1.10.2) (2017-11-22)
+
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.10.1...1.10.2)
 
 **Closed issues:**
@@ -234,6 +263,7 @@
 - Standardize use of throw bot.expections. [\#68](https://github.com/andersonba/yve-bot/pull/68) ([rafaelverger](https://github.com/rafaelverger))
 
 ## [1.10.1](https://github.com/andersonba/yve-bot/tree/1.10.1) (2017-11-16)
+
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.10.0...1.10.1)
 
 **Fixed bugs:**
@@ -249,6 +279,7 @@
 - Fix bug in StringSearch execution after PauseException [\#65](https://github.com/andersonba/yve-bot/pull/65) ([rafaelverger](https://github.com/rafaelverger))
 
 ## [1.10.0](https://github.com/andersonba/yve-bot/tree/1.10.0) (2017-11-15)
+
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.9.0...1.10.0)
 
 **Implemented enhancements:**
@@ -267,10 +298,10 @@
 
 **Merged pull requests:**
 
-- Extends UI from Core [\#58](https://github.com/andersonba/yve-bot/pull/58) ([andersonba](https://github.com/andersonba))
 - Split types into optional extensions [\#56](https://github.com/andersonba/yve-bot/pull/56) ([andersonba](https://github.com/andersonba))
 
 ## [1.9.0](https://github.com/andersonba/yve-bot/tree/1.9.0) (2017-11-14)
+
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.8.1...1.9.0)
 
 **Implemented enhancements:**
@@ -288,6 +319,7 @@
 - example: using react component [\#5](https://github.com/andersonba/yve-bot/issues/5)
 
 ## [1.8.1](https://github.com/andersonba/yve-bot/tree/1.8.1) (2017-11-13)
+
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.8.0...1.8.1)
 
 **Merged pull requests:**
@@ -295,6 +327,7 @@
 - Update dependencies to enable Greenkeeper 🌴 [\#47](https://github.com/andersonba/yve-bot/pull/47) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [1.8.0](https://github.com/andersonba/yve-bot/tree/1.8.0) (2017-11-11)
+
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.7.0...1.8.0)
 
 **Implemented enhancements:**
@@ -303,6 +336,7 @@
 - Passive mode support [\#46](https://github.com/andersonba/yve-bot/pull/46) ([andersonba](https://github.com/andersonba))
 
 ## [1.7.0](https://github.com/andersonba/yve-bot/tree/1.7.0) (2017-11-10)
+
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.6.0...1.7.0)
 
 **Implemented enhancements:**
@@ -323,6 +357,7 @@
 - Fixing validation flow in StringSerach. Closes \#44 [\#45](https://github.com/andersonba/yve-bot/pull/45) ([rafaelverger](https://github.com/rafaelverger))
 
 ## [1.6.0](https://github.com/andersonba/yve-bot/tree/1.6.0) (2017-11-09)
+
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.5.0...1.6.0)
 
 **Implemented enhancements:**
@@ -336,6 +371,7 @@
 - host the libs on CDN [\#7](https://github.com/andersonba/yve-bot/issues/7)
 
 ## [1.5.0](https://github.com/andersonba/yve-bot/tree/1.5.0) (2017-11-07)
+
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.4.0...1.5.0)
 
 **Implemented enhancements:**
@@ -353,6 +389,7 @@
 - Synonyms [\#33](https://github.com/andersonba/yve-bot/pull/33) ([andersonba](https://github.com/andersonba))
 
 ## [1.4.0](https://github.com/andersonba/yve-bot/tree/1.4.0) (2017-11-01)
+
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.3.0...1.4.0)
 
 **Implemented enhancements:**
@@ -361,9 +398,11 @@
 - Create new field type: StringSearch [\#27](https://github.com/andersonba/yve-bot/pull/27) ([rafaelverger](https://github.com/rafaelverger))
 
 ## [1.3.0](https://github.com/andersonba/yve-bot/tree/1.3.0) (2017-10-31)
+
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.2.0...1.3.0)
 
 ## [1.2.0](https://github.com/andersonba/yve-bot/tree/1.2.0) (2017-10-25)
+
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.1.0...1.2.0)
 
 **Implemented enhancements:**
@@ -386,6 +425,7 @@
 - Add timestamp to the message. Close \#16 [\#17](https://github.com/andersonba/yve-bot/pull/17) ([soueuls](https://github.com/soueuls))
 
 ## [1.1.0](https://github.com/andersonba/yve-bot/tree/1.1.0) (2017-10-20)
+
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.0.0...1.1.0)
 
 **Implemented enhancements:**
@@ -405,10 +445,15 @@
 - Avoid default value for label/value of SingleChoice field [\#12](https://github.com/andersonba/yve-bot/pull/12) ([rafaelverger](https://github.com/rafaelverger))
 
 ## [1.0.0](https://github.com/andersonba/yve-bot/tree/1.0.0) (2017-09-15)
+
+[Full Changelog](https://github.com/andersonba/yve-bot/compare/59367ddd5ac4c45ec133e3e2a51ff97ccdcd6d21...1.0.0)
+
 **Closed issues:**
 
 - tests: 100% coverage [\#3](https://github.com/andersonba/yve-bot/issues/3)
 - run tests on ci [\#2](https://github.com/andersonba/yve-bot/issues/2)
 - publish to npm [\#1](https://github.com/andersonba/yve-bot/issues/1)
 
-\* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
+
+
+\* *This Changelog was automatically generated by [github_changelog_generator](https://github.com/github-changelog-generator/github-changelog-generator)*

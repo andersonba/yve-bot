@@ -1,7 +1,5 @@
-import { rollup } from 'rollup';
 import fs from 'fs';
 import path from 'path';
-import analyzer from 'rollup-analyzer';
 import commonjs from 'rollup-plugin-commonjs';
 import json from 'rollup-plugin-json';
 import resolve from 'rollup-plugin-node-resolve';
@@ -122,16 +120,4 @@ const typeExtensions = typeFiles.map((eType) => {
   };
 });
 
-const bundles = [core, ui, web, ...typeExtensions];
-
-if (process.env.BUNDLE_ANALYZER) {
-  bundles.forEach((bundle) =>
-    rollup(bundle).then((output) => {
-      console.log(`BUNDLE: ${bundle.input}`);
-      analyzer({ limit: 5 }).formatted(output)
-        .then((out) => console.log(out, '\n\n\n\n'))
-        .catch(console.error);
-    }));
-}
-
-export default bundles;
+export default [core, ui, web, ...typeExtensions];

@@ -16,7 +16,7 @@
     "test:bundle": "bundlesize",
     "lint": "tslint 'src/**/*.ts'",
     "clean": "rimraf lib && rimraf compiled",
-    "bundleAnalyzer": "BUNDLE_ANALYZER=1 rollup -c rollup.config.ts",
+    "bundle": "bundlewatch",
     "prebuild": "yarn clean",
     "build": "rollup -c rollup.config.ts && rimraf compiled",
     "watch": "rollup -c rollup.config.ts -w"
@@ -26,7 +26,6 @@
     "@types/jest": "^24.0.18",
     "@types/lodash-es": "^4.17.3",
     "@types/node": "^12.7.3",
-    "bundlesize": "^0.18.0",
     "coveralls": "^3.0.6",
     "faker": "^4.1.0",
     "fetch-mock": "^7.3.9",
@@ -35,7 +34,7 @@
     "lodash-es": "^4.17.15",
     "rimraf": "^3.0.0",
     "rollup": "^1.20.3",
-    "rollup-analyzer": "^1.1.0",
+    "bundlewatch": "^0.3.2",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-json": "^4.0.0",
     "rollup-plugin-node-resolve": "^5.2.0",
@@ -77,22 +76,24 @@
       "!src/types.ts"
     ]
   },
-  "bundlesize": [
-    {
-      "path": "./lib/core.js",
-      "maxSize": "9 kB"
-    },
-    {
-      "path": "./lib/ui.js",
-      "maxSize": "4 kB"
-    },
-    {
-      "path": "./lib/web.js",
-      "maxSize": "13 kB"
-    },
-    {
-      "path": "./lib/ext/types/StringSearch.js",
-      "maxSize": "1.5 kB"
-    }
-  ]
+  "bundlewatch": {
+    "files": [
+      {
+        "path": "./lib/core.js",
+        "maxSize": "10 kB"
+      },
+      {
+        "path": "./lib/ui.js",
+        "maxSize": "4 kB"
+      },
+      {
+        "path": "./lib/web.js",
+        "maxSize": "12 kB"
+      },
+      {
+        "path": "./lib/ext/types/StringSearch.js",
+        "maxSize": "1.5 kB"
+      }
+    ]
+  }
 }

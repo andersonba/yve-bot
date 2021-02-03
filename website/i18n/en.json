@@ -4,29 +4,65 @@
     "next": "Next",
     "previous": "Previous",
     "tagline": "Smart rule-based bot. For Browser & Node.",
-    "api-core": "Core Bundle API",
-    "api-rule": "Rule specification",
-    "api-ui": "UI Bundle API",
-    "building-rules": "Building rules",
-    "core-bundle": "Core Bundle",
-    "custom-actions": "Custom actions",
-    "custom-types": "Custom types",
-    "custom-validators": "Custom validators",
-    "extensions-string-search": "StringSearch Extension",
-    "extensions": "Extensions",
-    "flows": "Grouping rules",
-    "getting-started": "Getting Started",
-    "Getting Started": "Getting Started",
-    "passive-mode": "Passive mode",
-    "playground": "Playground",
-    "ui-bundle": "UI Bundle",
-    "Docs": "Docs",
-    "API": "API",
-    "GitHub": "GitHub",
-    "Introduction": "Introduction",
-    "Guides": "Guides",
-    "Integration Guides": "Integration Guides",
-    "API Reference": "API Reference"
+    "docs": {
+      "api-core": {
+        "title": "Core Bundle API"
+      },
+      "api-rule": {
+        "title": "Rule specification"
+      },
+      "api-ui": {
+        "title": "UI Bundle API"
+      },
+      "building-rules": {
+        "title": "Building rules"
+      },
+      "core-bundle": {
+        "title": "Core Bundle"
+      },
+      "custom-actions": {
+        "title": "Custom actions"
+      },
+      "custom-types": {
+        "title": "Custom types"
+      },
+      "custom-validators": {
+        "title": "Custom validators"
+      },
+      "extensions-string-search": {
+        "title": "StringSearch Extension"
+      },
+      "extensions": {
+        "title": "Extensions"
+      },
+      "flows": {
+        "title": "Grouping rules"
+      },
+      "getting-started": {
+        "title": "Getting Started",
+        "sidebar_label": "Getting Started"
+      },
+      "passive-mode": {
+        "title": "Passive mode"
+      },
+      "playground": {
+        "title": "Playground"
+      },
+      "ui-bundle": {
+        "title": "UI Bundle"
+      }
+    },
+    "links": {
+      "Docs": "Docs",
+      "API": "API",
+      "GitHub": "GitHub"
+    },
+    "categories": {
+      "Introduction": "Introduction",
+      "Guides": "Guides",
+      "Integration Guides": "Integration Guides",
+      "API Reference": "API Reference"
+    }
   },
   "pages-strings": {
     "Help Translate|recruit community translators for your project": "Help Translate",

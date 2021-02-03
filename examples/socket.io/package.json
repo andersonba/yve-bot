@@ -8,7 +8,7 @@
   "dependencies": {
     "body-parser": "^1.17.2",
     "express": "^4.15.4",
-    "js-yaml": "^3.9.1",
+    "js-yaml": "^4.0.0",
     "socket.io": "^2.0.3"
   }
 }

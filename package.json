@@ -13,7 +13,6 @@
     "test:strict": "jest",
     "test:coverage": "yarn test:strict --coverage",
     "test:watch": "yarn test:strict --watch",
-    "test:bundle": "bundlesize",
     "lint": "tslint 'src/**/*.ts'",
     "clean": "rimraf lib && rimraf compiled",
     "bundle": "bundlewatch",

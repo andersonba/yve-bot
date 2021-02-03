@@ -1,17 +1,17 @@
 language: node_js
 node_js:
-  - '10'
+  - '15'
 cache: yarn
 before_install: yarn global add greenkeeper-lockfile@1
 before_script: greenkeeper-lockfile-update
 after_script: greenkeeper-lockfile-upload
 script:
-  - yarn run lint
-  - yarn run test:coverage
+  - yarn lint
+  - yarn test:coverage
   - coveralls < coverage/lcov.info
   - yarn clean
   - yarn build
-  - yarn run test:bundle
+  - yarn bundle
 deploy:
   provider: script
   script: bash website/deploy.sh

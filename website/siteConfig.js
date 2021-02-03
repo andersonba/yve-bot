@@ -7,6 +7,7 @@
 
 const repoUrl = 'https://github.com/andersonba/yve-bot'
 const baseUrl = '/yve-bot/';
+const { version: CURRENT_VERSION } = require('../package.json');
 
 const siteConfig = {
   title: 'yve-bot' /* title for your website */,
@@ -32,7 +33,7 @@ const siteConfig = {
   },
   scripts: [
     'https://buttons.github.io/buttons.js',
-    'https://cdn.jsdelivr.net/npm/yve-bot@latest/web.js',
+    `https://cdn.jsdelivr.net/npm/yve-bot@${CURRENT_VERSION}/web.js`,
     baseUrl + 'js/chat.js',
   ],
   repoUrl,

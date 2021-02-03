@@ -1,4 +1,4 @@
-# yve-bot [![npm version](https://badge.fury.io/js/yve-bot.svg)](https://badge.fury.io/js/yve-bot) [![Build Status](https://travis-ci.org/andersonba/yve-bot.svg?branch=master)](https://travis-ci.org/andersonba/yve-bot) [![Coverage Status](https://coveralls.io/repos/github/andersonba/yve-bot/badge.svg)](https://coveralls.io/github/andersonba/yve-bot) [![Greenkeeper badge](https://badges.greenkeeper.io/andersonba/yve-bot.svg)](https://greenkeeper.io/)
+# yve-bot [![npm version](https://badge.fury.io/js/yve-bot.svg)](https://badge.fury.io/js/yve-bot) [![Build Status](https://travis-ci.org/andersonba/yve-bot.svg?branch=master)](https://travis-ci.org/andersonba/yve-bot) [![Coverage Status](https://coveralls.io/repos/github/andersonba/yve-bot/badge.svg)](https://coveralls.io/github/andersonba/yve-bot)
 
 The simplest way to build a smart and customized rule-based bot conversation. For Browser & Node environment.
 

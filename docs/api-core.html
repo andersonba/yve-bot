@@ -1,10 +1,60 @@
-<html lang="en"><head><meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Core Bundle API · yve-bot</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta property="og:title" content="Core Bundle API · yve-bot"/><meta property="og:type" content="website"/><meta property="og:url" content="https://andersonba.github.io/yve-bot/yve-bot/index.html"/><meta property="og:description" content="```javascript"/><link rel="shortcut icon" href="/yve-bot/img/favicon.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/yve-bot@latest/web.js"></script><script type="text/javascript" src="/yve-bot/js/chat.js"></script><link rel="stylesheet" href="/yve-bot/css/main.css"/></head><body class="sideNavVisible"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/yve-bot/"><h2 class="headerTitle">yve-bot</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li><a href="/yve-bot/docs/getting-started.html" target="_self">Docs</a></li><li><a href="/yve-bot/docs/api-rule.html" target="_self">API</a></li><li><a href="https://github.com/andersonba/yve-bot" target="_self">GitHub</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>API Reference</span></h2></div><div class="navGroups"><div class="navGroup navGroupActive"><h3>Introduction</h3><ul><li class="navListItem"><a class="navItem" href="/yve-bot/docs/getting-started.html">Getting Started</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/ui-bundle.html">UI Bundle</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/core-bundle.html">Core Bundle</a></li></ul></div><div class="navGroup navGroupActive"><h3>Guides</h3><ul><li class="navListItem"><a class="navItem" href="/yve-bot/docs/building-rules.html">Building rules</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/passive-mode.html">Passive mode</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/flows.html">Grouping rules</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/custom-types.html">Custom types</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/custom-actions.html">Custom actions</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/custom-validators.html">Custom validators</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/extensions.html">Extensions</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/playground.html">Playground</a></li></ul></div><div class="navGroup navGroupActive"><h3>API Reference</h3><ul><li class="navListItem"><a class="navItem" href="/yve-bot/docs/api-rule.html">Rule specification</a></li><li class="navListItem navListItemActive"><a class="navItem navItemActive" href="/yve-bot/docs/api-core.html">Core Bundle API</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/api-ui.html">UI Bundle API</a></li></ul></div></div></section></div><script>
-          var toggler = document.getElementById('navToggler');
-          var nav = document.getElementById('docsNav');
-          toggler.onclick = function() {
-            nav.classList.toggle('docsSliderActive');
-          };
-        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1>Core Bundle API</h1></header><article><div><span><pre><code class="hljs css javascript"><span class="hljs-keyword">import</span> YveBot <span class="hljs-keyword">from</span> <span class="hljs-string">'yve-bot'</span>;
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Core Bundle API · yve-bot</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="```javascript"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Core Bundle API · yve-bot"/><meta property="og:type" content="website"/><meta property="og:url" content="https://andersonba.github.io/yve-bot/index.html"/><meta property="og:description" content="```javascript"/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/yve-bot/img/favicon.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/yve-bot@1.20.2/web.js"></script><script type="text/javascript" src="/yve-bot/js/chat.js"></script><script src="/yve-bot/js/scrollSpy.js"></script><link rel="stylesheet" href="/yve-bot/css/main.css"/><script src="/yve-bot/js/codetabs.js"></script></head><body class="sideNavVisible"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/yve-bot/"><h2 class="headerTitle">yve-bot</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/yve-bot/docs/getting-started.html" target="_self">Docs</a></li><li class="siteNavGroupActive"><a href="/yve-bot/docs/api-rule.html" target="_self">API</a></li><li class=""><a href="https://github.com/andersonba/yve-bot" target="_self">GitHub</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>API Reference</span></h2></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Introduction</h3><ul class=""><li class="navListItem"><a class="navItem" href="/yve-bot/docs/getting-started.html">Getting Started</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/ui-bundle.html">UI Bundle</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/core-bundle.html">Core Bundle</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Guides</h3><ul class=""><li class="navListItem"><a class="navItem" href="/yve-bot/docs/building-rules.html">Building rules</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/passive-mode.html">Passive mode</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/flows.html">Grouping rules</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/custom-types.html">Custom types</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/custom-actions.html">Custom actions</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/custom-validators.html">Custom validators</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/extensions.html">Extensions</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/playground.html">Playground</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">API Reference</h3><ul class=""><li class="navListItem"><a class="navItem" href="/yve-bot/docs/api-rule.html">Rule specification</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/yve-bot/docs/api-core.html">Core Bundle API</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/api-ui.html">UI Bundle API</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">Core Bundle API</h1></header><article><div><span><pre><code class="hljs css language-javascript"><span class="hljs-keyword">import</span> YveBot <span class="hljs-keyword">from</span> <span class="hljs-string">'yve-bot'</span>;
 
 <span class="hljs-keyword">const</span> rules = [...];
 <span class="hljs-keyword">const</span> options = {
@@ -26,18 +76,18 @@
 <tr><td>options.context</td><td>-</td><td>Object</td><td>Stores user context</td></tr>
 </tbody>
 </table>
-<h2><a class="anchor" aria-hidden="true" name="methods"></a><a href="#methods" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Methods</h2>
-<h3><a class="anchor" aria-hidden="true" name="start"></a><a href="#start" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Start</h3>
+<h2><a class="anchor" aria-hidden="true" id="methods"></a><a href="#methods" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Methods</h2>
+<h3><a class="anchor" aria-hidden="true" id="start"></a><a href="#start" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Start</h3>
 <p>Initialize the conversation</p>
-<pre><code class="hljs css javascript">bot.start();
+<pre><code class="hljs css language-javascript">bot.start();
 </code></pre>
-<h3><a class="anchor" aria-hidden="true" name="end"></a><a href="#end" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>End</h3>
+<h3><a class="anchor" aria-hidden="true" id="end"></a><a href="#end" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>End</h3>
 <p>Finalize the conversation</p>
-<pre><code class="hljs css javascript">bot.end();
+<pre><code class="hljs css language-javascript">bot.end();
 </code></pre>
-<h3><a class="anchor" aria-hidden="true" name="talk"></a><a href="#talk" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Talk</h3>
+<h3><a class="anchor" aria-hidden="true" id="talk"></a><a href="#talk" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Talk</h3>
 <p>Send message as BOT</p>
-<pre><code class="hljs css javascript"><span class="hljs-keyword">const</span> message = <span class="hljs-string">'How are you?'</span>;
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">const</span> message = <span class="hljs-string">'How are you?'</span>;
 <span class="hljs-keyword">const</span> rule = {
   <span class="hljs-attr">delay</span>: <span class="hljs-number">4000</span>,
 };
@@ -52,9 +102,9 @@ bot.talk(message, rule);
 <tr><td>rule</td><td>Rule</td><td>Message's rule</td></tr>
 </tbody>
 </table>
-<h3><a class="anchor" aria-hidden="true" name="hear"></a><a href="#hear" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Hear</h3>
+<h3><a class="anchor" aria-hidden="true" id="hear"></a><a href="#hear" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Hear</h3>
 <p>Reply bot with user's message</p>
-<pre><code class="hljs css javascript"><span class="hljs-keyword">const</span> message = <span class="hljs-string">"I'm ok"</span>;
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">const</span> message = <span class="hljs-string">"I'm ok"</span>;
 bot.hear(message);
 </code></pre>
 <table>
@@ -65,13 +115,13 @@ bot.hear(message);
 <tr><td>message</td><td>string, array[string]</td><td>User's answer</td></tr>
 </tbody>
 </table>
-<h3><a class="anchor" aria-hidden="true" name="listen"></a><a href="#listen" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Listen</h3>
+<h3><a class="anchor" aria-hidden="true" id="listen"></a><a href="#listen" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Listen</h3>
 <p>Configure <a href="/yve-bot/docs/passive-mode.html">Passive mode</a></p>
-<pre><code class="hljs css javascript">bot.listen([ ...listeners ])
+<pre><code class="hljs css language-javascript">bot.listen([ ...listeners ])
 </code></pre>
-<h3><a class="anchor" aria-hidden="true" name="session"></a><a href="#session" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Session</h3>
+<h3><a class="anchor" aria-hidden="true" id="session"></a><a href="#session" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Session</h3>
 <p>Set a current session in the instance. It's useful to configure multiple conversations in a node application (eg: socket.io + mongo)</p>
-<pre><code class="hljs css javascript"><span class="hljs-keyword">const</span> sessionId = socket.id;
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">const</span> sessionId = socket.id;
 <span class="hljs-keyword">const</span> store = getDataFromMongo(sessionId);
 bot.session(sessionId, { store });
 </code></pre>
@@ -86,28 +136,28 @@ bot.session(sessionId, { store });
 <tr><td>options.context</td><td>-</td><td>Object</td><td>Uses custom user context for this session</td></tr>
 </tbody>
 </table>
-<h3><a class="anchor" aria-hidden="true" name="addrule"></a><a href="#addrule" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>AddRule</h3>
+<h3><a class="anchor" aria-hidden="true" id="addrule"></a><a href="#addrule" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>AddRule</h3>
 <p>Add flows and rules dynamically to current chat instance</p>
-<pre><code class="hljs css javascript"><span class="hljs-keyword">const</span> newRules = [...];  <span class="hljs-comment">// rules or flows</span>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">const</span> newRules = [...];  <span class="hljs-comment">// rules or flows</span>
 bot.addRules(newRules);
 </code></pre>
-<h3><a class="anchor" aria-hidden="true" name="context"></a><a href="#context" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Context</h3>
+<h3><a class="anchor" aria-hidden="true" id="context"></a><a href="#context" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Context</h3>
 <p>Get user context values</p>
-<pre><code class="hljs css javascript"><span class="hljs-keyword">const</span> ctx = bot.context;
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">const</span> ctx = bot.context;
 <span class="hljs-keyword">const</span> { uid } = ctx.user;
 </code></pre>
-<h2><a class="anchor" aria-hidden="true" name="binding-events"></a><a href="#binding-events" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Binding events</h2>
+<h2><a class="anchor" aria-hidden="true" id="binding-events"></a><a href="#binding-events" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Binding events</h2>
 <p>Listen to events and create chat behaviors</p>
-<h3><a class="anchor" aria-hidden="true" name="start"></a><a href="#start" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Start</h3>
+<h3><a class="anchor" aria-hidden="true" id="start-1"></a><a href="#start-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Start</h3>
 <p>Event triggered on started conversation</p>
-<pre><code class="hljs css javascript">bot.on(<span class="hljs-string">'start'</span>, (sessionId) =&gt; {
+<pre><code class="hljs css language-javascript">bot.on(<span class="hljs-string">'start'</span>, (sessionId) =&gt; {
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Started!'</span>);
   ga(<span class="hljs-string">'send'</span>, <span class="hljs-string">'event'</span>, <span class="hljs-string">'Chat'</span>, <span class="hljs-string">'started'</span>);
 });
 </code></pre>
-<h3><a class="anchor" aria-hidden="true" name="talk"></a><a href="#talk" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Talk</h3>
+<h3><a class="anchor" aria-hidden="true" id="talk-1"></a><a href="#talk-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Talk</h3>
 <p>Event triggered when the bot talks with you</p>
-<pre><code class="hljs css javascript">bot.on(<span class="hljs-string">'talk'</span>, (message, rule, sessionId) =&gt; {
+<pre><code class="hljs css language-javascript">bot.on(<span class="hljs-string">'talk'</span>, (message, rule, sessionId) =&gt; {
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'BOT said:'</span>, message);
 
   <span class="hljs-keyword">if</span> (rule.options) {
@@ -115,27 +165,27 @@ bot.addRules(newRules);
   }
 });
 </code></pre>
-<h3><a class="anchor" aria-hidden="true" name="typing"></a><a href="#typing" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Typing</h3>
+<h3><a class="anchor" aria-hidden="true" id="typing"></a><a href="#typing" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Typing</h3>
 <p>Event triggered when bot is typing a message</p>
-<pre><code class="hljs css javascript">bot.on(<span class="hljs-string">'typing'</span>, (sessionId) =&gt; {
+<pre><code class="hljs css language-javascript">bot.on(<span class="hljs-string">'typing'</span>, (sessionId) =&gt; {
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'BOT is typing...'</span>);
 });
 </code></pre>
-<h3><a class="anchor" aria-hidden="true" name="typed"></a><a href="#typed" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Typed</h3>
+<h3><a class="anchor" aria-hidden="true" id="typed"></a><a href="#typed" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Typed</h3>
 <p>Event triggered when bot is typed a message</p>
-<pre><code class="hljs css javascript">bot.on(<span class="hljs-string">'typed'</span>, (sessionId) =&gt; {
+<pre><code class="hljs css language-javascript">bot.on(<span class="hljs-string">'typed'</span>, (sessionId) =&gt; {
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'--'</span>);
 });
 </code></pre>
-<h3><a class="anchor" aria-hidden="true" name="error"></a><a href="#error" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Error</h3>
+<h3><a class="anchor" aria-hidden="true" id="error"></a><a href="#error" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Error</h3>
 <p>Event triggered when an error is raised</p>
-<pre><code class="hljs css javascript">bot.on(<span class="hljs-string">'error'</span>, (err, sessionId) =&gt; {
+<pre><code class="hljs css language-javascript">bot.on(<span class="hljs-string">'error'</span>, (err, sessionId) =&gt; {
   <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'Error was found'</span>, err);
 });
 </code></pre>
-<h3><a class="anchor" aria-hidden="true" name="end"></a><a href="#end" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>End</h3>
+<h3><a class="anchor" aria-hidden="true" id="end-1"></a><a href="#end-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>End</h3>
 <p>Event triggered when bot terminates the conversation</p>
-<pre><code class="hljs css javascript">bot.on(<span class="hljs-string">'end'</span>, (output, sessionId) =&gt; {
+<pre><code class="hljs css language-javascript">bot.on(<span class="hljs-string">'end'</span>, (output, sessionId) =&gt; {
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Conversation ended'</span>);
 
   fetch(<span class="hljs-string">'/save'</span>, {
@@ -143,4 +193,4 @@ bot.addRules(newRules);
   });
 });
 </code></pre>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="api-rule.html">← Rule specification</a><a class="docs-next button" href="api-ui.html">UI Bundle API →</a></div></div></div></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/yve-bot/" class="nav-home"><img src="/yve-bot/img/logo-white.png" alt="yve-bot" width="66" height="58"/></a><div><h5>Docs</h5><a href="/yve-bot/docs/getting-started.html">Getting Started</a><a href="/yve-bot/docs/building-rules.html">Guides</a><a href="/yve-bot/docs/api-rule.html">API Reference</a></div><div><h5>Community</h5><a href="/yve-bot/docs/playground.html">Playground</a><a href="https://twitter.com/andersonbacom" target="_blank">Twitter</a></div><div><h5>More</h5><a href="https://github.com/andersonba/yve-bot">GitHub</a><a class="github-button" href="https://github.com/andersonba/yve-bot" data-icon="octicon-star" data-count-href="/andersonba/yve-bot/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Made with ♥ by <a href="https://andersonba.com">andersonba</a></section></footer></div></body></html>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/yve-bot/docs/api-rule.html"><span class="arrow-prev">← </span><span>Rule specification</span></a><a class="docs-next button" href="/yve-bot/docs/api-ui.html"><span>UI Bundle API</span><span class="arrow-next"> →</span></a></div></div></div></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/yve-bot/" class="nav-home"><img src="/yve-bot/img/logo-white.png" alt="yve-bot" width="66" height="58"/></a><div><h5>Docs</h5><a href="/yve-bot/docs/getting-started.html">Getting Started</a><a href="/yve-bot/docs/building-rules.html">Guides</a><a href="/yve-bot/docs/api-rule.html">API Reference</a></div><div><h5>Community</h5><a href="/yve-bot/docs/playground.html">Playground</a><a href="https://twitter.com/andersonbacom" target="_blank">Twitter</a></div><div><h5>More</h5><a href="https://github.com/andersonba/yve-bot">GitHub</a><a class="github-button" href="https://github.com/andersonba/yve-bot" data-icon="octicon-star" data-count-href="/andersonba/yve-bot/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Made with ♥ by <a href="https://andersonba.com">andersonba</a></section></footer></div></body></html>

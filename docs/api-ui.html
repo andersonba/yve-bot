@@ -1,10 +1,60 @@
-<html lang="en"><head><meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>UI Bundle API · yve-bot</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta property="og:title" content="UI Bundle API · yve-bot"/><meta property="og:type" content="website"/><meta property="og:url" content="https://andersonba.github.io/yve-bot/yve-bot/index.html"/><meta property="og:description" content="```javascript"/><link rel="shortcut icon" href="/yve-bot/img/favicon.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/yve-bot@latest/web.js"></script><script type="text/javascript" src="/yve-bot/js/chat.js"></script><link rel="stylesheet" href="/yve-bot/css/main.css"/></head><body class="sideNavVisible"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/yve-bot/"><h2 class="headerTitle">yve-bot</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li><a href="/yve-bot/docs/getting-started.html" target="_self">Docs</a></li><li><a href="/yve-bot/docs/api-rule.html" target="_self">API</a></li><li><a href="https://github.com/andersonba/yve-bot" target="_self">GitHub</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>API Reference</span></h2></div><div class="navGroups"><div class="navGroup navGroupActive"><h3>Introduction</h3><ul><li class="navListItem"><a class="navItem" href="/yve-bot/docs/getting-started.html">Getting Started</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/ui-bundle.html">UI Bundle</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/core-bundle.html">Core Bundle</a></li></ul></div><div class="navGroup navGroupActive"><h3>Guides</h3><ul><li class="navListItem"><a class="navItem" href="/yve-bot/docs/building-rules.html">Building rules</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/passive-mode.html">Passive mode</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/flows.html">Grouping rules</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/custom-types.html">Custom types</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/custom-actions.html">Custom actions</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/custom-validators.html">Custom validators</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/extensions.html">Extensions</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/playground.html">Playground</a></li></ul></div><div class="navGroup navGroupActive"><h3>API Reference</h3><ul><li class="navListItem"><a class="navItem" href="/yve-bot/docs/api-rule.html">Rule specification</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/api-core.html">Core Bundle API</a></li><li class="navListItem navListItemActive"><a class="navItem navItemActive" href="/yve-bot/docs/api-ui.html">UI Bundle API</a></li></ul></div></div></section></div><script>
-          var toggler = document.getElementById('navToggler');
-          var nav = document.getElementById('docsNav');
-          toggler.onclick = function() {
-            nav.classList.toggle('docsSliderActive');
-          };
-        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1>UI Bundle API</h1></header><article><div><span><pre><code class="hljs css javascript"><span class="hljs-keyword">new</span> YveBotUI(rules, options);
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>UI Bundle API · yve-bot</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="```javascript"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="UI Bundle API · yve-bot"/><meta property="og:type" content="website"/><meta property="og:url" content="https://andersonba.github.io/yve-bot/index.html"/><meta property="og:description" content="```javascript"/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/yve-bot/img/favicon.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/yve-bot@1.20.2/web.js"></script><script type="text/javascript" src="/yve-bot/js/chat.js"></script><script src="/yve-bot/js/scrollSpy.js"></script><link rel="stylesheet" href="/yve-bot/css/main.css"/><script src="/yve-bot/js/codetabs.js"></script></head><body class="sideNavVisible"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/yve-bot/"><h2 class="headerTitle">yve-bot</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/yve-bot/docs/getting-started.html" target="_self">Docs</a></li><li class="siteNavGroupActive"><a href="/yve-bot/docs/api-rule.html" target="_self">API</a></li><li class=""><a href="https://github.com/andersonba/yve-bot" target="_self">GitHub</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>API Reference</span></h2></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Introduction</h3><ul class=""><li class="navListItem"><a class="navItem" href="/yve-bot/docs/getting-started.html">Getting Started</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/ui-bundle.html">UI Bundle</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/core-bundle.html">Core Bundle</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Guides</h3><ul class=""><li class="navListItem"><a class="navItem" href="/yve-bot/docs/building-rules.html">Building rules</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/passive-mode.html">Passive mode</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/flows.html">Grouping rules</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/custom-types.html">Custom types</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/custom-actions.html">Custom actions</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/custom-validators.html">Custom validators</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/extensions.html">Extensions</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/playground.html">Playground</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">API Reference</h3><ul class=""><li class="navListItem"><a class="navItem" href="/yve-bot/docs/api-rule.html">Rule specification</a></li><li class="navListItem"><a class="navItem" href="/yve-bot/docs/api-core.html">Core Bundle API</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/yve-bot/docs/api-ui.html">UI Bundle API</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">UI Bundle API</h1></header><article><div><span><pre><code class="hljs css language-javascript"><span class="hljs-keyword">new</span> YveBotUI(rules, options);
 </code></pre>
 <table>
 <thead>
@@ -27,4 +77,4 @@
 <tr><td>options.yveBotOptions</td><td><code>{}</code></td><td>object</td><td>YveBot Core options</td></tr>
 </tbody>
 </table>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="api-core.html">← Core Bundle API</a></div></div></div></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/yve-bot/" class="nav-home"><img src="/yve-bot/img/logo-white.png" alt="yve-bot" width="66" height="58"/></a><div><h5>Docs</h5><a href="/yve-bot/docs/getting-started.html">Getting Started</a><a href="/yve-bot/docs/building-rules.html">Guides</a><a href="/yve-bot/docs/api-rule.html">API Reference</a></div><div><h5>Community</h5><a href="/yve-bot/docs/playground.html">Playground</a><a href="https://twitter.com/andersonbacom" target="_blank">Twitter</a></div><div><h5>More</h5><a href="https://github.com/andersonba/yve-bot">GitHub</a><a class="github-button" href="https://github.com/andersonba/yve-bot" data-icon="octicon-star" data-count-href="/andersonba/yve-bot/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Made with ♥ by <a href="https://andersonba.com">andersonba</a></section></footer></div></body></html>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/yve-bot/docs/api-core.html"><span class="arrow-prev">← </span><span>Core Bundle API</span></a></div></div></div></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/yve-bot/" class="nav-home"><img src="/yve-bot/img/logo-white.png" alt="yve-bot" width="66" height="58"/></a><div><h5>Docs</h5><a href="/yve-bot/docs/getting-started.html">Getting Started</a><a href="/yve-bot/docs/building-rules.html">Guides</a><a href="/yve-bot/docs/api-rule.html">API Reference</a></div><div><h5>Community</h5><a href="/yve-bot/docs/playground.html">Playground</a><a href="https://twitter.com/andersonbacom" target="_blank">Twitter</a></div><div><h5>More</h5><a href="https://github.com/andersonba/yve-bot">GitHub</a><a class="github-button" href="https://github.com/andersonba/yve-bot" data-icon="octicon-star" data-count-href="/andersonba/yve-bot/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Made with ♥ by <a href="https://andersonba.com">andersonba</a></section></footer></div></body></html>

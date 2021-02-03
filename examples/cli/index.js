@@ -3,7 +3,7 @@ const yaml = require('js-yaml');
 const prompt = require('prompt');
 const YveBot = require('../../lib/core');
 
-const example = yaml.safeLoad(fs.readFileSync(__dirname + '/../chat.yaml', 'utf8'));
+const example = yaml.load(fs.readFileSync(__dirname + '/../chat.yaml', 'utf8'));
 const bot = new YveBot(example);
 
 prompt.message = '';

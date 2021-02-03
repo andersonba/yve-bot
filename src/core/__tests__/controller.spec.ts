@@ -75,7 +75,7 @@ describe('getNextFromRule', () => {
       rules[ruleIdx as any].name
     } + answer as '${answer}'`, async done => {
       bot.on('reply', () => {
-        const rule = bot.rules[bot.store.get('currentIdx')];
+        const rule = bot.rules[bot.store.get('currentIdx') - 1];
         expect(rule.name).toBe(nextRuleName);
         done();
       });

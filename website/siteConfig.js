@@ -11,7 +11,7 @@ const baseUrl = '/yve-bot/';
 const siteConfig = {
   title: 'yve-bot' /* title for your website */,
   tagline: 'Smart rule-based bot. For Browser & Node.',
-  url: 'https://andersonba.github.io/yve-bot' /* your website url */,
+  url: 'https://andersonba.github.io' /* your website url */,
   organizationName: 'andersonba',
   projectName: 'yve-bot',
   headerLinks: [

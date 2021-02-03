@@ -29,11 +29,12 @@ const rules = yaml.safeLoad(file);
 new YveBot(rules);
 ```
 
-*Hint: To avoid `js-yaml` dependency in your bundle, compile the yaml file into a json file in the building step.*
+_Hint: To avoid `js-yaml` dependency in your bundle, compile the yaml file into a json file in the building step._
 
 ## Compact mode
 
 You can define the message in compact mode
+
 ```yaml
 - Hello!
 - How are you, {name}?
@@ -42,6 +43,7 @@ You can define the message in compact mode
 ## Asking the user
 
 Make some questions to users using `type` property.
+
 ```yaml
 - message: Hello! What's your email?
   name: email
@@ -49,7 +51,6 @@ Make some questions to users using `type` property.
 ```
 
 See [available types](/docs/api).
-
 
 ## Formatting messages
 
@@ -85,4 +86,4 @@ In `SingleChoice` and `MultipleChoice` types, you can inject the option label in
 > You chose number One (the same of 1)
 ```
 
-See complete specification in [API Reference](api-reference.md).
+See complete specification in [API Reference](api-rule.md).

@@ -54,7 +54,7 @@ ready(function() {
     {
       name: 'docs',
       message: 'Nice! I will redirect you...',
-      actions: [{ redirect: './docs' }],
+      actions: [{ redirect: './docs/getting-started' }],
       exit: true,
     }
   ];
@@ -66,7 +66,7 @@ ready(function() {
 
     chat.actions.define('redirect', (url) => {
       setTimeout(function() {
-        window.location.href = url;
+        window.location.assign(url);
       }, 1000);
     });
 

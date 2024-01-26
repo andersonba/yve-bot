@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.20.3](https://github.com/andersonba/yve-bot/tree/1.20.3) (2024-01-26)
+
+[Full Changelog](https://github.com/andersonba/yve-bot/compare/1.20.2...1.20.3)
+
+**Closed issues:**
+
+- "next : question\_name" doesn't work when passed as a rule from bot.talk\(\) [\#200](https://github.com/andersonba/yve-bot/issues/200)
+
+**Merged pull requests:**
+
+- Sanitize the user message before send [\#287](https://github.com/andersonba/yve-bot/pull/287) ([inaciocorrea](https://github.com/inaciocorrea))
+
 ## [1.20.2](https://github.com/andersonba/yve-bot/tree/1.20.2) (2021-02-03)
 
 [Full Changelog](https://github.com/andersonba/yve-bot/compare/1.20.1...1.20.2)
@@ -318,13 +330,13 @@
 
 - example: using react component [\#5](https://github.com/andersonba/yve-bot/issues/5)
 
-## [1.8.1](https://github.com/andersonba/yve-bot/tree/1.8.1) (2017-11-13)
-
-[Full Changelog](https://github.com/andersonba/yve-bot/compare/1.8.0...1.8.1)
-
 **Merged pull requests:**
 
 - Update dependencies to enable Greenkeeper 🌴 [\#47](https://github.com/andersonba/yve-bot/pull/47) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
+## [1.8.1](https://github.com/andersonba/yve-bot/tree/1.8.1) (2017-11-13)
+
+[Full Changelog](https://github.com/andersonba/yve-bot/compare/1.8.0...1.8.1)
 
 ## [1.8.0](https://github.com/andersonba/yve-bot/tree/1.8.0) (2017-11-11)
 
@@ -446,7 +458,7 @@
 
 ## [1.0.0](https://github.com/andersonba/yve-bot/tree/1.0.0) (2017-09-15)
 
-[Full Changelog](https://github.com/andersonba/yve-bot/compare/59367ddd5ac4c45ec133e3e2a51ff97ccdcd6d21...1.0.0)
+[Full Changelog](https://github.com/andersonba/yve-bot/compare/c3cc1307caea9a28e7c3a8644c969e0eb07c2d43...1.0.0)
 
 **Closed issues:**
 

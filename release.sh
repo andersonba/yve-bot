@@ -16,6 +16,11 @@ if ! [ -x "$(command -v json)" ]; then
   exit 1
 fi
 
+if ! [ -x "$(command -v github_changelog_generator)" ]; then
+  echo 'Error: github_changelog_generator is not installed. Run: gem install github_changelog_generator' >&2
+  exit 1
+fi
+
 current_version=$(cat package.json |json version)
 next_version=$(semver "$current_version" -i "$1")
 dialog --title "Do you release?" --yesno "Current version: $current_version\n\nNext version: $next_version" 0 0

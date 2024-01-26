@@ -633,4 +633,23 @@ describe('DOM behaviors', () => {
     input.dispatchEvent(inputEvent);
     expect(input.style.height).toBe(`${scrollHeight}px`);
   });
+
+  test('should sanitize message before send', async () => {
+    const rules = loadYaml(`
+    - message: value
+      type: String
+    `);
+
+    new YveBotUI(rules, OPTS).start();
+    const { input, submit, getUserMessages } = getChatElements();
+
+    input.value = '<h1>msg';
+    submit.click();
+
+    await sleep();
+
+    const message = getUserMessages()[0];
+    expect(message.innerHTML).toEqual('msg');
+  });
+
 });

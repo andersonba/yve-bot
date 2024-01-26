@@ -1,5 +1,6 @@
 import { isMobile } from 'is-mobile';
 import YveBot from '../core';
+import { sanitizeMessage } from '../core/sanitizers';
 import { Answer, ChatMessageSource, IChatOptions, IRule } from '../types';
 import { ChatUI } from './ui';
 
@@ -45,7 +46,7 @@ export default class YveBotUI extends YveBot {
     this.UI.form.addEventListener('submit', evt => {
       evt.preventDefault();
       evt.stopPropagation();
-      const msg = this.UI.input.value.trim();
+      const msg = sanitizeMessage(this.UI.input.value.trim());
 
       if (msg) {
         this.hear(msg);

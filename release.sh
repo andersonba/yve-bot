@@ -17,7 +17,7 @@ if ! [ -x "$(command -v json)" ]; then
 fi
 
 if ! [ -x "$(command -v github_changelog_generator)" ]; then
-  echo 'Error: github_changelog_generator is not installed. Run: gem install github_changelog_generator' >&2
+  echo 'Error: github_changelog_generator is not installed. Run: gem install github_changelog_generator faraday-retry' >&2
   exit 1
 fi
 
@@ -53,7 +53,7 @@ dialog --title "Wait a moment" --infobox "Pushing the new tag to Git repository.
 git push --follow-tags
 
 dialog --title "Wait a moment" --infobox "Updating CHANGELOG.md..." 0 0
-github_changelog_generator --no-unreleased
+github_changelog_generator --user andersonba --project yve-bot --no-unreleased
 
 dialog --title "Congratulations!" --msgbox "Version $next_version released!\n\nNow, check the CHANGELOG.md to commit the changes" 0 0
 git diff

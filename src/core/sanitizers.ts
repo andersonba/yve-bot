@@ -81,6 +81,12 @@ export function sanitizeListener(listener: IListener) {
   };
 }
 
+export function sanitizeMessage(message: string): string {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(message, 'text/html');
+  return doc.body.textContent || '';
+}
+
 export function sanitizeRuleType(
   ruleType: IRuleType | IRuleTypeExecutor
 ): IRuleType {

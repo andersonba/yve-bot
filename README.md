@@ -6,6 +6,6 @@ The simplest way to build a smart and customized rule-based bot conversation. Fo
 
 [Live demo](https://andersonba.github.io/yve-bot) / [Playground](https://andersonba.github.io/yve-bot/docs/playground)
 
-[Documentation](https://andersonba.github.io/yve-bot)
+[Documentation](https://andersonba.github.io/yve-bot/docs/getting-started.html)
 
 Code examples: [Yaml](examples/chat.yaml) - [CLI](examples/cli) - [Browser](examples/web) - [Node/Socket.io](examples/socket.io)
